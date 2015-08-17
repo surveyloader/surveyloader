@@ -4,7 +4,7 @@ import http from 'superagent'
 export default function (name) {
   return new Promise((resolve, reject) => {
     http
-      .get('/static/tasks/' + name + '/build/bundle.js')
+      .get('/folding-survey/static/tasks/' + name + '/build/bundle.js')
       .accept('application/javascript')
       .end((err, res) => {
         if (err) reject('404')

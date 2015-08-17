@@ -48640,7 +48640,7 @@
 
 	exports['default'] = function (name) {
 	  return new _bluebird2['default'](function (resolve, reject) {
-	    _superagent2['default'].get('/static/tasks/' + name + '/build/bundle.js').accept('application/javascript').end(function (err, res) {
+	    _superagent2['default'].get('/folding-survey/static/tasks/' + name + '/build/bundle.js').accept('application/javascript').end(function (err, res) {
 	      if (err) reject('404');
 	      resolve(eval(res.text));
 	    });
