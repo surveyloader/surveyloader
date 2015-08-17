@@ -1,0 +1,31 @@
+{
+  "name": "folding-survey",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel": "^5.6.14",
+    "babel-core": "^5.6.15",
+    "babel-loader": "^5.3.1",
+    "bluebird": "^2.9.33",
+    "d3": "^3.5.6",
+    "expose-loader": "^0.7.0",
+    "express": "^4.13.1",
+    "file-loader": "^0.8.4",
+    "json-loader": "^0.5.2",
+    "lodash": "^3.10.0",
+    "node-libs-browser": "^0.5.2",
+    "radium": "^0.13.4",
+    "react": "^0.13.3",
+    "react-redux": "^0.2.2",
+    "redux": "^0.12.0",
+    "superagent": "^1.2.0",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.10.1"
+  }
+}

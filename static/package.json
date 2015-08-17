@@ -1,0 +1,20 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "color": "^0.10.1",
+    "file-loader": "^0.8.4",
+    "hashids": "1.0.2",
+    "json-loader": "^0.5.2",
+    "randexp": "^0.4.0",
+    "react-emoji": "^0.3.3",
+    "url-loader": "^0.5.6"
+  }
+}
