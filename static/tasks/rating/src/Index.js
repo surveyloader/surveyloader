@@ -101,6 +101,7 @@ class Index extends React.Component {
 
 const styles = {
   container: {
+    marginTop: 30,
     userSelect: 'none'
   }
 }

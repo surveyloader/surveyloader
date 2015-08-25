@@ -15,6 +15,18 @@ export default createStore(function (state, action) {
         table: action.table
       }
 
+    case 'SET_QUEUE':
+      return {
+        ...state,
+        queue: action.queue
+      }
+
+    case 'SET_INDEX':
+      return {
+        ...state,
+        index: action.index
+      }
+
 
     case 'PUSH':
       return {
@@ -31,6 +43,7 @@ export default createStore(function (state, action) {
         ...state,
         component: null,
         table: null,
+        queue: [{}],
         index: 0
       }
   }

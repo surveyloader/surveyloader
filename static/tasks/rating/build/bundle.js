@@ -194,6 +194,7 @@
 
 	var styles = {
 	  container: {
+	    marginTop: 30,
 	    userSelect: 'none'
 	  }
 	};

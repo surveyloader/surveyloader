@@ -3,9 +3,10 @@ import Radium from 'radium'
 import store from '../stores'
 
 import Loader from './Loader'
-import FlatTable from './FlatTable'
+import Table from './Table'
+import Queue from './Queue'
 
-import { queue, table } from '../../static/basic.json'
+import { table, queue } from '../../static/basic.json'
 
 @Radium
 class Container extends React.Component {
@@ -29,20 +30,39 @@ class Container extends React.Component {
     const { queue, table, index } = this.state
     return (
       <div style={[styles.main]}>
-        <div style={[styles.dev]} key="dev">
-          <FlatTable
-            data={table}
-            set={(newTable) => {
-              store.dispatch({
-                type: 'SET_TABLE',
-                table: newTable
-              })
-            }} 
-          />
+        <div style={[styles.row]}>
+          <div style={[styles.dev]} key="table">
+            <Table
+              data={table}
+              set={(newTable) => {
+                store.dispatch({
+                  type: 'SET_TABLE',
+                  table: newTable
+                })
+              }} 
+            />
+          </div>
+          <div style={[styles.dev]} key="queue">
+            <Queue
+              data={queue}
+              index={index}
+              set={(queue) => {
+                store.dispatch({
+                  type: 'SET_QUEUE',
+                  queue
+                })
+              }}
+              onSwitch={(i) => {
+                store.dispatch({
+                  type: 'SET_INDEX',
+                  index: i
+                })
+              }}
+            />
+          </div>
         </div>
         <div style={[styles.container]} key="container">
           <div style={[styles.center]}>
-            <p>Index: {index}</p>
             {
               queue &&
               <Loader
@@ -52,7 +72,7 @@ class Container extends React.Component {
                 push={(table) => {
                   store.dispatch({
                     type: 'PUSH',
-                    index: index + 1,
+                    index: Number(index) + 1,
                     table
                   })
                 }}
@@ -79,11 +99,19 @@ const styles = {
     color: '#333',
     boxSizing: 'border-box'
   },
+  row: {
+    display: 'flex',
+    backgroundColor: '#000'
+  },
   dev: {
+    flex: 1,
     position: 'relative',
+    boxSizing: 'border-box',
+    margin: 5,
+    padding: 5,
     backgroundColor: '#000',
-    width: '100%',
-    height: 100,
+    width: '50%',
+    height: 200,
     overflowX: 'hidden',
     overflowY: 'scroll'
   },

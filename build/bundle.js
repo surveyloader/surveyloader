@@ -48376,9 +48376,13 @@
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
-	var _FlatTable = __webpack_require__(193);
+	var _Table = __webpack_require__(195);
 
-	var _FlatTable2 = _interopRequireDefault(_FlatTable);
+	var _Table2 = _interopRequireDefault(_Table);
+
+	var _Queue = __webpack_require__(196);
+
+	var _Queue2 = _interopRequireDefault(_Queue);
 
 	var _staticBasicJson = __webpack_require__(194);
 
@@ -48418,16 +48422,40 @@
 	      { style: [styles.main] },
 	      _react2['default'].createElement(
 	        'div',
-	        { style: [styles.dev], key: 'dev' },
-	        _react2['default'].createElement(_FlatTable2['default'], {
-	          data: table,
-	          set: function (newTable) {
-	            _stores2['default'].dispatch({
-	              type: 'SET_TABLE',
-	              table: newTable
-	            });
-	          }
-	        })
+	        { style: [styles.row] },
+	        _react2['default'].createElement(
+	          'div',
+	          { style: [styles.dev], key: 'table' },
+	          _react2['default'].createElement(_Table2['default'], {
+	            data: table,
+	            set: function (newTable) {
+	              _stores2['default'].dispatch({
+	                type: 'SET_TABLE',
+	                table: newTable
+	              });
+	            }
+	          })
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { style: [styles.dev], key: 'queue' },
+	          _react2['default'].createElement(_Queue2['default'], {
+	            data: queue,
+	            index: index,
+	            set: function (queue) {
+	              _stores2['default'].dispatch({
+	                type: 'SET_QUEUE',
+	                queue: queue
+	              });
+	            },
+	            onSwitch: function (i) {
+	              _stores2['default'].dispatch({
+	                type: 'SET_INDEX',
+	                index: i
+	              });
+	            }
+	          })
+	        )
 	      ),
 	      _react2['default'].createElement(
 	        'div',
@@ -48435,12 +48463,6 @@
 	        _react2['default'].createElement(
 	          'div',
 	          { style: [styles.center] },
-	          _react2['default'].createElement(
-	            'p',
-	            null,
-	            'Index: ',
-	            index
-	          ),
 	          queue && _react2['default'].createElement(_Loader2['default'], {
 	            specs: queue[index],
 	            table: table,
@@ -48448,7 +48470,7 @@
 	            push: function (table) {
 	              _stores2['default'].dispatch({
 	                type: 'PUSH',
-	                index: index + 1,
+	                index: Number(index) + 1,
 	                table: table
 	              });
 	            }
@@ -48476,11 +48498,19 @@
 	    color: '#333',
 	    boxSizing: 'border-box'
 	  },
+	  row: {
+	    display: 'flex',
+	    backgroundColor: '#000'
+	  },
 	  dev: {
+	    flex: 1,
 	    position: 'relative',
+	    boxSizing: 'border-box',
+	    margin: 5,
+	    padding: 5,
 	    backgroundColor: '#000',
-	    width: '100%',
-	    height: 100,
+	    width: '50%',
+	    height: 200,
 	    overflowX: 'hidden',
 	    overflowY: 'scroll'
 	  },
@@ -48547,8 +48577,7 @@
 	  Loader.prototype.loadComponent = function loadComponent(specs, table) {
 	    var _this = this;
 
-	    console.log(specs.type);
-	    _utilLazy2['default'](specs.type).then(function (component) {
+	    if (specs.type) _utilLazy2['default'](specs.type).then(function (component) {
 	      if (!component.defaultProps) component.defaultProps = {};
 	      for (var p in component.propTypes) {
 	        // check for $keys$$
@@ -48593,7 +48622,8 @@
 	    var table = nextProps.table;
 
 	    var tableDiff = !_lodash2['default'].isEqual(table, this.props.table);
-	    if (index === this.props.index + 1 || tableDiff) {
+	    var specsDiff = !_lodash2['default'].isEqual(specs, this.props.specs);
+	    if (index !== this.props.index || tableDiff || specsDiff) {
 	      this.setState({ component: null });
 	      this.loadComponent(specs, table);
 	    }
@@ -50002,6 +50032,16 @@
 	        table: action.table
 	      });
 
+	    case 'SET_QUEUE':
+	      return _extends({}, state, {
+	        queue: action.queue
+	      });
+
+	    case 'SET_INDEX':
+	      return _extends({}, state, {
+	        index: action.index
+	      });
+
 	    case 'PUSH':
 	      return _extends({}, state, {
 	        table: _extends({}, state.table, action.table),
@@ -50012,6 +50052,7 @@
 	      return _extends({}, state, {
 	        component: null,
 	        table: null,
+	        queue: [{}],
 	        index: 0
 	      });
 	  }
@@ -50490,116 +50531,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 193 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(159);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var FlatTable = (function (_React$Component) {
-	  function FlatTable(props) {
-	    _classCallCheck(this, _FlatTable);
-
-	    _React$Component.call(this, props);
-	    this.state = { data: props.data || {} };
-	  }
-
-	  _inherits(FlatTable, _React$Component);
-
-	  var _FlatTable = FlatTable;
-
-	  _FlatTable.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
-	    this.setState({ data: props.data });
-	  };
-
-	  _FlatTable.prototype.render = function render() {
-	    var _this = this;
-
-	    var set = this.props.set;
-	    var data = this.state.data;
-
-	    return _react2['default'].createElement(
-	      'table',
-	      { style: [styles.table] },
-	      _react2['default'].createElement(
-	        'tbody',
-	        null,
-	        data && Object.keys(data).map(function (k) {
-	          return _react2['default'].createElement(
-	            'tr',
-	            null,
-	            _react2['default'].createElement(
-	              'td',
-	              null,
-	              k,
-	              ':'
-	            ),
-	            _react2['default'].createElement(
-	              'td',
-	              null,
-	              _react2['default'].createElement('input', {
-	                style: [styles.input],
-	                type: 'text',
-	                value: data[k],
-	                onChange: function (event) {
-	                  var _extends2;
-
-	                  var newTable = _extends({}, data, (_extends2 = {}, _extends2[k] = event.target.value, _extends2));
-	                  _this.setState({
-	                    data: newTable
-	                  });
-	                  set(newTable);
-	                }
-	              })
-	            )
-	          );
-	        })
-	      )
-	    );
-	  };
-
-	  FlatTable = _radium2['default'](FlatTable) || FlatTable;
-	  return FlatTable;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  table: {
-	    fontFamily: 'Courier',
-	    fontSize: '0.75em',
-	    borderColor: '#fff',
-	    borderSpacing: '0.5rem'
-	  },
-	  input: {
-	    width: 1000,
-	    fontFamily: 'Courier',
-	    fontSize: '1em',
-	    color: '#333',
-	    background: '#000',
-	    border: 'none'
-	  }
-	};
-
-	exports['default'] = FlatTable;
-	module.exports = exports['default'];
-
-/***/ },
+/* 193 */,
 /* 194 */
 /***/ function(module, exports) {
 
@@ -50652,6 +50584,427 @@
 			}
 		]
 	}
+
+/***/ },
+/* 195 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(159);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _staticGlobalComponentsButton = __webpack_require__(197);
+
+	var _staticGlobalComponentsButton2 = _interopRequireDefault(_staticGlobalComponentsButton);
+
+	var Table = (function (_React$Component) {
+	  function Table(props) {
+	    _classCallCheck(this, _Table);
+
+	    _React$Component.call(this, props);
+	    this.state = { data: props.data || {} };
+	  }
+
+	  _inherits(Table, _React$Component);
+
+	  var _Table = Table;
+
+	  _Table.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
+	    this.setState({
+	      table: Object.keys(props.data).map(function (k) {
+	        return [k, props.data[k]];
+	      })
+	    });
+	  };
+
+	  _Table.prototype.render = function render() {
+	    var _this = this;
+
+	    var props = this.props;
+	    var state = this.state;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      { style: [styles.main] },
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [styles.fixed] },
+	        _react2['default'].createElement(_staticGlobalComponentsButton2['default'], {
+	          color: '#333',
+	          border: '#333',
+	          background: '#000',
+	          hover: {
+	            color: '#000',
+	            background: '#333'
+	          },
+	          text: '↻',
+	          modStyle: {
+	            padding: '5px 10px'
+	          },
+	          handler: function () {
+	            props.set(_.object(state.table));
+	          }
+	        })
+	      ),
+	      _react2['default'].createElement(
+	        'table',
+	        { style: [styles.table] },
+	        _react2['default'].createElement(
+	          'tbody',
+	          null,
+	          state.table && state.table.map(function (a, i) {
+	            return _react2['default'].createElement(
+	              'tr',
+	              { key: i },
+	              _react2['default'].createElement(
+	                'td',
+	                { style: [styles.cell] },
+	                _react2['default'].createElement('input', {
+	                  type: 'text',
+	                  style: [styles.input],
+	                  value: a[0]
+	                })
+	              ),
+	              _react2['default'].createElement(
+	                'td',
+	                { style: [styles.cell] },
+	                _react2['default'].createElement('input', {
+	                  type: 'text',
+	                  style: [styles.input],
+	                  value: a[1],
+	                  onChange: function (e) {
+	                    state.table[i][1] = e.target.value;
+	                    _this.setState({ table: state.table });
+	                  }
+	                })
+	              )
+	            );
+	          })
+	        )
+	      )
+	    );
+	  };
+
+	  Table = _radium2['default'](Table) || Table;
+	  return Table;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  fixed: {
+	    background: '#000',
+	    position: 'fixed',
+	    top: 0,
+	    paddingTop: 15
+	  },
+	  table: {
+	    fontFamily: 'Courier',
+	    fontSize: '0.75em',
+	    borderSpacing: 0,
+	    marginTop: 60
+	  },
+	  cell: {
+	    borderTop: '1px solid #333',
+	    padding: '0.5rem',
+	    margin: 0,
+	    width: '50%'
+	  },
+	  input: {
+	    fontFamily: 'Courier',
+	    fontSize: '1em',
+	    color: '#333',
+	    background: '#000',
+	    border: 'none',
+	    width: '100%'
+	  }
+	};
+
+	exports['default'] = Table;
+	module.exports = exports['default'];
+
+/***/ },
+/* 196 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(159);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _staticGlobalComponentsButton = __webpack_require__(197);
+
+	var _staticGlobalComponentsButton2 = _interopRequireDefault(_staticGlobalComponentsButton);
+
+	var Queue = (function (_React$Component) {
+	  function Queue(props) {
+	    _classCallCheck(this, _Queue);
+
+	    _React$Component.call(this, props);
+	    this.state = { data: props.data || {} };
+	  }
+
+	  _inherits(Queue, _React$Component);
+
+	  var _Queue = Queue;
+
+	  _Queue.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
+	    var current = props.data[props.index];
+	    this.setState({
+	      table: Object.keys(current).map(function (k) {
+	        return [k, current[k]];
+	      })
+	    });
+	  };
+
+	  _Queue.prototype.render = function render() {
+	    var _this = this;
+
+	    var props = this.props;
+	    var state = this.state;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      { style: [styles.main] },
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [styles.fixed] },
+	        _react2['default'].createElement(_staticGlobalComponentsButton2['default'], {
+	          color: '#333',
+	          border: '#333',
+	          background: '#000',
+	          hover: {
+	            color: '#000',
+	            background: '#333'
+	          },
+	          text: '↻',
+	          modStyle: {
+	            padding: '5px 10px',
+	            float: 'left'
+	          },
+	          handler: function () {
+	            props.data[props.index] = _.object(state.table);
+	            props.set(props.data);
+	          }
+	        }),
+	        _react2['default'].createElement(
+	          'select',
+	          {
+	            style: [styles.select],
+	            value: props.index,
+	            onChange: function (e) {
+	              props.onSwitch(e.target.value);
+	            }
+	          },
+	          props.data.map(function (c, i) {
+	            return _react2['default'].createElement(
+	              'option',
+	              { value: i },
+	              i,
+	              ': ',
+	              c.type
+	            );
+	          })
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'table',
+	        { style: [styles.table] },
+	        _react2['default'].createElement(
+	          'tbody',
+	          null,
+	          state.table && state.table.map(function (a, i) {
+	            return _react2['default'].createElement(
+	              'tr',
+	              { key: i },
+	              _react2['default'].createElement(
+	                'td',
+	                { style: [styles.cell] },
+	                _react2['default'].createElement('input', {
+	                  type: 'text',
+	                  style: [styles.input],
+	                  value: a[0]
+	                })
+	              ),
+	              _react2['default'].createElement(
+	                'td',
+	                { style: [styles.cell] },
+	                _react2['default'].createElement('input', {
+	                  type: 'text',
+	                  style: [styles.input],
+	                  value: a[1],
+	                  onChange: function (e) {
+	                    state.table[i][1] = e.target.value;
+	                    _this.setState({ table: state.table });
+	                  }
+	                })
+	              )
+	            );
+	          })
+	        )
+	      )
+	    );
+	  };
+
+	  Queue = _radium2['default'](Queue) || Queue;
+	  return Queue;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  fixed: {
+	    background: '#000',
+	    position: 'fixed',
+	    top: 0,
+	    paddingTop: 15
+	  },
+	  table: {
+	    fontFamily: 'Courier',
+	    fontSize: '0.75em',
+	    borderSpacing: 0,
+	    marginTop: 60
+	  },
+	  cell: {
+	    borderTop: '1px solid #333',
+	    padding: '0.5rem',
+	    margin: 0,
+	    width: '50%'
+	  },
+	  input: {
+	    fontFamily: 'Courier',
+	    fontSize: '1em',
+	    color: '#333',
+	    background: '#000',
+	    border: 'none',
+	    width: '100%'
+	  },
+	  select: {
+	    color: '#333',
+	    margin: '0.5rem',
+	    backgroundColor: '#000',
+	    borderColor: '#333',
+	    float: 'right'
+	  }
+	};
+
+	exports['default'] = Queue;
+	module.exports = exports['default'];
+
+/***/ },
+/* 197 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(159);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var Button = (function (_React$Component) {
+	  function Button() {
+	    _classCallCheck(this, _Button);
+
+	    _React$Component.apply(this, arguments);
+	  }
+
+	  _inherits(Button, _React$Component);
+
+	  var _Button = Button;
+
+	  _Button.prototype.render = function render() {
+	    var _props = this.props;
+	    var text = _props.text;
+	    var handler = _props.handler;
+	    var color = _props.color;
+	    var background = _props.background;
+	    var border = _props.border;
+	    var hover = _props.hover;
+	    var modStyle = _props.modStyle;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      {
+	        style: [styles.button, {
+	          color: color,
+	          backgroundColor: background,
+	          boxShadow: '0 0 0 1px ' + border,
+	          borderRadius: 5,
+	          ':hover': hover
+	        }, modStyle],
+	        onClick: handler
+	      },
+	      text
+	    );
+	  };
+
+	  _createClass(_Button, null, [{
+	    key: 'defaultProps',
+	    value: {
+	      color: '#557',
+	      background: '#fff',
+	      border: '#557',
+	      hover: {
+	        color: '#fff',
+	        backgroundColor: '#557'
+	      }
+	    },
+	    enumerable: true
+	  }]);
+
+	  Button = _radium2['default'](Button) || Button;
+	  return Button;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  button: {
+	    boxSizing: 'border-box',
+	    padding: 15,
+	    margin: 0,
+	    cursor: 'pointer',
+	    textAlign: 'center'
+	  }
+	};
+
+	exports['default'] = Button;
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);

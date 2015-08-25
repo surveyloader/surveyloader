@@ -15,8 +15,7 @@ class Loader extends React.Component {
   }
 
   loadComponent (specs, table) {
-    console.log(specs.type)
-    load(specs.type).then((component) => {
+    if (specs.type) load(specs.type).then((component) => {
       if (!component.defaultProps) component.defaultProps = {}
       for (let p in component.propTypes) {
         // check for $keys$$
@@ -54,7 +53,8 @@ class Loader extends React.Component {
   componentWillReceiveProps (nextProps) {
     const { index, specs, table } = nextProps
     let tableDiff = !_.isEqual(table, this.props.table)
-    if (index === this.props.index + 1 || tableDiff) {
+    let specsDiff = !_.isEqual(specs, this.props.specs)
+    if (index !== this.props.index || tableDiff || specsDiff) {
       this.setState({ component: null })
       this.loadComponent(specs, table)
     }
