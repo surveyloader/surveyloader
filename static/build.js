@@ -6,11 +6,10 @@ Promise.promisifyAll(fs)
 function pack (dir) {
   var compiler = webpack({
     entry: {
-      app: './tasks/' + dir + '/src/index.js',
-      // vendor: ['react', 'radium', 'bluebird', 'lodash', 'd3']
+      app: './modules/' + dir + '/src/Index.js',
     },
     output: {
-      path: './tasks/' + dir + '/build',
+      path: './modules/' + dir,
       filename: 'bundle.js'
     },
     externals: {
@@ -28,7 +27,6 @@ function pack (dir) {
       ]
     },
     plugins: [
-      // new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'vendor.bundle.js'),
       // new webpack.optimize.UglifyJsPlugin({ minimize: true })
     ]
   })
@@ -39,11 +37,11 @@ function pack (dir) {
 }
 
 fs
-  .readdirAsync(__dirname + '/tasks')
+  .readdirAsync(__dirname + '/modules')
   .then(function (data) {
     data.map(function (f) {
       fs
-        .statAsync(__dirname + '/tasks/' + f)
+        .statAsync(__dirname + '/modules/' + f)
         .then(function (stats) {
           if (stats.isDirectory()) {
             pack(f)
@@ -51,12 +49,3 @@ fs
         })
     })
   })
-
-// fs.watch('./src', function (event, filename) {
-//   console.log('event is: ' + event)
-//   if (filename) {
-//     console.log('filename provided: ' + filename)
-//   } else {
-//     console.log('filename not provided')
-//   }
-// })

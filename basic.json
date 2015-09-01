@@ -1,0 +1,70 @@
+{ 
+  "info": {
+    "name": "test",
+    "author": "tester"
+  },
+  "table": {
+    "aspect_a_0": "the overall well-being of you and your family",
+    "aspect_a_1": "your health (physical and mental)",
+    "aspect_a_2": "your financial security",
+    "aspect_a_3": "how satisfied you are with your life",
+    "aspect_a_4": "your sense that you are making a difference, actively contributing to the well-being of other people, and making the world a better place"
+  },
+  "queue": [
+    {
+      "type": "sample",
+      "_aspects": [
+        "aspect_a_0",
+        "aspect_a_1",
+        "aspect_a_2",
+        "aspect_a_3",
+        "aspect_a_4"
+      ]
+    },
+    {
+      "type": "rating",
+      "_aspects": [
+        "sample_a_0",
+        "sample_a_1",
+        "sample_a_2",
+        "sample_a_3",
+        "sample_a_4"
+      ]
+    },
+    {
+      "type": "pairwise",
+      "_aspects": [
+        "sample_a_0",
+        "sample_a_1"
+      ]
+    },
+    {
+      "type": "pairwise",
+      "_aspects": [
+        "sample_a_1",
+        "sample_a_2"
+      ]
+    },
+    {
+      "type": "pairwise",
+      "_aspects": [
+        "sample_a_2",
+        "sample_a_3"
+      ]
+    },
+    {
+      "type": "pairwise",
+      "_aspects": [
+        "sample_a_3",
+        "sample_a_4"
+      ]
+    },
+    {
+      "type": "pairwise",
+      "_aspects": [
+        "sample_a_4",
+        "sample_a_0"
+      ]
+    }
+  ]
+}
