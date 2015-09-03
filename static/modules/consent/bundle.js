@@ -142,7 +142,7 @@
 	    width: '50%',
 	    minWidth: 800,
 	    borderRadius: 15,
-	    margin: 15,
+	    margin: '15px auto',
 	    padding: 30,
 	    background: '#fff'
 	  },
