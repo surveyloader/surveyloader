@@ -33,45 +33,68 @@ class Container extends React.Component {
         store.dispatch({
           type: 'SET',
           queue,
-          table
+          table,
+          index: Number(params.index) || 0
         })
       })
   }
 
   render () {
     const { queue, table, index } = this.state
+    let urlParams = _(location.search.slice(1).split('&'))
+      .map((item) => item.split('='))
+      .object()
+      .value()
+
     return (
       <div style={[styles.main]}>
-        <div style={[styles.row]}>
-          <div style={[styles.dev]} key="table">
-            <Table
-              data={table}
-              set={(newTable) => {
-                store.dispatch({
-                  type: 'SET_TABLE',
-                  table: newTable
-                })
-              }} 
+        <div>
+        {
+          urlParams.dev && !this.state.hideDevBar &&
+          <div style={[styles.row]}>
+            <div style={[styles.dev]} key="table">
+              <Table
+                data={table}
+                set={(newTable) => {
+                  store.dispatch({
+                    type: 'SET_TABLE',
+                    table: newTable
+                  })
+                }} 
+              />
+            </div>
+            <div style={[styles.dev]} key="queue">
+              <Queue
+                data={queue}
+                index={index}
+                set={(queue) => {
+                  store.dispatch({
+                    type: 'SET_QUEUE',
+                    queue
+                  })
+                }}
+                onSwitch={(i) => {
+                  store.dispatch({
+                    type: 'SET_INDEX',
+                    index: i
+                  })
+                }}
+              />
+            </div>
+          </div>
+        }
+        </div>
+        <div>
+        {
+          urlParams.dev &&
+          <div style={[styles.row]}>
+            <input
+              type="checkbox"
+              value={1}
+              onChange={() => this.setState({hideDevBar:!this.state.hideDevBar})}
             />
           </div>
-          <div style={[styles.dev]} key="queue">
-            <Queue
-              data={queue}
-              index={index}
-              set={(queue) => {
-                store.dispatch({
-                  type: 'SET_QUEUE',
-                  queue
-                })
-              }}
-              onSwitch={(i) => {
-                store.dispatch({
-                  type: 'SET_INDEX',
-                  index: i
-                })
-              }}
-            />
-          </div>
+        }
         </div>
         <div style={[styles.container]} key="container">
           <div style={[styles.center]}>
@@ -122,7 +145,6 @@ const styles = {
     margin: 5,
     padding: 5,
     backgroundColor: '#000',
-    width: '50%',
     height: 200,
     overflowX: 'hidden',
     overflowY: 'scroll'

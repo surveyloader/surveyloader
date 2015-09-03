@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var MouseUpListener = require('mouse-up-listener.js');
 var objectAssign = require('object-assign');
 var resolveStyles = require('inject?-./get-state&-./config!resolve-styles.js')({
@@ -117,6 +117,30 @@ describe('resolveStyles', function () {
       var children = getChildrenArray(result.props.children);
 
       expect(children[0]).to.be.null;
+    });
+
+    it('only processes an element once', function () {
+      sinon.spy(React, 'cloneElement');
+
+      var component = genComponent();
+      var renderedElement = (
+        <div style={[
+          {background: 'white'},
+          {color: 'blue'}
+        ]} />
+      );
+
+      var result = resolveStyles(component, renderedElement);
+      result = resolveStyles(component, result);
+
+      expect(result.props.style).to.deep.equal({
+        background: 'white',
+        color: 'blue'
+      });
+
+      expect(React.cloneElement).to.have.been.calledOnce;
+
+      React.cloneElement.restore();
     });
 
   });
@@ -900,6 +924,15 @@ describe('resolveStyles', function () {
       resolveStyles(component, renderedElement);
 
       expect(console.warn).to.not.have.been.called;
+    });
+
+    it('does not throw when passed a falsy entry value', function () {
+      var component = genComponent();
+      var renderedElement = <div style={{height: null }} />;
+
+      expect(function () {
+        resolveStyles(component, renderedElement);
+      }).to.not.throw();
     });
   });
   /* eslint-enable no-console */

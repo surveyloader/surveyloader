@@ -18,6 +18,8 @@ class Index extends React.Component {
   }
 
   static defaultProps = {
+    instructions: 'Instructions',
+    text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
     rating_tip: 'Move the slider to set your rating',
     rating_confirm: 'Confirm Rating'
   }
@@ -31,7 +33,6 @@ class Index extends React.Component {
 
   constructor (props) {
     super(props)
-    console.log(props)
     this.state = store.getState()
     store.subscribe(() => {
       this.setState(store.getState())
@@ -63,9 +64,18 @@ class Index extends React.Component {
 
   render () {
     const { aspects, rated, index } = this.state
-    const { rating_tip, rating_confirm } = this.props
+    const { 
+      rating_tip,
+      rating_confirm,
+      instructions,
+      text
+    } = this.props
     return (
       <div style={[styles.container]}>
+        <div style={[styles.instructions]}>
+          <b>{instructions}</b>
+          <div>{text}</div>
+        </div>
         {
           // index === -1 after all aspects rated
           index > -1 &&
@@ -114,6 +124,14 @@ const styles = {
   container: {
     marginTop: 30,
     userSelect: 'none'
+  },
+  instructions: {
+    boxSizing: 'border-box',
+    width: '100%',
+    padding: 30,
+    margin: '30px 0',
+    borderRadius: 15,
+    background: '#fff'
   }
 }
 

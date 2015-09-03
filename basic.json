@@ -12,6 +12,12 @@
   },
   "queue": [
     {
+      "type": "consent",
+      "body": "<h3>Consent</h3><p>Please consider this information carefully before deciding whether to participate in this research.<p/><p>Purpose of the research:</p><p>We are a group of scientists, affiliated with Cornell University and the University of Michigan, gathering data to develop an index of subjective well-being. If you have any questions about the research or your participation in this study, feel free to contact us: Professors <a href=\"mailto:db468@cornell.edu\">Daniel Benjamin</a>, <a href=\"mailto:oh33@cornell.edu\">Ori Heffetz</a>, <a href=\"mailto:mkimball@umich.edu\">Miles Kimball</a></p><p>What we will ask you about:</p><p>We will ask you a series of questions, first about the level of various aspects of your well-being and then about the relative importance of each of these aspects in your life.<p>Risks:</p><p>No risks are anticipated.</p><p>Confidentiality:</p><p>All research data will be collected anonymously and we will not store any personally-identifiable information. Your responses will be collected over an encrypted SSL connection, the same level of security that protects your username and password when you sign on to Gmail or Amazon.com.</p><p>Participation and withdrawal:</p><p>Your participation in this study is completely voluntary. At any time you may choose to terminate your survey sesssion and we will not store your survey responses.</p>",
+      "agree": "I have read the above disclosure and agree to participate in this study",
+      "continue": "Continue"     
+    },
+    {
       "type": "sample",
       "_aspects": [
         "aspect_a_0",

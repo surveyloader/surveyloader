@@ -17,7 +17,7 @@ class Loader extends React.Component {
   assignProps (params, table) {
     return  _(params)
       .map((v, k) => {
-        if (k.charAt(0) === '_' && v.length) {
+        if (k.charAt(0) === '_' && Array.isArray(v)) {
           return [
             k.substring(1),
             v.map((p) => table[p])

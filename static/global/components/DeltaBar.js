@@ -45,7 +45,7 @@ class DeltaBar extends React.Component {
             x={percent}
             width={delta}
             height={height}
-            fill={Color(color).darken(0.3).rgbString()}
+            fill={Color(color).darken(0.7).rgbString()}
           >
           </rect>
         }

@@ -23,33 +23,29 @@ class Aspect extends React.Component {
       modStyle
     } = this.props
     return (
-      <div style={[styles.main]}>
-        <div style={[styles.blurb]}>
-          {
-            delta > 0 &&
-            <span style={[styles.delta, {background: '#2f2'}]}>
-              {' +' + delta}
-            </span>
-          }
-          {
-            delta < 0 &&
-            <span style={[styles.delta]}>
-              {' -' + String(-delta)}
-            </span>
-          }
-          <span style={[styles.rating]}>
-            {rating}
-          </span>
-          <p style={[styles.text]}>
-            {Format.capitalize(text)}
-          </p>
-          { deltaText && <em>{deltaText}</em>}
-        </div>
+      <div style={[styles.main, modStyle]}>
         <DeltaBar
           percent={rating}
           color={color} 
           delta={delta}
         />
+        <div style={[styles.blurb]}>
+          <span style={[styles.rating]}>
+            {rating + delta}
+          </span>
+          <p style={[styles.text]}>
+            {Format.capitalize(text)}
+            {
+              deltaText &&
+              <span>
+                <b>{' ' + deltaText + ' '}</b>
+                <span style={[styles.delta]}>
+                  {'+' + String(delta)}
+                </span>
+              </span>
+            }
+          </p>
+        </div>
       </div>
     )
   }
@@ -70,14 +66,14 @@ const styles = {
   },
   rating: {
     float: 'right',
-    padding: '2px 5px'
+    padding: '2px 5px 15px 15px',
+    fontWeight: 'bold'
   },
   delta: {
-    float: 'right',
     color: '#fff',
     fontWeight: 100,
-    padding: '2px 5px',
-    background: '#f22',
+    padding: '3px 5px',
+    background: '#000',
     borderRadius: 30
   }
 }

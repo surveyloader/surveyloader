@@ -25,9 +25,12 @@ class RateAspect extends React.Component {
             <em style={{float:'left'}}>
               {Format.capitalize(aspect.text)}
             </em>
-            <span style={{float:'right'}}>
-              {Number(aspect.rating)}
-            </span>
+            {
+              aspect.rating &&
+              <span style={{float:'right'}}>
+                {Number(aspect.rating)}
+              </span>
+            }
           </div>
           <Slider
             color={ColorScheme.index(aspect.index)}

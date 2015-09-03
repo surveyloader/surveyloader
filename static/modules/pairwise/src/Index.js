@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import Radium from 'radium'
 import _ from 'lodash'
+import { Spring } from 'react-motion'
 
 import { Simulate, PrePropType as Pre }
 from '../../../global/services/pre/'
@@ -24,13 +25,21 @@ class App extends React.Component {
   }
 
   static defaultProps = {
+    instructions: 'Instructions',
+    text: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.',
     pairwise_like: 'I prefer this option',
     pairwise_dislike: 'I prefer this option',
     pairwise_tradeoffs: [
       [4,4],
       [1,4],[4,1],
       [1,8],[2,4],[4,1],[8,1]
-    ]
+    ],
+    textual: {
+      1: 'slightly improves',
+      2: 'improves',
+      4: 'strongly improves',
+      8: 'greatly improves'
+    }
   }
 
   static output = {
@@ -67,53 +76,74 @@ class App extends React.Component {
       pairwise_tradeoffs,
       pairwise_like,
       pairwise_dislike,
+      instructions,
+      text,
+      textual,
       aspects,
       table
     } = this.props
-    const { choice } = this.state
-
+    const { choice, animating } = this.state
     return (
       <div style={[styles.main]}>
-        <div style={[styles.container]}>
-          <div style={[styles.half]}>
-            <Aspect
-              text={aspects[0]}
-              rating={table[identify(aspects[0]) + '_rating']}
-              color={table[identify(aspects[0]) + '_color']}
-              delta={pairwise_tradeoffs[choice][0]}
-            />
-            <Aspect
-              text={aspects[1]}
-              rating={table[identify(aspects[1]) + '_rating']}
-              color={table[identify(aspects[1]) + '_color']}
-              delta={0}
-            />
-            <Button
-              modStyle={{marginTop:15}}
-              text={pairwise_dislike}
-              handler={() => this.choose.bind(this)(1)} 
-            />
-          </div>
-          <div style={[styles.half]}>
-            <Aspect
-              text={aspects[0]}
-              rating={table[identify(aspects[0]) + '_rating']}
-              color={table[identify(aspects[0]) + '_color']}
-              delta={0}
-            />
-            <Aspect
-              text={aspects[1]}
-              rating={table[identify(aspects[1]) + '_rating']}
-              color={table[identify(aspects[1]) + '_color']}
-              delta={pairwise_tradeoffs[choice][1]}
-            />
-            <Button
-              modStyle={{marginTop:15}}
-              text={pairwise_like}
-              handler={() => this.choose.bind(this)(2)}
-            />
-          </div>
+        <div style={[styles.instructions]}>
+          <b>{instructions}</b>
+          <div>{text}</div>
         </div>
+        <Spring
+          defaultValue={{val: animating ? 1 : 0}}
+          endValue={{val: animating ? 0 : 1}}
+        >
+        {
+          (interpolated) => (
+            <div style={[styles.container, {opacity: animating ? 0 : `${interpolated.val}`}]}>
+              <div style={[styles.half]}>
+                <Aspect
+                  modStyle={{flex: 1}}
+                  text={aspects[0]}
+                  rating={table[identify(aspects[0]) + '_rating']}
+                  color={table[identify(aspects[0]) + '_color']}
+                  delta={pairwise_tradeoffs[choice][0]}
+                  deltaText={textual[pairwise_tradeoffs[choice][0]]}
+                />
+                <Aspect
+                  modStyle={{flex: 1}}
+                  text={aspects[1]}
+                  rating={table[identify(aspects[1]) + '_rating']}
+                  color={table[identify(aspects[1]) + '_color']}
+                  delta={0}
+                />
+                <Button
+                  modStyle={{marginTop: 15}}
+                  text={pairwise_dislike}
+                  handler={() => this.choose.bind(this)(1)} 
+                />
+              </div>
+              <div style={[styles.half]}>
+                <Aspect
+                  modStyle={{flex: 1}}
+                  text={aspects[0]}
+                  rating={table[identify(aspects[0]) + '_rating']}
+                  color={table[identify(aspects[0]) + '_color']}
+                  delta={0}
+                />
+                <Aspect
+                  modStyle={{flex: 1}}
+                  text={aspects[1]}
+                  rating={table[identify(aspects[1]) + '_rating']}
+                  color={table[identify(aspects[1]) + '_color']}
+                  delta={pairwise_tradeoffs[choice][1]}
+                  deltaText={textual[pairwise_tradeoffs[choice][1]]}
+                />
+                <Button
+                  modStyle={{marginTop: 15}}
+                  text={pairwise_like}
+                  handler={() => this.choose.bind(this)(2)}
+                />
+              </div>
+            </div>
+          )
+        }
+        </Spring>
       </div>
     )
   }
@@ -125,7 +155,8 @@ const styles = {
     boxSizing: 'border-box'
   },
   container: {
-    display: 'flex'
+    display: 'flex',
+    flexDirection: 'row'
   },
   half: {
     flex: 1,
@@ -133,7 +164,18 @@ const styles = {
     margin: 5,
     padding: 15,
     borderRadius: 15,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around'
+  },
+  instructions: {
+    boxSizing: 'border-box',
+    width: '100%',
+    padding: 30,
+    margin: '30px 0',
+    borderRadius: 15,
+    background: '#fff'
   }
 }
 

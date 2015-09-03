@@ -89,7 +89,6 @@
 	    _classCallCheck(this, _Index);
 
 	    _React$Component.call(this, props);
-	    console.log(props);
 	    this.state = _store2['default'].getState();
 	    _store2['default'].subscribe(function () {
 	      _this.setState(_store2['default'].getState());
@@ -136,10 +135,26 @@
 	    var _props = this.props;
 	    var rating_tip = _props.rating_tip;
 	    var rating_confirm = _props.rating_confirm;
+	    var instructions = _props.instructions;
+	    var text = _props.text;
 
 	    return _react2['default'].createElement(
 	      'div',
 	      { style: [styles.container] },
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [styles.instructions] },
+	        _react2['default'].createElement(
+	          'b',
+	          null,
+	          instructions
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          null,
+	          text
+	        )
+	      ),
 	      index > -1 && _react2['default'].createElement(_RateAspect2['default'], {
 	        aspect: aspects[index],
 	        handleRating: function (p) {
@@ -183,6 +198,8 @@
 	  }, {
 	    key: 'defaultProps',
 	    value: {
+	      instructions: 'Instructions',
+	      text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
 	      rating_tip: 'Move the slider to set your rating',
 	      rating_confirm: 'Confirm Rating'
 	    },
@@ -203,6 +220,14 @@
 	  container: {
 	    marginTop: 30,
 	    userSelect: 'none'
+	  },
+	  instructions: {
+	    boxSizing: 'border-box',
+	    width: '100%',
+	    padding: 30,
+	    margin: '30px 0',
+	    borderRadius: 15,
+	    background: '#fff'
 	  }
 	};
 
@@ -2420,7 +2445,7 @@
 	            { style: { float: 'left' } },
 	            _globalServicesFormat2['default'].capitalize(aspect.text)
 	          ),
-	          _react2['default'].createElement(
+	          aspect.rating && _react2['default'].createElement(
 	            'span',
 	            { style: { float: 'right' } },
 	            Number(aspect.rating)

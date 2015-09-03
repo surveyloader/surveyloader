@@ -6,7 +6,8 @@ export default createStore(function (state, action) {
       return {
         ...state,
         queue: action.queue,
-        table: action.table
+        table: action.table,
+        index: action.index
       }
 
     case 'SET_TABLE':
