@@ -48706,9 +48706,15 @@
 	      _stores2['default'].dispatch({
 	        type: 'SET',
 	        queue: queue,
-	        table: table,
-	        index: Number(params.index) || 0
+	        table: table
 	      });
+
+	      if (params.index) {
+	        _stores2['default'].dispatch({
+	          type: 'SIMULATE',
+	          simulation: params.index
+	        });
+	      }
 	    });
 	  }
 
@@ -48928,8 +48934,7 @@
 	    case 'SET':
 	      return _extends({}, state, {
 	        queue: action.queue,
-	        table: action.table,
-	        index: action.index
+	        table: action.table
 	      });
 
 	    case 'SET_TABLE':

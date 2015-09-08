@@ -35,9 +35,15 @@ class Container extends React.Component {
         store.dispatch({
           type: 'SET',
           queue,
-          table,
-          index: Number(params.index) || 0
+          table
         })
+
+        if (params.index) {
+          store.dispatch({
+            type: 'SIMULATE',
+            simulation: params.index
+          })
+        }
       })
   }
 
