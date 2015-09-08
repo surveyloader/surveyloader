@@ -39,12 +39,20 @@ export default createStore(function (state, action) {
         index: action.index
       }
 
+    case 'SIMULATE':
+      return {
+        ...state,
+        simulation: action.simulation,
+        index: action.index || state.index
+      }
+
     default:
       return {
         ...state,
         table: null,
         queue: [{}],
-        index: 0
+        index: 0,
+        simulator: null
       }
   }
 })

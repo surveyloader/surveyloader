@@ -79,6 +79,10 @@
 
 	  var _Consent = Consent;
 
+	  _Consent.simulate = function simulate(props) {
+	    return null;
+	  };
+
 	  _Consent.prototype.render = function render() {
 	    var _this = this;
 

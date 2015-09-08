@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import Radium from 'radium'
+import _ from 'lodash'
 
 import { Simulate, PrePropType as Pre }
 from '../../../global/services/pre/'
@@ -28,7 +29,12 @@ class Index extends React.Component {
     $hash$_rating: Pre.number.of(_.range(0,101))
   }
 
-  map (specs) {
+  static simulate (props) {
+    console.log(props.aspects)
+    return _(props.aspects)
+      .map((a) => [identify(a) + '_rating', _.sample(_.range(0,101))])
+      .object()
+      .value()
   }
 
   constructor (props) {
@@ -54,11 +60,12 @@ class Index extends React.Component {
 
   componentDidUpdate () {
     if (this.state.index < 0) {
-      let response = {}
-      this.state.aspects.map((a) => {
-        response[identify(a.text) + '_rating'] = a.rating
-      })
-      this.props.push(response)
+      this.props.push(
+        _(this.state.aspects)
+          .map((a) => [identify(a.text) + '_rating', a.rating])
+          .object()
+          .value()
+      )
     }
   }
 

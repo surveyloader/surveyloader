@@ -13,7 +13,6 @@ from '../../../global/services/stringHash'
 import Aspect from '../../../global/components/Aspect'
 import Button from '../../../global/components/Button'
 
-@Simulate
 @Radium
 class App extends React.Component {
   static propTypes = {
@@ -51,6 +50,12 @@ class App extends React.Component {
       .number.of([1,-1])
   }
 
+  static simulate (props) {
+    return {
+      [`pairwise_${identify(props.aspects[0])}_${identify(props.aspects[1])}`]: _.sample(_.range(7,15))
+    }
+  }
+
   constructor (props) {
     super(props)
     this.state = { choice: 0 }
@@ -63,7 +68,8 @@ class App extends React.Component {
       aspects
     } = this.props
     let choice = this.state.choice * 2 + option
-    this.setState({ choice })
+    this.setState({ choice, animating: true })
+    setTimeout(() => this.setState({ animating: false }), 300)
     if (choice + 1 > pairwise_tradeoffs.length) {
       push({
         [`pairwise_${identify(aspects[0])}_${identify(aspects[1])}`]: choice
@@ -95,7 +101,14 @@ class App extends React.Component {
         >
         {
           (interpolated) => (
-            <div style={[styles.container, {opacity: animating ? 0 : `${interpolated.val}`}]}>
+            <div 
+              style={[
+                styles.container, 
+                {
+                  opacity: animating ? 0 : `${interpolated.val}`,
+                  marginTop: animating ? 400 : (1 - interpolated.val) * 400
+                }
+              ]}>
               <div style={[styles.half]}>
                 <Aspect
                   modStyle={{flex: 1}}

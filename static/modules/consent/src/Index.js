@@ -11,6 +11,10 @@ class Consent extends React.Component {
     continue: PropTypes.string.isRequired
   }
 
+  static simulate (props) {
+    return null
+  }
+
   render () { 
     return (
       <div style={[styles.container]}>

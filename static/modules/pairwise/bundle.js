@@ -100,14 +100,25 @@
 
 	  var _App = App;
 
+	  _App.simulate = function simulate(props) {
+	    var _ref;
+
+	    return (_ref = {}, _ref['pairwise_' + _globalServicesStringHash2['default'](props.aspects[0]) + '_' + _globalServicesStringHash2['default'](props.aspects[1])] = _lodash2['default'].sample(_lodash2['default'].range(7, 15)), _ref);
+	  };
+
 	  _App.prototype.choose = function choose(option) {
+	    var _this = this;
+
 	    var _props = this.props;
 	    var push = _props.push;
 	    var pairwise_tradeoffs = _props.pairwise_tradeoffs;
 	    var aspects = _props.aspects;
 
 	    var choice = this.state.choice * 2 + option;
-	    this.setState({ choice: choice });
+	    this.setState({ choice: choice, animating: true });
+	    setTimeout(function () {
+	      return _this.setState({ animating: false });
+	    }, 300);
 	    if (choice + 1 > pairwise_tradeoffs.length) {
 	      var _push;
 
@@ -116,7 +127,7 @@
 	  };
 
 	  _App.prototype.render = function render() {
-	    var _this = this;
+	    var _this2 = this;
 
 	    var _props2 = this.props;
 	    var pairwise_tradeoffs = _props2.pairwise_tradeoffs;
@@ -157,7 +168,11 @@
 	        function (interpolated) {
 	          return _react2['default'].createElement(
 	            'div',
-	            { style: [styles.container, { opacity: animating ? 0 : '' + interpolated.val }] },
+	            {
+	              style: [styles.container, {
+	                opacity: animating ? 0 : '' + interpolated.val,
+	                marginTop: animating ? 400 : (1 - interpolated.val) * 400
+	              }] },
 	            _react2['default'].createElement(
 	              'div',
 	              { style: [styles.half] },
@@ -180,7 +195,7 @@
 	                modStyle: { marginTop: 15 },
 	                text: pairwise_dislike,
 	                handler: function () {
-	                  return _this.choose.bind(_this)(1);
+	                  return _this2.choose.bind(_this2)(1);
 	                }
 	              })
 	            ),
@@ -206,7 +221,7 @@
 	                modStyle: { marginTop: 15 },
 	                text: pairwise_like,
 	                handler: function () {
-	                  return _this.choose.bind(_this)(2);
+	                  return _this2.choose.bind(_this2)(2);
 	                }
 	              })
 	            )
@@ -253,7 +268,6 @@
 	  }]);
 
 	  App = _radium2['default'](App) || App;
-	  App = _globalServicesPre.Simulate(App) || App;
 	  return App;
 	})(_react2['default'].Component);
 

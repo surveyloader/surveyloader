@@ -4,6 +4,8 @@ import Radium from 'radium'
 import http from 'superagent'
 import store from '../stores'
 
+import load from '../util/lazy'
+
 import Loader from './Loader'
 import Table from './Table'
 import Queue from './Queue'
@@ -37,6 +39,56 @@ class Container extends React.Component {
           index: Number(params.index) || 0
         })
       })
+  }
+
+  assignProps (params, table) {
+    return  _(params)
+      .map((v, k) => {
+        if (k.charAt(0) === '_' && Array.isArray(v)) {
+          return [
+            k.substring(1),
+            v.map((p) => table[p])
+          ]
+        } else if (k.charAt(0) === '_') {
+          return [
+            k.substring(1),
+            table[v]
+          ]
+        } else {
+          return [k, v]
+        }
+      })
+      .object()
+      .value()
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
+    const { simulation, index, queue, table } = nextState
+    if (simulation > index) {
+      if (queue[index].type) {
+        load(queue[index].type)
+          .then((component) => {
+            console.log(queue[index].type, component.simulate)
+            component.defaultProps = component.defaultProps ? component.defaultProps : {}
+            component.defaultProps = _
+              .assign(component.defaultProps, this.assignProps(queue[index], table))
+            store.dispatch({
+              type: 'PUSH',
+              index: Number(index) + 1,
+              table: component.simulate(component.defaultProps)
+            })
+          })
+      }
+      return false
+    } else if (simulation) {
+      store.dispatch({
+        type: 'SIMULATE',
+        simulation: null,
+        index: simulation
+      })
+      return false
+    }
+    return true
   }
 
   render () {
@@ -75,8 +127,8 @@ class Container extends React.Component {
                 }}
                 onSwitch={(i) => {
                   store.dispatch({
-                    type: 'SET_INDEX',
-                    index: i
+                    type: 'SIMULATE',
+                    simulation: i
                   })
                 }}
               />

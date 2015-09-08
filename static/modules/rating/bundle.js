@@ -64,6 +64,10 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
+	var _lodash = __webpack_require__(5);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
 	var _globalServicesPre = __webpack_require__(3);
 
 	var _globalServicesStringHash = __webpack_require__(15);
@@ -99,7 +103,12 @@
 
 	  var _Index = Index;
 
-	  _Index.prototype.map = function map(specs) {};
+	  _Index.simulate = function simulate(props) {
+	    console.log(props.aspects);
+	    return _lodash2['default'](props.aspects).map(function (a) {
+	      return [_globalServicesStringHash2['default'](a) + '_rating', _lodash2['default'].sample(_lodash2['default'].range(0, 101))];
+	    }).object().value();
+	  };
 
 	  _Index.prototype.componentDidMount = function componentDidMount() {
 	    _store2['default'].dispatch({
@@ -114,16 +123,10 @@
 	  };
 
 	  _Index.prototype.componentDidUpdate = function componentDidUpdate() {
-	    var _this2 = this;
-
 	    if (this.state.index < 0) {
-	      (function () {
-	        var response = {};
-	        _this2.state.aspects.map(function (a) {
-	          response[_globalServicesStringHash2['default'](a.text) + '_rating'] = a.rating;
-	        });
-	        _this2.props.push(response);
-	      })();
+	      this.props.push(_lodash2['default'](this.state.aspects).map(function (a) {
+	        return [_globalServicesStringHash2['default'](a.text) + '_rating', a.rating];
+	      }).object().value());
 	    }
 	  };
 
@@ -207,7 +210,7 @@
 	  }, {
 	    key: 'output',
 	    value: {
-	      $hash$_rating: _globalServicesPre.PrePropType.number.of(_.range(0, 101))
+	      $hash$_rating: _globalServicesPre.PrePropType.number.of(_lodash2['default'].range(0, 101))
 	    },
 	    enumerable: true
 	  }]);

@@ -70,6 +70,18 @@
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
+	function choose(n, aspects) {
+	  var bucket = arguments[2] === undefined ? 'a' : arguments[2];
+
+	  var colors = [];
+	  var samples = _(aspects).sample(n || aspects.length).map(function (p, i) {
+	    colors.push([_globalServicesStringHash2['default'](p) + '_color', _globalServicesColorScheme2['default'].index(i)]);
+	    return ['sample_' + bucket + '_' + i, p];
+	  }).value();
+
+	  return _.object(samples.concat(colors));
+	}
+
 	var Sample = (function (_React$Component) {
 	  function Sample(props) {
 	    _classCallCheck(this, Sample);
@@ -80,21 +92,18 @@
 	    var aspects = props.aspects;
 	    var bucket = props.bucket;
 
-	    push(this.choose(n, aspects, bucket));
+	    push(choose(n, aspects, bucket));
 	  }
 
 	  _inherits(Sample, _React$Component);
 
-	  Sample.prototype.choose = function choose(n, aspects) {
-	    var bucket = arguments[2] === undefined ? 'a' : arguments[2];
+	  Sample.simulate = function simulate(props) {
+	    var simulate = props.simulate;
+	    var n = props.n;
+	    var aspects = props.aspects;
+	    var bucket = props.bucket;
 
-	    var colors = [];
-	    var samples = _(aspects).sample(n || aspects.length).map(function (p, i) {
-	      colors.push([_globalServicesStringHash2['default'](p) + '_color', _globalServicesColorScheme2['default'].index(i)]);
-	      return ['sample_' + bucket + '_' + i, p];
-	    }).value();
-
-	    return _.object(samples.concat(colors));
+	    return choose(n, aspects, bucket);
 	  };
 
 	  Sample.prototype.render = function render() {

@@ -48662,6 +48662,10 @@
 
 	var _stores2 = _interopRequireDefault(_stores);
 
+	var _utilLazy = __webpack_require__(195);
+
+	var _utilLazy2 = _interopRequireDefault(_utilLazy);
+
 	var _Loader = __webpack_require__(194);
 
 	var _Loader2 = _interopRequireDefault(_Loader);
@@ -48712,8 +48716,55 @@
 
 	  var _Container = Container;
 
-	  _Container.prototype.render = function render() {
+	  _Container.prototype.assignProps = function assignProps(params, table) {
+	    return _lodash2['default'](params).map(function (v, k) {
+	      if (k.charAt(0) === '_' && Array.isArray(v)) {
+	        return [k.substring(1), v.map(function (p) {
+	          return table[p];
+	        })];
+	      } else if (k.charAt(0) === '_') {
+	        return [k.substring(1), table[v]];
+	      } else {
+	        return [k, v];
+	      }
+	    }).object().value();
+	  };
+
+	  _Container.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
 	    var _this2 = this;
+
+	    var simulation = nextState.simulation;
+	    var index = nextState.index;
+	    var queue = nextState.queue;
+	    var table = nextState.table;
+
+	    if (simulation > index) {
+	      if (queue[index].type) {
+	        _utilLazy2['default'](queue[index].type).then(function (component) {
+	          console.log(queue[index].type, component.simulate);
+	          component.defaultProps = component.defaultProps ? component.defaultProps : {};
+	          component.defaultProps = _lodash2['default'].assign(component.defaultProps, _this2.assignProps(queue[index], table));
+	          _stores2['default'].dispatch({
+	            type: 'PUSH',
+	            index: Number(index) + 1,
+	            table: component.simulate(component.defaultProps)
+	          });
+	        });
+	      }
+	      return false;
+	    } else if (simulation) {
+	      _stores2['default'].dispatch({
+	        type: 'SIMULATE',
+	        simulation: null,
+	        index: simulation
+	      });
+	      return false;
+	    }
+	    return true;
+	  };
+
+	  _Container.prototype.render = function render() {
+	    var _this3 = this;
 
 	    var _state = this.state;
 	    var queue = _state.queue;
@@ -48760,8 +48811,8 @@
 	              },
 	              onSwitch: function (i) {
 	                _stores2['default'].dispatch({
-	                  type: 'SET_INDEX',
-	                  index: i
+	                  type: 'SIMULATE',
+	                  simulation: i
 	                });
 	              }
 	            })
@@ -48778,7 +48829,7 @@
 	            type: 'checkbox',
 	            value: 1,
 	            onChange: function () {
-	              return _this2.setState({ hideDevBar: !_this2.state.hideDevBar });
+	              return _this3.setState({ hideDevBar: !_this3.state.hideDevBar });
 	            }
 	          })
 	        )
@@ -48902,11 +48953,18 @@
 	        index: action.index
 	      });
 
+	    case 'SIMULATE':
+	      return _extends({}, state, {
+	        simulation: action.simulation,
+	        index: action.index || state.index
+	      });
+
 	    default:
 	      return _extends({}, state, {
 	        table: null,
 	        queue: [{}],
-	        index: 0
+	        index: 0,
+	        simulator: null
 	      });
 	  }
 	});
