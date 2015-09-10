@@ -48688,6 +48688,14 @@
 	        surveys: res.body
 	      });
 	    });
+
+	    _superagent2['default'].get('/folding-survey/static/list.json').end(function (err, res) {
+	      console.log(res.body);
+	      _stores2['default'].dispatch({
+	        type: 'SET_MODULE_LIST',
+	        modules: res.body
+	      });
+	    });
 	  }
 
 	  _inherits(Container, _React$Component);
@@ -48697,6 +48705,7 @@
 	  _Container.prototype.render = function render() {
 	    var _state = this.state;
 	    var surveys = _state.surveys;
+	    var modules = _state.modules;
 	    var survey = _state.survey;
 	    var index = _state.index;
 	    var info = survey.info;
@@ -48781,13 +48790,7 @@
 	            params: queue[index],
 	            table: table,
 	            index: index,
-	            push: function (table) {
-	              _stores2['default'].dispatch({
-	                type: 'PUSH',
-	                index: Number(index) + 1,
-	                table: table
-	              });
-	            }
+	            push: function (table) {}
 	          })
 	        )
 	      )
@@ -50171,6 +50174,11 @@
 	        surveys: action.surveys
 	      });
 
+	    case 'SET_MODULE_LIST':
+	      return _extends({}, state, {
+	        modules: action.modules
+	      });
+
 	    case 'SELECT_SURVEY':
 	      return _extends({}, state, {
 	        index: 0,
@@ -50200,6 +50208,7 @@
 	    default:
 	      return _extends({}, state, {
 	        surveys: {},
+	        modules: [],
 	        index: 0,
 	        survey: {
 	          info: {

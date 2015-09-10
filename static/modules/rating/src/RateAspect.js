@@ -87,7 +87,8 @@ const styles = {
   container: {
     padding: 30,
     boxSizing: 'border-box',
-    borderRadius: 10,
+    borderRadius: 15,
+    boxShadow: '2px 2px 4px #ddd',
     backgroundColor: '#fff',
     userSelect: 'none',
     overflow: 'auto',

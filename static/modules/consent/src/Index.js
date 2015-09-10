@@ -41,7 +41,7 @@ class Consent extends React.Component {
           }
           </div>
         </div>
-      </div> 
+      </div>
     )
   }
 }
@@ -52,7 +52,8 @@ const styles = {
     width: '50%',
     minWidth: 800,
     borderRadius: 15,
-    margin: '15px auto',
+    boxShadow: '2px 2px 4px #ddd',
+    margin: '15px auto 60px auto',
     padding: 30,
     background: '#fff'
   },

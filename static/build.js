@@ -39,7 +39,8 @@ function pack (dir) {
 fs
   .readdirAsync(__dirname + '/modules')
   .then(function (data) {
-    data.map(function (f) {
+    var folders = data.splice(1) // to remove DS store
+    folders.map(function (f) {
       fs
         .statAsync(__dirname + '/modules/' + f)
         .then(function (stats) {
@@ -48,4 +49,6 @@ fs
           }
         })
     })
+    fs
+      .writeFileAsync(__dirname + '/list.json', JSON.stringify(folders))
   })

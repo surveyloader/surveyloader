@@ -8,6 +8,12 @@ export default createStore(function (state, action) {
         surveys: action.surveys
       }
 
+    case 'SET_MODULE_LIST':
+      return {
+        ...state,
+        modules: action.modules
+      }
+
     case 'SELECT_SURVEY':
       return {
         ...state,
@@ -48,6 +54,7 @@ export default createStore(function (state, action) {
       return {
         ...state,
         surveys: {},
+        modules: [],
         index: 0,
         survey: {
           info: {

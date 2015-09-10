@@ -24,10 +24,20 @@ class Container extends React.Component {
           surveys: res.body
         })
       })
+
+    http
+      .get('/folding-survey/static/list.json')
+      .end((err, res) => {
+        console.log(res.body)
+        store.dispatch({
+          type: 'SET_MODULE_LIST',
+          modules: res.body
+        })
+      })
   }
 
   render () {
-    const { surveys, survey, index } = this.state
+    const { surveys, modules, survey, index } = this.state
     const { info, queue, table } = survey
     return (
       <div style={[styles.main]}>
@@ -95,13 +105,7 @@ class Container extends React.Component {
                 params={queue[index]}
                 table={table}
                 index={index}
-                push={(table) => {
-                  store.dispatch({
-                    type: 'PUSH',
-                    index: Number(index) + 1,
-                    table
-                  })
-                }}
+                push={(table) => {}}
               />
             }
           </div>
