@@ -34,6 +34,7 @@ class Sample extends React.Component {
 
   static simulate (props) {
     const { simulate, n, aspects, bucket } = props
+    console.log(aspects)
     return choose(n, aspects, bucket)
   }
 

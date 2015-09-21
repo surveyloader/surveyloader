@@ -27,7 +27,7 @@ class RateAspect extends React.Component {
             </em>
             {
               aspect.rating &&
-              <span style={{float:'right'}}>
+              <span style={{ float:'right', fontWeight: 'bold' }}>
                 {Number(aspect.rating)}
               </span>
             }

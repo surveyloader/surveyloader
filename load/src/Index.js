@@ -1,5 +1,6 @@
 //$$$
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Radium from 'radium'
 import Promise from 'bluebird'
 import _ from 'lodash'
@@ -14,4 +15,4 @@ window.d3 = d3
 
 import Container from './app/Container'
 
-React.render(<Container />, document.body)
+ReactDOM.render(<Container />, document.getElementById('container'))

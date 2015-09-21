@@ -34,7 +34,7 @@ class Consent extends React.Component {
           {
             this.state.agreed &&
             <Button
-              modStyle={{float:'right'}}
+              modStyle={{float:'right', marginTop: '1rem'}}
               text={this.props.continue}
               handler={() => this.props.push()}
             />

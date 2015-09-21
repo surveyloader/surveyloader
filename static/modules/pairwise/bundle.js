@@ -142,6 +142,7 @@
 	    var choice = _state.choice;
 	    var animating = _state.animating;
 
+	    console.log(table, _globalServicesStringHash2['default'](aspects[1]), table[_globalServicesStringHash2['default'](aspects[1]) + '_color']);
 	    return _react2['default'].createElement(
 	      'div',
 	      { style: [styles.main] },
@@ -234,7 +235,6 @@
 	  _createClass(_App, null, [{
 	    key: 'propTypes',
 	    value: {
-	      push: _react.PropTypes.func.isRequired,
 	      pairwise_like: _react.PropTypes.string,
 	      pairwise_dislike: _react.PropTypes.string,
 	      pairwise_tradeoffs: _react.PropTypes.array,
@@ -254,7 +254,8 @@
 	        2: 'improves',
 	        4: 'strongly improves',
 	        8: 'greatly improves'
-	      }
+	      },
+	      aspects: ['one', 'two']
 	    },
 	    enumerable: true
 	  }, {

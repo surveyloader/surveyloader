@@ -103,6 +103,7 @@
 	    var aspects = props.aspects;
 	    var bucket = props.bucket;
 
+	    console.log(aspects);
 	    return choose(n, aspects, bucket);
 	  };
 

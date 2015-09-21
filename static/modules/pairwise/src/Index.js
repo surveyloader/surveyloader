@@ -16,7 +16,6 @@ import Button from '../../../global/components/Button'
 @Radium
 class App extends React.Component {
   static propTypes = {
-    push: PropTypes.func.isRequired,
     pairwise_like: PropTypes.string,
     pairwise_dislike: PropTypes.string,
     pairwise_tradeoffs: PropTypes.array,
@@ -38,7 +37,8 @@ class App extends React.Component {
       2: 'improves',
       4: 'strongly improves',
       8: 'greatly improves'
-    }
+    }, 
+    aspects: ['one', 'two']
   }
 
   static output = {
@@ -89,6 +89,7 @@ class App extends React.Component {
       table
     } = this.props
     const { choice, animating } = this.state
+    console.log(table, identify(aspects[1]), table[identify(aspects[1]) + '_color'])
     return (
       <div style={[styles.main]}>
         <div style={[styles.instructions]}>

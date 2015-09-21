@@ -115,7 +115,7 @@
 	          'div',
 	          { style: [styles.clearfix] },
 	          this.state.agreed && _react2['default'].createElement(_globalComponentsButton2['default'], {
-	            modStyle: { float: 'right' },
+	            modStyle: { float: 'right', marginTop: '1rem' },
 	            text: this.props['continue'],
 	            handler: function () {
 	              return _this.props.push();

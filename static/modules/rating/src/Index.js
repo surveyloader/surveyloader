@@ -22,7 +22,8 @@ class Index extends React.Component {
     instructions: 'Instructions',
     text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
     rating_tip: 'Move the slider to set your rating',
-    rating_confirm: 'Confirm Rating'
+    rating_confirm: 'Confirm Rating',
+    aspects: ['one', 'two']
   }
 
   static output = {
@@ -30,7 +31,6 @@ class Index extends React.Component {
   }
 
   static simulate (props) {
-    console.log(props.aspects)
     return _(props.aspects)
       .map((a) => [identify(a) + '_rating', _.sample(_.range(0,101))])
       .object()

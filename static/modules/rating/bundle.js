@@ -104,7 +104,6 @@
 	  var _Index = Index;
 
 	  _Index.simulate = function simulate(props) {
-	    console.log(props.aspects);
 	    return _lodash2['default'](props.aspects).map(function (a) {
 	      return [_globalServicesStringHash2['default'](a) + '_rating', _lodash2['default'].sample(_lodash2['default'].range(0, 101))];
 	    }).object().value();
@@ -204,7 +203,8 @@
 	      instructions: 'Instructions',
 	      text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
 	      rating_tip: 'Move the slider to set your rating',
-	      rating_confirm: 'Confirm Rating'
+	      rating_confirm: 'Confirm Rating',
+	      aspects: ['one', 'two']
 	    },
 	    enumerable: true
 	  }, {
@@ -2451,7 +2451,7 @@
 	          ),
 	          aspect.rating && _react2['default'].createElement(
 	            'span',
-	            { style: { float: 'right' } },
+	            { style: { float: 'right', fontWeight: 'bold' } },
 	            Number(aspect.rating)
 	          )
 	        ),
@@ -4831,15 +4831,15 @@
 	      strokeOpacity: '0.5',
 	      fill: '#fff',
 	      fillOpacity: '0.9',
-	      d: 'M ' + (position - size / 2) + ',0 \n            l ' + size + ',0 l 0,' + size * 2 / 3 + ' \n            l -' + size / 2 + ',' + size / 2 + ' \n            l -' + size / 2 + ',-' + size / 2 + ' \n            Z'
+	      d: 'M ' + (position - size / 2) + ',0 \n          l ' + size + ',0 l 0,' + size * 2 / 3 + ' \n          l -' + size / 2 + ',' + size / 2 + ' \n          l -' + size / 2 + ',-' + size / 2 + ' \n          Z'
 	    });
 	  };
 
 	  _createClass(_Handle, null, [{
 	    key: 'propTypes',
 	    value: {
-	      size: _react.PropTypes.number.isRequired,
-	      position: _react.PropTypes.number.isRequired
+	      size: _react.PropTypes.number,
+	      position: _react.PropTypes.number
 	    },
 	    enumerable: true
 	  }]);
@@ -4876,10 +4876,10 @@
 	    this.setState({ movable: true });
 	    var clientX = event.clientX;
 
-	    var _refs$bar$getDOMNode$getBoundingClientRect = this.refs.bar.getDOMNode().getBoundingClientRect();
+	    var _refs$bar$getBoundingClientRect = this.refs.bar.getBoundingClientRect();
 
-	    var left = _refs$bar$getDOMNode$getBoundingClientRect.left;
-	    var width = _refs$bar$getDOMNode$getBoundingClientRect.width;
+	    var left = _refs$bar$getBoundingClientRect.left;
+	    var width = _refs$bar$getBoundingClientRect.width;
 
 	    this.move(100 * (clientX - left) / width);
 	  };
@@ -4891,16 +4891,15 @@
 	  _Slider.prototype.handleMouseMove = function handleMouseMove(event) {
 	    var clientX = event.clientX;
 
-	    var _refs$bar$getDOMNode$getBoundingClientRect2 = this.refs.bar.getDOMNode().getBoundingClientRect();
+	    var _refs$bar$getBoundingClientRect2 = this.refs.bar.getBoundingClientRect();
 
-	    var left = _refs$bar$getDOMNode$getBoundingClientRect2.left;
-	    var width = _refs$bar$getDOMNode$getBoundingClientRect2.width;
+	    var left = _refs$bar$getBoundingClientRect2.left;
+	    var width = _refs$bar$getBoundingClientRect2.width;
 
 	    if (this.state.movable) this.move(100 * (clientX - left) / width);
 	  };
 
 	  _Slider.prototype.componentWillUnmount = function componentWillUnmount() {
-	    console.log('unmount');
 	    window.removeEventListener('mouseup', this.mouseUp);
 	    window.removeEventListener('mousemove', this.mouseMove);
 	  };
@@ -4992,12 +4991,9 @@
 	    cursor: 'pointer'
 	  },
 	  text: {
-	    fontSize: 3,
+	    fontSize: '.125em',
 	    textAnchor: 'middle',
-	    userSelect: 'none',
-	    '@media (min-width:1000px)': {
-	      fontSize: 2.25
-	    }
+	    userSelect: 'none'
 	  }
 	};
 

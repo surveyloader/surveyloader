@@ -7,8 +7,8 @@ import frowny from '../images/frowny.svg'
 @Radium
 class Handle extends React.Component {
   static propTypes = {
-    size: PropTypes.number.isRequired,
-    position: PropTypes.number.isRequired
+    size: PropTypes.number,
+    position: PropTypes.number
   }
 
   render () {
@@ -16,21 +16,20 @@ class Handle extends React.Component {
     size = size * .8
     return (
       <path
-          style={[styles.handle]}
-          strokeWidth="0.25"
-          stroke="#000"
-          strokeOpacity="0.5"
-          fill="#fff"
-          fillOpacity="0.9"
-          d={
-            `M ${position- (size/2)},0 
-            l ${size},0 l 0,${(size*2)/3} 
-            l -${size/2},${size/2} 
-            l -${size/2},-${size/2} 
-            Z`
-          }
-        >
-      </path>
+        style={[styles.handle]}
+        strokeWidth="0.25"
+        stroke="#000"
+        strokeOpacity="0.5"
+        fill="#fff"
+        fillOpacity="0.9"
+        d={
+          `M ${position- (size/2)},0 
+          l ${size},0 l 0,${(size*2)/3} 
+          l -${size/2},${size/2} 
+          l -${size/2},-${size/2} 
+          Z`
+        }
+      ></path>
     )
   }
 }
@@ -63,7 +62,7 @@ class Slider extends React.Component {
   handleMouseDown (event) {
     this.setState({ movable: true })
     let { clientX } = event
-    let { left, width } = this.refs.bar.getDOMNode().getBoundingClientRect()
+    let { left, width } = this.refs.bar.getBoundingClientRect()
     this.move(100 * (clientX - left) / width)
   }
 
@@ -73,12 +72,11 @@ class Slider extends React.Component {
 
   handleMouseMove (event) {
     let { clientX } = event
-    let { left, width } = this.refs.bar.getDOMNode().getBoundingClientRect()
+    let { left, width } = this.refs.bar.getBoundingClientRect()
     if (this.state.movable) this.move(100 * (clientX - left) / width)
   }
 
   componentWillUnmount () {
-    console.log('unmount')
     window.removeEventListener('mouseup', this.mouseUp)
     window.removeEventListener('mousemove', this.mouseMove)
   }
@@ -150,12 +148,9 @@ const styles = {
     cursor: 'pointer'
   },
   text: {
-    fontSize: 3,
+    fontSize: '.125em',
     textAnchor: 'middle',
-    userSelect: 'none',
-    '@media (min-width:1000px)': {
-      fontSize: 2.25
-    }
+    userSelect: 'none'
   }
 }
 

@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
-import load from '../util/lazy'
+
+import load from '../services/lazy'
+import echo from '../services/echo'
 
 class Loader extends React.Component {
   static propTypes = {
@@ -16,23 +18,13 @@ class Loader extends React.Component {
 
   assignProps (params, table) {
     return  _(params)
-      .map((v, k) => {
-        if (k.charAt(0) === '_' && Array.isArray(v)) {
-          return [
-            k.substring(1),
-            v.map((p) => table[p])
-          ]
-        } else if (k.charAt(0) === '_') {
-          return [
-            k.substring(1),
-            table[v]
-          ]
-        } else {
-          return [k, v]
-        }
-      })
-      .object()
-      .value()
+    .map((v, k) => {
+      return Array.isArray(v) ?
+        [k, v.map(subv => echo(subv, table))] :
+        [k, echo(v, table)]
+    })
+    .object()
+    .value()
   }
 
   loadComponent (params, table) {

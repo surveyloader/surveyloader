@@ -1,80 +1,79 @@
 import React from 'react'
 import Radium from 'radium'
+import _ from 'lodash'
+import { DragSource } from 'react-dnd'
 
 import Button from '../components/Button'
+
+const itemSource = {
+  beginDrag (props) {
+    return { param: '$' + props.k }
+  }
+}
+
+@DragSource('TABLE_PARAM', itemSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging()
+}))
+@Radium
+class TableParameter extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+
+  render () {
+    const { k, v, isDragging, connectDragSource } = this.props
+    const opacity = isDragging ? 0 : 1
+    return connectDragSource(
+      <div style={[styles.row, { opacity }]}>
+        <div style={[styles.col, { textAlign: 'right' }]}>
+          <span>{k}:</span>
+        </div>
+        <div style={[styles.col, { flex: 2 }]}>
+          <span>{v}</span>
+        </div>
+      </div>
+    )
+  }
+}
 
 @Radium
 class Table extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { data: props.data || {} }
-  }
-
-  componentWillReceiveProps (props) {
-    this.setState({
-      table: Object.keys(props.data)
-        .map((k) => [k, props.data[k]])
-    })
   }
 
   render () {
-    const { props, state } = this
+    const { data } = this.props
     return (
-      <div style={[styles.main]}>
-        <table style={[styles.table]}>
-          <tbody>
-          {
-            state.table &&
-            state.table
-              .map((a, i) => (
-                <tr key={i}>
-                  <td style={[styles.cell]}>
-                    <input
-                      type="text"
-                      style={[styles.input]}
-                      value={a[0]}
-                    />
-                  </td>
-                  <td style={[styles.cell]}>
-                    <input
-                      type="text"
-                      style={[styles.input]}
-                      value={a[1]}
-                      onChange={(e) => {
-                        state.table[i][1] = e.target.value
-                        this.setState({ table: state.table })
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))
-          }
-          </tbody>
-        </table>
+      <div>
+      {
+        data &&
+        _.map(data, (v, k) => (
+            <TableParameter
+              key={k}
+              k={k}
+              v={v}
+            />
+          ))
+      }
       </div>
     )
   }
 }
 
 const styles = {
-  table: {
-    fontFamily: 'Courier',
-    fontSize: '0.75em',
-    borderSpacing: 0,
-    marginTop: 60
+  col: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    margin: '0 0.5rem'
   },
-  cell: {
-    borderTop: '1px solid #333',
-    padding: '0.5rem',
-    margin: 0,
-    width: '50%'
-  },
-  input: {
-    fontFamily: 'Courier',
-    fontSize: '1em',
-    background: '#ffe',
-    border: 'none',
-    width: '100%'
+  row: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'row',
+    margin: '0.5rem 0'
   }
 }
 
