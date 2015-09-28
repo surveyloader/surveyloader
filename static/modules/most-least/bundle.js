@@ -64,183 +64,178 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _lodash = __webpack_require__(5);
+	var _globalComponentsButton = __webpack_require__(24);
 
-	var _lodash2 = _interopRequireDefault(_lodash);
+	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
 
-	var _globalServicesPre = __webpack_require__(6);
+	var _globalServicesPre = __webpack_require__(5);
 
 	var _globalServicesStringHash = __webpack_require__(1);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _store = __webpack_require__(17);
+	var _globalServicesColorScheme = __webpack_require__(17);
 
-	var _store2 = _interopRequireDefault(_store);
+	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	var _RateAspect = __webpack_require__(31);
+	var _globalStylesPanel = __webpack_require__(23);
 
-	var _RateAspect2 = _interopRequireDefault(_RateAspect);
+	var _globalStylesPanel2 = _interopRequireDefault(_globalStylesPanel);
 
-	var _RatedAspects = __webpack_require__(43);
-
-	var _RatedAspects2 = _interopRequireDefault(_RatedAspects);
-
-	var Index = (function (_React$Component) {
-	  function Index(props) {
-	    var _this = this;
-
-	    _classCallCheck(this, _Index);
+	var MostLeast = (function (_React$Component) {
+	  function MostLeast(props) {
+	    _classCallCheck(this, _MostLeast);
 
 	    _React$Component.call(this, props);
-	    this.state = _store2['default'].getState();
-	    _store2['default'].subscribe(function () {
-	      _this.setState(_store2['default'].getState());
-	    });
+	    this.state = { most: false };
 	  }
 
-	  _inherits(Index, _React$Component);
+	  _inherits(MostLeast, _React$Component);
 
-	  var _Index = Index;
+	  var _MostLeast = MostLeast;
 
-	  _Index.simulate = function simulate(props) {
-	    return _lodash2['default'](props.aspects).map(function (a) {
-	      return [_globalServicesStringHash2['default'](a) + '_rating', _lodash2['default'].sample(_lodash2['default'].range(0, 101))];
-	    }).object().value();
+	  _MostLeast.simulate = function simulate(props) {
+	    var _ref;
+
+	    var candidate = props.candidate;
+	    var aspects = props.aspects;
+
+	    return (_ref = {}, _ref['most_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](_.sample(aspects)), _ref['least_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](_.sample(aspects)), _ref);
 	  };
 
-	  _Index.prototype.componentDidMount = function componentDidMount() {
-	    _store2['default'].dispatch({
-	      type: 'SET_ASPECTS',
-	      aspects: this.props.aspects.map(function (a, i) {
-	        return {
-	          text: a,
-	          index: i
-	        };
-	      })
-	    });
-	  };
+	  _MostLeast.prototype.choose = function choose(aspect) {
+	    var _props = this.props;
+	    var candidate = _props.candidate;
+	    var aspects = _props.aspects;
 
-	  _Index.prototype.componentDidUpdate = function componentDidUpdate() {
-	    if (this.state.index < 0) {
-	      this.props.push(_lodash2['default'](this.state.aspects).map(function (a) {
-	        return [_globalServicesStringHash2['default'](a.text) + '_rating', a.rating];
-	      }).object().value());
+	    if (this.state.most) {
+	      var _props$push;
+
+	      this.props.push((_props$push = {}, _props$push['most_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](this.state.most), _props$push['least_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](aspect), _props$push));
+	    } else {
+	      this.setState({ most: aspect, selected: null });
 	    }
 	  };
 
-	  _Index.prototype.render = function render() {
+	  _MostLeast.prototype.render = function render() {
+	    var _this = this;
+
+	    var _props2 = this.props;
+	    var candidate = _props2.candidate;
+	    var aspects = _props2.aspects;
 	    var _state = this.state;
-	    var aspects = _state.aspects;
-	    var rated = _state.rated;
-	    var index = _state.index;
-	    var _props = this.props;
-	    var rating_tip = _props.rating_tip;
-	    var rating_confirm = _props.rating_confirm;
-	    var instructions = _props.instructions;
-	    var text = _props.text;
+	    var most = _state.most;
+	    var selected = _state.selected;
 
 	    return _react2['default'].createElement(
 	      'div',
-	      { style: [styles.container] },
+	      null,
 	      _react2['default'].createElement(
 	        'div',
-	        { style: [styles.instructions] },
+	        { style: [_globalStylesPanel2['default']] },
 	        _react2['default'].createElement(
-	          'b',
+	          'p',
 	          null,
-	          instructions
+	          _react2['default'].createElement(
+	            'span',
+	            null,
+	            this.props.instructions_text,
+	            ' '
+	          ),
+	          _react2['default'].createElement(
+	            'em',
+	            null,
+	            candidate
+	          ),
+	          most ? _react2['default'].createElement(
+	            'strong',
+	            null,
+	            ' ',
+	            this.props.least_text
+	          ) : _react2['default'].createElement(
+	            'strong',
+	            null,
+	            ' ',
+	            this.props.most_text
+	          )
+	        ),
+	        _react2['default'].createElement(
+	          'ul',
+	          null,
+	          aspects.map(function (aspect) {
+	            return _react2['default'].createElement(
+	              'li',
+	              {
+	                style: [styles.item, {
+	                  backgroundColor: selected === aspect ? '#77f' : '#fff'
+	                }],
+	                key: aspect,
+	                onClick: function () {
+	                  return _this.setState({ selected: aspect });
+	                }
+	              },
+	              aspect
+	            );
+	          })
 	        ),
 	        _react2['default'].createElement(
 	          'div',
-	          null,
-	          text
+	          { style: [styles.clearfix] },
+	          selected && _react2['default'].createElement(_globalComponentsButton2['default'], {
+	            modStyle: { float: 'right', marginTop: '1rem' },
+	            text: this.props.confirm_text,
+	            handler: function () {
+	              return _this.choose.call(_this, selected);
+	            }
+	          })
 	        )
-	      ),
-	      index > -1 && _react2['default'].createElement(_RateAspect2['default'], {
-	        aspect: aspects[index],
-	        handleRating: function (p) {
-	          return _store2['default'].dispatch({
-	            type: 'CHANGE_RATING',
-	            rating: p
-	          });
-	        },
-	        handleConfirm: function (a) {
-	          return _store2['default'].dispatch({
-	            type: 'CONFIRM_RATING',
-	            aspect: a
-	          });
-	        },
-	        rateText: rating_tip,
-	        confirmText: rating_confirm
-	      }),
-	      rated.length && rated.reduce(function (a, b) {
-	        return a || b;
-	      }) && _react2['default'].createElement(_RatedAspects2['default'], {
-	        aspects: aspects.filter(function (a, i) {
-	          return rated[i];
-	        }),
-	        editRating: function (i) {
-	          return _store2['default'].dispatch({
-	            type: 'EDIT_RATING',
-	            index: i
-	          });
-	        },
-	        editText: 'Edit'
-	      })
+	      )
 	    );
 	  };
 
-	  _createClass(_Index, null, [{
+	  _createClass(_MostLeast, null, [{
 	    key: 'propTypes',
 	    value: {
-	      aspects: _react.PropTypes.array
+	      candidate: _react.PropTypes.string.isRequired,
+	      aspects: _react.PropTypes.array.isRequired,
+	      instructions_title: _react.PropTypes.string,
+	      instructions_text: _react.PropTypes.string,
+	      most_text: _react.PropTypes.string,
+	      least_text: _react.PropTypes.string,
+	      confirm_text: _react.PropTypes.string
 	    },
 	    enumerable: true
 	  }, {
 	    key: 'defaultProps',
 	    value: {
-	      instructions: 'Instructions',
-	      text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
-	      rating_tip: 'Move the slider to set your rating',
-	      rating_confirm: 'Confirm Rating',
-	      aspects: ['one', 'two']
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'output',
-	    value: {
-	      $hash$_rating: _globalServicesPre.PrePropType.number.of(_lodash2['default'].range(0, 101))
+	      candidate: 'candidate_aspect_text',
+	      aspects: ['one', 'two', 'three', 'four'],
+	      instructions_title: 'Instructions',
+	      instructions_text: 'In the following list of aspects of your wellbeing, which aspects which aspect matches',
+	      most_text: 'the most',
+	      least_text: 'the least',
+	      confirm_text: 'Confirm'
 	    },
 	    enumerable: true
 	  }]);
 
-	  Index = _radium2['default'](Index) || Index;
-	  return Index;
+	  MostLeast = _radium2['default'](MostLeast) || MostLeast;
+	  return MostLeast;
 	})(_react2['default'].Component);
 
 	var styles = {
-	  container: {
-	    marginTop: 30,
-	    userSelect: 'none'
+	  item: {
+	    padding: 5,
+	    cursor: 'pointer'
 	  },
-	  instructions: {
-	    boxSizing: 'border-box',
-	    width: '100%',
-	    padding: 30,
-	    margin: '30px 0',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    background: '#fff'
+	  clearfix: {
+	    overflow: 'hidden',
+	    padding: 5
 	  }
 	};
 
-	exports['default'] = Index;
+	exports['default'] = MostLeast;
 	module.exports = exports['default'];
-
-	// index === -1 after all aspects rated
-
-	// if any aspects are rated
 
 /***/ },
 /* 1 */
@@ -632,12 +627,6 @@
 
 /***/ },
 /* 5 */
-/***/ function(module, exports) {
-
-	module.exports = _;
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -646,7 +635,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _type = __webpack_require__(7);
+	var _type = __webpack_require__(6);
 
 	var _type2 = _interopRequireDefault(_type);
 
@@ -663,7 +652,7 @@
 	exports.Simulate = _simulate2['default'];
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -672,7 +661,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodash = __webpack_require__(5);
+	var _lodash = __webpack_require__(7);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -723,6 +712,12 @@
 	  number: number
 	};
 	module.exports = exports['default'];
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = _;
 
 /***/ },
 /* 8 */
@@ -1658,11 +1653,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodash = __webpack_require__(5);
+	var _lodash = __webpack_require__(7);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _type = __webpack_require__(7);
+	var _type = __webpack_require__(6);
 
 	var _type2 = _interopRequireDefault(_type);
 
@@ -1756,802 +1751,9 @@
 
 	exports.__esModule = true;
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _redux = __webpack_require__(18);
-
-	exports['default'] = _redux.createStore(function (state, action) {
-	  switch (action.type) {
-
-	    case 'SET_ASPECTS':
-	      return _extends({}, state, {
-	        aspects: action.aspects,
-	        rated: action.aspects.map(function () {
-	          return false;
-	        })
-	      });
-
-	    case 'CHANGE_RATING':
-	      state.aspects[state.index].rating = Number(action.rating);
-	      return state;
-
-	    case 'CONFIRM_RATING':
-	      state.rated[state.index] = true;
-	      if (!state.rated.reduce(function (a, b) {
-	        return a && b;
-	      }, true)) {
-	        return _extends({}, state, {
-	          index: state.aspects.filter(function (a, i) {
-	            return !state.rated[i];
-	          })[0].index
-	        });
-	      } else {
-	        return _extends({}, state, {
-	          index: -1
-	        });
-	      }
-
-	    case 'EDIT_RATING':
-	      state.rated[action.index] = false;
-	      return _extends({}, state, {
-	        index: action.index
-	      });
-
-	    default:
-	      return {
-	        aspects: [{
-	          text: null,
-	          rating: null,
-	          index: 0
-	        }],
-	        rated: [],
-	        index: 0
-	      };
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// Core
-	'use strict';
-
-	exports.__esModule = true;
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _createStore = __webpack_require__(21);
-
-	var _createStore2 = _interopRequireDefault(_createStore);
-
-	// Utilities
-
-	var _utilsCompose = __webpack_require__(26);
-
-	var _utilsCompose2 = _interopRequireDefault(_utilsCompose);
-
-	var _utilsCombineReducers = __webpack_require__(27);
-
-	var _utilsCombineReducers2 = _interopRequireDefault(_utilsCombineReducers);
-
-	var _utilsBindActionCreators = __webpack_require__(19);
-
-	var _utilsBindActionCreators2 = _interopRequireDefault(_utilsBindActionCreators);
-
-	var _utilsApplyMiddleware = __webpack_require__(29);
-
-	var _utilsApplyMiddleware2 = _interopRequireDefault(_utilsApplyMiddleware);
-
-	var _utilsComposeMiddleware = __webpack_require__(30);
-
-	var _utilsComposeMiddleware2 = _interopRequireDefault(_utilsComposeMiddleware);
-
-	exports.createStore = _createStore2['default'];
-	exports.compose = _utilsCompose2['default'];
-	exports.combineReducers = _utilsCombineReducers2['default'];
-	exports.bindActionCreators = _utilsBindActionCreators2['default'];
-	exports.applyMiddleware = _utilsApplyMiddleware2['default'];
-	exports.composeMiddleware = _utilsComposeMiddleware2['default'];
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = bindActionCreators;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _utilsMapValues = __webpack_require__(20);
-
-	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
-
-	function bindActionCreators(actionCreators, dispatch) {
-	  return _utilsMapValues2['default'](actionCreators, function (actionCreator) {
-	    return function () {
-	      return dispatch(actionCreator.apply(undefined, arguments));
-	    };
-	  });
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	exports.__esModule = true;
-	exports["default"] = mapValues;
-
-	function mapValues(obj, fn) {
-	  return Object.keys(obj).reduce(function (result, key) {
-	    result[key] = fn(obj[key], key);
-	    return result;
-	  }, {});
-	}
-
-	module.exports = exports["default"];
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = createStore;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _Store = __webpack_require__(22);
-
-	var _Store2 = _interopRequireDefault(_Store);
-
-	function createStore(reducer, initialState) {
-	  var store = new _Store2['default'](reducer, initialState);
-
-	  return {
-	    dispatch: store.dispatch.bind(store),
-	    subscribe: store.subscribe.bind(store),
-	    getState: store.getState.bind(store),
-	    getReducer: store.getReducer.bind(store),
-	    replaceReducer: store.replaceReducer.bind(store)
-	  };
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	var _invariant = __webpack_require__(23);
-
-	var _invariant2 = _interopRequireDefault(_invariant);
-
-	var _utilsIsPlainObject = __webpack_require__(25);
-
-	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
-
-	// Don't ever try to handle these action types in your code. They are private.
-	// For any unknown actions, you must return the current state.
-	// If the current state is undefined, you must return the initial state.
-	var ActionTypes = {
-	  INIT: '@@redux/INIT'
-	};
-
-	exports.ActionTypes = ActionTypes;
-
-	var Store = (function () {
-	  function Store(reducer, initialState) {
-	    _classCallCheck(this, Store);
-
-	    _invariant2['default'](typeof reducer === 'function', 'Expected the reducer to be a function.');
-
-	    this.state = initialState;
-	    this.listeners = [];
-	    this.replaceReducer(reducer);
-	  }
-
-	  Store.prototype.getReducer = function getReducer() {
-	    return this.reducer;
-	  };
-
-	  Store.prototype.replaceReducer = function replaceReducer(nextReducer) {
-	    this.reducer = nextReducer;
-	    this.dispatch({ type: ActionTypes.INIT });
-	  };
-
-	  Store.prototype.dispatch = function dispatch(action) {
-	    _invariant2['default'](_utilsIsPlainObject2['default'](action), 'Actions must be plain objects. Use custom middleware for async actions.');
-
-	    var reducer = this.reducer;
-
-	    this.state = reducer(this.state, action);
-	    this.listeners.forEach(function (listener) {
-	      return listener();
-	    });
-	    return action;
-	  };
-
-	  Store.prototype.getState = function getState() {
-	    return this.state;
-	  };
-
-	  Store.prototype.subscribe = function subscribe(listener) {
-	    var listeners = this.listeners;
-
-	    listeners.push(listener);
-
-	    return function unsubscribe() {
-	      var index = listeners.indexOf(listener);
-	      listeners.splice(index, 1);
-	    };
-	  };
-
-	  return Store;
-	})();
-
-	exports['default'] = Store;
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
-	 */
-
-	'use strict';
-
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-
-	var invariant = function(condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error(
-	        'Minified exception occurred; use the non-minified dev environment ' +
-	        'for the full error message and additional helpful warnings.'
-	      );
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(
-	        'Invariant Violation: ' +
-	        format.replace(/%s/g, function() { return args[argIndex++]; })
-	      );
-	    }
-
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	};
-
-	module.exports = invariant;
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
-
-/***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-	// shim for using process in browser
-
-	var process = module.exports = {};
-	var queue = [];
-	var draining = false;
-	var currentQueue;
-	var queueIndex = -1;
-
-	function cleanUpNextTick() {
-	    draining = false;
-	    if (currentQueue.length) {
-	        queue = currentQueue.concat(queue);
-	    } else {
-	        queueIndex = -1;
-	    }
-	    if (queue.length) {
-	        drainQueue();
-	    }
-	}
-
-	function drainQueue() {
-	    if (draining) {
-	        return;
-	    }
-	    var timeout = setTimeout(cleanUpNextTick);
-	    draining = true;
-
-	    var len = queue.length;
-	    while(len) {
-	        currentQueue = queue;
-	        queue = [];
-	        while (++queueIndex < len) {
-	            currentQueue[queueIndex].run();
-	        }
-	        queueIndex = -1;
-	        len = queue.length;
-	    }
-	    currentQueue = null;
-	    draining = false;
-	    clearTimeout(timeout);
-	}
-
-	process.nextTick = function (fun) {
-	    var args = new Array(arguments.length - 1);
-	    if (arguments.length > 1) {
-	        for (var i = 1; i < arguments.length; i++) {
-	            args[i - 1] = arguments[i];
-	        }
-	    }
-	    queue.push(new Item(fun, args));
-	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
-	    }
-	};
-
-	// v8 likes predictible objects
-	function Item(fun, array) {
-	    this.fun = fun;
-	    this.array = array;
-	}
-	Item.prototype.run = function () {
-	    this.fun.apply(null, this.array);
-	};
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	process.version = ''; // empty string to avoid regexp issues
-	process.versions = {};
-
-	function noop() {}
-
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-
-	// TODO(shtylman)
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-	process.umask = function() { return 0; };
-
-
-/***/ },
-/* 25 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = isPlainObject;
-
-	function isPlainObject(obj) {
-	  return obj ? typeof obj === 'object' && Object.getPrototypeOf(obj) === Object.prototype : false;
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 26 */
-/***/ function(module, exports) {
-
-	/**
-	 * Composes functions from left to right
-	 * @param  {...Function} funcs - Functions to compose
-	 * @return {Function}
-	 */
-	"use strict";
-
-	exports.__esModule = true;
-	exports["default"] = compose;
-
-	function compose() {
-	  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
-	    funcs[_key] = arguments[_key];
-	  }
-
-	  return funcs.reduceRight(function (composed, f) {
-	    return f(composed);
-	  });
-	}
-
-	module.exports = exports["default"];
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = combineReducers;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _utilsMapValues = __webpack_require__(20);
-
-	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
-
-	var _utilsPick = __webpack_require__(28);
-
-	var _utilsPick2 = _interopRequireDefault(_utilsPick);
-
-	var _invariant = __webpack_require__(23);
-
-	var _invariant2 = _interopRequireDefault(_invariant);
-
-	var _Store = __webpack_require__(22);
-
-	function getErrorMessage(key, action) {
-	  var actionType = action && action.type;
-	  var actionName = actionType && '"' + actionType + '"' || 'an action';
-
-	  return 'Reducer "' + key + '" returned undefined handling ' + actionName + '. ' + 'To ignore an action, you must explicitly return the previous state.';
-	}
-
-	function combineReducers(reducers) {
-	  var finalReducers = _utilsPick2['default'](reducers, function (val) {
-	    return typeof val === 'function';
-	  });
-
-	  Object.keys(finalReducers).forEach(function (key) {
-	    var reducer = finalReducers[key];
-	    _invariant2['default'](typeof reducer(undefined, { type: _Store.ActionTypes.INIT }) !== 'undefined', 'Reducer "' + key + '" returned undefined during initialization. ' + 'If the state passed to the reducer is undefined, you must ' + 'explicitly return the initial state. The initial state may ' + 'not be undefined.');
-
-	    var type = Math.random().toString(36).substring(7).split('').join('.');
-	    _invariant2['default'](typeof reducer(undefined, { type: type }) !== 'undefined', 'Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + _Store.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
-	  });
-
-	  return function composition(state, action) {
-	    if (state === undefined) state = {};
-
-	    return _utilsMapValues2['default'](finalReducers, function (reducer, key) {
-	      var newState = reducer(state[key], action);
-	      _invariant2['default'](typeof newState !== 'undefined', getErrorMessage(key, action));
-	      return newState;
-	    });
-	  };
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	exports.__esModule = true;
-	exports["default"] = pick;
-
-	function pick(obj, fn) {
-	  return Object.keys(obj).reduce(function (result, key) {
-	    if (fn(obj[key])) {
-	      result[key] = obj[key];
-	    }
-	    return result;
-	  }, {});
-	}
-
-	module.exports = exports["default"];
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	exports['default'] = applyMiddleware;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _compose = __webpack_require__(26);
-
-	var _compose2 = _interopRequireDefault(_compose);
-
-	var _composeMiddleware = __webpack_require__(30);
-
-	var _composeMiddleware2 = _interopRequireDefault(_composeMiddleware);
-
-	/**
-	 * Creates a higher-order store that applies middleware to a store's dispatch.
-	 * Because middleware is potentially asynchronous, this should be the first
-	 * higher-order store in the composition chain.
-	 * @param {...Function} ...middlewares
-	 * @return {Function} A higher-order store
-	 */
-
-	function applyMiddleware() {
-	  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
-	    middlewares[_key] = arguments[_key];
-	  }
-
-	  return function (next) {
-	    return function () {
-	      var store = next.apply(undefined, arguments);
-	      var middleware = _composeMiddleware2['default'].apply(undefined, middlewares);
-
-	      function dispatch(action) {
-	        var methods = {
-	          dispatch: dispatch,
-	          getState: store.getState
-	        };
-
-	        return _compose2['default'](middleware(methods), store.dispatch)(action);
-	      }
-
-	      return _extends({}, store, {
-	        dispatch: dispatch
-	      });
-	    };
-	  };
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = composeMiddleware;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _compose = __webpack_require__(26);
-
-	var _compose2 = _interopRequireDefault(_compose);
-
-	/**
-	 * Compose middleware from left to right
-	 * @param  {...Function} middlewares
-	 * @return {Function}
-	 */
-
-	function composeMiddleware() {
-	  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
-	    middlewares[_key] = arguments[_key];
-	  }
-
-	  return function (methods) {
-	    return function (next) {
-	      return _compose2['default'].apply(undefined, middlewares.map(function (m) {
-	        return m(methods);
-	      }).concat([next]));
-	    };
-	  };
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(4);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _globalServicesColorScheme = __webpack_require__(33);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	var _globalServicesFormat = __webpack_require__(32);
-
-	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
-
-	var _globalComponentsSlider = __webpack_require__(39);
-
-	var _globalComponentsSlider2 = _interopRequireDefault(_globalComponentsSlider);
-
-	var _globalComponentsButton = __webpack_require__(42);
-
-	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
-
-	var RateAspect = (function (_React$Component) {
-	  function RateAspect() {
-	    _classCallCheck(this, _RateAspect);
-
-	    _React$Component.apply(this, arguments);
-	  }
-
-	  _inherits(RateAspect, _React$Component);
-
-	  var _RateAspect = RateAspect;
-
-	  _RateAspect.prototype.render = function render() {
-	    var _props = this.props;
-	    var aspect = _props.aspect;
-	    var handleRating = _props.handleRating;
-	    var handleConfirm = _props.handleConfirm;
-	    var rateText = _props.rateText;
-	    var confirmText = _props.confirmText;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      { style: [styles.container] },
-	      _react2['default'].createElement(
-	        'div',
-	        { style: [styles.aspect] },
-	        _react2['default'].createElement(
-	          'div',
-	          { style: [styles.heading] },
-	          _react2['default'].createElement(
-	            'em',
-	            { style: { float: 'left' } },
-	            _globalServicesFormat2['default'].capitalize(aspect.text)
-	          ),
-	          !isNaN(aspect.rating) && _react2['default'].createElement(
-	            'span',
-	            { style: { float: 'right', fontWeight: 'bold' } },
-	            Number(aspect.rating)
-	          )
-	        ),
-	        _react2['default'].createElement(_globalComponentsSlider2['default'], {
-	          color: _globalServicesColorScheme2['default'].index(aspect.index),
-	          percent: aspect.rating,
-	          handleChange: handleRating
-	        })
-	      ),
-	      !isNaN(aspect.rating) && _react2['default'].createElement(
-	        'div',
-	        { style: [styles.button] },
-	        _react2['default'].createElement(_globalComponentsButton2['default'], {
-	          text: confirmText,
-	          handler: function () {
-	            return handleConfirm(aspect);
-	          }
-	        })
-	      ) || aspect.index === 0 && _react2['default'].createElement(
-	        'svg',
-	        {
-	          width: '100%',
-	          viewBox: '0 0 100 10'
-	        },
-	        _react2['default'].createElement('path', {
-	          stroke: '#559',
-	          strokeWidth: '0.25px',
-	          fill: '#fff',
-	          d: ' M 50,0 l -1,1 l 1, -1 l 1, 1 l -1, -1 c 0,10 15,-5 19,5 '
-	        }),
-	        _react2['default'].createElement(
-	          'text',
-	          {
-	            x: '70',
-	            y: '10',
-	            dy: '-2px',
-	            fontSize: '3px',
-	            fill: '#559',
-	            textAnchor: 'middle'
-	          },
-	          rateText
-	        )
-	      )
-	    );
-	  };
-
-	  RateAspect = _radium2['default'](RateAspect) || RateAspect;
-	  return RateAspect;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  container: {
-	    padding: 30,
-	    boxSizing: 'border-box',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    backgroundColor: '#fff',
-	    userSelect: 'none',
-	    overflow: 'auto',
-	    zoom: 1
-	  },
-	  heading: {
-	    marginBottom: 15,
-	    overflow: 'auto',
-	    zoom: 1
-	  },
-	  button: {
-	    marginTop: 30,
-	    float: 'right'
-	  }
-	};
-
-	exports['default'] = RateAspect;
-	module.exports = exports['default'];
-
-/***/ },
-/* 32 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = {
-	  capitalize: function capitalize(str) {
-	    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _color = __webpack_require__(34);
+	var _color = __webpack_require__(18);
 
 	var _color2 = _interopRequireDefault(_color);
 
@@ -2563,12 +1765,12 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 34 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var convert = __webpack_require__(35),
-	    string = __webpack_require__(37);
+	var convert = __webpack_require__(19),
+	    string = __webpack_require__(21);
 
 	var Color = function(obj) {
 	  if (obj instanceof Color) return obj;
@@ -3001,10 +2203,10 @@
 
 
 /***/ },
-/* 35 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var conversions = __webpack_require__(36);
+	var conversions = __webpack_require__(20);
 
 	var convert = function() {
 	   return new Converter();
@@ -3098,7 +2300,7 @@
 	module.exports = convert;
 
 /***/ },
-/* 36 */
+/* 20 */
 /***/ function(module, exports) {
 
 	/* MIT license */
@@ -3802,11 +3004,11 @@
 
 
 /***/ },
-/* 37 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var colorNames = __webpack_require__(38);
+	var colorNames = __webpack_require__(22);
 
 	module.exports = {
 	   getRgba: getRgba,
@@ -4029,7 +3231,7 @@
 
 
 /***/ },
-/* 38 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -4776,244 +3978,25 @@
 	}
 
 /***/ },
-/* 39 */
-/***/ function(module, exports, __webpack_require__) {
+/* 23 */
+/***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(4);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _imagesSmileySvg = __webpack_require__(40);
-
-	var _imagesSmileySvg2 = _interopRequireDefault(_imagesSmileySvg);
-
-	var _imagesFrownySvg = __webpack_require__(41);
-
-	var _imagesFrownySvg2 = _interopRequireDefault(_imagesFrownySvg);
-
-	var Handle = (function (_React$Component) {
-	  function Handle() {
-	    _classCallCheck(this, _Handle);
-
-	    _React$Component.apply(this, arguments);
-	  }
-
-	  _inherits(Handle, _React$Component);
-
-	  var _Handle = Handle;
-
-	  _Handle.prototype.render = function render() {
-	    var _props = this.props;
-	    var size = _props.size;
-	    var position = _props.position;
-
-	    size = size * .8;
-	    return _react2['default'].createElement('path', {
-	      style: [styles.handle],
-	      strokeWidth: '0.25',
-	      stroke: '#000',
-	      strokeOpacity: '0.5',
-	      fill: '#fff',
-	      fillOpacity: '0.9',
-	      d: 'M ' + (position - size / 2) + ',0 \n          l ' + size + ',0 l 0,' + size * 2 / 3 + ' \n          l -' + size / 2 + ',' + size / 2 + ' \n          l -' + size / 2 + ',-' + size / 2 + ' \n          Z'
-	    });
-	  };
-
-	  _createClass(_Handle, null, [{
-	    key: 'propTypes',
-	    value: {
-	      size: _react.PropTypes.number,
-	      position: _react.PropTypes.number
-	    },
-	    enumerable: true
-	  }]);
-
-	  Handle = _radium2['default'](Handle) || Handle;
-	  return Handle;
-	})(_react2['default'].Component);
-
-	var Slider = (function (_React$Component2) {
-	  function Slider(props) {
-	    _classCallCheck(this, _Slider);
-
-	    _React$Component2.call(this, props);
-	    this.state = {
-	      percent: props.percent,
-	      movable: false
-	    };
-	    this.mouseUp = this.handleMouseUp.bind(this);
-	    this.mouseMove = this.handleMouseMove.bind(this);
-	    this.move.bind(this);
-	    window.addEventListener('mouseup', this.mouseUp);
-	    window.addEventListener('mousemove', this.mouseMove);
-	  }
-
-	  _inherits(Slider, _React$Component2);
-
-	  var _Slider = Slider;
-
-	  _Slider.prototype.move = function move(percent) {
-	    this.props.handleChange(Math.max(0, Math.min(100, Math.floor(percent))));
-	  };
-
-	  _Slider.prototype.handleMouseDown = function handleMouseDown(event) {
-	    this.setState({ movable: true });
-	    var clientX = event.clientX;
-
-	    var _refs$bar$getBoundingClientRect = this.refs.bar.getBoundingClientRect();
-
-	    var left = _refs$bar$getBoundingClientRect.left;
-	    var width = _refs$bar$getBoundingClientRect.width;
-
-	    this.move(100 * (clientX - left) / width);
-	  };
-
-	  _Slider.prototype.handleMouseUp = function handleMouseUp(event) {
-	    this.setState({ movable: false });
-	  };
-
-	  _Slider.prototype.handleMouseMove = function handleMouseMove(event) {
-	    var clientX = event.clientX;
-
-	    var _refs$bar$getBoundingClientRect2 = this.refs.bar.getBoundingClientRect();
-
-	    var left = _refs$bar$getBoundingClientRect2.left;
-	    var width = _refs$bar$getBoundingClientRect2.width;
-
-	    if (this.state.movable) this.move(100 * (clientX - left) / width);
-	  };
-
-	  _Slider.prototype.componentWillUnmount = function componentWillUnmount() {
-	    window.removeEventListener('mouseup', this.mouseUp);
-	    window.removeEventListener('mousemove', this.mouseMove);
-	  };
-
-	  _Slider.prototype.render = function render() {
-	    var _props2 = this.props;
-	    var percent = _props2.percent;
-	    var delta = _props2.delta;
-	    var height = _props2.height;
-	    var color = _props2.color;
-	    var modStyle = _props2.modStyle;
-
-	    return _react2['default'].createElement(
-	      'svg',
-	      {
-	        width: '100%',
-	        viewBox: '0 0 110 ' + (height + 5),
-	        style: [styles.svg, modStyle],
-	        onMouseDown: this.handleMouseDown.bind(this)
-	      },
-	      _react2['default'].createElement('g', {
-	        style: { opacity: (100 - percent) / 100 },
-	        dangerouslySetInnerHTML: {
-	          __html: '<image x="0" y="0" width="5" height="5" xlink:href="' + _imagesFrownySvg2['default'] + '"></image>'
-	        } }),
-	      _react2['default'].createElement('g', {
-	        style: { opacity: percent / 100 },
-	        dangerouslySetInnerHTML: {
-	          __html: '<image x="105" y="0" width="5" height="5" xlink:href="' + _imagesSmileySvg2['default'] + '"></image>'
-	        } }),
-	      _react2['default'].createElement(
-	        'g',
-	        { transform: 'translate(5,0)' },
-	        _react2['default'].createElement('rect', {
-	          y: 0,
-	          width: 100,
-	          height: height,
-	          fill: '#eee',
-	          stroke: '#fff',
-	          strokeWidth: '0.25',
-	          ref: 'bar'
-	        }),
-	        _react2['default'].createElement('rect', {
-	          y: 0,
-	          width: percent,
-	          height: height,
-	          fill: color,
-	          stroke: '#fff',
-	          strokeWidth: '0.25'
-	        }),
-	        [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(function (num) {
-	          return _react2['default'].createElement(
-	            'text',
-	            {
-	              key: num,
-	              x: Number(num),
-	              y: height + 3,
-	              style: [styles.text]
-	            },
-	            Number(num)
-	          );
-	        }),
-	        _react2['default'].createElement(Handle, { size: height, position: percent })
-	      )
-	    );
-	  };
-
-	  _createClass(_Slider, null, [{
-	    key: 'defaultProps',
-	    value: {
-	      percent: 50,
-	      height: 5,
-	      color: '#f44'
-	    },
-	    enumerable: true
-	  }]);
-
-	  Slider = _radium2['default'](Slider) || Slider;
-	  return Slider;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  svg: {
-	    padding: 0,
-	    margin: 0,
-	    cursor: 'pointer'
-	  },
-	  handle: {
-	    cursor: 'pointer'
-	  },
-	  text: {
-	    fontSize: '.125em',
-	    textAnchor: 'middle',
-	    userSelect: 'none'
-	  }
+	exports['default'] = {
+	  boxSizing: 'border-box',
+	  width: '100%',
+	  padding: 30,
+	  margin: '30px 0',
+	  borderRadius: 15,
+	  boxShadow: '2px 2px 4px #ddd',
+	  background: '#fff'
 	};
-
-	exports['default'] = Slider;
 	module.exports = exports['default'];
 
 /***/ },
-/* 40 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OCwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OCA3LjYxMiwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOS40NTcsMTkuMjAzMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDU5LDAuMTM1IC0xLjQ5OSwzLjI5NyAtNC40NTcsMy4yOTcgLTIuOTU3LDAgLTQuMzk3LC0zLjE2MiAtNC40NTcsLTMuMjk3IC0wLjA5MiwtMC4yMDcgLTAuMDMyLC0wLjQ0OSAwLjE0NCwtMC41OTEgMC4xNzUsLTAuMTQyIDAuNDI2LC0wLjE0NyAwLjYxMSwtMC4wMTQgMC4wMTIsMC4wMDkgMS4yNjIsMC45MDIgMy43MDIsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMyLC0wLjQ1MiAwLjA5MywtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE3LjQ1NywxOS4yMDMxKSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4wNiwwLjEzNSAtMS40OTksMy4yOTcgLTQuNDU3LDMuMjk3IC0yLjk1NywwIC00LjM5NywtMy4xNjIgLTQuNDU3LC0zLjI5NyAtMC4wOTIsLTAuMjA3IC0wLjAzMiwtMC40NDkgMC4xNDQsLTAuNTkxIDAuMTc2LC0wLjE0MiAwLjQyNywtMC4xNDcgMC42MSwtMC4wMTQgMC4wMTMsMC4wMDkgMS4yNjIsMC45MDIgMy43MDMsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMzLC0wLjQ1MiAwLjA5MiwtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5LDE1KSIgaWQ9ImczMiI+PHBhdGggaWQ9InBhdGgzNCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMy42MjMsMCAtNi4wMjcsMC40MjIgLTksMSAtMC42NzksMC4xMzEgLTIsMCAtMiwtMiAwLC00IDQuNTk1LC05IDExLC05IDYuNDA0LDAgMTEsNSAxMSw5IEMgMTEsMSA5LjY3OSwxLjEzMiA5LDEgNi4wMjcsMC40MjIgMy42MjMsMCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAsMTQpIiBpZD0iZzM2Ij48cGF0aCBpZD0icGF0aDM4IiBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIDAsMCAzLC0xIDksLTEgNiwwIDksMSA5LDEgMCwwIC0yLC00IC05LC00IC03LDAgLTksNCAtOSw0Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPgo="
-
-/***/ },
-/* 41 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OSwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OSA3LjYxMSwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg5IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC40ODU0LDguMTIxMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDEyLDAuMDQ0IC0xLjE0Niw0LjM3OSAtNS40ODUsNC4zNzkgLTQuMzQxLDAgLTUuNDc1LC00LjMzNSAtNS40ODUsLTQuMzc5IC0wLjA1MywtMC4yMTMgMC4wNDMsLTAuNDMxIDAuMjMxLC0wLjU0NCAwLjE4OCwtMC4xMTIgMC40MzMsLTAuMDg2IDAuNTk2LDAuMDYgMC4wMSwwLjAwNyAxLjAxNCwwLjg2MyA0LjY1OCwwLjg2MyAzLjU4OSwwIDQuNjE3LC0wLjgzIDQuNjU2LC0wLjg2MyAwLjA5NSwtMC4wOSAwLjIxOSwtMC4xMzcgMC4zNDQsLTAuMTM3IDAuMDg0LDAgMC4xNjksMC4wMjEgMC4yNDYsMC4wNjQgQyAtMC4wNDMsLTAuNDQ1IDAuMDU1LC0wLjIxOCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYuNzgwMywyMS4zNTk0KSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4zNDEsMC4wOTMgLTAuNjkyLDAuMTQgLTEuMDQzLDAuMTQgLTIuMzQ1LDAgLTQuMDUzLC0yLjA2IC00LjEyNSwtMi4xNDcgLTAuMTQzLC0wLjE3NiAtMC4xNDgsLTAuNDI2IC0wLjAxNywtMC42MDkgMC4xMzQsLTAuMTg0IDAuMzc0LC0wLjI1MyAwLjU4NiwtMC4xNzQgMC4wMDUsMC4wMDIgMC41NzMsMC4yMTUgMS41NjUsMC4yMTUgMC43MTQsMCAxLjQ2OCwtMC4xMDggMi4yNDQsLTAuMzIgMi4zNDIsLTAuNjM3IDMuMzEzLC0xLjgxOCAzLjMzNCwtMS44NDMgMC4wOTgsLTAuMTI0IDAuMjQzLC0wLjE5MiAwLjM5NCwtMC4xOTIgMC4wNjYsMCAwLjEzMywwLjAxNCAwLjE5NywwLjA0MSAwLjIwOSwwLjA5IDAuMzMxLDAuMzEgMC4yOTcsMC41MzQgQyAzLjQwOSwtNC4yMDggMi44NTQsLTAuNzc4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMi4yMjYxLDIxLjQ4NzgpIiBpZD0iZzMyIj48cGF0aCBpZD0icGF0aDM0IiBzdHlsZT0iZmlsbDojNjY0NTAwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIC0wLjMxNywwIC0wLjYzNiwtMC4wMzkgLTAuOTQ3LC0wLjExNiAtMi44NywtMC43MDcgLTMuNTEzLC00LjEyMSAtMy41MzksLTQuMjY2IC0wLjA0LC0wLjIyMyAwLjA3NiwtMC40NDQgMC4yODEsLTAuNTQgMC4wNjgsLTAuMDMyIDAuMTQsLTAuMDQ3IDAuMjExLC0wLjA0NyAwLjE0NSwwIDAuMjg3LDAuMDYzIDAuMzg1LDAuMTc5IDAuMDEsMC4wMTIgMS4wMSwxLjE3OCAzLjM3OSwxLjc2MSAwLjcxNSwwLjE3NiAxLjQxMywwLjI2NSAyLjA3MywwLjI2NSAxLjEwNCwwIDEuNzMyLC0wLjI1MyAxLjczNSwtMC4yNTQgMC4wNjcsLTAuMDI4IDAuMTMxLC0wLjA0IDAuMjA3LC0wLjA0IDAuMjcyLC0wLjAxMiAwLjUwOSwwLjIyMSAwLjUwOSwwLjUgMCwwLjE2NSAtMC4wOCwwLjMxMSAtMC4yMDMsMC40MDIgQyAzLjcyNCwtMS43MjEgMi4xMzgsMCAwLDAiLz48L2c+PC9nPjwvZz48L2c+PC9zdmc+Cg=="
-
-/***/ },
-/* 42 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5102,155 +4085,6 @@
 	};
 
 	exports['default'] = Button;
-	module.exports = exports['default'];
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(4);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _globalServicesColorScheme = __webpack_require__(33);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	var _globalServicesFormat = __webpack_require__(32);
-
-	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
-
-	var _globalComponentsButton = __webpack_require__(42);
-
-	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
-
-	var RatedAspects = (function (_React$Component) {
-	  function RatedAspects() {
-	    _classCallCheck(this, _RatedAspects);
-
-	    _React$Component.call(this);
-	  }
-
-	  _inherits(RatedAspects, _React$Component);
-
-	  var _RatedAspects = RatedAspects;
-
-	  _RatedAspects.prototype.render = function render() {
-	    var _props = this.props;
-	    var aspects = _props.aspects;
-	    var editRating = _props.editRating;
-	    var editText = _props.editText;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      { style: [styles.container] },
-	      aspects.map(function (a, i) {
-	        return _react2['default'].createElement(
-	          'div',
-	          {
-	            key: a.text,
-	            style: [styles.aspect],
-	            onClick: function () {
-	              return editRating(a.index);
-	            }
-	          },
-	          _react2['default'].createElement(
-	            'div',
-	            { style: [styles.info] },
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.heading] },
-	              _globalServicesFormat2['default'].capitalize(a.text)
-	            ),
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.rating] },
-	              Number(a.rating)
-	            ),
-	            _react2['default'].createElement(
-	              'svg',
-	              { width: '100%', viewBox: '0 0 100 1' },
-	              _react2['default'].createElement('rect', {
-	                width: 100,
-	                height: 3,
-	                fill: '#eee'
-	              }),
-	              _react2['default'].createElement('rect', {
-	                width: a.rating,
-	                height: 3,
-	                fill: _globalServicesColorScheme2['default'].index(a.index)
-	              })
-	            )
-	          ),
-	          _react2['default'].createElement(
-	            'div',
-	            { style: [styles.button] },
-	            _react2['default'].createElement(_globalComponentsButton2['default'], {
-	              text: editText,
-	              modStyle: { fontSize: '0.75em' }
-	            })
-	          )
-	        );
-	      })
-	    );
-	  };
-
-	  RatedAspects = _radium2['default'](RatedAspects) || RatedAspects;
-	  return RatedAspects;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  container: {
-	    backgroundColor: '#fff',
-	    padding: 30,
-	    boxSizing: 'border-box',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    width: '100%',
-	    marginTop: 30,
-	    overflow: 'auto',
-	    zoom: 1
-	  },
-	  aspect: {
-	    marginTop: 15,
-	    cursor: 'pointer',
-	    opacity: 0.6,
-	    display: 'flex',
-	    ':hover': {
-	      opacity: 1
-	    }
-	  },
-	  info: {
-	    flex: 8
-	  },
-	  heading: {
-	    float: 'left'
-	  },
-	  rating: {
-	    float: 'right'
-	  },
-	  button: {
-	    display: 'inline-block',
-	    flex: 1,
-	    marginLeft: 30
-	  }
-	};
-
-	exports['default'] = RatedAspects;
 	module.exports = exports['default'];
 
 /***/ }

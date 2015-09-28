@@ -47700,13 +47700,7 @@
 	      _this.setState(_stores2['default'].getState());
 	    });
 
-	    _superagent2['default'].get('https://fsurvey.firebaseio.com/configs.json').end(function (err, res) {
-	      _stores2['default'].dispatch({
-	        type: 'SET_SURVEY_LIST',
-	        surveys: res.body
-	      });
-	    });
-
+	    this.loadSurveys();
 	    _superagent2['default'].get('/folding-survey/static/list.json').end(function (err, res) {
 	      _stores2['default'].dispatch({
 	        type: 'SET_MODULE_LIST',
@@ -47722,31 +47716,70 @@
 	  _Container.prototype.shouldComponentUpdate = function shouldComponentUpdate(newProps, newState) {
 	    var _state = this.state;
 	    var selected = _state.selected;
-	    var startingTable = _state.startingTable;
+	    var initTable = _state.initTable;
 	    var queue = _state.queue;
 
 	    if (newState.selected !== selected) {
-	      _loadSrcServicesSimulateOver2['default'](startingTable, queue.slice(0, newState.selected)).then(function (table) {
-	        console.log(table);
-	        _stores2['default'].dispatch({ type: 'SET_TABLE', table: table });
+	      _loadSrcServicesSimulateOver2['default'](initTable, queue.slice(0, newState.selected)).then(function (table) {
+	        _stores2['default'].dispatch({
+	          type: 'SET_ACC_TABLE',
+	          table: _.omit(table, function (v, k) {
+	            return _.has(initTable, k);
+	          })
+	        });
 	      });
 	      return false;
 	    }
 	    return true;
 	  };
 
-	  _Container.prototype.render = function render() {
+	  _Container.prototype.loadSurveys = function loadSurveys() {
+	    _superagent2['default'].get('https://fsurvey.firebaseio.com/configs.json').end(function (err, res) {
+	      _stores2['default'].dispatch({
+	        type: 'SET_SURVEY_LIST',
+	        surveys: res.body
+	      });
+	    });
+	  };
+
+	  _Container.prototype.saveSurvey = function saveSurvey() {
 	    var _this2 = this;
 
 	    var _state2 = this.state;
-	    var surveys = _state2.surveys;
-	    var modules = _state2.modules;
+	    var info = _state2.info;
+	    var initTable = _state2.initTable;
 	    var queue = _state2.queue;
-	    var table = _state2.table;
-	    var selected = _state2.selected;
-	    var params = _state2.params;
 
-	    console.log(queue[selected], params);
+	    _superagent2['default'].post('https://fsurvey.firebaseio.com/configs/' + this.refs.name.value + '.json').set('Accept', 'application/json').send({
+	      info: _extends({}, info, {
+	        author: this.refs.author.value,
+	        modified: {
+	          '.sv': 'timestamp'
+	        }
+	      }),
+	      table: initTable,
+	      queue: queue.length ? queue : null
+	    }).end(function (err, res) {
+	      console.log(err, res);
+	      _this2.loadSurveys();
+	    });
+	  };
+
+	  _Container.prototype.render = function render() {
+	    var _this3 = this;
+
+	    var _state3 = this.state;
+	    var modules = _state3.modules;
+	    var surveys = _state3.surveys;
+	    var surveyName = _state3.surveyName;
+	    var surveyVersion = _state3.surveyVersion;
+	    var info = _state3.info;
+	    var queue = _state3.queue;
+	    var initTable = _state3.initTable;
+	    var accTable = _state3.accTable;
+	    var selected = _state3.selected;
+	    var params = _state3.params;
+
 	    return _react2['default'].createElement(
 	      'div',
 	      { style: [styles.main] },
@@ -47754,38 +47787,156 @@
 	        'div',
 	        { style: [styles.row, { flex: 0.125 }] },
 	        _react2['default'].createElement(
-	          'p',
+	          'span',
 	          null,
-	          'survey: ',
-	          _react2['default'].createElement(
-	            'select',
-	            {
-	              defaultValue: null,
-	              onChange: function (e) {
-	                var v = Object.keys(surveys[e.target.value]).reverse()[0];
-	                _stores2['default'].dispatch({
-	                  type: 'SELECT_SURVEY',
-	                  survey: surveys[e.target.value][v]
-	                });
-	              }
-	            },
-	            Object.keys(surveys).map(function (name, i) {
-	              return _react2['default'].createElement(
-	                'option',
-	                {
-	                  key: i,
-	                  value: name
-	                },
-	                name
-	              );
-	            })
-	          ),
-	          ' version:'
-	        )
+	          'Survey:'
+	        ),
+	        _react2['default'].createElement(
+	          'select',
+	          { onChange: function (e) {
+	              _stores2['default'].dispatch({
+	                type: 'SELECT_SURVEY_NAME',
+	                surveyName: e.target.value
+	              });
+	            } },
+	          Object.keys(surveys).map(function (name, i) {
+	            return _react2['default'].createElement(
+	              'option',
+	              {
+	                key: i,
+	                value: name
+	              },
+	              name
+	            );
+	          })
+	        ),
+	        ' ',
+	        _react2['default'].createElement(
+	          'span',
+	          null,
+	          'Version:'
+	        ),
+	        _react2['default'].createElement(
+	          'select',
+	          { onChange: function (e) {
+	              _stores2['default'].dispatch({
+	                type: 'SELECT_SURVEY_VERSION',
+	                surveyVersion: e.target.value
+	              });
+	            } },
+	          surveyName && Object.keys(surveys[surveyName]).reverse().map(function (v, i) {
+	            return _react2['default'].createElement(
+	              'option',
+	              {
+	                key: i,
+	                value: v
+	              },
+	              Date(surveys[surveyName][v].info.modified)
+	            );
+	          })
+	        ),
+	        ' ',
+	        _react2['default'].createElement('input', {
+	          type: 'button',
+	          value: 'Load',
+	          onClick: function () {
+	            _stores2['default'].dispatch({
+	              type: 'LOAD_SURVEY',
+	              survey: surveys[surveyName][surveyVersion]
+	            });
+	          }
+	        }),
+	        ' ',
+	        _react2['default'].createElement('input', {
+	          type: 'button',
+	          value: 'Create new',
+	          onClick: function () {
+	            _stores2['default'].dispatch({
+	              type: 'CREATE_SURVEY'
+	            });
+	          }
+	        })
 	      ),
 	      _react2['default'].createElement(
 	        'div',
-	        { style: [styles.row, { width: '100%' }] },
+	        { style: [styles.row, { flex: 0.125 }] },
+	        _react2['default'].createElement(
+	          'span',
+	          null,
+	          'name:'
+	        ),
+	        _react2['default'].createElement('input', {
+	          type: 'text',
+	          ref: 'name',
+	          key: surveyName,
+	          defaultValue: surveyName
+	        }),
+	        ' ',
+	        _react2['default'].createElement(
+	          'span',
+	          null,
+	          'author:'
+	        ),
+	        _react2['default'].createElement('input', {
+	          type: 'text',
+	          ref: 'author',
+	          key: info.author || 'author',
+	          defaultValue: info.author
+	        }),
+	        ' ',
+	        _react2['default'].createElement('input', {
+	          type: 'button',
+	          value: 'Save',
+	          onClick: this.saveSurvey.bind(this)
+	        })
+	      ),
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [{ width: '100%' }] },
+	        _react2['default'].createElement(
+	          'div',
+	          null,
+	          this.state.showJson ? _react2['default'].createElement(
+	            'div',
+	            null,
+	            _react2['default'].createElement(
+	              'div',
+	              null,
+	              _react2['default'].createElement(
+	                'span',
+	                null,
+	                'Survey configuration JSON '
+	              ),
+	              _react2['default'].createElement(
+	                'button',
+	                { onClick: function () {
+	                    return _this3.setState({ showJson: false });
+	                  } },
+	                'Hide'
+	              )
+	            ),
+	            _react2['default'].createElement(
+	              'pre',
+	              null,
+	              JSON.stringify({ info: info, table: initTable, queue: queue }, null, 2)
+	            )
+	          ) : _react2['default'].createElement(
+	            'div',
+	            null,
+	            _react2['default'].createElement(
+	              'span',
+	              null,
+	              'Survey configuration JSON '
+	            ),
+	            _react2['default'].createElement(
+	              'button',
+	              { onClick: function () {
+	                  return _this3.setState({ showJson: true });
+	                } },
+	              'Show'
+	            )
+	          )
+	        ),
 	        _react2['default'].createElement(
 	          'div',
 	          { style: { width: '100%' } },
@@ -47797,9 +47948,9 @@
 	          _react2['default'].createElement(
 	            'div',
 	            { style: [styles.preview] },
-	            !!Object.keys(params).length ? _react2['default'].createElement(_Preview2['default'], {
+	            params ? _react2['default'].createElement(_Preview2['default'], {
 	              params: _extends({}, queue[selected], params),
-	              table: table,
+	              table: _extends({}, initTable, accTable),
 	              push: function (table) {}
 	            }) : _react2['default'].createElement(
 	              'div',
@@ -47818,30 +47969,57 @@
 	        { style: [styles.row] },
 	        _react2['default'].createElement(
 	          'div',
-	          { style: [styles.col, { flex: 2 }] },
-	          !!Object.keys(table).length && _react2['default'].createElement(
+	          { style: [{ flex: 2 }] },
+	          _react2['default'].createElement(
 	            'div',
 	            null,
 	            _react2['default'].createElement(
 	              'div',
-	              { style: [styles.heading] },
-	              'Accumulating table'
-	            ),
-	            _react2['default'].createElement(_Table2['default'], {
-	              data: table,
-	              set: function (newTable) {
-	                _stores2['default'].dispatch({
-	                  type: 'SET_TABLE',
-	                  table: newTable
-	                });
-	              }
-	            })
+	              { style: { width: '100%' } },
+	              _react2['default'].createElement(
+	                'div',
+	                { style: [styles.heading] },
+	                'Initial table'
+	              ),
+	              _react2['default'].createElement(_Table2['default'], {
+	                data: initTable,
+	                edit: true,
+	                set: function (newTable) {
+	                  _stores2['default'].dispatch({
+	                    type: 'SET_INIT_TABLE',
+	                    table: newTable
+	                  });
+	                }
+	              })
+	            )
+	          ),
+	          _react2['default'].createElement(
+	            'div',
+	            null,
+	            !!Object.keys(accTable).length && _react2['default'].createElement(
+	              'div',
+	              { style: { width: '100%' } },
+	              _react2['default'].createElement(
+	                'div',
+	                { style: [styles.heading] },
+	                'Accumulating table'
+	              ),
+	              _react2['default'].createElement(_Table2['default'], {
+	                data: accTable,
+	                set: function (newTable) {
+	                  _stores2['default'].dispatch({
+	                    type: 'SET_ACC_TABLE',
+	                    table: newTable
+	                  });
+	                }
+	              })
+	            )
 	          )
 	        ),
 	        _react2['default'].createElement(
 	          'div',
 	          { style: [styles.col] },
-	          !!queue.length && _react2['default'].createElement(
+	          _react2['default'].createElement(
 	            'div',
 	            null,
 	            _react2['default'].createElement(
@@ -47891,11 +48069,11 @@
 	            _react2['default'].createElement('input', {
 	              style: { float: 'right' },
 	              type: 'button',
-	              value: 'Add Module',
+	              value: 'Add module',
 	              onClick: function () {
 	                _stores2['default'].dispatch({
 	                  type: 'ADD_QUEUE_MODULE',
-	                  module: _this2.refs.modules.value
+	                  module: _this3.refs.modules.value
 	                });
 	              }
 	            })
@@ -47917,10 +48095,11 @@
 	              ') parameters'
 	            ),
 	            _react2['default'].createElement(_LoadParams2['default'], {
-	              module: _extends({}, queue[selected], params),
-	              table: table,
+	              module: queue[selected],
+	              params: params,
+	              table: _extends({}, initTable, accTable),
 	              setParams: function (params) {
-	                return _this2.setState({ params: params });
+	                return _this3.setState({ params: params });
 	              }
 	            })
 	          )
@@ -47992,6 +48171,8 @@
 
 	exports.__esModule = true;
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -48034,34 +48215,49 @@
 	  var _TableParameter = TableParameter;
 
 	  _TableParameter.prototype.render = function render() {
+	    var _this = this;
+
 	    var _props = this.props;
 	    var k = _props.k;
 	    var v = _props.v;
+	    var edit = _props.edit;
+	    var set = _props.set;
+	    var remove = _props.remove;
 	    var isDragging = _props.isDragging;
 	    var connectDragSource = _props.connectDragSource;
 
 	    var opacity = isDragging ? 0 : 1;
 	    return connectDragSource(_react2['default'].createElement(
 	      'div',
-	      { style: [styles.row, { opacity: opacity }] },
+	      { style: { opacity: opacity } },
 	      _react2['default'].createElement(
-	        'div',
-	        { style: [styles.col, { textAlign: 'right' }] },
-	        _react2['default'].createElement(
-	          'span',
-	          null,
-	          k,
-	          ':'
-	        )
+	        'span',
+	        { style: { color: '#42f' } },
+	        k,
+	        ':'
 	      ),
-	      _react2['default'].createElement(
-	        'div',
-	        { style: [styles.col, { flex: 2 }] },
-	        _react2['default'].createElement(
-	          'span',
-	          null,
-	          v
-	        )
+	      edit ? _react2['default'].createElement(
+	        'span',
+	        null,
+	        _react2['default'].createElement('input', {
+	          type: 'text',
+	          ref: 'input',
+	          defaultValue: v,
+	          onChange: function () {
+	            return set(_this.refs.input.value);
+	          }
+	        }),
+	        _react2['default'].createElement('input', {
+	          type: 'button',
+	          value: 'x',
+	          onClick: function () {
+	            return remove();
+	          }
+	        })
+	      ) : _react2['default'].createElement(
+	        'span',
+	        null,
+	        v
 	      )
 	    ));
 	  };
@@ -48088,18 +48284,76 @@
 	  var _Table = Table;
 
 	  _Table.prototype.render = function render() {
-	    var data = this.props.data;
+	    var _this2 = this;
+
+	    var _props2 = this.props;
+	    var data = _props2.data;
+	    var set = _props2.set;
+	    var edit = _props2.edit;
 
 	    return _react2['default'].createElement(
 	      'div',
 	      null,
-	      data && _lodash2['default'].map(data, function (v, k) {
-	        return _react2['default'].createElement(TableParameter, {
-	          key: k,
-	          k: k,
-	          v: v
-	        });
-	      })
+	      _react2['default'].createElement(
+	        'div',
+	        null,
+	        edit && _react2['default'].createElement(
+	          'div',
+	          { style: [styles.row] },
+	          _react2['default'].createElement(
+	            'div',
+	            { style: [styles.col, { textAlign: 'right' }] },
+	            _react2['default'].createElement('input', {
+	              type: 'text',
+	              style: [styles.hundred],
+	              ref: 'k'
+	            })
+	          ),
+	          _react2['default'].createElement(
+	            'div',
+	            { style: [styles.col, { flex: 2 }] },
+	            _react2['default'].createElement('input', {
+	              type: 'text',
+	              style: [styles.hundred],
+	              ref: 'v'
+	            })
+	          ),
+	          _react2['default'].createElement(
+	            'div',
+	            { style: [styles.col, { flex: 0.2 }] },
+	            _react2['default'].createElement('input', {
+	              type: 'button',
+	              value: '+',
+	              onClick: function () {
+	                var _extends2;
+
+	                set(_extends({}, data, (_extends2 = {}, _extends2[_this2.refs.k.value] = _this2.refs.v.value, _extends2)));
+	              }
+	            })
+	          )
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'div',
+	        null,
+	        data && Object.keys(data).sort().map(function (k) {
+	          return _react2['default'].createElement(TableParameter, {
+	            key: k,
+	            k: k,
+	            v: data[k],
+	            edit: edit,
+	            set: function (v) {
+	              var _extends3;
+
+	              return set(_extends({}, data, (_extends3 = {}, _extends3[k] = v, _extends3)));
+	            },
+	            remove: function () {
+	              delete data[k];
+	              set(data);
+	            }
+	          });
+	        })
+	      )
 	    );
 	  };
 
@@ -48119,6 +48373,9 @@
 	    flex: 1,
 	    flexDirection: 'row',
 	    margin: '0.5rem 0'
+	  },
+	  hundred: {
+	    width: '100%'
 	  }
 	};
 
@@ -55709,24 +55966,55 @@
 	exports['default'] = _redux.createStore(function (state, action) {
 	  switch (action.type) {
 	    case 'SET_SURVEY_LIST':
+	      var surveys = action.surveys;
+	      var surveyName = Object.keys(surveys)[0];
+	      var surveyVersion = Object.keys(surveys[surveyName]).reverse()[0];
 	      return _extends({}, state, {
-	        surveys: action.surveys
+	        surveys: surveys,
+	        surveyName: surveyName,
+	        surveyVersion: surveyVersion
 	      });
 
-	    case 'SELECT_SURVEY':
+	    case 'SELECT_SURVEY_NAME':
+	      return _extends({}, state, {
+	        surveyName: action.surveyName,
+	        surveyVersion: Object.keys(state.surveys[action.surveyName]).reverse()[0]
+	      });
+
+	    case 'SELECT_SURVEY_VERSION':
+	      return _extends({}, state, {
+	        surveyVersion: action.surveyVersion
+	      });
+
+	    case 'LOAD_SURVEY':
 	      return _extends({}, state, {
 	        selected: 0,
-	        params: {},
-	        startingTable: action.survey.table,
-	        table: action.survey.table,
-	        queue: action.survey.queue.map(function (m, i) {
+	        params: null,
+	        info: action.survey.info || {},
+	        initTable: action.survey.table || {},
+	        queue: action.survey.queue ? action.survey.queue.map(function (m, i) {
 	          return _extends({}, m, { id: i + 1 });
-	        })
+	        }) : []
 	      });
 
-	    case 'SET_TABLE':
+	    case 'CREATE_SURVEY':
 	      return _extends({}, state, {
-	        table: action.table
+	        info: {},
+	        initTable: {},
+	        accTable: {},
+	        queue: [],
+	        selected: 0,
+	        params: null
+	      });
+
+	    case 'SET_INIT_TABLE':
+	      return _extends({}, state, {
+	        initTable: action.table
+	      });
+
+	    case 'SET_ACC_TABLE':
+	      return _extends({}, state, {
+	        accTable: action.table
 	      });
 
 	    case 'SET_MODULE_LIST':
@@ -55751,6 +56039,19 @@
 	        }
 	      });
 
+	    case 'REMOVE_QUEUE_MODULE':
+	      var items = state.queue;
+
+	      var item = items.filter(function (o) {
+	        return o.id === action.id;
+	      })[0];
+	      var itemIndex = items.indexOf(item);
+	      return _reactLibUpdate2['default'](state, {
+	        queue: {
+	          $splice: [[itemIndex, 1]]
+	        }
+	      });
+
 	    case 'SELECT_QUEUE_MODULE':
 	      var items = state.queue;
 
@@ -55759,13 +56060,14 @@
 	      })[0];
 	      var itemIndex = items.indexOf(item);
 	      return _extends({}, state, {
+	        params: null,
 	        selected: itemIndex
 	      });
 
 	    case 'ADD_QUEUE_MODULE':
 	      return _extends({}, state, {
 	        selected: state.queue.length,
-	        params: {},
+	        params: null,
 	        queue: state.queue.concat({ type: action.module }).map(function (m, i) {
 	          return _extends({}, m, { id: i + 1 });
 	        })
@@ -55774,12 +56076,13 @@
 	    default:
 	      return _extends({}, state, {
 	        surveys: {},
+	        info: {},
 	        modules: [],
-	        startingTable: {},
-	        table: {},
+	        initTable: {},
+	        accTable: {},
 	        queue: [],
 	        selected: 0,
-	        params: {}
+	        params: null
 	      });
 	  }
 	});
@@ -56577,7 +56880,6 @@
 	var itemTarget = {
 	  drop: function drop(props, monitor) {
 	    var draggedParam = monitor.getItem().param;
-	    console.log(draggedParam);
 	    props.set(draggedParam);
 	  }
 	};
@@ -56786,6 +57088,7 @@
 
 	    _React$Component4.call(this, props);
 	    this.state = { hover: null };
+	    this.loadParams = this.loadParams.bind(this);
 	  }
 
 	  _inherits(LoadParams, _React$Component4);
@@ -56793,22 +57096,24 @@
 	  var _LoadParams = LoadParams;
 
 	  _LoadParams.prototype.componentWillMount = function componentWillMount() {
+	    console.log('willmount');
 	    this.loadParams(this.props);
 	  };
 
 	  _LoadParams.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
-	    this.loadParams(props);
+	    if (!props.params) this.loadParams(props);
 	  };
 
-	  _LoadParams.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
-	    if (!_lodash2['default'].isEqual(this.state.params, prevState.params)) {
-	      this.props.setParams(this.state.params);
-	    }
-	  };
+	  // componentDidUpdate (prevProps, prevState) {
+	  //   if (!_.isEqual(this.state.params, prevState.params)) {
+	  //     this.props.setParams(this.state.params)
+	  //   }
+	  // }
 
 	  _LoadParams.prototype.loadParams = function loadParams(props) {
 	    var _this2 = this;
 
+	    console.log(props);
 	    var module = props.module;
 	    var table = props.table;
 
@@ -56834,7 +57139,8 @@
 	          }
 	        }).object().value();
 
-	        _this2.setState({ params: params, isArray: isArray });
+	        _this2.setState({ isArray: isArray });
+	        props.setParams(params);
 	      });
 	    }
 	  };
@@ -56842,8 +57148,7 @@
 	  _LoadParams.prototype.setParam = function setParam(param, value) {
 	    var _extends2;
 
-	    var params = _extends({}, this.state.params, (_extends2 = {}, _extends2[param] = value, _extends2));
-	    this.setState({ params: params });
+	    var params = _extends({}, this.props.params, (_extends2 = {}, _extends2[param] = value, _extends2));
 	    this.props.setParams(params);
 	  };
 
@@ -56851,10 +57156,11 @@
 	    var _this3 = this;
 
 	    var _state = this.state;
-	    var params = _state.params;
 	    var isArray = _state.isArray;
 	    var hover = _state.hover;
-	    var table = this.props.table;
+	    var _props4 = this.props;
+	    var table = _props4.table;
+	    var params = _props4.params;
 
 	    return _react2['default'].createElement(
 	      'div',
@@ -56971,7 +57277,7 @@
 	      _again = true;
 	      continue _function;
 	    } else {
-	      return param || 'Error';
+	      return param || 'No value';
 	    }
 	  }
 	}
@@ -57019,7 +57325,7 @@
 
 	    _React$Component.call(this, props);
 	    this.state = { component: null };
-	    this.loadComponent.bind(this);
+	    this.loadComponent = this.loadComponent.bind(this);
 	  }
 
 	  _inherits(Preview, _React$Component);
@@ -57038,6 +57344,7 @@
 	        }).object().value();
 
 	        component.defaultProps = _extends({}, component.defaultProps, paramValues);
+	        console.log(component.defaultProps, params);
 	        _this.setState({ component: component });
 	      });
 	    }
@@ -57055,13 +57362,23 @@
 	    var params = nextProps.params;
 	    var table = nextProps.table;
 
-	    this.setState({ component: null });
+	    this.setState({ component: null, response: null });
 	    this.loadComponent(params, table);
 	  };
 
 	  Preview.prototype.render = function render() {
+	    var _this2 = this;
+
 	    var Component = this.state.component;
-	    return Component && _react2['default'].createElement(Component, this.props);
+	    return this.state.response ? _react2['default'].createElement(
+	      'pre',
+	      null,
+	      JSON.stringify(this.state.response, null, 2)
+	    ) : Component ? _react2['default'].createElement(Component, _extends({}, this.props, {
+	      push: function (response) {
+	        return _this2.setState({ response: response });
+	      }
+	    })) : false;
 	  };
 
 	  _createClass(Preview, null, [{
@@ -57196,6 +57513,7 @@
 	    var text = _props.text;
 	    var id = _props.id;
 	    var select = _props.select;
+	    var remove = _props.remove;
 	    var highlight = _props.highlight;
 	    var i = _props.i;
 	    var isDragging = _props.isDragging;
@@ -57219,6 +57537,14 @@
 	        i,
 	        '. ',
 	        text
+	      ),
+	      _react2['default'].createElement(
+	        'button',
+	        {
+	          onClick: remove,
+	          style: { float: 'right' }
+	        },
+	        'x'
 	      )
 	    )));
 	  };
@@ -57266,6 +57592,7 @@
 	          id: item.id,
 	          text: item.text,
 	          move: move,
+	          remove: remove,
 	          select: select,
 	          highlight: selected === i,
 	          i: i

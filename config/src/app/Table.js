@@ -22,16 +22,28 @@ class TableParameter extends React.Component {
   }
 
   render () {
-    const { k, v, isDragging, connectDragSource } = this.props
+    const { k, v, edit, set, remove, isDragging, connectDragSource } = this.props
     const opacity = isDragging ? 0 : 1
     return connectDragSource(
-      <div style={[styles.row, { opacity }]}>
-        <div style={[styles.col, { textAlign: 'right' }]}>
-          <span>{k}:</span>
-        </div>
-        <div style={[styles.col, { flex: 2 }]}>
+      <div style={{ opacity }}>
+        <span style={{ color: '#42f' }}>{k}:</span>
+        {
+          edit ?
+          <span>
+            <input
+              type="text"
+              ref="input"
+              defaultValue={v}
+              onChange={() => set(this.refs.input.value)}
+            />
+            <input
+              type="button"
+              value="x"
+              onClick={() => remove()}
+            /> 
+          </span> :
           <span>{v}</span>
-        </div>
+        }
       </div>
     )
   }
@@ -44,19 +56,62 @@ class Table extends React.Component {
   }
 
   render () {
-    const { data } = this.props
+    const { data, set, edit } = this.props
     return (
       <div>
-      {
-        data &&
-        _.map(data, (v, k) => (
-            <TableParameter
-              key={k}
-              k={k}
-              v={v}
-            />
-          ))
-      }
+        <div>
+        {
+          edit &&
+          <div style={[styles.row]}>
+            <div style={[styles.col, { textAlign: 'right' }]}>
+              <input
+                type="text"
+                style={[styles.hundred]}
+                ref="k"
+              />
+            </div>
+            <div style={[styles.col, { flex: 2 }]}>
+              <input
+                type="text"
+                style={[styles.hundred]}
+                ref="v"
+              />
+            </div>
+            <div style={[styles.col, { flex: 0.2 }]}>
+              <input
+                type="button"
+                value="+"
+                onClick={() => {
+                  set({
+                    ...data,
+                    [this.refs.k.value]: this.refs.v.value
+                  })
+                }}
+              />
+            </div>
+          </div>
+        }
+        </div>
+        <div>
+        {
+          data &&
+          Object.keys(data)
+            .sort()
+            .map((k) => (
+              <TableParameter
+                key={k}
+                k={k}
+                v={data[k]}
+                edit={edit}
+                set={(v) => set({ ...data, [k]: v })}
+                remove={() => {
+                  delete data[k]
+                  set(data)
+                }}
+              />
+            ))
+        }
+        </div>
       </div>
     )
   }
@@ -74,6 +129,9 @@ const styles = {
     flex: 1,
     flexDirection: 'row',
     margin: '0.5rem 0'
+  },
+  hundred: {
+    width: '100%'
   }
 }
 

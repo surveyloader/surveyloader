@@ -29,7 +29,7 @@ const itemTarget = {
 @Radium
 class Item extends React.Component {
   render() {
-    const { text, id, select, highlight, i, isDragging, connectDragSource, connectDropTarget } = this.props
+    const { text, id, select, remove, highlight, i, isDragging, connectDragSource, connectDropTarget } = this.props
     const opacity = isDragging ? 0 : 1
     const backgroundColor = highlight ? '#77f' : null
 
@@ -41,6 +41,10 @@ class Item extends React.Component {
         }}
       >
         <span>{i}. {text}</span>
+        <button
+          onClick={remove}
+          style={{float:'right'}}
+        >x</button>
       </li>
     ))
   }
@@ -63,6 +67,7 @@ export default class Container extends React.Component {
               id={item.id}
               text={item.text}
               move={move}
+              remove={remove}
               select={select}
               highlight={selected === i}
               i={i}

@@ -11,7 +11,7 @@ export default createStore(function (state, action) {
       }
 
     case 'CHANGE_RATING':
-      state.aspects[state.index].rating = action.rating
+      state.aspects[state.index].rating = Number(action.rating)
       return state
     
     case 'CONFIRM_RATING':

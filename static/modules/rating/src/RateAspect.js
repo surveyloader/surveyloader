@@ -26,7 +26,7 @@ class RateAspect extends React.Component {
               {Format.capitalize(aspect.text)}
             </em>
             {
-              aspect.rating &&
+              !isNaN(aspect.rating) &&
               <span style={{ float:'right', fontWeight: 'bold' }}>
                 {Number(aspect.rating)}
               </span>
@@ -39,7 +39,7 @@ class RateAspect extends React.Component {
           />
         </div>
         {
-          aspect.rating
+          !isNaN(aspect.rating)
           &&
           <div style={[styles.button]}>
             <Button

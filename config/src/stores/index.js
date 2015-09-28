@@ -4,28 +4,64 @@ import update from 'react/lib/update'
 export default createStore(function (state, action) {
   switch (action.type) {
     case 'SET_SURVEY_LIST':
+      const surveys = action.surveys
+      const surveyName = Object.keys(surveys)[0]
+      const surveyVersion = Object.keys(surveys[surveyName]).reverse()[0]
       return {
         ...state,
-        surveys: action.surveys
+        surveys,
+        surveyName,
+        surveyVersion
       }
 
-    case 'SELECT_SURVEY':
+    case 'SELECT_SURVEY_NAME':
+      return {
+        ...state,
+        surveyName: action.surveyName,
+        surveyVersion: Object.keys(state.surveys[action.surveyName])
+          .reverse()[0]
+      }
+
+    case 'SELECT_SURVEY_VERSION':
+      return {
+        ...state,
+        surveyVersion: action.surveyVersion
+      }
+
+    case 'LOAD_SURVEY':
       return {
         ...state,
         selected: 0,
-        params: {},
-        startingTable: action.survey.table,
-        table: action.survey.table,
-        queue: action.survey.queue
+        params: null,
+        info: action.survey.info || {},
+        initTable: action.survey.table || {},
+        queue: action.survey.queue ? action.survey.queue
           .map((m, i) => { 
             return { ...m, id: i + 1 }
-          })
+          }) : []
       }
 
-    case 'SET_TABLE':
+    case 'CREATE_SURVEY':
       return {
         ...state,
-        table: action.table
+        info: {},
+        initTable: {},
+        accTable: {},
+        queue: [],
+        selected: 0,
+        params: null
+      }
+
+    case 'SET_INIT_TABLE':
+      return {
+        ...state,
+        initTable: action.table
+      }
+
+    case 'SET_ACC_TABLE':
+      return {
+        ...state,
+        accTable: action.table
       }
 
     case 'SET_MODULE_LIST':
@@ -50,6 +86,19 @@ export default createStore(function (state, action) {
         }
       })
 
+    case 'REMOVE_QUEUE_MODULE':
+      var items = state.queue
+
+      var item = items.filter((o) => o.id === action.id)[0]
+      var itemIndex = items.indexOf(item)
+      return update(state, {
+        queue: {
+          $splice: [
+            [itemIndex, 1]
+          ]
+        }
+      })
+
     case 'SELECT_QUEUE_MODULE':
       var items = state.queue
 
@@ -57,6 +106,7 @@ export default createStore(function (state, action) {
       var itemIndex = items.indexOf(item)
       return {
         ...state,
+        params: null,
         selected: itemIndex
       }
 
@@ -64,7 +114,7 @@ export default createStore(function (state, action) {
       return {
         ...state,
         selected: state.queue.length,
-        params: {},
+        params: null,
         queue: state.queue.concat({ type: action.module })
           .map((m, i) => { 
             return { ...m, id: i + 1 }
@@ -75,12 +125,13 @@ export default createStore(function (state, action) {
       return {
         ...state,
         surveys: {},
+        info: {},
         modules: [],
-        startingTable: {},
-        table: {},
+        initTable: {},
+        accTable: {},
         queue: [],
         selected: 0,
-        params: {}
+        params: null
       }
   }
 })

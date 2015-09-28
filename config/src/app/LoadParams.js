@@ -10,7 +10,6 @@ import echo from '../../../load/src/services/echo'
 const itemTarget = {
   drop (props, monitor) {
     const draggedParam = monitor.getItem().param
-    console.log(draggedParam)
     props.set(draggedParam)
   }
 }
@@ -130,23 +129,26 @@ class LoadParams extends React.Component {
   constructor (props) {
     super(props)
     this.state = { hover: null }
+    this.loadParams = this.loadParams.bind(this)
   }
 
   componentWillMount () {
+    console.log('willmount')
     this.loadParams(this.props)
   }
 
   componentWillReceiveProps (props) {
-    this.loadParams(props)
+    if (!props.params) this.loadParams(props)
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    if (!_.isEqual(this.state.params, prevState.params)) {
-      this.props.setParams(this.state.params)
-    }
-  }
+  // componentDidUpdate (prevProps, prevState) {
+  //   if (!_.isEqual(this.state.params, prevState.params)) {
+  //     this.props.setParams(this.state.params)
+  //   }
+  // }
 
   loadParams (props) {
+    console.log(props)
     const { module, table } = props
     if (module) {
       load(module.type)
@@ -173,23 +175,23 @@ class LoadParams extends React.Component {
             .object()
             .value()
             
-          this.setState({ params, isArray })
+          this.setState({ isArray })
+          props.setParams(params)
         })
     }
   }
 
   setParam (param, value) {
     let params = {
-      ...this.state.params,
+      ...this.props.params,
       [param]: value
     }
-    this.setState({ params })
     this.props.setParams(params)
   }
 
   render () {
-    const { params, isArray, hover } = this.state
-    const { table } = this.props
+    const { isArray, hover } = this.state
+    const { table, params } = this.props
     return (
       <div
         style={[styles.col]}

@@ -123,13 +123,13 @@ class Slider extends React.Component {
           >
           </rect>
           {
-            ['0',10,20,30,40,50,60,70,80,90,100]
+            [0,10,20,30,40,50,60,70,80,90,100]
               .map((num) => <text
                 key={num}
                 x={Number(num)}
                 y={height + 3}
                 style={[styles.text]}
-              >{num}</text>)
+              >{Number(num)}</text>)
           }
           <Handle size={height} position={percent} />
         </g>

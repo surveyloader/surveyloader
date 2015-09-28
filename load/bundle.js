@@ -47652,31 +47652,31 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _superagent = __webpack_require__(179);
+	var _superagent = __webpack_require__(180);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
-	var _stores = __webpack_require__(182);
+	var _stores = __webpack_require__(183);
 
 	var _stores2 = _interopRequireDefault(_stores);
 
-	var _servicesLazy = __webpack_require__(195);
+	var _servicesLazy = __webpack_require__(179);
 
 	var _servicesLazy2 = _interopRequireDefault(_servicesLazy);
 
-	var _servicesEcho = __webpack_require__(200);
+	var _servicesEcho = __webpack_require__(196);
 
 	var _servicesEcho2 = _interopRequireDefault(_servicesEcho);
 
-	var _Loader = __webpack_require__(196);
+	var _Loader = __webpack_require__(197);
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
-	var _Table = __webpack_require__(197);
+	var _Table = __webpack_require__(198);
 
 	var _Table2 = _interopRequireDefault(_Table);
 
-	var _Queue = __webpack_require__(199);
+	var _Queue = __webpack_require__(200);
 
 	var _Queue2 = _interopRequireDefault(_Queue);
 
@@ -47917,12 +47917,41 @@
 /* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _bluebird = __webpack_require__(173);
+
+	var _bluebird2 = _interopRequireDefault(_bluebird);
+
+	var _superagent = __webpack_require__(180);
+
+	var _superagent2 = _interopRequireDefault(_superagent);
+
+	exports['default'] = function (name) {
+	  return new _bluebird2['default'](function (resolve, reject) {
+	    _superagent2['default'].get('/folding-survey/static/modules/' + name + '/bundle.js').accept('application/javascript').end(function (err, res) {
+	      if (err) reject('404');
+	      resolve(eval(res.text));
+	    });
+	  });
+	};
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/**
 	 * Module dependencies.
 	 */
 
-	var Emitter = __webpack_require__(180);
-	var reduce = __webpack_require__(181);
+	var Emitter = __webpack_require__(181);
+	var reduce = __webpack_require__(182);
 
 	/**
 	 * Root reference for iframes.
@@ -49043,7 +49072,7 @@
 
 
 /***/ },
-/* 180 */
+/* 181 */
 /***/ function(module, exports) {
 
 	
@@ -49213,7 +49242,7 @@
 
 
 /***/ },
-/* 181 */
+/* 182 */
 /***/ function(module, exports) {
 
 	
@@ -49242,7 +49271,7 @@
 	};
 
 /***/ },
-/* 182 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49251,7 +49280,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _redux = __webpack_require__(183);
+	var _redux = __webpack_require__(184);
 
 	exports['default'] = _redux.createStore(function (state, action) {
 	  switch (action.type) {
@@ -49300,7 +49329,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 183 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
@@ -49310,29 +49339,29 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _createStore = __webpack_require__(186);
+	var _createStore = __webpack_require__(187);
 
 	var _createStore2 = _interopRequireDefault(_createStore);
 
 	// Utilities
 
-	var _utilsCompose = __webpack_require__(190);
+	var _utilsCompose = __webpack_require__(191);
 
 	var _utilsCompose2 = _interopRequireDefault(_utilsCompose);
 
-	var _utilsCombineReducers = __webpack_require__(191);
+	var _utilsCombineReducers = __webpack_require__(192);
 
 	var _utilsCombineReducers2 = _interopRequireDefault(_utilsCombineReducers);
 
-	var _utilsBindActionCreators = __webpack_require__(184);
+	var _utilsBindActionCreators = __webpack_require__(185);
 
 	var _utilsBindActionCreators2 = _interopRequireDefault(_utilsBindActionCreators);
 
-	var _utilsApplyMiddleware = __webpack_require__(193);
+	var _utilsApplyMiddleware = __webpack_require__(194);
 
 	var _utilsApplyMiddleware2 = _interopRequireDefault(_utilsApplyMiddleware);
 
-	var _utilsComposeMiddleware = __webpack_require__(194);
+	var _utilsComposeMiddleware = __webpack_require__(195);
 
 	var _utilsComposeMiddleware2 = _interopRequireDefault(_utilsComposeMiddleware);
 
@@ -49344,7 +49373,7 @@
 	exports.composeMiddleware = _utilsComposeMiddleware2['default'];
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49354,7 +49383,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _utilsMapValues = __webpack_require__(185);
+	var _utilsMapValues = __webpack_require__(186);
 
 	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
 
@@ -49369,7 +49398,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -49387,7 +49416,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 186 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49397,7 +49426,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _Store = __webpack_require__(187);
+	var _Store = __webpack_require__(188);
 
 	var _Store2 = _interopRequireDefault(_Store);
 
@@ -49416,7 +49445,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49427,11 +49456,11 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _invariant = __webpack_require__(188);
+	var _invariant = __webpack_require__(189);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _utilsIsPlainObject = __webpack_require__(189);
+	var _utilsIsPlainObject = __webpack_require__(190);
 
 	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
 
@@ -49497,7 +49526,7 @@
 	exports['default'] = Store;
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -49557,7 +49586,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49572,7 +49601,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 190 */
+/* 191 */
 /***/ function(module, exports) {
 
 	/**
@@ -49598,7 +49627,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 191 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49608,19 +49637,19 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _utilsMapValues = __webpack_require__(185);
+	var _utilsMapValues = __webpack_require__(186);
 
 	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
 
-	var _utilsPick = __webpack_require__(192);
+	var _utilsPick = __webpack_require__(193);
 
 	var _utilsPick2 = _interopRequireDefault(_utilsPick);
 
-	var _invariant = __webpack_require__(188);
+	var _invariant = __webpack_require__(189);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _Store = __webpack_require__(187);
+	var _Store = __webpack_require__(188);
 
 	function getErrorMessage(key, action) {
 	  var actionType = action && action.type;
@@ -49656,7 +49685,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -49676,7 +49705,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 193 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49689,11 +49718,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _compose = __webpack_require__(190);
+	var _compose = __webpack_require__(191);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
-	var _composeMiddleware = __webpack_require__(194);
+	var _composeMiddleware = __webpack_require__(195);
 
 	var _composeMiddleware2 = _interopRequireDefault(_composeMiddleware);
 
@@ -49734,7 +49763,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 194 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49744,7 +49773,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _compose = __webpack_require__(190);
+	var _compose = __webpack_require__(191);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
@@ -49771,36 +49800,35 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 195 */
-/***/ function(module, exports, __webpack_require__) {
+/* 196 */
+/***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	function echo(_x, _x2) {
+	  var _again = true;
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	  _function: while (_again) {
+	    var param = _x,
+	        table = _x2;
+	    _again = false;
+	    if (/\$.+/.test(param)) {
+	      _x = table[param.substring(1)];
+	      _x2 = table;
+	      _again = true;
+	      continue _function;
+	    } else {
+	      return param || 'No value';
+	    }
+	  }
+	}
 
-	var _bluebird = __webpack_require__(173);
-
-	var _bluebird2 = _interopRequireDefault(_bluebird);
-
-	var _superagent = __webpack_require__(179);
-
-	var _superagent2 = _interopRequireDefault(_superagent);
-
-	exports['default'] = function (name) {
-	  return new _bluebird2['default'](function (resolve, reject) {
-	    _superagent2['default'].get('/folding-survey/static/modules/' + name + '/bundle.js').accept('application/javascript').end(function (err, res) {
-	      if (err) reject('404');
-	      resolve(eval(res.text));
-	    });
-	  });
-	};
-
+	exports['default'] = echo;
 	module.exports = exports['default'];
 
 /***/ },
-/* 196 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49823,11 +49851,11 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _servicesLazy = __webpack_require__(195);
+	var _servicesLazy = __webpack_require__(179);
 
 	var _servicesLazy2 = _interopRequireDefault(_servicesLazy);
 
-	var _servicesEcho = __webpack_require__(200);
+	var _servicesEcho = __webpack_require__(196);
 
 	var _servicesEcho2 = _interopRequireDefault(_servicesEcho);
 
@@ -49904,7 +49932,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 197 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49925,7 +49953,7 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _componentsButton = __webpack_require__(198);
+	var _componentsButton = __webpack_require__(199);
 
 	var _componentsButton2 = _interopRequireDefault(_componentsButton);
 
@@ -50054,7 +50082,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 198 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50146,7 +50174,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50167,7 +50195,7 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _componentsButton = __webpack_require__(198);
+	var _componentsButton = __webpack_require__(199);
 
 	var _componentsButton2 = _interopRequireDefault(_componentsButton);
 
@@ -50322,34 +50350,6 @@
 	};
 
 	exports['default'] = Queue;
-	module.exports = exports['default'];
-
-/***/ },
-/* 200 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	function echo(_x, _x2) {
-	  var _again = true;
-
-	  _function: while (_again) {
-	    var param = _x,
-	        table = _x2;
-	    _again = false;
-	    if (/\$.+/.test(param)) {
-	      _x = table[param.substring(1)];
-	      _x2 = table;
-	      _again = true;
-	      continue _function;
-	    } else {
-	      return param || 'Error';
-	    }
-	  }
-	}
-
-	exports['default'] = echo;
 	module.exports = exports['default'];
 
 /***/ }

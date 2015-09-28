@@ -13,7 +13,7 @@ class Preview extends React.Component {
   constructor (props) {
     super(props)
     this.state = { component: null }
-    this.loadComponent.bind(this)
+    this.loadComponent = this.loadComponent.bind(this)
   }
 
   loadComponent (params, table) {
@@ -32,6 +32,7 @@ class Preview extends React.Component {
             .value()
 
           component.defaultProps = { ...component.defaultProps, ...paramValues }
+          console.log(component.defaultProps, params)
           this.setState({ component })
         })
     }
@@ -44,14 +45,19 @@ class Preview extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     const { params, table } = nextProps
-    this.setState({ component: null })
+    this.setState({ component: null, response: null })
     this.loadComponent(params, table)
   }
 
   render () {
     const Component = this.state.component
-    return Component &&
-    <Component {...this.props} />
+    return this.state.response ?
+    <pre>{JSON.stringify(this.state.response, null, 2)}</pre> :
+    Component ?
+    <Component
+      {...this.props}
+      push={(response) => this.setState({ response })}
+    /> : false
   }
 }
 

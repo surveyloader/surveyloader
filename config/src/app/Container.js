@@ -24,15 +24,7 @@ class Container extends React.Component {
       this.setState(store.getState())
     })
 
-    http
-      .get('https://fsurvey.firebaseio.com/configs.json')
-      .end((err, res) => {
-        store.dispatch({
-          type: 'SET_SURVEY_LIST',
-          surveys: res.body
-        })
-      })
-
+    this.loadSurveys()
     http
       .get('/folding-survey/static/list.json')
       .end((err, res) => {
@@ -44,64 +36,178 @@ class Container extends React.Component {
   }
 
   shouldComponentUpdate (newProps, newState) {
-    const { selected, startingTable, queue } = this.state
+    const { selected, initTable, queue } = this.state
     if (newState.selected !== selected) {
-      simulateOver(startingTable, queue.slice(0, newState.selected))
+      simulateOver(initTable, queue.slice(0, newState.selected))
         .then(table => {
-          console.log(table)
-          store.dispatch({ type: 'SET_TABLE', table })
+          store.dispatch({ 
+            type: 'SET_ACC_TABLE',
+            table: _.omit(table, (v, k) => _.has(initTable, k))
+          })
         })
       return false
     }
     return true
   }
 
+  loadSurveys () {
+    http
+      .get('https://fsurvey.firebaseio.com/configs.json')
+      .end((err, res) => {
+        store.dispatch({
+          type: 'SET_SURVEY_LIST',
+          surveys: res.body
+        })
+      })
+  }
+
+  saveSurvey () {
+    const { info, initTable, queue } = this.state
+    http
+      .post(`https://fsurvey.firebaseio.com/configs/${this.refs.name.value}.json`)
+      .set('Accept', 'application/json')
+      .send({
+        info: {
+          ...info,
+          author: this.refs.author.value,
+          modified: {
+            '.sv': 'timestamp'
+          }
+        },
+        table: initTable,
+        queue: queue.length ? queue : null
+      })
+      .end((err, res) => {
+        console.log(err, res)
+        this.loadSurveys()
+      })
+  }
+
   render () {
-    const { surveys, modules, queue, table, selected, params } = this.state
-    console.log(queue[selected], params)
+    const {
+      modules,
+      surveys,
+      surveyName,
+      surveyVersion,
+      info,
+      queue,
+      initTable,
+      accTable,
+      selected,
+      params
+    } = this.state
     return (
       <div style={[styles.main]}>
         <div style={[styles.row, { flex: 0.125 }]}>
-          <p>
-            survey:&nbsp;
-            <select
-              defaultValue={null}
-              onChange={(e) => {
-                let v = Object
-                  .keys(surveys[e.target.value])
-                  .reverse()[0]
-                store.dispatch({
-                  type: 'SELECT_SURVEY',
-                  survey: surveys[e.target.value][v]
-                })
-              }}
-            >
-            {
-              Object.keys(surveys)
-                .map((name, i) => {
-                  return (
-                    <option
-                      key={i}
-                      value={name}
-                    >
-                      {name}
-                    </option>
-                  )
-                })
-            }
-            </select>
-            &nbsp;version: 
-          </p>
+          <span>Survey:</span>
+          <select onChange={(e) => {
+            store.dispatch({
+              type: 'SELECT_SURVEY_NAME',
+              surveyName: e.target.value
+            })
+          }}>
+          {
+            Object.keys(surveys)
+              .map((name, i) => {
+                return (
+                  <option
+                    key={i}
+                    value={name}
+                  >
+                    {name}
+                  </option>
+                )
+              })
+          }
+          </select>&nbsp;
+          <span>Version:</span>
+          <select onChange={(e) => {
+            store.dispatch({
+              type: 'SELECT_SURVEY_VERSION',
+              surveyVersion: e.target.value
+            })
+          }}>
+          {
+            surveyName && Object.keys(surveys[surveyName])
+              .reverse()
+              .map((v, i) => {
+                return (
+                  <option
+                    key={i}
+                    value={v}
+                  >
+                    {Date(surveys[surveyName][v].info.modified)}
+                  </option>
+                )
+              })
+          }
+          </select>&nbsp;
+          <input
+            type="button"
+            value="Load"
+            onClick={() => {
+              store.dispatch({
+                type: 'LOAD_SURVEY',
+                survey: surveys[surveyName][surveyVersion]
+              })
+            }}
+          />&nbsp;
+          <input
+            type="button"
+            value="Create new"
+            onClick={() => {
+              store.dispatch({
+                type: 'CREATE_SURVEY'
+              })
+            }}
+          />
         </div>
-        <div style={[styles.row, { width: '100%' }]}>
+        <div style={[styles.row, { flex: 0.125 }]}>
+          <span>name:</span>
+          <input
+            type="text"
+            ref="name"
+            key={surveyName}
+            defaultValue={surveyName}
+          />&nbsp;
+          <span>author:</span>
+          <input
+            type="text"
+            ref="author"
+            key={info.author || 'author'}
+            defaultValue={info.author}
+          />&nbsp;
+          <input
+            type="button"
+            value="Save"
+            onClick={::this.saveSurvey}
+          />
+        </div>
+        <div style={[{ width: '100%' }]}>
+          <div>
+            {
+              this.state.showJson ?
+              <div>
+                <div>
+                  <span>Survey configuration JSON&nbsp;</span>
+                  <button onClick={() => this.setState({ showJson: false })}>Hide</button>
+                </div>
+                <pre>{JSON.stringify({ info, table: initTable, queue }, null, 2)}</pre>
+              </div> :
+              <div>
+                <span>Survey configuration JSON&nbsp;</span>
+                <button onClick={() => this.setState({ showJson: true })}>Show</button>
+              </div>
+            }
+          </div>
           <div style={{ width: '100%' }}>
             <div style={[styles.heading]}>Module preview</div>
             <div style={[styles.preview]}>
             {
-              !!Object.keys(params).length ?
+              params ?
               <Preview
                 params={{...queue[selected], ...params}}
-                table={table}
+                table={{ ...initTable, ...accTable}}
                 push={(table) => {}}
               /> :
               <div style={[styles.col, { justifyContent: 'center', textAlign: 'center' }]}>
@@ -112,26 +218,41 @@ class Container extends React.Component {
           </div>
         </div>
         <div style={[styles.row]}>
-          <div style={[styles.col, { flex: 2 }]}>
-          {
-            !!Object.keys(table).length &&
+          <div style={[{ flex: 2 }]}>
             <div>
-              <div style={[styles.heading]}>Accumulating table</div>
-              <Table
-                data={table}
-                set={(newTable) => {
-                  store.dispatch({
-                    type: 'SET_TABLE',
-                    table: newTable
-                  })
-                }} 
-              />
+              <div style={{width: '100%'}}>
+                <div style={[styles.heading]}>Initial table</div>
+                <Table
+                  data={initTable}
+                  edit={true}
+                  set={(newTable) => {
+                    store.dispatch({
+                      type: 'SET_INIT_TABLE',
+                      table: newTable
+                    })
+                  }} 
+                />
+              </div>
             </div>
-          }
+            <div>
+            {
+              !!Object.keys(accTable).length &&
+              <div style={{ width: '100%' }}>
+                <div style={[styles.heading]}>Accumulating table</div>
+                <Table
+                  data={accTable}
+                  set={(newTable) => {
+                    store.dispatch({
+                      type: 'SET_ACC_TABLE',
+                      table: newTable
+                    })
+                  }} 
+                />
+              </div>
+            }
+            </div>
           </div>
           <div style={[styles.col]}>
-          { 
-            !!queue.length &&
             <div>
               <div style={[styles.heading]}>Module queue</div>
               <Sortable
@@ -172,7 +293,7 @@ class Container extends React.Component {
               <input
                 style={{ float: 'right' }}
                 type="button"
-                value="Add Module"
+                value="Add module"
                 onClick={() => {
                   store.dispatch({
                     type: 'ADD_QUEUE_MODULE',
@@ -181,7 +302,6 @@ class Container extends React.Component {
                 }}
               />
             </div>
-          }
           </div>
           <div style={[styles.col, { flex: 2 }]}>
           {
@@ -189,8 +309,9 @@ class Container extends React.Component {
             <div>
               <div style={[styles.heading]}>Module {selected} (type: {queue[selected].type}) parameters</div>
               <LoadParams
-                module={{ ...queue[selected], ...params }}
-                table={table}
+                module={queue[selected]}
+                params={params}
+                table={{ ...initTable, ...accTable}}
                 setParams={(params) => this.setState({ params })}
               />
             </div>

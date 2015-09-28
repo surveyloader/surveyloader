@@ -143,8 +143,7 @@
 	var styles = {
 	  container: {
 	    boxSizing: 'border-box',
-	    width: '50%',
-	    minWidth: 800,
+	    width: '100%',
 	    borderRadius: 15,
 	    boxShadow: '2px 2px 4px #ddd',
 	    margin: '15px auto 60px auto',
