@@ -6,7 +6,7 @@ import identify
 from '../../../global/services/stringHash'
 import ColorScheme from '../../../global/services/colorScheme'
 
-function choose (n, aspects, bucket = 'a') {
+function choose (n, aspects, bucket) {
   let colors = []
   let samples = _(aspects)
     .sample(n || aspects.length)
@@ -27,14 +27,19 @@ function choose (n, aspects, bucket = 'a') {
 
 class Sample extends React.Component {
   static propTypes = {
-    aspects: PropTypes.array.isRequired,
-    bucket: PropTypes.string.isRequired,
+    aspects: PropTypes.array,
+    bucket: PropTypes.string,
     n: PropTypes.number
+  }
+
+  static defaultProps = {
+    aspects: ['one','two'],
+    bucket: 'a',
+    n: 1
   }
 
   static simulate (props) {
     const { simulate, n, aspects, bucket } = props
-    console.log(aspects)
     return choose(n, aspects, bucket)
   }
 

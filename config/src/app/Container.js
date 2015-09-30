@@ -93,8 +93,7 @@ class Container extends React.Component {
       queue,
       initTable,
       accTable,
-      selected,
-      params
+      selected
     } = this.state
     return (
       <div style={[styles.main]}>
@@ -136,7 +135,7 @@ class Container extends React.Component {
                     key={i}
                     value={v}
                   >
-                    {Date(surveys[surveyName][v].info.modified)}
+                    {surveys[surveyName][v].info.modified}
                   </option>
                 )
               })
@@ -204,9 +203,9 @@ class Container extends React.Component {
             <div style={[styles.heading]}>Module preview</div>
             <div style={[styles.preview]}>
             {
-              params ?
+              queue[selected] ?
               <Preview
-                params={{...queue[selected], ...params}}
+                params={queue[selected]}
                 table={{ ...initTable, ...accTable}}
                 push={(table) => {}}
               /> :
@@ -310,9 +309,13 @@ class Container extends React.Component {
               <div style={[styles.heading]}>Module {selected} (type: {queue[selected].type}) parameters</div>
               <LoadParams
                 module={queue[selected]}
-                params={params}
                 table={{ ...initTable, ...accTable}}
-                setParams={(params) => this.setState({ params })}
+                setParams={(params) => {
+                  store.dispatch({
+                    type: 'CHANGE_MODULE_PARAMS',
+                    params
+                  })
+                }}
               />
             </div>
           }

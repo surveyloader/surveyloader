@@ -32,7 +32,6 @@ export default createStore(function (state, action) {
       return {
         ...state,
         selected: 0,
-        params: null,
         info: action.survey.info || {},
         initTable: action.survey.table || {},
         queue: action.survey.queue ? action.survey.queue
@@ -48,8 +47,7 @@ export default createStore(function (state, action) {
         initTable: {},
         accTable: {},
         queue: [],
-        selected: 0,
-        params: null
+        selected: 0
       }
 
     case 'SET_INIT_TABLE':
@@ -121,6 +119,16 @@ export default createStore(function (state, action) {
           })
       }
 
+    case 'CHANGE_MODULE_PARAMS':
+      state.queue[state.selected] = {
+        ...state.queue[state.selected],
+        ...action.params
+      }
+      return {
+        ...state,
+        queue: state.queue
+      }
+
     default:
       return {
         ...state,
@@ -130,8 +138,7 @@ export default createStore(function (state, action) {
         initTable: {},
         accTable: {},
         queue: [],
-        selected: 0,
-        params: null
+        selected: 0
       }
   }
 })

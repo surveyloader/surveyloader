@@ -47778,7 +47778,6 @@
 	    var initTable = _state3.initTable;
 	    var accTable = _state3.accTable;
 	    var selected = _state3.selected;
-	    var params = _state3.params;
 
 	    return _react2['default'].createElement(
 	      'div',
@@ -47831,7 +47830,7 @@
 	                key: i,
 	                value: v
 	              },
-	              Date(surveys[surveyName][v].info.modified)
+	              surveys[surveyName][v].info.modified
 	            );
 	          })
 	        ),
@@ -47948,8 +47947,8 @@
 	          _react2['default'].createElement(
 	            'div',
 	            { style: [styles.preview] },
-	            params ? _react2['default'].createElement(_Preview2['default'], {
-	              params: _extends({}, queue[selected], params),
+	            queue[selected] ? _react2['default'].createElement(_Preview2['default'], {
+	              params: queue[selected],
 	              table: _extends({}, initTable, accTable),
 	              push: function (table) {}
 	            }) : _react2['default'].createElement(
@@ -48096,10 +48095,12 @@
 	            ),
 	            _react2['default'].createElement(_LoadParams2['default'], {
 	              module: queue[selected],
-	              params: params,
 	              table: _extends({}, initTable, accTable),
 	              setParams: function (params) {
-	                return _this3.setState({ params: params });
+	                _stores2['default'].dispatch({
+	                  type: 'CHANGE_MODULE_PARAMS',
+	                  params: params
+	                });
 	              }
 	            })
 	          )
@@ -55989,7 +55990,6 @@
 	    case 'LOAD_SURVEY':
 	      return _extends({}, state, {
 	        selected: 0,
-	        params: null,
 	        info: action.survey.info || {},
 	        initTable: action.survey.table || {},
 	        queue: action.survey.queue ? action.survey.queue.map(function (m, i) {
@@ -56003,8 +56003,7 @@
 	        initTable: {},
 	        accTable: {},
 	        queue: [],
-	        selected: 0,
-	        params: null
+	        selected: 0
 	      });
 
 	    case 'SET_INIT_TABLE':
@@ -56073,6 +56072,12 @@
 	        })
 	      });
 
+	    case 'CHANGE_MODULE_PARAMS':
+	      state.queue[state.selected] = _extends({}, state.queue[state.selected], action.params);
+	      return _extends({}, state, {
+	        queue: state.queue
+	      });
+
 	    default:
 	      return _extends({}, state, {
 	        surveys: {},
@@ -56081,8 +56086,7 @@
 	        initTable: {},
 	        accTable: {},
 	        queue: [],
-	        selected: 0,
-	        params: null
+	        selected: 0
 	      });
 	  }
 	});
@@ -57087,7 +57091,7 @@
 	    _classCallCheck(this, _LoadParams);
 
 	    _React$Component4.call(this, props);
-	    this.state = { hover: null };
+	    this.state = { hover: null, isArray: [] };
 	    this.loadParams = this.loadParams.bind(this);
 	  }
 
@@ -57095,25 +57099,19 @@
 
 	  var _LoadParams = LoadParams;
 
-	  _LoadParams.prototype.componentWillMount = function componentWillMount() {
-	    console.log('willmount');
+	  _LoadParams.prototype.componentDidMount = function componentDidMount() {
 	    this.loadParams(this.props);
 	  };
 
-	  _LoadParams.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
-	    if (!props.params) this.loadParams(props);
+	  _LoadParams.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
+	    if (!_lodash2['default'].isEqual(this.props.module, prevProps.module)) {
+	      this.loadParams(this.props);
+	    }
 	  };
-
-	  // componentDidUpdate (prevProps, prevState) {
-	  //   if (!_.isEqual(this.state.params, prevState.params)) {
-	  //     this.props.setParams(this.state.params)
-	  //   }
-	  // }
 
 	  _LoadParams.prototype.loadParams = function loadParams(props) {
 	    var _this2 = this;
 
-	    console.log(props);
 	    var module = props.module;
 	    var table = props.table;
 
@@ -57148,7 +57146,7 @@
 	  _LoadParams.prototype.setParam = function setParam(param, value) {
 	    var _extends2;
 
-	    var params = _extends({}, this.props.params, (_extends2 = {}, _extends2[param] = value, _extends2));
+	    var params = _extends({}, this.props.module, (_extends2 = {}, _extends2[param] = value, _extends2));
 	    this.props.setParams(params);
 	  };
 
@@ -57160,7 +57158,7 @@
 	    var hover = _state.hover;
 	    var _props4 = this.props;
 	    var table = _props4.table;
-	    var params = _props4.params;
+	    var module = _props4.module;
 
 	    return _react2['default'].createElement(
 	      'div',
@@ -57170,18 +57168,20 @@
 	          return _this3.setState({ hover: null });
 	        }
 	      },
-	      params && Object.keys(params).map(function (p) {
-	        return isArray[p] ? _react2['default'].createElement(ArrayValues, {
+	      module && Object.keys(module).filter(function (k) {
+	        return k !== 'type' && k !== 'id';
+	      }).map(function (p) {
+	        return Array.isArray(module[p]) || isArray[p] ? _react2['default'].createElement(ArrayValues, {
 	          key: p,
 	          set: _this3.setParam.bind(_this3),
-	          params: params,
+	          params: module,
 	          p: p,
 	          table: table
 	        }) : _react2['default'].createElement(KeyValue, {
 	          key: p,
 	          table: table,
 	          k: p,
-	          v: params[p],
+	          v: module[p],
 	          hover: hover === p,
 	          onHover: function () {
 	            return _this3.setState({ hover: p });

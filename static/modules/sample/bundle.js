@@ -70,9 +70,7 @@
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	function choose(n, aspects) {
-	  var bucket = arguments[2] === undefined ? 'a' : arguments[2];
-
+	function choose(n, aspects, bucket) {
 	  var colors = [];
 	  var samples = _(aspects).sample(n || aspects.length).map(function (p, i) {
 	    colors.push([_globalServicesStringHash2['default'](p) + '_color', _globalServicesColorScheme2['default'].index(i)]);
@@ -103,7 +101,6 @@
 	    var aspects = props.aspects;
 	    var bucket = props.bucket;
 
-	    console.log(aspects);
 	    return choose(n, aspects, bucket);
 	  };
 
@@ -114,9 +111,17 @@
 	  _createClass(Sample, null, [{
 	    key: 'propTypes',
 	    value: {
-	      aspects: _react.PropTypes.array.isRequired,
-	      bucket: _react.PropTypes.string.isRequired,
+	      aspects: _react.PropTypes.array,
+	      bucket: _react.PropTypes.string,
 	      n: _react.PropTypes.number
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      aspects: ['one', 'two'],
+	      bucket: 'a',
+	      n: 1
 	    },
 	    enumerable: true
 	  }]);

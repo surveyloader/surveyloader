@@ -128,27 +128,21 @@ class ArrayValues extends React.Component {
 class LoadParams extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { hover: null }
+    this.state = { hover: null, isArray: [] }
     this.loadParams = this.loadParams.bind(this)
   }
 
-  componentWillMount () {
-    console.log('willmount')
+  componentDidMount () {
     this.loadParams(this.props)
   }
 
-  componentWillReceiveProps (props) {
-    if (!props.params) this.loadParams(props)
+  componentDidUpdate (prevProps) {
+    if (!_.isEqual(this.props.module, prevProps.module)) {
+      this.loadParams(this.props)
+    }
   }
 
-  // componentDidUpdate (prevProps, prevState) {
-  //   if (!_.isEqual(this.state.params, prevState.params)) {
-  //     this.props.setParams(this.state.params)
-  //   }
-  // }
-
   loadParams (props) {
-    console.log(props)
     const { module, table } = props
     if (module) {
       load(module.type)
@@ -183,7 +177,7 @@ class LoadParams extends React.Component {
 
   setParam (param, value) {
     let params = {
-      ...this.props.params,
+      ...this.props.module,
       [param]: value
     }
     this.props.setParams(params)
@@ -191,22 +185,23 @@ class LoadParams extends React.Component {
 
   render () {
     const { isArray, hover } = this.state
-    const { table, params } = this.props
+    const { table, module } = this.props
     return (
       <div
         style={[styles.col]}
         onMouseOut={() => this.setState({ hover: null })}
       >
       {
-        params &&
-        Object.keys(params)
+        module &&
+        Object.keys(module)
+          .filter((k) => k !== 'type' && k !== 'id')
           .map((p) => {
             return (
-              isArray[p] ?
+              Array.isArray(module[p]) || isArray[p] ?
               <ArrayValues
                 key={p}
                 set={::this.setParam}
-                params={params}
+                params={module}
                 p={p}
                 table={table}
               /> :
@@ -214,7 +209,7 @@ class LoadParams extends React.Component {
                 key={p}
                 table={table}
                 k={p}
-                v={params[p]}
+                v={module[p]}
                 hover={hover === p}
                 onHover={() => this.setState({ hover: p })}
                 set={(val) => ::this.setParam(p, val)}
