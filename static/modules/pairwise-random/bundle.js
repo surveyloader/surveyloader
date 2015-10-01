@@ -93,11 +93,20 @@
 	    _classCallCheck(this, _App);
 
 	    _React$Component.call(this, props);
+
+	    var tradeoff_range = props.table.coin ? props.tradeoff_range.map(function (t) {
+	      return -t;
+	    }) : props.tradeoff_range;
+
+	    var increases_decreases = props.table.coin ? 'decreases' : 'increases';
+
 	    this.state = {
-	      tradeoff: [_lodash2['default'].sample(props.tradeoff_range), _lodash2['default'].sample(props.tradeoff_range)],
+	      tradeoff: [_lodash2['default'].sample(tradeoff_range), _lodash2['default'].sample(tradeoff_range)],
 	      upper: Infinity,
 	      lower: 0,
-	      choices: 0
+	      choices: 0,
+	      tradeoff_range: tradeoff_range,
+	      increases_decreases: increases_decreases
 	    };
 	  }
 
@@ -130,6 +139,7 @@
 	    var _this = this;
 
 	    var _state = this.state;
+	    var tradeoff_range = _state.tradeoff_range;
 	    var tradeoff = _state.tradeoff;
 	    var lower = _state.lower;
 	    var upper = _state.upper;
@@ -146,11 +156,20 @@
 
 	    this.setState({
 	      animating: true,
-	      tradeoff: [_lodash2['default'].sample(this.props.tradeoff_range), _lodash2['default'].sample(this.props.tradeoff_range)]
+	      tradeoff: [_lodash2['default'].sample(tradeoff_range), _lodash2['default'].sample(tradeoff_range)]
 	    });
 	    setTimeout(function () {
 	      return _this.setState({ animating: false });
 	    }, 300);
+	  };
+
+	  _App.prototype.deltaText = function deltaText(delta) {
+	    var floor = Math.floor;
+	    var log2 = Math.log2;
+	    var abs = Math.abs;
+
+	    var degree = this.props.log_degree[floor(log2(abs(delta)))] || '';
+	    return degree + ' ' + this.state.increases_decreases;
 	  };
 
 	  _App.prototype.render = function render() {
@@ -162,12 +181,13 @@
 	    var dislike = _props.dislike;
 	    var instructions = _props.instructions;
 	    var text = _props.text;
-	    var textual = _props.textual;
+	    var log_degree = _props.log_degree;
+	    var increases_decreases = _props.increases_decreases;
 	    var aspects = _props.aspects;
 	    var table = _props.table;
 	    var _state2 = this.state;
-	    var tradeoff = _state2.tradeoff;
 	    var animating = _state2.animating;
+	    var tradeoff = _state2.tradeoff;
 
 	    return _react2['default'].createElement(
 	      'div',
@@ -209,7 +229,7 @@
 	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
 	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
 	                delta: tradeoff[0],
-	                deltaText: textual[Math.floor(Math.sqrt(tradeoff[0]))]
+	                deltaText: _this2.deltaText.call(_this2, tradeoff[0])
 	              }),
 	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
 	                modStyle: { flex: 1 },
@@ -242,7 +262,7 @@
 	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
 	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
 	                delta: tradeoff[1],
-	                deltaText: textual[Math.floor(Math.sqrt(tradeoff[1]))]
+	                deltaText: _this2.deltaText.call(_this2, tradeoff[1])
 	              }),
 	              _react2['default'].createElement(_globalComponentsButton2['default'], {
 	                modStyle: { marginTop: 15 },
@@ -264,7 +284,7 @@
 	      like: _react.PropTypes.string,
 	      dislike: _react.PropTypes.string,
 	      tradeoff_range: _react.PropTypes.array,
-	      textual: _react.PropTypes.array,
+	      log_degree: _react.PropTypes.array,
 	      n: _react.PropTypes.number,
 	      aspects: _react.PropTypes.array
 	    },
@@ -277,7 +297,7 @@
 	      like: 'I prefer this option',
 	      dislike: 'I prefer this option',
 	      tradeoff_range: _lodash2['default'].range(1, 9),
-	      textual: ['slightly improves', 'moderately improves', 'strongly improves', 'greatly improves'],
+	      log_degree: ['slightly', 'moderately', 'strongly', 'greatly'],
 	      n: 3,
 	      aspects: ['one', 'two']
 	    },
@@ -5996,7 +6016,7 @@
 	            _react2['default'].createElement(
 	              'span',
 	              { style: [styles.delta] },
-	              '+' + String(delta)
+	              delta > 0 ? '+' + String(delta) : String(delta)
 	            )
 	          )
 	        )
@@ -6040,7 +6060,7 @@
 	  },
 	  delta: {
 	    color: '#fff',
-	    fontWeight: 100,
+	    fontWeight: 'bold',
 	    padding: '3px 5px',
 	    background: '#000',
 	    borderRadius: 30
@@ -6101,35 +6121,57 @@
 	      'svg',
 	      {
 	        width: '100%',
-	        viewBox: '0 0 100 ' + height,
+	        viewBox: '0 0 100 ' + Number(height + 10),
 	        style: [styles.svg, modStyle]
 	      },
 	      _react2['default'].createElement('rect', {
 	        x: 0,
+	        y: 7,
 	        width: 100,
 	        height: height,
 	        fill: '#eee'
 	      }),
 	      _react2['default'].createElement('rect', {
 	        x: 0,
+	        y: 7,
 	        width: percent,
 	        height: height,
 	        fill: color
 	      }),
-	      delta > 0 && _react2['default'].createElement('rect', {
-	        x: percent,
-	        width: delta,
-	        height: height,
-	        fill: _color2['default'](color).darken(0.7).rgbString()
-	      }),
-	      delta < 0 && _react2['default'].createElement('rect', {
-	        x: percent + delta,
-	        width: -delta,
-	        height: height,
-	        fill: _color2['default'](color).lighten(0.2).rgbString()
-	      }),
+	      delta > 0 && _react2['default'].createElement(
+	        'g',
+	        null,
+	        _react2['default'].createElement('rect', {
+	          x: percent,
+	          y: 7,
+	          width: delta,
+	          height: height,
+	          fill: _color2['default'](color).darken(0.7).rgbString()
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + percent + ',2\n                l ' + (delta - 2) + ',0\n                l 0,2\n                l ' + (2 - delta) + ',0\n                Z\n              '
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + (percent + delta - 2) + ',0\n                l 2,3\n                l -2,3\n                Z\n              '
+	        })
+	      ),
+	      delta < 0 && _react2['default'].createElement(
+	        'g',
+	        null,
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + percent + ',2\n                l ' + (delta + 2) + ',0\n                l 0,2\n                l ' + (-2 - delta) + ',0\n                Z\n              '
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + (percent + delta + 2) + ',0\n                l -2,3\n                l 2,3\n                Z\n              '
+	        })
+	      ),
 	      _react2['default'].createElement('rect', {
 	        x: percent + delta - 0.5,
+	        y: 7,
 	        width: 0.5,
 	        height: height,
 	        fill: '#000'

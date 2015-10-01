@@ -40,7 +40,11 @@ class Aspect extends React.Component {
               <span>
                 <b>{' ' + deltaText + ' '}</b>
                 <span style={[styles.delta]}>
-                  {'+' + String(delta)}
+                {
+                  delta > 0 ?
+                  '+' + String(delta) :
+                  String(delta)
+                }
                 </span>
               </span>
             }
@@ -71,7 +75,7 @@ const styles = {
   },
   delta: {
     color: '#fff',
-    fontWeight: 100,
+    fontWeight: 'bold',
     padding: '3px 5px',
     background: '#000',
     borderRadius: 30

@@ -19,7 +19,7 @@ class App extends React.Component {
     like: PropTypes.string,
     dislike: PropTypes.string,
     tradeoff_range: PropTypes.array,
-    textual: PropTypes.array,
+    log_degree: PropTypes.array,
     n: PropTypes.number,
     aspects: PropTypes.array
   }
@@ -30,11 +30,11 @@ class App extends React.Component {
     like: 'I prefer this option',
     dislike: 'I prefer this option',
     tradeoff_range: _.range(1,9),
-    textual: [
-      'slightly improves',
-      'moderately improves',
-      'strongly improves',
-      'greatly improves'
+    log_degree: [
+      'slightly',
+      'moderately',
+      'strongly',
+      'greatly'
     ],
     n: 3,
     aspects: ['one', 'two']
@@ -50,14 +50,25 @@ class App extends React.Component {
 
   constructor (props) {
     super(props)
+
+    let tradeoff_range = props.table.coin ?
+      props.tradeoff_range.map(t => -t) :
+      props.tradeoff_range
+
+    let increases_decreases = props.table.coin ?
+      'decreases' :
+      'increases'
+
     this.state = { 
       tradeoff: [
-        _.sample(props.tradeoff_range),
-        _.sample(props.tradeoff_range)
+        _.sample(tradeoff_range),
+        _.sample(tradeoff_range)
       ],
       upper: Infinity,
       lower: 0,
-      choices: 0
+      choices: 0,
+      tradeoff_range,
+      increases_decreases
     }
   }
 
@@ -73,7 +84,7 @@ class App extends React.Component {
   }
 
   choose (option) {
-    const { tradeoff, lower, upper, choices } = this.state
+    const { tradeoff_range, tradeoff, lower, upper, choices } = this.state
     
     let mrs = tradeoff[1] / tradeoff[0]
     if (option === 1 && mrs < upper) {
@@ -87,11 +98,17 @@ class App extends React.Component {
     this.setState({
       animating: true,
       tradeoff: [
-        _.sample(this.props.tradeoff_range),
-        _.sample(this.props.tradeoff_range)
+        _.sample(tradeoff_range),
+        _.sample(tradeoff_range)
       ]
     })
     setTimeout(() => this.setState({ animating: false }), 300)
+  }
+
+  deltaText (delta) {
+    const { floor, log2, abs } = Math
+    let degree = this.props.log_degree[floor(log2(abs(delta)))] || ''
+    return `${degree} ${this.state.increases_decreases}`
   }
 
   render () {
@@ -101,12 +118,14 @@ class App extends React.Component {
       dislike,
       instructions,
       text,
-      textual,
+      log_degree,
+      increases_decreases,
       aspects,
       table
     } = this.props
 
-    const { tradeoff, animating } = this.state
+    const { animating, tradeoff } = this.state
+
     return (
       <div style={[styles.main]}>
         <div style={[styles.instructions]}>
@@ -134,7 +153,7 @@ class App extends React.Component {
                   rating={table[identify(aspects[0]) + '_rating']}
                   color={table[identify(aspects[0]) + '_color']}
                   delta={tradeoff[0]}
-                  deltaText={textual[Math.floor(Math.sqrt(tradeoff[0]))]}
+                  deltaText={::this.deltaText(tradeoff[0])}
                 />
                 <Aspect
                   modStyle={{flex: 1}}
@@ -163,7 +182,7 @@ class App extends React.Component {
                   rating={table[identify(aspects[1]) + '_rating']}
                   color={table[identify(aspects[1]) + '_color']}
                   delta={tradeoff[1]}
-                  deltaText={textual[Math.floor(Math.sqrt(tradeoff[1]))]}
+                  deltaText={::this.deltaText(tradeoff[1])}
                 />
                 <Button
                   modStyle={{marginTop: 15}}

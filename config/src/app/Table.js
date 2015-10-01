@@ -42,7 +42,7 @@ class TableParameter extends React.Component {
               onClick={() => remove()}
             /> 
           </span> :
-          <span>{v}</span>
+          <span>{String(v)}</span>
         }
       </div>
     )

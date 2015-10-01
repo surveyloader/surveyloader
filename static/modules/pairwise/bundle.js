@@ -5980,7 +5980,7 @@
 	            _react2['default'].createElement(
 	              'span',
 	              { style: [styles.delta] },
-	              '+' + String(delta)
+	              delta > 0 ? '+' + String(delta) : String(delta)
 	            )
 	          )
 	        )
@@ -6024,7 +6024,7 @@
 	  },
 	  delta: {
 	    color: '#fff',
-	    fontWeight: 100,
+	    fontWeight: 'bold',
 	    padding: '3px 5px',
 	    background: '#000',
 	    borderRadius: 30
@@ -6085,35 +6085,57 @@
 	      'svg',
 	      {
 	        width: '100%',
-	        viewBox: '0 0 100 ' + height,
+	        viewBox: '0 0 100 ' + Number(height + 10),
 	        style: [styles.svg, modStyle]
 	      },
 	      _react2['default'].createElement('rect', {
 	        x: 0,
+	        y: 7,
 	        width: 100,
 	        height: height,
 	        fill: '#eee'
 	      }),
 	      _react2['default'].createElement('rect', {
 	        x: 0,
+	        y: 7,
 	        width: percent,
 	        height: height,
 	        fill: color
 	      }),
-	      delta > 0 && _react2['default'].createElement('rect', {
-	        x: percent,
-	        width: delta,
-	        height: height,
-	        fill: _color2['default'](color).darken(0.7).rgbString()
-	      }),
-	      delta < 0 && _react2['default'].createElement('rect', {
-	        x: percent + delta,
-	        width: -delta,
-	        height: height,
-	        fill: _color2['default'](color).lighten(0.2).rgbString()
-	      }),
+	      delta > 0 && _react2['default'].createElement(
+	        'g',
+	        null,
+	        _react2['default'].createElement('rect', {
+	          x: percent,
+	          y: 7,
+	          width: delta,
+	          height: height,
+	          fill: _color2['default'](color).darken(0.7).rgbString()
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + percent + ',2\n                l ' + (delta - 2) + ',0\n                l 0,2\n                l ' + (2 - delta) + ',0\n                Z\n              '
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + (percent + delta - 2) + ',0\n                l 2,3\n                l -2,3\n                Z\n              '
+	        })
+	      ),
+	      delta < 0 && _react2['default'].createElement(
+	        'g',
+	        null,
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + percent + ',2\n                l ' + (delta + 2) + ',0\n                l 0,2\n                l ' + (-2 - delta) + ',0\n                Z\n              '
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + (percent + delta + 2) + ',0\n                l -2,3\n                l 2,3\n                Z\n              '
+	        })
+	      ),
 	      _react2['default'].createElement('rect', {
 	        x: percent + delta - 0.5,
+	        y: 7,
 	        width: 0.5,
 	        height: height,
 	        fill: '#000'
