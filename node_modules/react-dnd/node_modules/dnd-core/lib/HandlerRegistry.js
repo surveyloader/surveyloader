@@ -12,10 +12,6 @@ var _invariant = require('invariant');
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _keymirror = require('keymirror');
-
-var _keymirror2 = _interopRequireDefault(_keymirror);
-
 var _lodashLangIsArray = require('lodash/lang/isArray');
 
 var _lodashLangIsArray2 = _interopRequireDefault(_lodashLangIsArray);
@@ -26,10 +22,10 @@ var _utilsGetNextUniqueId2 = _interopRequireDefault(_utilsGetNextUniqueId);
 
 var _actionsRegistry = require('./actions/registry');
 
-var HandlerRoles = _keymirror2['default']({
-  SOURCE: null,
-  TARGET: null
-});
+var HandlerRoles = {
+  SOURCE: 'SOURCE',
+  TARGET: 'TARGET'
+};
 
 function validateSourceContract(source) {
   _invariant2['default'](typeof source.canDrag === 'function', 'Expected canDrag to be a function.');

@@ -1,9 +1,10 @@
 import webpack from 'webpack'
+import fs from 'fs'
 
-function pack (dir) {
-  let compiler = webpack({
+function pack (dir, options) {
+  webpack({
     entry: {
-      app: dir + '/src/Index.js'
+      app: dir + '/index.js'
     },
     output: {
       path: dir + '/',
@@ -28,12 +29,30 @@ function pack (dir) {
     },
     plugins: [
       //  new webpack.optimize.UglifyJsPlugin({ minimize: true })
-    ]
+    ],
+    ...options
   })
-
-  compiler.watch({}, (err, stats) => {
+  .watch({}, (err, stats) => {
     console.log(stats.toString({ colors: true }))
   })
 }
 
-['load', 'config'].map((dir) => pack('./' + dir))
+let modules = fs
+  .readdirSync(`${__dirname}/modules`)
+  .filter(f => fs.statSync(`${__dirname}/modules/${f}`).isDirectory())
+
+fs.writeFile(`${__dirname}/modules/list.json`, JSON.stringify(modules))
+
+let imp = modules
+  .map((m) => `import ${m} from './${m}'`)
+  .join('\n')
+
+let exp = modules
+  .map((m) => `export { ${m} }`)
+  .join('\n')
+
+fs.writeFile(`${__dirname}/modules/index.js`, `${imp}\n${exp}`)
+
+pack('./loader')
+pack('./configurator')
+pack('./simulator')
