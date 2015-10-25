@@ -105,7 +105,7 @@ export default class Crud extends React.Component {
                       key={i}
                       value={v}
                     >
-                      {new Date(surveys[surveyName][v].info.modified).toString()}
+                      {new Date(surveys[surveyName][v].table.surveyVersion).toString()}
                     </option>
                   )
                 })

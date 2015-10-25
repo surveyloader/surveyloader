@@ -38,7 +38,6 @@ export default createStore(function (state, action) {
       return {
         ...state,
         selected: 0,
-        info: action.survey.info || {},
         initTable: action.survey.table || {},
         queue: action.survey.queue ? action.survey.queue
           .map((m, i) => { 
@@ -49,7 +48,6 @@ export default createStore(function (state, action) {
     case 'CREATE_SURVEY':
       return {
         ...state,
-        info: {},
         initTable: {},
         accTable: {},
         queue: [],
@@ -139,7 +137,6 @@ export default createStore(function (state, action) {
       return {
         ...state,
         surveys: {},
-        info: {},
         modules: [],
         initTable: {},
         accTable: {},

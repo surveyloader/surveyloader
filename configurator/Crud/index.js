@@ -42,9 +42,9 @@ export default class Crud extends React.Component {
   }
 
   saveSurvey () {
-    const { auth, info, initTable, queue, surveyName } = this.props
+    const { auth, initTable, queue, surveyName } = this.props
     console.log(initTable)
-    const authors = String(info.author).split(',')
+    const authors = String(initTable.surveyAuthor).split(',')
     const author = 
       authors.indexOf(`${auth.github.username}@github`) > 0 ?
       authors.join(',') :
@@ -57,14 +57,14 @@ export default class Crud extends React.Component {
       .saveConfiguration(
         surveyName,
         {
-          info: {
-            ...info,
-            author,
-            modified: {
+          table: {
+            ...initTable,
+            surveyName,
+            surveyAuthor: author,
+            surveyVersion: {
               '.sv': 'timestamp'
             }
           },
-          table: initTable,
           queue: queue.length ? queue : null
         },
         () => this.loadSurveys(this.props.store)
@@ -73,7 +73,6 @@ export default class Crud extends React.Component {
 
   render () {
     const {
-      info,
       auth,
       initTable,
       queue,
@@ -130,7 +129,7 @@ export default class Crud extends React.Component {
                       key={i}
                       value={v}
                     >
-                      {new Date(surveys[surveyName][v].info.modified).toString()}
+                      {new Date(surveys[surveyName][v].table.surveyVersion).toString()}
                     </option>
                   )
                 })
@@ -180,8 +179,9 @@ export default class Crud extends React.Component {
             type="text"
             key={surveyName}
             defaultValue={surveyName}
+            onChange={(surveyName) => this.setState({ surveyName })}
           />&nbsp;
-          <span>author:{info.author}</span>
+          <span>author:{initTable.author}</span>
           &nbsp;
           {
             auth &&

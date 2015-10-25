@@ -26,7 +26,7 @@ class Container extends React.Component {
       .value()
 
     http
-      .get(`https://fsurvey.firebaseio.com/configs/${params.name}.json`)
+      .get(`https://surveyloader.firebaseio.com/configurations/${params.name}.json`)
       .end((err, res) => {
         let surveys = Object
           .keys(res.body)
@@ -177,7 +177,7 @@ const styles = {
     left: 0,
     top: 0,
     backgroundColor: '#ddf',
-    fontFamily: 'Helvetica',
+    fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif',
     fontSize: '1.5em',
     color: '#333',
     boxSizing: 'border-box'
