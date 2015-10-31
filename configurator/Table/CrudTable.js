@@ -64,14 +64,14 @@ class CrudTable extends React.Component {
               <input
                 type="text"
                 style={[styles.hundred]}
-                // ref="k"
+                ref="k"
               />
             </div>
             <div style={[styles.col, { flex: 2 }]}>
               <input
                 type="text"
                 style={[styles.hundred]}
-                // ref="v"
+                ref="v"
               />
             </div>
             <div style={[styles.col, { flex: 0.2 }]}>
@@ -81,7 +81,7 @@ class CrudTable extends React.Component {
                 onClick={() => {
                   set({
                     ...data,
-                    // [this.refs.k.value]: this.refs.v.value
+                    [this.refs.k.value]: this.refs.v.value
                   })
                 }}
               />

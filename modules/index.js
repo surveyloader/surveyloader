@@ -1,3 +1,4 @@
+import Bucket from './Bucket'
 import Coin from './Coin'
 import Consent from './Consent'
 import MostLeast from './MostLeast'
@@ -6,6 +7,8 @@ import PairwiseRandom from './PairwiseRandom'
 import Rating from './Rating'
 import Sample from './Sample'
 import Store from './Store'
+import Triple from './Triple'
+export { Bucket }
 export { Coin }
 export { Consent }
 export { MostLeast }
@@ -14,3 +17,4 @@ export { PairwiseRandom }
 export { Rating }
 export { Sample }
 export { Store }
+export { Triple }

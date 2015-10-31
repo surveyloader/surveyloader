@@ -21,12 +21,16 @@ class Index extends React.Component {
     text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
     rating_tip: 'Move the slider to set your rating',
     rating_confirm: 'Confirm Rating',
-    aspects: ['one', 'two']
+    aspects: [
+      '$text_$(aspect_a_0)',
+      '$text_$(aspect_a_1)',
+      '$text_$(aspect_a_2)'
+    ]
   }
 
   static simulate (props) {
     return _(props.aspects)
-      .map((a) => [identify(a) + '_rating', _.sample(_.range(0,101))])
+      .map((a) => [`rating_${identify(a)}`, _.sample(_.range(0,101))])
       .object()
       .value()
   }
@@ -56,7 +60,7 @@ class Index extends React.Component {
     if (this.state.index < 0) {
       this.props.push(
         _(this.state.aspects)
-          .map((a) => [identify(a.text) + '_rating', a.rating])
+          .map((a) => [`rating_${identify(a.text)}`, a.rating])
           .object()
           .value()
       )
