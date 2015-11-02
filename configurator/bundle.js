@@ -21507,7 +21507,9 @@
 	  heading: {
 	    fontWeight: 'bold',
 	    fontSize: '1.125em',
-	    padding: '0.5rem'
+	    paddingTop: '0.5rem',
+	    paddingRight: '0.5rem',
+	    paddingBottom: '0.5rem'
 	  },
 	  col: {
 	    display: 'flex',
@@ -21531,7 +21533,7 @@
 	    marginBottom: 0,
 	    marginLeft: 'auto',
 	    overflowY: 'scroll',
-	    fontFamily: 'Helvetica',
+	    fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif',
 	    fontSize: '1.25em',
 	    padding: 30,
 	    backgroundColor: '#ddf',
@@ -31130,6 +31132,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDomServer = __webpack_require__(391);
+
+	var _reactDomServer2 = _interopRequireDefault(_reactDomServer);
+
 	var _lodash = __webpack_require__(330);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
@@ -31193,15 +31199,37 @@
 	    var _this2 = this;
 
 	    var Component = this.state.component;
-	    return this.state.response ? _react2['default'].createElement(
-	      'pre',
-	      null,
-	      JSON.stringify(this.state.response, null, 2)
-	    ) : Component ? _react2['default'].createElement(Component, _extends({}, this.props, {
-	      push: function (response) {
-	        return _this2.setState({ response: response });
+	    if (Component) {
+	      try {
+	        _reactDomServer2['default'].renderToString(_react2['default'].createElement(Component, _extends({}, this.props, {
+	          push: function (response) {
+	            return _this2.setState({ response: response });
+	          }
+	        })));
+	      } catch (e) {
+	        console.log(e);
+	        return _react2['default'].createElement(
+	          'span',
+	          null,
+	          e.toString()
+	        );
 	      }
-	    })) : false;
+	      return this.state.response ? _react2['default'].createElement(
+	        'pre',
+	        null,
+	        JSON.stringify(this.state.response, null, 2)
+	      ) : Component ? _react2['default'].createElement(Component, _extends({}, this.props, {
+	        push: function (response) {
+	          return _this2.setState({ response: response });
+	        }
+	      })) : false;
+	    } else {
+	      return _react2['default'].createElement(
+	        'span',
+	        null,
+	        '...'
+	      );
+	    }
 	  };
 
 	  _createClass(Loader, null, [{
@@ -51209,18 +51237,18 @@
 	    return connectDropTarget(_react2['default'].createElement(
 	      'div',
 	      { style: [styles.hover] },
-	      hover || !/\$.+/.test(v) ? _react2['default'].createElement('textarea', {
+	      _react2['default'].createElement('textarea', {
 	        defaultValue: v,
 	        onChange: function (e) {
 	          return set(e.target.value);
 	        },
 	        onBrush: brush,
 	        style: { width: '100%' }
-	      }) : _react2['default'].createElement(
+	      }),
+	      /\$.+/.test(v) && _react2['default'].createElement(
 	        'span',
-	        {
-	          style: { width: '100%' }
-	        },
+	        null,
+	        '-> ',
 	        _globalServicesEcho2['default'](v, table)
 	      )
 	    ));
@@ -51588,6 +51616,15 @@
 
 	exports['default'] = simulateOver;
 	module.exports = exports['default'];
+
+/***/ },
+/* 391 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = __webpack_require__(148);
+
 
 /***/ }
 /******/ ]);

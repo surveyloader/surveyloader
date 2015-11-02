@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import ReactDOMServer from 'react-dom/server'
 import _ from 'lodash'
 
 import load from '../../global/services/lazy'
@@ -50,13 +51,27 @@ class Loader extends React.Component {
 
   render () {
     const Component = this.state.component
-    return this.state.response ?
-    <pre>{JSON.stringify(this.state.response, null, 2)}</pre> :
-    Component ?
-    <Component
-      {...this.props}
-      push={(response) => this.setState({ response })}
-    /> : false
+    if (Component) {
+      try {
+        ReactDOMServer.renderToString(<Component
+          {...this.props}
+          push={(response) => this.setState({ response })}
+        />)
+      } 
+      catch (e) {
+        console.log(e)
+        return <span>{e.toString()}</span>
+      }
+      return this.state.response ?
+        <pre>{JSON.stringify(this.state.response, null, 2)}</pre> :
+        Component ?
+        <Component
+          {...this.props}
+          push={(response) => this.setState({ response })}
+        /> : false
+    } else {
+      return <span>...</span>
+    }
   }
 }
 

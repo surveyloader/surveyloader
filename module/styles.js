@@ -11,7 +11,7 @@ export default {
     left: 0,
     top: 0,
     backgroundColor: '#fff',
-    fontFamily: 'Courier',
+    fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif',
     fontSize: '1em',
     color: '#333',
     boxSizing: 'border-box'
@@ -19,9 +19,7 @@ export default {
   heading: {
     fontWeight: 'bold',
     fontSize: '1.125em',
-    paddingTop: '0.5rem',
-    paddingRight: '0.5rem',
-    paddingBottom: '0.5rem'
+    padding: '0.5rem'
   },
   col: {
     display: 'flex',

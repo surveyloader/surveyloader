@@ -23,19 +23,15 @@ class HoverValue extends React.Component {
     const { table, v, set, hover, brush, connectDropTarget } = this.props
     return connectDropTarget(
       <div style={[styles.hover]}>
-      {
-        hover || !/\$.+/.test(v) ?
         <textarea
           defaultValue={v}
           onChange={(e) => set(e.target.value)}
           onBrush={brush}
           style={{ width: '100%' }}
-        /> :
-        <span
-          style={{ width: '100%' }}
-        >
-          {echo(v, table)}
-        </span>
+        />
+      {
+        /\$.+/.test(v) &&
+        <span>-> {echo(v, table)}</span>
       }
       </div>
     )
