@@ -21189,20 +21189,24 @@
 
 	  var _Doc = Doc;
 
-	  _Doc.prototype.componentWillMount = function componentWillMount() {
+	  _Doc.prototype.loadDocumentation = function loadDocumentation(path) {
 	    var _this = this;
 
-	    _superagent2['default'].get('/' + this.props.path + '/README.md').end(function (err, res) {
-	      _this.setState({ md: res.text });
+	    _superagent2['default'].get('/' + path + '/README.md').end(function (err, res) {
+	      if (!err) {
+	        _this.setState({ md: res.text });
+	      } else {
+	        _this.setState({ md: '*No documentation found for this module*' });
+	      }
 	    });
 	  };
 
-	  _Doc.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
-	    var _this2 = this;
+	  _Doc.prototype.componentWillMount = function componentWillMount() {
+	    this.loadDocumentation(this.props.path);
+	  };
 
-	    _superagent2['default'].get('/' + props.path + '/README.md').end(function (err, res) {
-	      _this2.setState({ md: res.text });
-	    });
+	  _Doc.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
+	    this.loadDocumentation(props.path);
 	  };
 
 	  _Doc.prototype.render = function render() {

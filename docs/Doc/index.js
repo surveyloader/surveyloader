@@ -11,20 +11,24 @@ class Doc extends React.Component {
     super(props)
   }
 
-  componentWillMount () {
+  loadDocumentation (path) {
     http
-      .get(`/${this.props.path}/README.md`)
+      .get(`/${path}/README.md`)
       .end((err, res) => {
-        this.setState({ md: res.text })
+        if (!err) {
+          this.setState({ md: res.text })
+        } else {
+          this.setState({ md: '*No documentation found for this module*' })
+        }
       })
   }
 
+  componentWillMount () {
+    this.loadDocumentation(this.props.path)
+  }
+
   componentWillReceiveProps (props) {
-    http
-      .get(`/${props.path}/README.md`)
-      .end((err, res) => {
-        this.setState({ md: res.text })
-      })
+    this.loadDocumentation(props.path)
   }
 
   render () {
