@@ -19,7 +19,9 @@ export default {
   heading: {
     fontWeight: 'bold',
     fontSize: '1.125em',
-    padding: '0.5rem'
+    paddingRight: '0.5rem',
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem'
   },
   col: {
     display: 'flex',

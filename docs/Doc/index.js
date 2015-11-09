@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { DOM, createFactory as $ } from 'react'
 import Radium from 'radium'
 import http from 'superagent'
 import Markdown from 'react-remarkable'
@@ -32,11 +32,12 @@ class Doc extends React.Component {
   }
 
   render () {
-    return (
-      <div style={[styles.doc]}>
-        <Markdown source={this.state.md} />
-      </div>
-    )
+    return DOM.div({
+      style: [styles.doc],
+      children: [
+        $(Markdown)({ source: this.state.md })
+      ]
+    })
   }
 }
 

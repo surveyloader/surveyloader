@@ -41,7 +41,7 @@ class HoverValue extends React.Component {
 @Radium
 class KeyValue extends React.Component {
   render () {
-    const { table, k, v, set, onHover, hover } = this.props
+    const { table, k, v, set, remove, onHover, hover } = this.props
     return (
       <div style={[styles.row]} onMouseOver={onHover}>
         <div style={[styles.col, styles.label]}>
@@ -56,6 +56,11 @@ class KeyValue extends React.Component {
             brush={onHover}
           />
         </div>
+        <input
+          type="button"
+          value="x"
+          onClick={remove}
+        /> 
       </div>
     )
   }
@@ -64,7 +69,7 @@ class KeyValue extends React.Component {
 @Radium
 class ArrayValues extends React.Component {
   render () {
-    const { table, params, p, set } = this.props
+    const { table, params, p, set, col } = this.props
     const { hover } = this.state
     return (
       <div
@@ -83,13 +88,16 @@ class ArrayValues extends React.Component {
           params[p].map((v, k) => (
             <KeyValue
               table={table}
-              key={k}
+              key={k + v}
               k={k}
               v={v}
               hover={hover === k}
               set={(val) => {
                 params[p][k] = val
                 set(p, params[p])
+              }}
+              remove={() => {
+                set(p, params[p].filter((e, i) => i !== k))
               }}
               onHover={() => {
                 this.setState({ hover: k })
@@ -104,14 +112,25 @@ class ArrayValues extends React.Component {
           <div style={[styles.col]}>
             <form onSubmit={(e) => {
               e.preventDefault()
-              params[p].push('fix ref')
+              params[p].push(this.refs.input.value)
               set(p, params[p])
             }}>
               <input
                 type="text"
+                ref="input"
                 style={styles.input}
               />
             </form>
+            {
+              col &&
+              <input
+                type="button"
+                value="Add selected Excel column"
+                onClick={() => {
+                  set(p, params[p].concat(col))
+                }}
+              />
+            }
           </div>
         </div>
       </div>
@@ -178,7 +197,7 @@ class LoadParams extends React.Component {
 
   render () {
     const { isArray, hover } = this.state
-    const { table, module } = this.props
+    const { table, module, col } = this.props
     return (
       <div
         style={[styles.col]}
@@ -197,6 +216,7 @@ class LoadParams extends React.Component {
                 params={module}
                 p={p}
                 table={table}
+                col={col}
               /> :
               <KeyValue
                 key={p}

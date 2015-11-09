@@ -21210,11 +21210,10 @@
 	  };
 
 	  _Doc.prototype.render = function render() {
-	    return _react2['default'].createElement(
-	      'div',
-	      { style: [_styles2['default'].doc] },
-	      _react2['default'].createElement(_reactRemarkable2['default'], { source: this.state.md })
-	    );
+	    return _react.DOM.div({
+	      style: [_styles2['default'].doc],
+	      children: [_react.createFactory(_reactRemarkable2['default'])({ source: this.state.md })]
+	    });
 	  };
 
 	  Doc = _radium2['default'](Doc) || Doc;
@@ -33114,6 +33113,7 @@
 		"Bucket",
 		"Coin",
 		"Consent",
+		"Example",
 		"MostLeast",
 		"Pairwise",
 		"PairwiseRandom",

@@ -17,6 +17,11 @@ function pack (dir, options) {
           loader: 'babel',
           exclude: /node_modules/ 
         },
+        { // for third-party minified scripts, don't process require()
+          test: /\.min\.js$/,
+          include: /(node_modules|bower_components)/,
+          loader: 'script'
+        },
         { 
           test: /\.json$/,
           loader: 'json-loader' 

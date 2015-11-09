@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { DOM, createFactory as $ } from 'react'
 import Radium from 'radium'
 import styles from './styles'
 import http from 'superagent'
@@ -41,76 +41,38 @@ class Container extends React.Component {
   }
 
   render () {
-    const {
-      modules,
-      surveys,
-      surveyName,
-      surveyVersion,
-      auth,
-      info,
-      queue,
-      initTable,
-      accTable,
-      selected
-    } = this.state
+    const { state } = this
+    const module = state.queue[state.selected]
 
-    const crudProps = {
-      info,
-      auth,
-      initTable,
-      queue,
-      store,
-      surveys,
-      surveyName,
-      surveyVersion
-    }
-
-    const jsonProps = {
-      data: {
-        info,
-        table: initTable,
-        queue 
-      }
-    }
-
-    const previewProps = {
-      module: queue[selected],
-      table: { ...initTable, ...accTable }
-    }
-
-    const tableProps = {
-      initTable,
-      accTable,
-      store
-    }
-
-    const queueProps =  {
-      queue,
-      selected,
-      modules,
-      store
-    }
-
-    const paramProps = {
-      module: queue[selected],
-      initTable,
-      accTable,
-      selected,
-      store
-    }
-
-    return (
-      <div style={[styles.main]}>
-        <Crud {...crudProps} />
-        <Json {...jsonProps} />
-        <Preview {...previewProps} />
-        <div style={[styles.row]}>
-          <Table {...tableProps} />
-          <Queue {...queueProps} />
-          <Parameters {...paramProps} />
-        </div>
-      </div>
-    )
+    return DOM.div({
+      style: [styles.main],
+      children: [
+        $(Crud)({ ...state, store }),
+        $(Json)({
+          data: {
+            info: state.info,
+            table: state.initTable,
+            queue: state.queue
+          }
+        }),
+        $(Preview)({
+          module,
+          table: { ...state.initTable, ...state.accTable }
+        }),
+        DOM.div({
+          style: [styles.row],
+          children: [
+            $(Table)({ ...state, store }),
+            $(Queue)({ ...state, store }),
+            $(Parameters)({
+              ...state,
+              module,
+              store
+            })
+          ]
+        })
+      ]
+    })
   }
 }
 

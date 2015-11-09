@@ -19677,7 +19677,7 @@
 
 	var _globalServicesSimulateOver2 = _interopRequireDefault(_globalServicesSimulateOver);
 
-	var _globalServicesStringHash = __webpack_require__(221);
+	var _globalServicesStringHash = __webpack_require__(199);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
@@ -35920,7 +35920,7 @@
 
 	var _lazy2 = _interopRequireDefault(_lazy);
 
-	var _echo = __webpack_require__(243);
+	var _echo = __webpack_require__(244);
 
 	var _echo2 = _interopRequireDefault(_echo);
 
@@ -35989,49 +35989,54 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _Bucket = __webpack_require__(227);
+	var _Bucket = __webpack_require__(198);
 
 	var _Bucket2 = _interopRequireDefault(_Bucket);
 
-	var _Coin = __webpack_require__(228);
+	var _Coin = __webpack_require__(207);
 
 	var _Coin2 = _interopRequireDefault(_Coin);
 
-	var _Consent = __webpack_require__(229);
+	var _Consent = __webpack_require__(208);
 
 	var _Consent2 = _interopRequireDefault(_Consent);
 
-	var _MostLeast = __webpack_require__(230);
+	var _Example = __webpack_require__(210);
+
+	var _Example2 = _interopRequireDefault(_Example);
+
+	var _MostLeast = __webpack_require__(211);
 
 	var _MostLeast2 = _interopRequireDefault(_MostLeast);
 
-	var _Pairwise = __webpack_require__(232);
+	var _Pairwise = __webpack_require__(213);
 
 	var _Pairwise2 = _interopRequireDefault(_Pairwise);
 
-	var _PairwiseRandom = __webpack_require__(198);
+	var _PairwiseRandom = __webpack_require__(233);
 
 	var _PairwiseRandom2 = _interopRequireDefault(_PairwiseRandom);
 
-	var _Rating = __webpack_require__(233);
+	var _Rating = __webpack_require__(234);
 
 	var _Rating2 = _interopRequireDefault(_Rating);
 
-	var _Sample = __webpack_require__(240);
+	var _Sample = __webpack_require__(241);
 
 	var _Sample2 = _interopRequireDefault(_Sample);
 
-	var _Store = __webpack_require__(241);
+	var _Store = __webpack_require__(242);
 
 	var _Store2 = _interopRequireDefault(_Store);
 
-	var _Triple = __webpack_require__(242);
+	var _Triple = __webpack_require__(243);
 
 	var _Triple2 = _interopRequireDefault(_Triple);
 
 	exports.Bucket = _Bucket2['default'];
 	exports.Coin = _Coin2['default'];
 	exports.Consent = _Consent2['default'];
+	exports.Example = _Example2['default'];
 	exports.MostLeast = _MostLeast2['default'];
 	exports.Pairwise = _Pairwise2['default'];
 	exports.PairwiseRandom = _PairwiseRandom2['default'];
@@ -36048,8 +36053,6 @@
 
 	exports.__esModule = true;
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -36062,314 +36065,77 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _lodash = __webpack_require__(193);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _reactMotion = __webpack_require__(205);
-
-	var _globalServicesColorScheme = __webpack_require__(199);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	var _globalServicesStringHash = __webpack_require__(221);
+	var _globalServicesStringHash = __webpack_require__(199);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _globalComponentsAspect = __webpack_require__(223);
+	var _globalServicesColorScheme = __webpack_require__(201);
 
-	var _globalComponentsAspect2 = _interopRequireDefault(_globalComponentsAspect);
+	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	var _globalComponentsButton = __webpack_require__(226);
+	function create(aspects, bucket) {
+	  return _.object(aspects.map(function (a, i) {
+	    return [['aspect_' + bucket + '_' + i, '' + _globalServicesStringHash2['default'](a)], ['text_' + _globalServicesStringHash2['default'](a), a], ['color_' + _globalServicesStringHash2['default'](a), _globalServicesColorScheme2['default'].index(i)]];
+	  }).reduce(function (a, b) {
+	    return a.concat(b);
+	  }).sort(function (_ref, _ref2) {
+	    var k1 = _ref[0];
+	    var v1 = _ref[1];
+	    var k2 = _ref2[0];
+	    var v2 = _ref2[1];
+	    return k1 > k2 ? 1 : -1;
+	  }));
+	}
 
-	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
-
-	var App = (function (_React$Component) {
-	  function App(props) {
-	    _classCallCheck(this, _App);
+	var Bucket = (function (_React$Component) {
+	  function Bucket(props) {
+	    _classCallCheck(this, Bucket);
 
 	    _React$Component.call(this, props);
 	  }
 
-	  _inherits(App, _React$Component);
+	  _inherits(Bucket, _React$Component);
 
-	  var _App = App;
+	  Bucket.simulate = function simulate(_ref3) {
+	    var aspects = _ref3.aspects;
+	    var bucket = _ref3.bucket;
 
-	  _App.simulate = function simulate(props) {
-	    var _ref;
-
-	    var aspects = props.aspects;
-
-	    return (_ref = {}, _ref['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_lower'] = 0.5, _ref['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_upper'] = 2, _ref);
+	    return create(aspects, bucket);
 	  };
 
-	  _App.prototype.componentWillMount = function componentWillMount() {
-	    var tradeoff_range = this.props.tradeoff_sign < 0 ? this.props.tradeoff_range.map(function (t) {
-	      return -t;
-	    }) : this.props.tradeoff_range;
-
-	    var increases_decreases = this.props.tradeoff_sign < 0 ? 'decreases' : 'increases';
-
-	    this.setState({
-	      tradeoff: [_lodash2['default'].sample(tradeoff_range), _lodash2['default'].sample(tradeoff_range)],
-	      upper: Infinity,
-	      lower: 0,
-	      choices: 0,
-	      tradeoff_range: tradeoff_range,
-	      increases_decreases: increases_decreases
-	    });
-	  };
-
-	  _App.prototype.pushIfDone = function pushIfDone() {
+	  Bucket.prototype.componentWillMount = function componentWillMount() {
 	    var _props = this.props;
-	    var aspects = _props.aspects;
-	    var n = _props.n;
 	    var push = _props.push;
-	    var _state = this.state;
-	    var lower = _state.lower;
-	    var upper = _state.upper;
-	    var choices = _state.choices;
+	    var aspects = _props.aspects;
+	    var bucket = _props.bucket;
 
-	    if (choices + 1 > n) {
-	      var _push;
-
-	      push((_push = {}, _push['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_lower'] = lower, _push['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_upper'] = upper, _push));
-	    }
+	    push(create(aspects, bucket));
 	  };
 
-	  _App.prototype.choose = function choose(option) {
-	    var _this = this;
-
-	    var _state2 = this.state;
-	    var tradeoff_range = _state2.tradeoff_range;
-	    var tradeoff = _state2.tradeoff;
-	    var lower = _state2.lower;
-	    var upper = _state2.upper;
-	    var choices = _state2.choices;
-
-	    var pushIfDone = function pushIfDone() {
-	      return _this.pushIfDone.bind(_this)();
-	    };
-	    console.log('choices' + choices);
-	    var mrs = tradeoff[1] / tradeoff[0];
-	    if (option === 1 && mrs < upper) {
-	      this.setState({ upper: mrs, choices: choices + 1 }, pushIfDone);
-	    } else if (option === 2 && mrs > lower) {
-	      this.setState({ lower: mrs, choices: choices + 1 }, pushIfDone);
-	    } else {
-	      this.setState({ choices: choices + 1 }, pushIfDone);
-	    }
-
-	    this.setState({
-	      animating: true,
-	      tradeoff: [_lodash2['default'].sample(tradeoff_range), _lodash2['default'].sample(tradeoff_range)]
-	    });
-	    setTimeout(function () {
-	      return _this.setState({ animating: false });
-	    }, 300);
+	  Bucket.prototype.render = function render() {
+	    return _react2['default'].createElement('div', null);
 	  };
 
-	  _App.prototype.deltaText = function deltaText(delta) {
-	    var floor = Math.floor;
-	    var log2 = Math.log2;
-	    var abs = Math.abs;
-
-	    var degree = this.props.log_degree[floor(log2(abs(delta)))] || '';
-	    return degree + ' ' + this.state.increases_decreases;
-	  };
-
-	  _App.prototype.render = function render() {
-	    var _this2 = this;
-
-	    var _props2 = this.props;
-	    var aspects = _props2.aspects;
-	    var like = _props2.like;
-	    var dislike = _props2.dislike;
-	    var instructions = _props2.instructions;
-	    var text = _props2.text;
-	    var log_degree = _props2.log_degree;
-	    var increases_decreases = _props2.increases_decreases;
-	    var aspects = _props2.aspects;
-	    var table = _props2.table;
-	    var _state3 = this.state;
-	    var animating = _state3.animating;
-	    var tradeoff = _state3.tradeoff;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      { style: [styles.main] },
-	      _react2['default'].createElement(
-	        'div',
-	        { style: [styles.instructions] },
-	        _react2['default'].createElement(
-	          'b',
-	          null,
-	          instructions
-	        ),
-	        _react2['default'].createElement(
-	          'div',
-	          null,
-	          text
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        _reactMotion.Motion,
-	        {
-	          defaultStyle: { val: 0 },
-	          style: { val: _reactMotion.spring(1, _reactMotion.presets.nowobble) }
-	        },
-	        function (interpolated) {
-	          return _react2['default'].createElement(
-	            'div',
-	            {
-	              style: _extends({}, styles.container, {
-	                opacity: animating ? 0 : '' + interpolated.val,
-	                marginLeft: animating ? 0 : (1 - interpolated.val) * -200,
-	                marginRight: animating ? 0 : (1 - interpolated.val) * 200
-	              }) },
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.half] },
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[0],
-	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
-	                delta: tradeoff[0],
-	                deltaText: _this2.deltaText.call(_this2, tradeoff[0])
-	              }),
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[1],
-	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
-	                delta: 0
-	              }),
-	              _react2['default'].createElement(_globalComponentsButton2['default'], {
-	                modStyle: { marginTop: 15 },
-	                text: dislike,
-	                handler: function () {
-	                  return _this2.choose.call(_this2, 1);
-	                }
-	              })
-	            ),
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.half] },
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[0],
-	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
-	                delta: 0
-	              }),
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[1],
-	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
-	                delta: tradeoff[1],
-	                deltaText: _this2.deltaText.call(_this2, tradeoff[1])
-	              }),
-	              _react2['default'].createElement(_globalComponentsButton2['default'], {
-	                modStyle: { marginTop: 15 },
-	                text: like,
-	                handler: function () {
-	                  return _this2.choose.call(_this2, 2);
-	                }
-	              })
-	            )
-	          );
-	        }
-	      )
-	    );
-	  };
-
-	  _createClass(_App, null, [{
+	  _createClass(Bucket, null, [{
 	    key: 'propTypes',
 	    value: {
-	      like: _react.PropTypes.string,
-	      dislike: _react.PropTypes.string,
-	      tradeoff_range: _react.PropTypes.array,
-	      tradeoff_sign: _react.PropTypes.number,
-	      log_degree: _react.PropTypes.array,
-	      n: _react.PropTypes.number,
-	      aspects: _react.PropTypes.array
+	      aspects: _react.PropTypes.array,
+	      bucket: _react.PropTypes.string
 	    },
 	    enumerable: true
 	  }, {
 	    key: 'defaultProps',
 	    value: {
-	      instructions: 'Instructions',
-	      text: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.',
-	      like: 'I prefer this option',
-	      dislike: 'I prefer this option',
-	      tradeoff_range: _lodash2['default'].range(1, 9),
-	      tradeoff_sign: '$coin',
-	      log_degree: ['slightly', 'moderately', 'strongly', 'greatly'],
-	      n: 3,
-	      aspects: ['one', 'two']
+	      aspects: ['one', 'two', 'three'],
+	      bucket: 'a'
 	    },
 	    enumerable: true
 	  }]);
 
-	  App = _radium2['default'](App) || App;
-	  return App;
+	  return Bucket;
 	})(_react2['default'].Component);
 
-	var styles = {
-	  main: {
-	    paddingTop: 15,
-	    paddingRight: 15,
-	    paddingBottom: 15,
-	    paddingLeft: 15,
-	    borderRadius: 15,
-	    boxSizing: 'border-box'
-	  },
-	  container: {
-	    display: 'flex',
-	    flexDirection: 'row'
-	  },
-	  half: {
-	    flex: 1,
-	    boxSizing: 'border-box',
-	    marginTop: 5,
-	    marginRight: 5,
-	    marginBottom: 5,
-	    marginLeft: 5,
-	    paddingTop: 15,
-	    paddingRight: 15,
-	    paddingBottom: 15,
-	    paddingLeft: 15,
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    backgroundColor: '#fff',
-	    display: 'flex',
-	    flexDirection: 'column',
-	    justifyContent: 'space-around'
-	  },
-	  instructions: {
-	    boxSizing: 'border-box',
-	    width: '100%',
-	    paddingTop: 30,
-	    paddingRight: 30,
-	    paddingBottom: 30,
-	    paddingLeft: 30,
-	    marginTop: 30,
-	    marginRight: 0,
-	    marginBottom: 30,
-	    marginLeft: 0,
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    background: '#fff'
-	  }
-	};
-
-	exports['default'] = App;
+	exports['default'] = Bucket;
 	module.exports = exports['default'];
 
 /***/ },
@@ -36382,7 +36148,383 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _color = __webpack_require__(200);
+	var _hashids = __webpack_require__(200);
+
+	var _hashids2 = _interopRequireDefault(_hashids);
+
+	function hashCode(s) {
+	  return s.split('').reduce(function (a, b) {
+	    return (a << 5) - a + b.charCodeAt(0) & (a << 5) - a + b.charCodeAt(0);
+	  }, 0);
+	}
+
+	exports['default'] = function (s) {
+	  var hashids = new _hashids2['default']('');
+	  return hashids.encode(Math.abs(hashCode(s)));
+	};
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 200 */
+/***/ function(module, exports) {
+
+	/*
+
+		Hashids
+		http://hashids.org/node-js
+		(c) 2013 Ivan Akimov
+
+		https://github.com/ivanakimov/hashids.node.js
+		hashids may be freely distributed under the MIT license.
+
+	*/
+
+	/*jslint node: true, white: true, plusplus: true, nomen: true */
+
+	"use strict";
+
+	function Hashids(salt, minHashLength, alphabet) {
+
+		var uniqueAlphabet, i, j, len, sepsLength, diff, guardCount;
+
+		if (!(this instanceof Hashids)) {
+			return new Hashids(salt, minHashLength, alphabet);
+		}
+
+		this.version = "1.0.2";
+
+		/* internal settings */
+
+		this.minAlphabetLength = 16;
+		this.sepDiv = 3.5;
+		this.guardDiv = 12;
+
+		/* error messages */
+
+		this.errorAlphabetLength = "error: alphabet must contain at least X unique characters";
+		this.errorAlphabetSpace = "error: alphabet cannot contain spaces";
+
+		/* alphabet vars */
+
+		this.alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		this.seps = "cfhistuCFHISTU";
+		this.minHashLength = parseInt(minHashLength, 10) > 0 ? minHashLength : 0;
+		this.salt = (typeof salt === "string") ? salt : "";
+
+		if (typeof alphabet === "string") {
+			this.alphabet = alphabet;
+		}
+
+		for (uniqueAlphabet = "", i = 0, len = this.alphabet.length; i !== len; i++) {
+			if (uniqueAlphabet.indexOf(this.alphabet[i]) === -1) {
+				uniqueAlphabet += this.alphabet[i];
+			}
+		}
+
+		this.alphabet = uniqueAlphabet;
+
+		if (this.alphabet.length < this.minAlphabetLength) {
+			throw this.errorAlphabetLength.replace("X", this.minAlphabetLength);
+		}
+
+		if (this.alphabet.search(" ") !== -1) {
+			throw this.errorAlphabetSpace;
+		}
+
+		/* seps should contain only characters present in alphabet; alphabet should not contains seps */
+
+		for (i = 0, len = this.seps.length; i !== len; i++) {
+
+			j = this.alphabet.indexOf(this.seps[i]);
+			if (j === -1) {
+				this.seps = this.seps.substr(0, i) + " " + this.seps.substr(i + 1);
+			} else {
+				this.alphabet = this.alphabet.substr(0, j) + " " + this.alphabet.substr(j + 1);
+			}
+
+		}
+
+		this.alphabet = this.alphabet.replace(/ /g, "");
+
+		this.seps = this.seps.replace(/ /g, "");
+		this.seps = this.consistentShuffle(this.seps, this.salt);
+
+		if (!this.seps.length || (this.alphabet.length / this.seps.length) > this.sepDiv) {
+
+			sepsLength = Math.ceil(this.alphabet.length / this.sepDiv);
+
+			if (sepsLength === 1) {
+				sepsLength++;
+			}
+
+			if (sepsLength > this.seps.length) {
+
+				diff = sepsLength - this.seps.length;
+				this.seps += this.alphabet.substr(0, diff);
+				this.alphabet = this.alphabet.substr(diff);
+
+			} else {
+				this.seps = this.seps.substr(0, sepsLength);
+			}
+
+		}
+
+		this.alphabet = this.consistentShuffle(this.alphabet, this.salt);
+		guardCount = Math.ceil(this.alphabet.length / this.guardDiv);
+
+		if (this.alphabet.length < 3) {
+			this.guards = this.seps.substr(0, guardCount);
+			this.seps = this.seps.substr(guardCount);
+		} else {
+			this.guards = this.alphabet.substr(0, guardCount);
+			this.alphabet = this.alphabet.substr(guardCount);
+		}
+
+	}
+
+	Hashids.prototype.encode = function() {
+
+		var ret = "",
+			i, len,
+			numbers = Array.prototype.slice.call(arguments);
+
+		if (!numbers.length) {
+			return ret;
+		}
+
+		if (numbers[0] instanceof Array) {
+			numbers = numbers[0];
+		}
+
+		for (i = 0, len = numbers.length; i !== len; i++) {
+			if (typeof numbers[i] !== "number" || numbers[i] % 1 !== 0 || numbers[i] < 0) {
+				return ret;
+			}
+		}
+
+		return this._encode(numbers);
+
+	};
+
+	Hashids.prototype.decode = function(hash) {
+
+		var ret = [];
+
+		if (!hash.length || typeof hash !== "string") {
+			return ret;
+		}
+
+		return this._decode(hash, this.alphabet);
+
+	};
+
+	Hashids.prototype.encodeHex = function(str) {
+
+		var i, len, numbers;
+
+		str = str.toString();
+		if (!/^[0-9a-fA-F]+$/.test(str)) {
+			return "";
+		}
+
+		numbers = str.match(/[\w\W]{1,12}/g);
+
+		for (i = 0, len = numbers.length; i !== len; i++) {
+			numbers[i] = parseInt("1" + numbers[i], 16);
+		}
+
+		return this.encode.apply(this, numbers);
+
+	};
+
+	Hashids.prototype.decodeHex = function(hash) {
+
+		var ret = "",
+			i, len,
+			numbers = this.decode(hash);
+
+		for (i = 0, len = numbers.length; i !== len; i++) {
+			ret += (numbers[i]).toString(16).substr(1);
+		}
+
+		return ret;
+
+	};
+
+	Hashids.prototype._encode = function(numbers) {
+
+		var ret, lottery, i, len, number, buffer, last, sepsIndex, guardIndex, guard, halfLength, excess,
+			alphabet = this.alphabet,
+			numbersSize = numbers.length,
+			numbersHashInt = 0;
+
+		for (i = 0, len = numbers.length; i !== len; i++) {
+			numbersHashInt += (numbers[i] % (i + 100));
+		}
+
+		lottery = ret = alphabet[numbersHashInt % alphabet.length];
+		for (i = 0, len = numbers.length; i !== len; i++) {
+
+			number = numbers[i];
+			buffer = lottery + this.salt + alphabet;
+
+			alphabet = this.consistentShuffle(alphabet, buffer.substr(0, alphabet.length));
+			last = this.hash(number, alphabet);
+
+			ret += last;
+
+			if (i + 1 < numbersSize) {
+				number %= (last.charCodeAt(0) + i);
+				sepsIndex = number % this.seps.length;
+				ret += this.seps[sepsIndex];
+			}
+
+		}
+
+		if (ret.length < this.minHashLength) {
+
+			guardIndex = (numbersHashInt + ret[0].charCodeAt(0)) % this.guards.length;
+			guard = this.guards[guardIndex];
+
+			ret = guard + ret;
+
+			if (ret.length < this.minHashLength) {
+
+				guardIndex = (numbersHashInt + ret[2].charCodeAt(0)) % this.guards.length;
+				guard = this.guards[guardIndex];
+
+				ret += guard;
+
+			}
+
+		}
+
+		halfLength = parseInt(alphabet.length / 2, 10);
+		while (ret.length < this.minHashLength) {
+
+			alphabet = this.consistentShuffle(alphabet, alphabet);
+			ret = alphabet.substr(halfLength) + ret + alphabet.substr(0, halfLength);
+
+			excess = ret.length - this.minHashLength;
+			if (excess > 0) {
+				ret = ret.substr(excess / 2, this.minHashLength);
+			}
+
+		}
+
+		return ret;
+
+	};
+
+	Hashids.prototype._decode = function(hash, alphabet) {
+
+		var ret = [],
+			i = 0,
+			lottery, len, subHash, buffer,
+			r = new RegExp("[" + this.guards + "]", "g"),
+			hashBreakdown = hash.replace(r, " "),
+			hashArray = hashBreakdown.split(" ");
+
+		if (hashArray.length === 3 || hashArray.length === 2) {
+			i = 1;
+		}
+
+		hashBreakdown = hashArray[i];
+		if (typeof hashBreakdown[0] !== "undefined") {
+
+			lottery = hashBreakdown[0];
+			hashBreakdown = hashBreakdown.substr(1);
+
+			r = new RegExp("[" + this.seps + "]", "g");
+			hashBreakdown = hashBreakdown.replace(r, " ");
+			hashArray = hashBreakdown.split(" ");
+
+			for (i = 0, len = hashArray.length; i !== len; i++) {
+
+				subHash = hashArray[i];
+				buffer = lottery + this.salt + alphabet;
+
+				alphabet = this.consistentShuffle(alphabet, buffer.substr(0, alphabet.length));
+				ret.push(this.unhash(subHash, alphabet));
+
+			}
+
+			if (this._encode(ret) !== hash) {
+				ret = [];
+			}
+
+		}
+
+		return ret;
+
+	};
+
+	Hashids.prototype.consistentShuffle = function(alphabet, salt) {
+
+		var integer, j, temp, i, v, p;
+
+		if (!salt.length) {
+			return alphabet;
+		}
+
+		for (i = alphabet.length - 1, v = 0, p = 0; i > 0; i--, v++) {
+
+			v %= salt.length;
+			p += integer = salt[v].charCodeAt(0);
+			j = (integer + v + p) % i;
+
+			temp = alphabet[j];
+			alphabet = alphabet.substr(0, j) + alphabet[i] + alphabet.substr(j + 1);
+			alphabet = alphabet.substr(0, i) + temp + alphabet.substr(i + 1);
+
+		}
+
+		return alphabet;
+
+	};
+
+	Hashids.prototype.hash = function(input, alphabet) {
+
+		var hash = "",
+			alphabetLength = alphabet.length;
+
+		do {
+			hash = alphabet[input % alphabetLength] + hash;
+			input = parseInt(input / alphabetLength, 10);
+		} while (input);
+
+		return hash;
+
+	};
+
+	Hashids.prototype.unhash = function(input, alphabet) {
+
+		var number = 0, pos, i;
+
+		for (i = 0; i < input.length; i++) {
+			pos = alphabet.indexOf(input[i]);
+			number += pos * Math.pow(alphabet.length, input.length - i - 1);
+		}
+
+		return number;
+
+	};
+
+	module.exports = Hashids;
+
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _color = __webpack_require__(202);
 
 	var _color2 = _interopRequireDefault(_color);
 
@@ -36394,12 +36536,12 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 200 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var convert = __webpack_require__(201),
-	    string = __webpack_require__(203);
+	var convert = __webpack_require__(203),
+	    string = __webpack_require__(205);
 
 	var Color = function(obj) {
 	  if (obj instanceof Color) return obj;
@@ -36832,10 +36974,10 @@
 
 
 /***/ },
-/* 201 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var conversions = __webpack_require__(202);
+	var conversions = __webpack_require__(204);
 
 	var convert = function() {
 	   return new Converter();
@@ -36929,7 +37071,7 @@
 	module.exports = convert;
 
 /***/ },
-/* 202 */
+/* 204 */
 /***/ function(module, exports) {
 
 	/* MIT license */
@@ -37633,11 +37775,11 @@
 
 
 /***/ },
-/* 203 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var colorNames = __webpack_require__(204);
+	var colorNames = __webpack_require__(206);
 
 	module.exports = {
 	   getRgba: getRgba,
@@ -37860,7 +38002,7 @@
 
 
 /***/ },
-/* 204 */
+/* 206 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -38607,7 +38749,859 @@
 	}
 
 /***/ },
-/* 205 */
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var Coin = (function (_React$Component) {
+	  function Coin(props) {
+	    _classCallCheck(this, Coin);
+
+	    _React$Component.call(this, props);
+	  }
+
+	  _inherits(Coin, _React$Component);
+
+	  Coin.simulate = function simulate() {
+	    return {
+	      coin: Math.random() > 0.5 ? -1 : 1
+	    };
+	  };
+
+	  Coin.prototype.componentWillMount = function componentWillMount() {
+	    this.props.push({
+	      coin: Math.random() > 0.5 ? -1 : 1
+	    });
+	  };
+
+	  Coin.prototype.render = function render() {
+	    return _react2['default'].createElement('div', null);
+	  };
+
+	  return Coin;
+	})(_react2['default'].Component);
+
+	exports['default'] = Coin;
+	module.exports = exports['default'];
+
+/***/ },
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _globalComponentsButton = __webpack_require__(209);
+
+	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+
+	var Consent = (function (_React$Component) {
+	  function Consent() {
+	    _classCallCheck(this, _Consent);
+
+	    _React$Component.apply(this, arguments);
+	  }
+
+	  _inherits(Consent, _React$Component);
+
+	  var _Consent = Consent;
+
+	  _Consent.simulate = function simulate(props) {
+	    return null;
+	  };
+
+	  _Consent.prototype.render = function render() {
+	    var _this = this;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      { style: [styles.container] },
+	      _react2['default'].createElement('div', {
+	        dangerouslySetInnerHTML: { __html: this.props.body }
+	      }),
+	      _react2['default'].createElement(
+	        'div',
+	        null,
+	        _react2['default'].createElement(
+	          'label',
+	          null,
+	          _react2['default'].createElement('input', {
+	            type: 'checkbox',
+	            style: [styles.checkbox],
+	            onChange: function () {
+	              return _this.setState({ agreed: !_this.state.agreed });
+	            }
+	          }),
+	          _react2['default'].createElement(
+	            'b',
+	            null,
+	            ' ' + this.props.agree
+	          )
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { style: [styles.clearfix] },
+	          this.state.agreed && _react2['default'].createElement(_globalComponentsButton2['default'], {
+	            modStyle: { float: 'right', marginTop: '1rem' },
+	            text: this.props['continue'],
+	            handler: function () {
+	              return _this.props.push();
+	            }
+	          })
+	        )
+	      )
+	    );
+	  };
+
+	  _createClass(_Consent, null, [{
+	    key: 'propTypes',
+	    value: {
+	      body: _react.PropTypes.string.isRequired,
+	      agree: _react.PropTypes.string.isRequired,
+	      'continue': _react.PropTypes.string.isRequired
+	    },
+	    enumerable: true
+	  }]);
+
+	  Consent = _radium2['default'](Consent) || Consent;
+	  return Consent;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  container: {
+	    boxSizing: 'border-box',
+	    width: '100%',
+	    borderRadius: 15,
+	    boxShadow: '2px 2px 4px #ddd',
+	    margin: '15px auto 60px auto',
+	    padding: 30,
+	    background: '#fff'
+	  },
+	  checkbox: {
+	    fontSize: '2em'
+	  },
+	  clearfix: {
+	    overflow: 'hidden',
+	    padding: 5
+	  }
+	};
+
+	exports['default'] = Consent;
+	module.exports = exports['default'];
+
+/***/ },
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var Button = (function (_React$Component) {
+	  function Button() {
+	    _classCallCheck(this, _Button);
+
+	    _React$Component.apply(this, arguments);
+	  }
+
+	  _inherits(Button, _React$Component);
+
+	  var _Button = Button;
+
+	  _Button.prototype.render = function render() {
+	    var _props = this.props;
+	    var text = _props.text;
+	    var handler = _props.handler;
+	    var color = _props.color;
+	    var background = _props.background;
+	    var border = _props.border;
+	    var hover = _props.hover;
+	    var modStyle = _props.modStyle;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      {
+	        style: [styles.button, {
+	          color: color,
+	          backgroundColor: background,
+	          boxShadow: '0 0 0 1px ' + border,
+	          borderRadius: 5,
+	          ':hover': hover
+	        }, modStyle],
+	        onClick: handler
+	      },
+	      text
+	    );
+	  };
+
+	  _createClass(_Button, null, [{
+	    key: 'defaultProps',
+	    value: {
+	      color: '#557',
+	      background: '#fff',
+	      border: '#557',
+	      hover: {
+	        color: '#fff',
+	        backgroundColor: '#557'
+	      }
+	    },
+	    enumerable: true
+	  }]);
+
+	  Button = _radium2['default'](Button) || Button;
+	  return Button;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  button: {
+	    boxSizing: 'border-box',
+	    paddingTop: 15,
+	    paddingRight: 15,
+	    paddingBottom: 15,
+	    paddingLeft: 15,
+	    marginTop: 0,
+	    marginRight: 0,
+	    marginBottom: 0,
+	    marginLeft: 0,
+	    cursor: 'pointer',
+	    textAlign: 'center'
+	  }
+	};
+
+	exports['default'] = Button;
+	module.exports = exports['default'];
+
+/***/ },
+/* 210 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _globalServicesClean = __webpack_require__(245);
+
+	var _globalServicesClean2 = _interopRequireDefault(_globalServicesClean);
+
+	var _globalComponentsButton = __webpack_require__(209);
+
+	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+
+	var Example = (function (_Component) {
+	  function Example(props) {
+	    _classCallCheck(this, Example);
+
+	    _Component.call(this, props);
+	  }
+
+	  _inherits(Example, _Component);
+
+	  Example.simulate = function simulate() {
+	    return {
+	      example_answer: Math.random() > 0.5 ? 'Yes' : 'No',
+	      example_time: Date.now()
+	    };
+	  };
+
+	  Example.prototype.handleResponse = function handleResponse(answer) {
+	    this.props.push({
+	      example_answer: answer,
+	      example_time: Date.now()
+	    });
+	  };
+
+	  Example.prototype.render = function render() {
+	    var _this = this;
+
+	    var _props = this.props;
+	    var question_text = _props.question_text;
+	    var answer_yes = _props.answer_yes;
+	    var answer_no = _props.answer_no;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      null,
+	      _react2['default'].createElement(
+	        'p',
+	        null,
+	        question_text
+	      ),
+	      _react2['default'].createElement(
+	        'div',
+	        null,
+	        _react2['default'].createElement(_globalComponentsButton2['default'], {
+	          text: answer_no,
+	          handler: function () {
+	            _this.handleResponse.call(_this, answer_no);
+	          }
+	        }),
+	        _react2['default'].createElement(_globalComponentsButton2['default'], {
+	          text: answer_yes,
+	          handler: function () {
+	            _this.handleResponse.call(_this, answer_yes);
+	          }
+	        })
+	      )
+	    );
+	  };
+
+	  _createClass(Example, null, [{
+	    key: 'propTypes',
+	    value: {
+	      question_text: _react.PropTypes.string,
+	      answer_yes: _react.PropTypes.string,
+	      answer_no: _react.PropTypes.string
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      question_text: 'Do you agree with this question?',
+	      answer_yes: 'Yes',
+	      answer_no: 'No'
+	    },
+	    enumerable: true
+	  }]);
+
+	  return Example;
+	})(_react.Component);
+
+	exports['default'] = Example;
+	module.exports = exports['default'];
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _globalComponentsButton = __webpack_require__(209);
+
+	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+
+	var _globalServicesStringHash = __webpack_require__(199);
+
+	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
+
+	var _globalServicesColorScheme = __webpack_require__(201);
+
+	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
+
+	var _globalStylesPanel = __webpack_require__(212);
+
+	var _globalStylesPanel2 = _interopRequireDefault(_globalStylesPanel);
+
+	var MostLeast = (function (_React$Component) {
+	  function MostLeast(props) {
+	    _classCallCheck(this, _MostLeast);
+
+	    _React$Component.call(this, props);
+	    this.state = { most: false };
+	  }
+
+	  _inherits(MostLeast, _React$Component);
+
+	  var _MostLeast = MostLeast;
+
+	  _MostLeast.simulate = function simulate(props) {
+	    var _ref;
+
+	    var candidate = props.candidate;
+	    var aspects = props.aspects;
+
+	    return (_ref = {}, _ref['most_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](_.sample(aspects)), _ref['least_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](_.sample(aspects)), _ref);
+	  };
+
+	  _MostLeast.prototype.choose = function choose(aspect) {
+	    var _props = this.props;
+	    var candidate = _props.candidate;
+	    var aspects = _props.aspects;
+
+	    if (this.state.most) {
+	      var _props$push;
+
+	      this.props.push((_props$push = {}, _props$push['most_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](this.state.most), _props$push['least_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](aspect), _props$push));
+	    } else {
+	      this.setState({ most: aspect, selected: null });
+	    }
+	  };
+
+	  _MostLeast.prototype.render = function render() {
+	    var _this = this;
+
+	    var _props2 = this.props;
+	    var candidate = _props2.candidate;
+	    var aspects = _props2.aspects;
+	    var _state = this.state;
+	    var most = _state.most;
+	    var selected = _state.selected;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      null,
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [_globalStylesPanel2['default']] },
+	        _react2['default'].createElement(
+	          'p',
+	          null,
+	          _react2['default'].createElement(
+	            'span',
+	            null,
+	            this.props.instructions_text,
+	            ' '
+	          ),
+	          _react2['default'].createElement(
+	            'em',
+	            null,
+	            candidate
+	          ),
+	          most ? _react2['default'].createElement(
+	            'strong',
+	            null,
+	            ' ',
+	            this.props.least_text
+	          ) : _react2['default'].createElement(
+	            'strong',
+	            null,
+	            ' ',
+	            this.props.most_text
+	          )
+	        ),
+	        _react2['default'].createElement(
+	          'ul',
+	          null,
+	          aspects.map(function (aspect) {
+	            return _react2['default'].createElement(
+	              'li',
+	              {
+	                style: [styles.item, {
+	                  backgroundColor: selected === aspect ? '#77f' : '#fff'
+	                }],
+	                key: aspect,
+	                onClick: function () {
+	                  return _this.setState({ selected: aspect });
+	                }
+	              },
+	              aspect
+	            );
+	          })
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { style: [styles.clearfix] },
+	          selected && _react2['default'].createElement(_globalComponentsButton2['default'], {
+	            modStyle: { float: 'right', marginTop: '1rem' },
+	            text: this.props.confirm_text,
+	            handler: function () {
+	              return _this.choose.call(_this, selected);
+	            }
+	          })
+	        )
+	      )
+	    );
+	  };
+
+	  _createClass(_MostLeast, null, [{
+	    key: 'propTypes',
+	    value: {
+	      candidate: _react.PropTypes.string.isRequired,
+	      aspects: _react.PropTypes.array.isRequired,
+	      instructions_title: _react.PropTypes.string,
+	      instructions_text: _react.PropTypes.string,
+	      most_text: _react.PropTypes.string,
+	      least_text: _react.PropTypes.string,
+	      confirm_text: _react.PropTypes.string
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      candidate: 'candidate_aspect_text',
+	      aspects: ['one', 'two', 'three', 'four'],
+	      instructions_title: 'Instructions',
+	      instructions_text: 'In the following list of aspects of your wellbeing, which aspects which aspect matches',
+	      most_text: 'the most',
+	      least_text: 'the least',
+	      confirm_text: 'Confirm'
+	    },
+	    enumerable: true
+	  }]);
+
+	  MostLeast = _radium2['default'](MostLeast) || MostLeast;
+	  return MostLeast;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  item: {
+	    padding: 5,
+	    cursor: 'pointer'
+	  },
+	  clearfix: {
+	    overflow: 'hidden',
+	    padding: 5
+	  }
+	};
+
+	exports['default'] = MostLeast;
+	module.exports = exports['default'];
+
+/***/ },
+/* 212 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = {
+	  boxSizing: 'border-box',
+	  width: '100%',
+	  padding: 30,
+	  margin: '30px 0',
+	  borderRadius: 15,
+	  boxShadow: '2px 2px 4px #ddd',
+	  background: '#fff'
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _lodash = __webpack_require__(193);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _reactMotion = __webpack_require__(214);
+
+	var _globalServicesColorScheme = __webpack_require__(201);
+
+	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
+
+	var _globalServicesStringHash = __webpack_require__(199);
+
+	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
+
+	var _globalComponentsAspect = __webpack_require__(230);
+
+	var _globalComponentsAspect2 = _interopRequireDefault(_globalComponentsAspect);
+
+	var _globalComponentsButton = __webpack_require__(209);
+
+	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+
+	var App = (function (_React$Component) {
+	  function App(props) {
+	    _classCallCheck(this, _App);
+
+	    _React$Component.call(this, props);
+	    this.state = { choice: 0 };
+	  }
+
+	  _inherits(App, _React$Component);
+
+	  var _App = App;
+
+	  _App.simulate = function simulate(props) {
+	    var _ref;
+
+	    return (_ref = {}, _ref['pairwise_' + _globalServicesStringHash2['default'](props.aspects[0]) + '_' + _globalServicesStringHash2['default'](props.aspects[1])] = _lodash2['default'].sample(_lodash2['default'].range(7, 15)), _ref);
+	  };
+
+	  _App.prototype.choose = function choose(option) {
+	    var _this = this;
+
+	    var _props = this.props;
+	    var push = _props.push;
+	    var pairwise_tradeoffs = _props.pairwise_tradeoffs;
+	    var aspects = _props.aspects;
+
+	    var choice = this.state.choice * 2 + option;
+	    this.setState({ choice: choice, animating: true });
+	    setTimeout(function () {
+	      return _this.setState({ animating: false });
+	    }, 300);
+	    if (choice + 1 > pairwise_tradeoffs.length) {
+	      var _push;
+
+	      push((_push = {}, _push['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1])] = choice, _push));
+	    }
+	  };
+
+	  _App.prototype.render = function render() {
+	    var _this2 = this;
+
+	    var _props2 = this.props;
+	    var pairwise_tradeoffs = _props2.pairwise_tradeoffs;
+	    var pairwise_like = _props2.pairwise_like;
+	    var pairwise_dislike = _props2.pairwise_dislike;
+	    var instructions = _props2.instructions;
+	    var text = _props2.text;
+	    var textual = _props2.textual;
+	    var aspects = _props2.aspects;
+	    var table = _props2.table;
+	    var _state = this.state;
+	    var choice = _state.choice;
+	    var animating = _state.animating;
+
+	    console.log(table, _globalServicesStringHash2['default'](aspects[1]), table[_globalServicesStringHash2['default'](aspects[1]) + '_color']);
+	    return _react2['default'].createElement(
+	      'div',
+	      { style: [styles.main] },
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [styles.instructions] },
+	        _react2['default'].createElement(
+	          'b',
+	          null,
+	          instructions
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          null,
+	          text
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        _reactMotion.Motion,
+	        {
+	          defaultStyle: { val: 0 },
+	          style: { val: _reactMotion.spring(1) }
+	        },
+	        function (interpolated) {
+	          return _react2['default'].createElement(
+	            'div',
+	            {
+	              style: _extends({}, styles.container, {
+	                opacity: animating ? 0 : '' + interpolated.val,
+	                marginLeft: animating ? 0 : (1 - interpolated.val) * -200,
+	                marginRight: animating ? 0 : (1 - interpolated.val) * 200
+	              }) },
+	            _react2['default'].createElement(
+	              'div',
+	              { style: [styles.half] },
+	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
+	                modStyle: { flex: 1 },
+	                text: aspects[0],
+	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
+	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
+	                delta: pairwise_tradeoffs[choice][0],
+	                deltaText: textual[pairwise_tradeoffs[choice][0]]
+	              }),
+	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
+	                modStyle: { flex: 1 },
+	                text: aspects[1],
+	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
+	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
+	                delta: 0
+	              }),
+	              _react2['default'].createElement(_globalComponentsButton2['default'], {
+	                modStyle: { marginTop: 15 },
+	                text: pairwise_dislike,
+	                handler: function () {
+	                  return _this2.choose.bind(_this2)(1);
+	                }
+	              })
+	            ),
+	            _react2['default'].createElement(
+	              'div',
+	              { style: [styles.half] },
+	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
+	                modStyle: { flex: 1 },
+	                text: aspects[0],
+	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
+	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
+	                delta: 0
+	              }),
+	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
+	                modStyle: { flex: 1 },
+	                text: aspects[1],
+	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
+	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
+	                delta: pairwise_tradeoffs[choice][1],
+	                deltaText: textual[pairwise_tradeoffs[choice][1]]
+	              }),
+	              _react2['default'].createElement(_globalComponentsButton2['default'], {
+	                modStyle: { marginTop: 15 },
+	                text: pairwise_like,
+	                handler: function () {
+	                  return _this2.choose.bind(_this2)(2);
+	                }
+	              })
+	            )
+	          );
+	        }
+	      )
+	    );
+	  };
+
+	  _createClass(_App, null, [{
+	    key: 'propTypes',
+	    value: {
+	      pairwise_like: _react.PropTypes.string,
+	      pairwise_dislike: _react.PropTypes.string,
+	      pairwise_tradeoffs: _react.PropTypes.array,
+	      aspects: _react.PropTypes.array
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      instructions: 'Instructions',
+	      text: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.',
+	      pairwise_like: 'I prefer this option',
+	      pairwise_dislike: 'I prefer this option',
+	      pairwise_tradeoffs: [[4, 4], [1, 4], [4, 1], [1, 8], [2, 4], [4, 1], [8, 1]],
+	      textual: {
+	        1: 'slightly improves',
+	        2: 'improves',
+	        4: 'strongly improves',
+	        8: 'greatly improves'
+	      },
+	      aspects: ['one', 'two']
+	    },
+	    enumerable: true
+	  }]);
+
+	  App = _radium2['default'](App) || App;
+	  return App;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  main: {
+	    padding: 15,
+	    boxSizing: 'border-box'
+	  },
+	  container: {
+	    display: 'flex',
+	    flexDirection: 'row'
+	  },
+	  half: {
+	    flex: 1,
+	    boxSizing: 'border-box',
+	    margin: 5,
+	    padding: 15,
+	    borderRadius: 15,
+	    boxShadow: '2px 2px 4px #ddd',
+	    backgroundColor: '#fff',
+	    display: 'flex',
+	    flexDirection: 'column',
+	    justifyContent: 'space-around'
+	  },
+	  instructions: {
+	    boxSizing: 'border-box',
+	    width: '100%',
+	    padding: 30,
+	    margin: '30px 0',
+	    borderRadius: 15,
+	    boxShadow: '2px 2px 4px #ddd',
+	    background: '#fff'
+	  }
+	};
+
+	exports['default'] = App;
+	module.exports = exports['default'];
+
+/***/ },
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38620,11 +39614,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _components2 = __webpack_require__(206);
+	var _components2 = __webpack_require__(215);
 
 	var _components3 = _interopRequireDefault(_components2);
 
-	var _reorderKeys = __webpack_require__(218);
+	var _reorderKeys = __webpack_require__(227);
 
 	var _reorderKeys2 = _interopRequireDefault(_reorderKeys);
 
@@ -38641,13 +39635,13 @@
 	exports.StaggeredMotion = StaggeredMotion;
 	exports.TransitionMotion = TransitionMotion;
 
-	var _spring2 = __webpack_require__(219);
+	var _spring2 = __webpack_require__(228);
 
 	var _spring3 = _interopRequireDefault(_spring2);
 
 	exports.spring = _spring3['default'];
 
-	var _presets2 = __webpack_require__(220);
+	var _presets2 = __webpack_require__(229);
 
 	var _presets3 = _interopRequireDefault(_presets2);
 
@@ -38658,7 +39652,7 @@
 	exports.utils = utils;
 
 /***/ },
-/* 206 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38671,33 +39665,33 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _noVelocity = __webpack_require__(208);
+	var _noVelocity = __webpack_require__(217);
 
 	var _noVelocity2 = _interopRequireDefault(_noVelocity);
 
-	var _hasReachedStyle = __webpack_require__(209);
+	var _hasReachedStyle = __webpack_require__(218);
 
 	var _hasReachedStyle2 = _interopRequireDefault(_hasReachedStyle);
 
-	var _mergeDiff = __webpack_require__(210);
+	var _mergeDiff = __webpack_require__(219);
 
 	var _mergeDiff2 = _interopRequireDefault(_mergeDiff);
 
-	var _animationLoop = __webpack_require__(211);
+	var _animationLoop = __webpack_require__(220);
 
 	var _animationLoop2 = _interopRequireDefault(_animationLoop);
 
-	var _zero = __webpack_require__(207);
+	var _zero = __webpack_require__(216);
 
 	var _zero2 = _interopRequireDefault(_zero);
 
-	var _updateTree = __webpack_require__(214);
+	var _updateTree = __webpack_require__(223);
 
-	var _deprecatedSprings2 = __webpack_require__(216);
+	var _deprecatedSprings2 = __webpack_require__(225);
 
 	var _deprecatedSprings3 = _interopRequireDefault(_deprecatedSprings2);
 
-	var _stripStyle = __webpack_require__(217);
+	var _stripStyle = __webpack_require__(226);
 
 	var _stripStyle2 = _interopRequireDefault(_stripStyle);
 
@@ -39117,7 +40111,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 207 */
+/* 216 */
 /***/ function(module, exports) {
 
 	// used by the tree-walking updates and springs. Avoids some allocations
@@ -39133,7 +40127,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 208 */
+/* 217 */
 /***/ function(module, exports) {
 
 	// currentStyle keeps the info about whether a prop is configured as a spring
@@ -39158,7 +40152,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 209 */
+/* 218 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -39191,7 +40185,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 210 */
+/* 219 */
 /***/ function(module, exports) {
 
 	// this function is allocation-less thanks to babel, which transforms the tail
@@ -39305,7 +40299,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 211 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39315,11 +40309,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _performanceNow = __webpack_require__(212);
+	var _performanceNow = __webpack_require__(221);
 
 	var _performanceNow2 = _interopRequireDefault(_performanceNow);
 
-	var _raf = __webpack_require__(213);
+	var _raf = __webpack_require__(222);
 
 	var _raf2 = _interopRequireDefault(_raf);
 
@@ -39454,7 +40448,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 212 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Generated by CoffeeScript 1.7.1
@@ -39493,10 +40487,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 213 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var now = __webpack_require__(212)
+	var now = __webpack_require__(221)
 	  , global = typeof window === 'undefined' ? {} : window
 	  , vendors = ['moz', 'webkit']
 	  , suffix = 'AnimationFrame'
@@ -39567,7 +40561,7 @@
 
 
 /***/ },
-/* 214 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39579,7 +40573,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _stepper = __webpack_require__(215);
+	var _stepper = __webpack_require__(224);
 
 	var _stepper2 = _interopRequireDefault(_stepper);
 
@@ -39664,7 +40658,7 @@
 	}
 
 /***/ },
-/* 215 */
+/* 224 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -39701,7 +40695,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 216 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39755,7 +40749,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 217 */
+/* 226 */
 /***/ function(module, exports) {
 
 	// turn {x: {val: 1, config: [1, 2]}, y: 2} into {x: 1, y: 2}
@@ -39778,7 +40772,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 218 */
+/* 227 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -39800,7 +40794,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 219 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39810,7 +40804,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _presets = __webpack_require__(220);
+	var _presets = __webpack_require__(229);
 
 	var _presets2 = _interopRequireDefault(_presets);
 
@@ -39825,7 +40819,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 220 */
+/* 229 */
 /***/ function(module, exports) {
 
 	// [stiffness, damping]
@@ -39841,383 +40835,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 221 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _hashids = __webpack_require__(222);
-
-	var _hashids2 = _interopRequireDefault(_hashids);
-
-	function hashCode(s) {
-	  return s.split('').reduce(function (a, b) {
-	    return (a << 5) - a + b.charCodeAt(0) & (a << 5) - a + b.charCodeAt(0);
-	  }, 0);
-	}
-
-	exports['default'] = function (s) {
-	  var hashids = new _hashids2['default']('');
-	  return hashids.encode(Math.abs(hashCode(s)));
-	};
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 222 */
-/***/ function(module, exports) {
-
-	/*
-
-		Hashids
-		http://hashids.org/node-js
-		(c) 2013 Ivan Akimov
-
-		https://github.com/ivanakimov/hashids.node.js
-		hashids may be freely distributed under the MIT license.
-
-	*/
-
-	/*jslint node: true, white: true, plusplus: true, nomen: true */
-
-	"use strict";
-
-	function Hashids(salt, minHashLength, alphabet) {
-
-		var uniqueAlphabet, i, j, len, sepsLength, diff, guardCount;
-
-		if (!(this instanceof Hashids)) {
-			return new Hashids(salt, minHashLength, alphabet);
-		}
-
-		this.version = "1.0.2";
-
-		/* internal settings */
-
-		this.minAlphabetLength = 16;
-		this.sepDiv = 3.5;
-		this.guardDiv = 12;
-
-		/* error messages */
-
-		this.errorAlphabetLength = "error: alphabet must contain at least X unique characters";
-		this.errorAlphabetSpace = "error: alphabet cannot contain spaces";
-
-		/* alphabet vars */
-
-		this.alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		this.seps = "cfhistuCFHISTU";
-		this.minHashLength = parseInt(minHashLength, 10) > 0 ? minHashLength : 0;
-		this.salt = (typeof salt === "string") ? salt : "";
-
-		if (typeof alphabet === "string") {
-			this.alphabet = alphabet;
-		}
-
-		for (uniqueAlphabet = "", i = 0, len = this.alphabet.length; i !== len; i++) {
-			if (uniqueAlphabet.indexOf(this.alphabet[i]) === -1) {
-				uniqueAlphabet += this.alphabet[i];
-			}
-		}
-
-		this.alphabet = uniqueAlphabet;
-
-		if (this.alphabet.length < this.minAlphabetLength) {
-			throw this.errorAlphabetLength.replace("X", this.minAlphabetLength);
-		}
-
-		if (this.alphabet.search(" ") !== -1) {
-			throw this.errorAlphabetSpace;
-		}
-
-		/* seps should contain only characters present in alphabet; alphabet should not contains seps */
-
-		for (i = 0, len = this.seps.length; i !== len; i++) {
-
-			j = this.alphabet.indexOf(this.seps[i]);
-			if (j === -1) {
-				this.seps = this.seps.substr(0, i) + " " + this.seps.substr(i + 1);
-			} else {
-				this.alphabet = this.alphabet.substr(0, j) + " " + this.alphabet.substr(j + 1);
-			}
-
-		}
-
-		this.alphabet = this.alphabet.replace(/ /g, "");
-
-		this.seps = this.seps.replace(/ /g, "");
-		this.seps = this.consistentShuffle(this.seps, this.salt);
-
-		if (!this.seps.length || (this.alphabet.length / this.seps.length) > this.sepDiv) {
-
-			sepsLength = Math.ceil(this.alphabet.length / this.sepDiv);
-
-			if (sepsLength === 1) {
-				sepsLength++;
-			}
-
-			if (sepsLength > this.seps.length) {
-
-				diff = sepsLength - this.seps.length;
-				this.seps += this.alphabet.substr(0, diff);
-				this.alphabet = this.alphabet.substr(diff);
-
-			} else {
-				this.seps = this.seps.substr(0, sepsLength);
-			}
-
-		}
-
-		this.alphabet = this.consistentShuffle(this.alphabet, this.salt);
-		guardCount = Math.ceil(this.alphabet.length / this.guardDiv);
-
-		if (this.alphabet.length < 3) {
-			this.guards = this.seps.substr(0, guardCount);
-			this.seps = this.seps.substr(guardCount);
-		} else {
-			this.guards = this.alphabet.substr(0, guardCount);
-			this.alphabet = this.alphabet.substr(guardCount);
-		}
-
-	}
-
-	Hashids.prototype.encode = function() {
-
-		var ret = "",
-			i, len,
-			numbers = Array.prototype.slice.call(arguments);
-
-		if (!numbers.length) {
-			return ret;
-		}
-
-		if (numbers[0] instanceof Array) {
-			numbers = numbers[0];
-		}
-
-		for (i = 0, len = numbers.length; i !== len; i++) {
-			if (typeof numbers[i] !== "number" || numbers[i] % 1 !== 0 || numbers[i] < 0) {
-				return ret;
-			}
-		}
-
-		return this._encode(numbers);
-
-	};
-
-	Hashids.prototype.decode = function(hash) {
-
-		var ret = [];
-
-		if (!hash.length || typeof hash !== "string") {
-			return ret;
-		}
-
-		return this._decode(hash, this.alphabet);
-
-	};
-
-	Hashids.prototype.encodeHex = function(str) {
-
-		var i, len, numbers;
-
-		str = str.toString();
-		if (!/^[0-9a-fA-F]+$/.test(str)) {
-			return "";
-		}
-
-		numbers = str.match(/[\w\W]{1,12}/g);
-
-		for (i = 0, len = numbers.length; i !== len; i++) {
-			numbers[i] = parseInt("1" + numbers[i], 16);
-		}
-
-		return this.encode.apply(this, numbers);
-
-	};
-
-	Hashids.prototype.decodeHex = function(hash) {
-
-		var ret = "",
-			i, len,
-			numbers = this.decode(hash);
-
-		for (i = 0, len = numbers.length; i !== len; i++) {
-			ret += (numbers[i]).toString(16).substr(1);
-		}
-
-		return ret;
-
-	};
-
-	Hashids.prototype._encode = function(numbers) {
-
-		var ret, lottery, i, len, number, buffer, last, sepsIndex, guardIndex, guard, halfLength, excess,
-			alphabet = this.alphabet,
-			numbersSize = numbers.length,
-			numbersHashInt = 0;
-
-		for (i = 0, len = numbers.length; i !== len; i++) {
-			numbersHashInt += (numbers[i] % (i + 100));
-		}
-
-		lottery = ret = alphabet[numbersHashInt % alphabet.length];
-		for (i = 0, len = numbers.length; i !== len; i++) {
-
-			number = numbers[i];
-			buffer = lottery + this.salt + alphabet;
-
-			alphabet = this.consistentShuffle(alphabet, buffer.substr(0, alphabet.length));
-			last = this.hash(number, alphabet);
-
-			ret += last;
-
-			if (i + 1 < numbersSize) {
-				number %= (last.charCodeAt(0) + i);
-				sepsIndex = number % this.seps.length;
-				ret += this.seps[sepsIndex];
-			}
-
-		}
-
-		if (ret.length < this.minHashLength) {
-
-			guardIndex = (numbersHashInt + ret[0].charCodeAt(0)) % this.guards.length;
-			guard = this.guards[guardIndex];
-
-			ret = guard + ret;
-
-			if (ret.length < this.minHashLength) {
-
-				guardIndex = (numbersHashInt + ret[2].charCodeAt(0)) % this.guards.length;
-				guard = this.guards[guardIndex];
-
-				ret += guard;
-
-			}
-
-		}
-
-		halfLength = parseInt(alphabet.length / 2, 10);
-		while (ret.length < this.minHashLength) {
-
-			alphabet = this.consistentShuffle(alphabet, alphabet);
-			ret = alphabet.substr(halfLength) + ret + alphabet.substr(0, halfLength);
-
-			excess = ret.length - this.minHashLength;
-			if (excess > 0) {
-				ret = ret.substr(excess / 2, this.minHashLength);
-			}
-
-		}
-
-		return ret;
-
-	};
-
-	Hashids.prototype._decode = function(hash, alphabet) {
-
-		var ret = [],
-			i = 0,
-			lottery, len, subHash, buffer,
-			r = new RegExp("[" + this.guards + "]", "g"),
-			hashBreakdown = hash.replace(r, " "),
-			hashArray = hashBreakdown.split(" ");
-
-		if (hashArray.length === 3 || hashArray.length === 2) {
-			i = 1;
-		}
-
-		hashBreakdown = hashArray[i];
-		if (typeof hashBreakdown[0] !== "undefined") {
-
-			lottery = hashBreakdown[0];
-			hashBreakdown = hashBreakdown.substr(1);
-
-			r = new RegExp("[" + this.seps + "]", "g");
-			hashBreakdown = hashBreakdown.replace(r, " ");
-			hashArray = hashBreakdown.split(" ");
-
-			for (i = 0, len = hashArray.length; i !== len; i++) {
-
-				subHash = hashArray[i];
-				buffer = lottery + this.salt + alphabet;
-
-				alphabet = this.consistentShuffle(alphabet, buffer.substr(0, alphabet.length));
-				ret.push(this.unhash(subHash, alphabet));
-
-			}
-
-			if (this._encode(ret) !== hash) {
-				ret = [];
-			}
-
-		}
-
-		return ret;
-
-	};
-
-	Hashids.prototype.consistentShuffle = function(alphabet, salt) {
-
-		var integer, j, temp, i, v, p;
-
-		if (!salt.length) {
-			return alphabet;
-		}
-
-		for (i = alphabet.length - 1, v = 0, p = 0; i > 0; i--, v++) {
-
-			v %= salt.length;
-			p += integer = salt[v].charCodeAt(0);
-			j = (integer + v + p) % i;
-
-			temp = alphabet[j];
-			alphabet = alphabet.substr(0, j) + alphabet[i] + alphabet.substr(j + 1);
-			alphabet = alphabet.substr(0, i) + temp + alphabet.substr(i + 1);
-
-		}
-
-		return alphabet;
-
-	};
-
-	Hashids.prototype.hash = function(input, alphabet) {
-
-		var hash = "",
-			alphabetLength = alphabet.length;
-
-		do {
-			hash = alphabet[input % alphabetLength] + hash;
-			input = parseInt(input / alphabetLength, 10);
-		} while (input);
-
-		return hash;
-
-	};
-
-	Hashids.prototype.unhash = function(input, alphabet) {
-
-		var number = 0, pos, i;
-
-		for (i = 0; i < input.length; i++) {
-			pos = alphabet.indexOf(input[i]);
-			number += pos * Math.pow(alphabet.length, input.length - i - 1);
-		}
-
-		return number;
-
-	};
-
-	module.exports = Hashids;
-
-
-/***/ },
-/* 223 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40240,11 +40858,11 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _DeltaBar = __webpack_require__(224);
+	var _DeltaBar = __webpack_require__(231);
 
 	var _DeltaBar2 = _interopRequireDefault(_DeltaBar);
 
-	var _servicesFormat = __webpack_require__(225);
+	var _servicesFormat = __webpack_require__(232);
 
 	var _servicesFormat2 = _interopRequireDefault(_servicesFormat);
 
@@ -40359,7 +40977,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 224 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40382,7 +41000,7 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _color = __webpack_require__(200);
+	var _color = __webpack_require__(202);
 
 	var _color2 = _interopRequireDefault(_color);
 
@@ -40499,7 +41117,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 225 */
+/* 232 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40513,582 +41131,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 226 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var Button = (function (_React$Component) {
-	  function Button() {
-	    _classCallCheck(this, _Button);
-
-	    _React$Component.apply(this, arguments);
-	  }
-
-	  _inherits(Button, _React$Component);
-
-	  var _Button = Button;
-
-	  _Button.prototype.render = function render() {
-	    var _props = this.props;
-	    var text = _props.text;
-	    var handler = _props.handler;
-	    var color = _props.color;
-	    var background = _props.background;
-	    var border = _props.border;
-	    var hover = _props.hover;
-	    var modStyle = _props.modStyle;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      {
-	        style: [styles.button, {
-	          color: color,
-	          backgroundColor: background,
-	          boxShadow: '0 0 0 1px ' + border,
-	          borderRadius: 5,
-	          ':hover': hover
-	        }, modStyle],
-	        onClick: handler
-	      },
-	      text
-	    );
-	  };
-
-	  _createClass(_Button, null, [{
-	    key: 'defaultProps',
-	    value: {
-	      color: '#557',
-	      background: '#fff',
-	      border: '#557',
-	      hover: {
-	        color: '#fff',
-	        backgroundColor: '#557'
-	      }
-	    },
-	    enumerable: true
-	  }]);
-
-	  Button = _radium2['default'](Button) || Button;
-	  return Button;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  button: {
-	    boxSizing: 'border-box',
-	    paddingTop: 15,
-	    paddingRight: 15,
-	    paddingBottom: 15,
-	    paddingLeft: 15,
-	    marginTop: 0,
-	    marginRight: 0,
-	    marginBottom: 0,
-	    marginLeft: 0,
-	    cursor: 'pointer',
-	    textAlign: 'center'
-	  }
-	};
-
-	exports['default'] = Button;
-	module.exports = exports['default'];
-
-/***/ },
-/* 227 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _globalServicesStringHash = __webpack_require__(221);
-
-	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
-
-	var _globalServicesColorScheme = __webpack_require__(199);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	function create(aspects, bucket) {
-	  return _.object(aspects.map(function (a, i) {
-	    return [['aspect_' + bucket + '_' + i, '' + _globalServicesStringHash2['default'](a)], ['text_' + _globalServicesStringHash2['default'](a), a], ['color_' + _globalServicesStringHash2['default'](a), _globalServicesColorScheme2['default'].index(i)]];
-	  }).reduce(function (a, b) {
-	    return a.concat(b);
-	  }).sort(function (_ref, _ref2) {
-	    var k1 = _ref[0];
-	    var v1 = _ref[1];
-	    var k2 = _ref2[0];
-	    var v2 = _ref2[1];
-	    return k1 > k2 ? 1 : -1;
-	  }));
-	}
-
-	var Bucket = (function (_React$Component) {
-	  function Bucket(props) {
-	    _classCallCheck(this, Bucket);
-
-	    _React$Component.call(this, props);
-	  }
-
-	  _inherits(Bucket, _React$Component);
-
-	  Bucket.simulate = function simulate(_ref3) {
-	    var aspects = _ref3.aspects;
-	    var bucket = _ref3.bucket;
-
-	    return create(aspects, bucket);
-	  };
-
-	  Bucket.prototype.componentWillMount = function componentWillMount() {
-	    var _props = this.props;
-	    var push = _props.push;
-	    var aspects = _props.aspects;
-	    var bucket = _props.bucket;
-
-	    push(create(aspects, bucket));
-	  };
-
-	  Bucket.prototype.render = function render() {
-	    return _react2['default'].createElement('div', null);
-	  };
-
-	  _createClass(Bucket, null, [{
-	    key: 'propTypes',
-	    value: {
-	      aspects: _react.PropTypes.array,
-	      bucket: _react.PropTypes.string
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      aspects: ['one', 'two', 'three'],
-	      bucket: 'a'
-	    },
-	    enumerable: true
-	  }]);
-
-	  return Bucket;
-	})(_react2['default'].Component);
-
-	exports['default'] = Bucket;
-	module.exports = exports['default'];
-
-/***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var Coin = (function (_React$Component) {
-	  function Coin(props) {
-	    _classCallCheck(this, Coin);
-
-	    _React$Component.call(this, props);
-	  }
-
-	  _inherits(Coin, _React$Component);
-
-	  Coin.simulate = function simulate() {
-	    return {
-	      coin: Math.random() > 0.5 ? -1 : 1
-	    };
-	  };
-
-	  Coin.prototype.componentWillMount = function componentWillMount() {
-	    this.props.push({
-	      coin: Math.random() > 0.5 ? -1 : 1
-	    });
-	  };
-
-	  Coin.prototype.render = function render() {
-	    return _react2['default'].createElement('div', null);
-	  };
-
-	  return Coin;
-	})(_react2['default'].Component);
-
-	exports['default'] = Coin;
-	module.exports = exports['default'];
-
-/***/ },
-/* 229 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _globalComponentsButton = __webpack_require__(226);
-
-	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
-
-	var Consent = (function (_React$Component) {
-	  function Consent() {
-	    _classCallCheck(this, _Consent);
-
-	    _React$Component.apply(this, arguments);
-	  }
-
-	  _inherits(Consent, _React$Component);
-
-	  var _Consent = Consent;
-
-	  _Consent.simulate = function simulate(props) {
-	    return null;
-	  };
-
-	  _Consent.prototype.render = function render() {
-	    var _this = this;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      { style: [styles.container] },
-	      _react2['default'].createElement('div', {
-	        dangerouslySetInnerHTML: { __html: this.props.body }
-	      }),
-	      _react2['default'].createElement(
-	        'div',
-	        null,
-	        _react2['default'].createElement(
-	          'label',
-	          null,
-	          _react2['default'].createElement('input', {
-	            type: 'checkbox',
-	            style: [styles.checkbox],
-	            onChange: function () {
-	              return _this.setState({ agreed: !_this.state.agreed });
-	            }
-	          }),
-	          _react2['default'].createElement(
-	            'b',
-	            null,
-	            ' ' + this.props.agree
-	          )
-	        ),
-	        _react2['default'].createElement(
-	          'div',
-	          { style: [styles.clearfix] },
-	          this.state.agreed && _react2['default'].createElement(_globalComponentsButton2['default'], {
-	            modStyle: { float: 'right', marginTop: '1rem' },
-	            text: this.props['continue'],
-	            handler: function () {
-	              return _this.props.push();
-	            }
-	          })
-	        )
-	      )
-	    );
-	  };
-
-	  _createClass(_Consent, null, [{
-	    key: 'propTypes',
-	    value: {
-	      body: _react.PropTypes.string.isRequired,
-	      agree: _react.PropTypes.string.isRequired,
-	      'continue': _react.PropTypes.string.isRequired
-	    },
-	    enumerable: true
-	  }]);
-
-	  Consent = _radium2['default'](Consent) || Consent;
-	  return Consent;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  container: {
-	    boxSizing: 'border-box',
-	    width: '100%',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    margin: '15px auto 60px auto',
-	    padding: 30,
-	    background: '#fff'
-	  },
-	  checkbox: {
-	    fontSize: '2em'
-	  },
-	  clearfix: {
-	    overflow: 'hidden',
-	    padding: 5
-	  }
-	};
-
-	exports['default'] = Consent;
-	module.exports = exports['default'];
-
-/***/ },
-/* 230 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _globalComponentsButton = __webpack_require__(226);
-
-	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
-
-	var _globalServicesStringHash = __webpack_require__(221);
-
-	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
-
-	var _globalServicesColorScheme = __webpack_require__(199);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	var _globalStylesPanel = __webpack_require__(231);
-
-	var _globalStylesPanel2 = _interopRequireDefault(_globalStylesPanel);
-
-	var MostLeast = (function (_React$Component) {
-	  function MostLeast(props) {
-	    _classCallCheck(this, _MostLeast);
-
-	    _React$Component.call(this, props);
-	    this.state = { most: false };
-	  }
-
-	  _inherits(MostLeast, _React$Component);
-
-	  var _MostLeast = MostLeast;
-
-	  _MostLeast.simulate = function simulate(props) {
-	    var _ref;
-
-	    var candidate = props.candidate;
-	    var aspects = props.aspects;
-
-	    return (_ref = {}, _ref['most_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](_.sample(aspects)), _ref['least_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](_.sample(aspects)), _ref);
-	  };
-
-	  _MostLeast.prototype.choose = function choose(aspect) {
-	    var _props = this.props;
-	    var candidate = _props.candidate;
-	    var aspects = _props.aspects;
-
-	    if (this.state.most) {
-	      var _props$push;
-
-	      this.props.push((_props$push = {}, _props$push['most_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](this.state.most), _props$push['least_' + _globalServicesStringHash2['default'](candidate) + '_' + _globalServicesStringHash2['default'](aspects.join())] = _globalServicesStringHash2['default'](aspect), _props$push));
-	    } else {
-	      this.setState({ most: aspect, selected: null });
-	    }
-	  };
-
-	  _MostLeast.prototype.render = function render() {
-	    var _this = this;
-
-	    var _props2 = this.props;
-	    var candidate = _props2.candidate;
-	    var aspects = _props2.aspects;
-	    var _state = this.state;
-	    var most = _state.most;
-	    var selected = _state.selected;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      null,
-	      _react2['default'].createElement(
-	        'div',
-	        { style: [_globalStylesPanel2['default']] },
-	        _react2['default'].createElement(
-	          'p',
-	          null,
-	          _react2['default'].createElement(
-	            'span',
-	            null,
-	            this.props.instructions_text,
-	            ' '
-	          ),
-	          _react2['default'].createElement(
-	            'em',
-	            null,
-	            candidate
-	          ),
-	          most ? _react2['default'].createElement(
-	            'strong',
-	            null,
-	            ' ',
-	            this.props.least_text
-	          ) : _react2['default'].createElement(
-	            'strong',
-	            null,
-	            ' ',
-	            this.props.most_text
-	          )
-	        ),
-	        _react2['default'].createElement(
-	          'ul',
-	          null,
-	          aspects.map(function (aspect) {
-	            return _react2['default'].createElement(
-	              'li',
-	              {
-	                style: [styles.item, {
-	                  backgroundColor: selected === aspect ? '#77f' : '#fff'
-	                }],
-	                key: aspect,
-	                onClick: function () {
-	                  return _this.setState({ selected: aspect });
-	                }
-	              },
-	              aspect
-	            );
-	          })
-	        ),
-	        _react2['default'].createElement(
-	          'div',
-	          { style: [styles.clearfix] },
-	          selected && _react2['default'].createElement(_globalComponentsButton2['default'], {
-	            modStyle: { float: 'right', marginTop: '1rem' },
-	            text: this.props.confirm_text,
-	            handler: function () {
-	              return _this.choose.call(_this, selected);
-	            }
-	          })
-	        )
-	      )
-	    );
-	  };
-
-	  _createClass(_MostLeast, null, [{
-	    key: 'propTypes',
-	    value: {
-	      candidate: _react.PropTypes.string.isRequired,
-	      aspects: _react.PropTypes.array.isRequired,
-	      instructions_title: _react.PropTypes.string,
-	      instructions_text: _react.PropTypes.string,
-	      most_text: _react.PropTypes.string,
-	      least_text: _react.PropTypes.string,
-	      confirm_text: _react.PropTypes.string
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      candidate: 'candidate_aspect_text',
-	      aspects: ['one', 'two', 'three', 'four'],
-	      instructions_title: 'Instructions',
-	      instructions_text: 'In the following list of aspects of your wellbeing, which aspects which aspect matches',
-	      most_text: 'the most',
-	      least_text: 'the least',
-	      confirm_text: 'Confirm'
-	    },
-	    enumerable: true
-	  }]);
-
-	  MostLeast = _radium2['default'](MostLeast) || MostLeast;
-	  return MostLeast;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  item: {
-	    padding: 5,
-	    cursor: 'pointer'
-	  },
-	  clearfix: {
-	    overflow: 'hidden',
-	    padding: 5
-	  }
-	};
-
-	exports['default'] = MostLeast;
-	module.exports = exports['default'];
-
-/***/ },
-/* 231 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = {
-	  boxSizing: 'border-box',
-	  width: '100%',
-	  padding: 30,
-	  margin: '30px 0',
-	  borderRadius: 15,
-	  boxShadow: '2px 2px 4px #ddd',
-	  background: '#fff'
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 232 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41117,21 +41160,21 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _reactMotion = __webpack_require__(205);
+	var _reactMotion = __webpack_require__(214);
 
-	var _globalServicesColorScheme = __webpack_require__(199);
+	var _globalServicesColorScheme = __webpack_require__(201);
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	var _globalServicesStringHash = __webpack_require__(221);
+	var _globalServicesStringHash = __webpack_require__(199);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _globalComponentsAspect = __webpack_require__(223);
+	var _globalComponentsAspect = __webpack_require__(230);
 
 	var _globalComponentsAspect2 = _interopRequireDefault(_globalComponentsAspect);
 
-	var _globalComponentsButton = __webpack_require__(226);
+	var _globalComponentsButton = __webpack_require__(209);
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
 
@@ -41140,7 +41183,6 @@
 	    _classCallCheck(this, _App);
 
 	    _React$Component.call(this, props);
-	    this.state = { choice: 0 };
 	  }
 
 	  _inherits(App, _React$Component);
@@ -41150,46 +41192,103 @@
 	  _App.simulate = function simulate(props) {
 	    var _ref;
 
-	    return (_ref = {}, _ref['pairwise_' + _globalServicesStringHash2['default'](props.aspects[0]) + '_' + _globalServicesStringHash2['default'](props.aspects[1])] = _lodash2['default'].sample(_lodash2['default'].range(7, 15)), _ref);
+	    var aspects = props.aspects;
+
+	    return (_ref = {}, _ref['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_lower'] = 0.5, _ref['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_upper'] = 2, _ref);
+	  };
+
+	  _App.prototype.componentWillMount = function componentWillMount() {
+	    var tradeoff_range = this.props.tradeoff_sign < 0 ? this.props.tradeoff_range.map(function (t) {
+	      return -t;
+	    }) : this.props.tradeoff_range;
+
+	    var increases_decreases = this.props.tradeoff_sign < 0 ? 'decreases' : 'increases';
+
+	    this.setState({
+	      tradeoff: [_lodash2['default'].sample(tradeoff_range), _lodash2['default'].sample(tradeoff_range)],
+	      upper: Infinity,
+	      lower: 0,
+	      choices: 0,
+	      tradeoff_range: tradeoff_range,
+	      increases_decreases: increases_decreases
+	    });
+	  };
+
+	  _App.prototype.pushIfDone = function pushIfDone() {
+	    var _props = this.props;
+	    var aspects = _props.aspects;
+	    var n = _props.n;
+	    var push = _props.push;
+	    var _state = this.state;
+	    var lower = _state.lower;
+	    var upper = _state.upper;
+	    var choices = _state.choices;
+
+	    if (choices + 1 > n) {
+	      var _push;
+
+	      push((_push = {}, _push['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_lower'] = lower, _push['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_upper'] = upper, _push));
+	    }
 	  };
 
 	  _App.prototype.choose = function choose(option) {
 	    var _this = this;
 
-	    var _props = this.props;
-	    var push = _props.push;
-	    var pairwise_tradeoffs = _props.pairwise_tradeoffs;
-	    var aspects = _props.aspects;
+	    var _state2 = this.state;
+	    var tradeoff_range = _state2.tradeoff_range;
+	    var tradeoff = _state2.tradeoff;
+	    var lower = _state2.lower;
+	    var upper = _state2.upper;
+	    var choices = _state2.choices;
 
-	    var choice = this.state.choice * 2 + option;
-	    this.setState({ choice: choice, animating: true });
+	    var pushIfDone = function pushIfDone() {
+	      return _this.pushIfDone.bind(_this)();
+	    };
+	    console.log('choices' + choices);
+	    var mrs = tradeoff[1] / tradeoff[0];
+	    if (option === 1 && mrs < upper) {
+	      this.setState({ upper: mrs, choices: choices + 1 }, pushIfDone);
+	    } else if (option === 2 && mrs > lower) {
+	      this.setState({ lower: mrs, choices: choices + 1 }, pushIfDone);
+	    } else {
+	      this.setState({ choices: choices + 1 }, pushIfDone);
+	    }
+
+	    this.setState({
+	      animating: true,
+	      tradeoff: [_lodash2['default'].sample(tradeoff_range), _lodash2['default'].sample(tradeoff_range)]
+	    });
 	    setTimeout(function () {
 	      return _this.setState({ animating: false });
 	    }, 300);
-	    if (choice + 1 > pairwise_tradeoffs.length) {
-	      var _push;
+	  };
 
-	      push((_push = {}, _push['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1])] = choice, _push));
-	    }
+	  _App.prototype.deltaText = function deltaText(delta) {
+	    var floor = Math.floor;
+	    var log2 = Math.log2;
+	    var abs = Math.abs;
+
+	    var degree = this.props.log_degree[floor(log2(abs(delta)))] || '';
+	    return degree + ' ' + this.state.increases_decreases;
 	  };
 
 	  _App.prototype.render = function render() {
 	    var _this2 = this;
 
 	    var _props2 = this.props;
-	    var pairwise_tradeoffs = _props2.pairwise_tradeoffs;
-	    var pairwise_like = _props2.pairwise_like;
-	    var pairwise_dislike = _props2.pairwise_dislike;
+	    var aspects = _props2.aspects;
+	    var like = _props2.like;
+	    var dislike = _props2.dislike;
 	    var instructions = _props2.instructions;
 	    var text = _props2.text;
-	    var textual = _props2.textual;
+	    var log_degree = _props2.log_degree;
+	    var increases_decreases = _props2.increases_decreases;
 	    var aspects = _props2.aspects;
 	    var table = _props2.table;
-	    var _state = this.state;
-	    var choice = _state.choice;
-	    var animating = _state.animating;
+	    var _state3 = this.state;
+	    var animating = _state3.animating;
+	    var tradeoff = _state3.tradeoff;
 
-	    console.log(table, _globalServicesStringHash2['default'](aspects[1]), table[_globalServicesStringHash2['default'](aspects[1]) + '_color']);
 	    return _react2['default'].createElement(
 	      'div',
 	      { style: [styles.main] },
@@ -41211,7 +41310,7 @@
 	        _reactMotion.Motion,
 	        {
 	          defaultStyle: { val: 0 },
-	          style: { val: _reactMotion.spring(1) }
+	          style: { val: _reactMotion.spring(1, _reactMotion.presets.nowobble) }
 	        },
 	        function (interpolated) {
 	          return _react2['default'].createElement(
@@ -41230,8 +41329,8 @@
 	                text: aspects[0],
 	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
 	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
-	                delta: pairwise_tradeoffs[choice][0],
-	                deltaText: textual[pairwise_tradeoffs[choice][0]]
+	                delta: tradeoff[0],
+	                deltaText: _this2.deltaText.call(_this2, tradeoff[0])
 	              }),
 	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
 	                modStyle: { flex: 1 },
@@ -41242,9 +41341,9 @@
 	              }),
 	              _react2['default'].createElement(_globalComponentsButton2['default'], {
 	                modStyle: { marginTop: 15 },
-	                text: pairwise_dislike,
+	                text: dislike,
 	                handler: function () {
-	                  return _this2.choose.bind(_this2)(1);
+	                  return _this2.choose.call(_this2, 1);
 	                }
 	              })
 	            ),
@@ -41263,14 +41362,14 @@
 	                text: aspects[1],
 	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
 	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
-	                delta: pairwise_tradeoffs[choice][1],
-	                deltaText: textual[pairwise_tradeoffs[choice][1]]
+	                delta: tradeoff[1],
+	                deltaText: _this2.deltaText.call(_this2, tradeoff[1])
 	              }),
 	              _react2['default'].createElement(_globalComponentsButton2['default'], {
 	                modStyle: { marginTop: 15 },
-	                text: pairwise_like,
+	                text: like,
 	                handler: function () {
-	                  return _this2.choose.bind(_this2)(2);
+	                  return _this2.choose.call(_this2, 2);
 	                }
 	              })
 	            )
@@ -41283,9 +41382,12 @@
 	  _createClass(_App, null, [{
 	    key: 'propTypes',
 	    value: {
-	      pairwise_like: _react.PropTypes.string,
-	      pairwise_dislike: _react.PropTypes.string,
-	      pairwise_tradeoffs: _react.PropTypes.array,
+	      like: _react.PropTypes.string,
+	      dislike: _react.PropTypes.string,
+	      tradeoff_range: _react.PropTypes.array,
+	      tradeoff_sign: _react.PropTypes.number,
+	      log_degree: _react.PropTypes.array,
+	      n: _react.PropTypes.number,
 	      aspects: _react.PropTypes.array
 	    },
 	    enumerable: true
@@ -41294,15 +41396,12 @@
 	    value: {
 	      instructions: 'Instructions',
 	      text: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.',
-	      pairwise_like: 'I prefer this option',
-	      pairwise_dislike: 'I prefer this option',
-	      pairwise_tradeoffs: [[4, 4], [1, 4], [4, 1], [1, 8], [2, 4], [4, 1], [8, 1]],
-	      textual: {
-	        1: 'slightly improves',
-	        2: 'improves',
-	        4: 'strongly improves',
-	        8: 'greatly improves'
-	      },
+	      like: 'I prefer this option',
+	      dislike: 'I prefer this option',
+	      tradeoff_range: _lodash2['default'].range(1, 9),
+	      tradeoff_sign: '$coin',
+	      log_degree: ['slightly', 'moderately', 'strongly', 'greatly'],
+	      n: 3,
 	      aspects: ['one', 'two']
 	    },
 	    enumerable: true
@@ -41314,7 +41413,11 @@
 
 	var styles = {
 	  main: {
-	    padding: 15,
+	    paddingTop: 15,
+	    paddingRight: 15,
+	    paddingBottom: 15,
+	    paddingLeft: 15,
+	    borderRadius: 15,
 	    boxSizing: 'border-box'
 	  },
 	  container: {
@@ -41324,8 +41427,14 @@
 	  half: {
 	    flex: 1,
 	    boxSizing: 'border-box',
-	    margin: 5,
-	    padding: 15,
+	    marginTop: 5,
+	    marginRight: 5,
+	    marginBottom: 5,
+	    marginLeft: 5,
+	    paddingTop: 15,
+	    paddingRight: 15,
+	    paddingBottom: 15,
+	    paddingLeft: 15,
 	    borderRadius: 15,
 	    boxShadow: '2px 2px 4px #ddd',
 	    backgroundColor: '#fff',
@@ -41336,8 +41445,14 @@
 	  instructions: {
 	    boxSizing: 'border-box',
 	    width: '100%',
-	    padding: 30,
-	    margin: '30px 0',
+	    paddingTop: 30,
+	    paddingRight: 30,
+	    paddingBottom: 30,
+	    paddingLeft: 30,
+	    marginTop: 30,
+	    marginRight: 0,
+	    marginBottom: 30,
+	    marginLeft: 0,
 	    borderRadius: 15,
 	    boxShadow: '2px 2px 4px #ddd',
 	    background: '#fff'
@@ -41348,7 +41463,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 233 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41375,19 +41490,19 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _globalServicesStringHash = __webpack_require__(221);
+	var _globalServicesStringHash = __webpack_require__(199);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _store = __webpack_require__(234);
+	var _store = __webpack_require__(235);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _RateAspect = __webpack_require__(235);
+	var _RateAspect = __webpack_require__(236);
 
 	var _RateAspect2 = _interopRequireDefault(_RateAspect);
 
-	var _RatedAspects = __webpack_require__(239);
+	var _RatedAspects = __webpack_require__(240);
 
 	var _RatedAspects2 = _interopRequireDefault(_RatedAspects);
 
@@ -41542,7 +41657,7 @@
 	// if any aspects are rated
 
 /***/ },
-/* 234 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41605,7 +41720,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 235 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41626,19 +41741,19 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _globalServicesColorScheme = __webpack_require__(199);
+	var _globalServicesColorScheme = __webpack_require__(201);
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	var _globalServicesFormat = __webpack_require__(225);
+	var _globalServicesFormat = __webpack_require__(232);
 
 	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
 
-	var _globalComponentsSlider = __webpack_require__(236);
+	var _globalComponentsSlider = __webpack_require__(237);
 
 	var _globalComponentsSlider2 = _interopRequireDefault(_globalComponentsSlider);
 
-	var _globalComponentsButton = __webpack_require__(226);
+	var _globalComponentsButton = __webpack_require__(209);
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
 
@@ -41754,7 +41869,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41777,11 +41892,11 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _imagesSmileySvg = __webpack_require__(237);
+	var _imagesSmileySvg = __webpack_require__(238);
 
 	var _imagesSmileySvg2 = _interopRequireDefault(_imagesSmileySvg);
 
-	var _imagesFrownySvg = __webpack_require__(238);
+	var _imagesFrownySvg = __webpack_require__(239);
 
 	var _imagesFrownySvg2 = _interopRequireDefault(_imagesFrownySvg);
 
@@ -41979,19 +42094,19 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 237 */
+/* 238 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OCwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OCA3LjYxMiwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOS40NTcsMTkuMjAzMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDU5LDAuMTM1IC0xLjQ5OSwzLjI5NyAtNC40NTcsMy4yOTcgLTIuOTU3LDAgLTQuMzk3LC0zLjE2MiAtNC40NTcsLTMuMjk3IC0wLjA5MiwtMC4yMDcgLTAuMDMyLC0wLjQ0OSAwLjE0NCwtMC41OTEgMC4xNzUsLTAuMTQyIDAuNDI2LC0wLjE0NyAwLjYxMSwtMC4wMTQgMC4wMTIsMC4wMDkgMS4yNjIsMC45MDIgMy43MDIsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMyLC0wLjQ1MiAwLjA5MywtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE3LjQ1NywxOS4yMDMxKSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4wNiwwLjEzNSAtMS40OTksMy4yOTcgLTQuNDU3LDMuMjk3IC0yLjk1NywwIC00LjM5NywtMy4xNjIgLTQuNDU3LC0zLjI5NyAtMC4wOTIsLTAuMjA3IC0wLjAzMiwtMC40NDkgMC4xNDQsLTAuNTkxIDAuMTc2LC0wLjE0MiAwLjQyNywtMC4xNDcgMC42MSwtMC4wMTQgMC4wMTMsMC4wMDkgMS4yNjIsMC45MDIgMy43MDMsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMzLC0wLjQ1MiAwLjA5MiwtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5LDE1KSIgaWQ9ImczMiI+PHBhdGggaWQ9InBhdGgzNCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMy42MjMsMCAtNi4wMjcsMC40MjIgLTksMSAtMC42NzksMC4xMzEgLTIsMCAtMiwtMiAwLC00IDQuNTk1LC05IDExLC05IDYuNDA0LDAgMTEsNSAxMSw5IEMgMTEsMSA5LjY3OSwxLjEzMiA5LDEgNi4wMjcsMC40MjIgMy42MjMsMCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAsMTQpIiBpZD0iZzM2Ij48cGF0aCBpZD0icGF0aDM4IiBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIDAsMCAzLC0xIDksLTEgNiwwIDksMSA5LDEgMCwwIC0yLC00IC05LC00IC03LDAgLTksNCAtOSw0Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPgo="
 
 /***/ },
-/* 238 */
+/* 239 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OSwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OSA3LjYxMSwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg5IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC40ODU0LDguMTIxMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDEyLDAuMDQ0IC0xLjE0Niw0LjM3OSAtNS40ODUsNC4zNzkgLTQuMzQxLDAgLTUuNDc1LC00LjMzNSAtNS40ODUsLTQuMzc5IC0wLjA1MywtMC4yMTMgMC4wNDMsLTAuNDMxIDAuMjMxLC0wLjU0NCAwLjE4OCwtMC4xMTIgMC40MzMsLTAuMDg2IDAuNTk2LDAuMDYgMC4wMSwwLjAwNyAxLjAxNCwwLjg2MyA0LjY1OCwwLjg2MyAzLjU4OSwwIDQuNjE3LC0wLjgzIDQuNjU2LC0wLjg2MyAwLjA5NSwtMC4wOSAwLjIxOSwtMC4xMzcgMC4zNDQsLTAuMTM3IDAuMDg0LDAgMC4xNjksMC4wMjEgMC4yNDYsMC4wNjQgQyAtMC4wNDMsLTAuNDQ1IDAuMDU1LC0wLjIxOCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYuNzgwMywyMS4zNTk0KSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4zNDEsMC4wOTMgLTAuNjkyLDAuMTQgLTEuMDQzLDAuMTQgLTIuMzQ1LDAgLTQuMDUzLC0yLjA2IC00LjEyNSwtMi4xNDcgLTAuMTQzLC0wLjE3NiAtMC4xNDgsLTAuNDI2IC0wLjAxNywtMC42MDkgMC4xMzQsLTAuMTg0IDAuMzc0LC0wLjI1MyAwLjU4NiwtMC4xNzQgMC4wMDUsMC4wMDIgMC41NzMsMC4yMTUgMS41NjUsMC4yMTUgMC43MTQsMCAxLjQ2OCwtMC4xMDggMi4yNDQsLTAuMzIgMi4zNDIsLTAuNjM3IDMuMzEzLC0xLjgxOCAzLjMzNCwtMS44NDMgMC4wOTgsLTAuMTI0IDAuMjQzLC0wLjE5MiAwLjM5NCwtMC4xOTIgMC4wNjYsMCAwLjEzMywwLjAxNCAwLjE5NywwLjA0MSAwLjIwOSwwLjA5IDAuMzMxLDAuMzEgMC4yOTcsMC41MzQgQyAzLjQwOSwtNC4yMDggMi44NTQsLTAuNzc4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMi4yMjYxLDIxLjQ4NzgpIiBpZD0iZzMyIj48cGF0aCBpZD0icGF0aDM0IiBzdHlsZT0iZmlsbDojNjY0NTAwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIC0wLjMxNywwIC0wLjYzNiwtMC4wMzkgLTAuOTQ3LC0wLjExNiAtMi44NywtMC43MDcgLTMuNTEzLC00LjEyMSAtMy41MzksLTQuMjY2IC0wLjA0LC0wLjIyMyAwLjA3NiwtMC40NDQgMC4yODEsLTAuNTQgMC4wNjgsLTAuMDMyIDAuMTQsLTAuMDQ3IDAuMjExLC0wLjA0NyAwLjE0NSwwIDAuMjg3LDAuMDYzIDAuMzg1LDAuMTc5IDAuMDEsMC4wMTIgMS4wMSwxLjE3OCAzLjM3OSwxLjc2MSAwLjcxNSwwLjE3NiAxLjQxMywwLjI2NSAyLjA3MywwLjI2NSAxLjEwNCwwIDEuNzMyLC0wLjI1MyAxLjczNSwtMC4yNTQgMC4wNjcsLTAuMDI4IDAuMTMxLC0wLjA0IDAuMjA3LC0wLjA0IDAuMjcyLC0wLjAxMiAwLjUwOSwwLjIyMSAwLjUwOSwwLjUgMCwwLjE2NSAtMC4wOCwwLjMxMSAtMC4yMDMsMC40MDIgQyAzLjcyNCwtMS43MjEgMi4xMzgsMCAwLDAiLz48L2c+PC9nPjwvZz48L2c+PC9zdmc+Cg=="
 
 /***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42012,15 +42127,15 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _globalServicesColorScheme = __webpack_require__(199);
+	var _globalServicesColorScheme = __webpack_require__(201);
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	var _globalServicesFormat = __webpack_require__(225);
+	var _globalServicesFormat = __webpack_require__(232);
 
 	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
 
-	var _globalComponentsButton = __webpack_require__(226);
+	var _globalComponentsButton = __webpack_require__(209);
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
 
@@ -42140,7 +42255,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42159,11 +42274,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _globalServicesStringHash = __webpack_require__(221);
+	var _globalServicesStringHash = __webpack_require__(199);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _globalServicesColorScheme = __webpack_require__(199);
+	var _globalServicesColorScheme = __webpack_require__(201);
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
@@ -42234,7 +42349,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42330,7 +42445,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42359,21 +42474,21 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _reactMotion = __webpack_require__(205);
+	var _reactMotion = __webpack_require__(214);
 
-	var _globalServicesColorScheme = __webpack_require__(199);
+	var _globalServicesColorScheme = __webpack_require__(201);
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	var _globalServicesStringHash = __webpack_require__(221);
+	var _globalServicesStringHash = __webpack_require__(199);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _globalComponentsAspect = __webpack_require__(223);
+	var _globalComponentsAspect = __webpack_require__(230);
 
 	var _globalComponentsAspect2 = _interopRequireDefault(_globalComponentsAspect);
 
-	var _globalComponentsButton = __webpack_require__(226);
+	var _globalComponentsButton = __webpack_require__(209);
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
 
@@ -42675,7 +42790,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42712,6 +42827,37 @@
 	}
 
 	exports['default'] = echo;
+	module.exports = exports['default'];
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(1);
+
+	var Clean = function Clean(component) {
+	  return function (props, children) {
+	    return _react.createFactory(component)(_extends({}, props, { children: children }));
+	  };
+	};
+
+	var _loop = function (elem) {
+	  Clean[elem] = function (props, children) {
+	    return _react.DOM[elem](_extends({}, props, { children: children }));
+	  };
+	};
+
+	for (var elem in _react.DOM) {
+	  _loop(elem);
+	}
+
+	exports['default'] = Clean;
 	module.exports = exports['default'];
 
 /***/ }

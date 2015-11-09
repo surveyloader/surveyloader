@@ -88,7 +88,12 @@ class Container extends React.Component {
           })
         }
         </select>
-        <Doc path={`modules/${module.type}`} />
+        <div style={[styles.documentation]}>
+          <div style={[styles.heading, { paddingBottom: 0 }]}>
+            Documentation
+          </div>
+          <Doc path={`modules/${module.type}`} />
+        </div>
         <Preview {...previewProps} />
         <Parameters {...paramProps} />
       </div>

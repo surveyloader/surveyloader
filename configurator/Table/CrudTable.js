@@ -36,7 +36,7 @@ class TableParameter extends React.Component {
             <input
               type="button"
               value="x"
-              onClick={() => remove()}
+              onClick={remove}
             /> 
           </span> :
           <span>{String(v)}</span>

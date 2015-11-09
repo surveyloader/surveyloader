@@ -3,9 +3,10 @@ import Radium from 'radium'
 import styles from './styles'
 
 import CrudParams from './CrudParams'
+import Excel from './Excel'
 
 @Radium
-export default class Json extends React.Component {
+export default class Params extends React.Component {
   render () {
     const {
       initTable,
@@ -24,12 +25,16 @@ export default class Json extends React.Component {
           <CrudParams
             module={module}
             table={{ ...initTable, ...accTable}}
+            col={this.state.col}
             setParams={(params) => {
               store.dispatch({
                 type: 'CHANGE_MODULE_PARAMS',
                 params
               })
             }}
+          />
+          <Excel
+            setCol={col => this.setState({ col })}
           />
         </div>
       }

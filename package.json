@@ -32,8 +32,10 @@
     "react-motion": "^0.3.0",
     "react-remarkable": "^1.1.1",
     "redux": "^3.0.2",
+    "script-loader": "^0.6.1",
     "superagent": "^1.2.0",
     "url-loader": "^0.5.6",
-    "webpack": "^1.10.1"
+    "webpack": "^1.10.1",
+    "xlsx": "^0.8.0"
   }
 }
