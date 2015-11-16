@@ -78,7 +78,7 @@ class App extends React.Component {
       table
     } = this.props
     const { choice, animating } = this.state
-    console.log(table, identify(aspects[1]), table[identify(aspects[1]) + '_color'])
+
     return (
       <div style={[styles.main]}>
         <div style={[styles.instructions]}>

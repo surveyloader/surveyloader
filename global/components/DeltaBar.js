@@ -1,13 +1,23 @@
 import React from 'react'
 import Radium from 'radium'
-import Color from 'color'
+import colorLib from 'color'
+
+const Color = (c) => {
+  try {
+    colorLib(c)
+  } catch (e) {
+    console.log(e)
+    return colorLib('#fff')
+  }
+  return colorLib(c)
+}
 
 @Radium
 class DeltaBar extends React.Component {
   static defaultProps = {
-    percent: 70,
+    percent: 42,
     delta: 10,
-    height: 3,
+    height: 1,
     color: '#f44'
   }
 
@@ -21,23 +31,29 @@ class DeltaBar extends React.Component {
     } = this.props
     return (
       <svg
-        width="100%"
-        viewBox={'0 0 100 ' + Number(height + 10)}
-        style={[styles.svg, modStyle]}
+        viewBox={`0 0 100 1`}
+        preserveAspectRatio="none"
+        style={[
+          styles.svg,
+          { 
+            height: `${Number(height + 1)}rem` 
+          },
+          modStyle
+        ]}
       >
         <rect
           x={0}
-          y={7}
+          y={0.42}
           width={100}
-          height={height}
+          height={0.58}
           fill="#eee"
         >
         </rect>
         <rect
           x={0}
-          y={7}
+          y={0.42}
           width={percent}
-          height={height}
+          height={0.58}
           fill={color}
         >
         </rect>
@@ -46,17 +62,17 @@ class DeltaBar extends React.Component {
           <g>
             <rect
               x={percent}
-              y={7}
+              y={0.42}
               width={delta}
-              height={height}
-              fill={Color(color).darken(0.7).rgbString()}
+              height={0.58}
+              fill={Color(color).darken(0.42).rgbString()}
             ></rect>
             <path
               fill={'#000'}
               d={`
-                M ${percent},2
+                M ${percent},0.1
                 l ${delta - 2},0
-                l 0,2
+                l 0,0.2
                 l ${2 - delta},0
                 Z
               `}
@@ -65,8 +81,8 @@ class DeltaBar extends React.Component {
               fill={'#000'}
               d={`
                 M ${percent + delta - 2},0
-                l 2,3
-                l -2,3
+                l 2,0.2
+                l -2,0.2
                 Z
               `}
             ></path>
@@ -75,12 +91,19 @@ class DeltaBar extends React.Component {
         {
           delta < 0 &&
           <g>
+            <rect
+              x={percent + delta}
+              y={0.42}
+              width={-delta}
+              height={0.58}
+              fill={Color(color).lighten(0.1).rgbString()}
+            ></rect>
             <path
               fill={'#000'}
               d={`
-                M ${percent},2
+                M ${percent},0.1
                 l ${delta + 2},0
-                l 0,2
+                l 0,0.2
                 l ${-2 - delta},0
                 Z
               `}
@@ -89,8 +112,8 @@ class DeltaBar extends React.Component {
               fill={'#000'}
               d={`
                 M ${percent + delta + 2},0
-                l -2,3
-                l 2,3
+                l -2,0.2
+                l 2,0.2
                 Z
               `}
             ></path>
@@ -98,9 +121,9 @@ class DeltaBar extends React.Component {
         }
         <rect
           x={percent + delta - 0.5}
-          y={7}
+          y={0.42}
           width={0.5}
-          height={height}
+          height={0.58}
           fill={'#000'}
         >
         </rect>
@@ -111,6 +134,7 @@ class DeltaBar extends React.Component {
 
 const styles = {
   svg: {
+    width: '100%',
     paddingTop: 0,
     paddingRight: 0,
     paddingBottom: 0,

@@ -12,8 +12,7 @@ class Handle extends React.Component {
   }
 
   render () {
-    let { size, position } = this.props
-    size = size * .8
+    let { width, height, position } = this.props
     return (
       <path
         style={[styles.handle]}
@@ -23,10 +22,10 @@ class Handle extends React.Component {
         fill="#fff"
         fillOpacity="0.9"
         d={
-          `M ${position- (size/2)},0 
-          l ${size},0 l 0,${(size*2)/3} 
-          l -${size/2},${size/2} 
-          l -${size/2},-${size/2} 
+          `M ${position- (width/2)},0 
+          l ${width},0 l 0,${height/2} 
+          l -${width/2},${height/2} 
+          l -${width/2},-${height/2} 
           Z`
         }
       ></path>
@@ -38,7 +37,7 @@ class Handle extends React.Component {
 class Slider extends React.Component {
   static defaultProps = {
     percent: 50,
-    height: 5,
+    height: '3rem',
     color: '#f44'
   }
 
@@ -62,7 +61,7 @@ class Slider extends React.Component {
   handleMouseDown (event) {
     this.setState({ movable: true })
     let { clientX } = event
-    let { left, width } = this.refs.bar.getBoundingClientRect()
+    let { left, width } = this._bar.getBoundingClientRect()
     this.move(100 * (clientX - left) / width)
   }
 
@@ -72,7 +71,7 @@ class Slider extends React.Component {
 
   handleMouseMove (event) {
     let { clientX } = event
-    let { left, width } = this.refs.bar.getBoundingClientRect()
+    let { left, width } = this._bar.getBoundingClientRect()
     if (this.state.movable) this.move(100 * (clientX - left) / width)
   }
 
@@ -85,8 +84,7 @@ class Slider extends React.Component {
     const { percent, delta, height, color, modStyle } = this.props
     return (
       <svg
-        width="100%"
-        viewBox={'0 0 110 ' + (height + 5)}
+        viewBox={'0 0 110 10'}
         style={[styles.svg, modStyle]}
         onMouseDown={this.handleMouseDown.bind(this)}
       >
@@ -106,17 +104,17 @@ class Slider extends React.Component {
           <rect 
             y={0}
             width={100}
-            height={height}
+            height={5}
             fill="#eee"
             stroke="#fff"
             strokeWidth="0.25"
-            ref="bar"
+            ref={(c) => this._bar = c}
           >
           </rect>
           <rect 
             y={0}
             width={percent}
-            height={height}
+            height={5}
             fill={color}
             stroke="#fff"
             strokeWidth="0.25"
@@ -127,11 +125,11 @@ class Slider extends React.Component {
               .map((num) => <text
                 key={num}
                 x={Number(num)}
-                y={height + 3}
+                y={8}
                 style={[styles.text]}
               >{Number(num)}</text>)
           }
-          <Handle size={height} position={percent} />
+          <Handle width={5} height={5} position={percent} />
         </g>
       </svg>
     )
@@ -140,15 +138,15 @@ class Slider extends React.Component {
 
 const styles = {
   svg: {
-    padding: 0,
-    margin: 0,
+    width: '100%',
+    height: 'auto',
     cursor: 'pointer'
   },
   handle: {
     cursor: 'pointer'
   },
   text: {
-    fontSize: '.125em',
+    fontSize: '.15rem',
     textAnchor: 'middle',
     userSelect: 'none'
   }

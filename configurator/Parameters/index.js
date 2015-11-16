@@ -16,6 +16,8 @@ export default class Params extends React.Component {
       store
     } = this.props
 
+    console.log('param', module)
+
     return (
       <div style={[styles.col, { flex: 2 }]}>
       {

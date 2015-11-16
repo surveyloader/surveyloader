@@ -49,15 +49,15 @@ class Example extends Component {
         <p>{question_text}</p>
         <div>
           <Button
-            text={answer_no}
-            handler={() => {
-              ::this.handleResponse(answer_no)
-            }}
-          />
-          <Button
             text={answer_yes}
             handler={() => {
               ::this.handleResponse(answer_yes)
+            }}
+          />
+          <Button
+            text={answer_no}
+            handler={() => {
+              ::this.handleResponse(answer_no)
             }}
           />
         </div>

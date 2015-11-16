@@ -4,6 +4,7 @@ import Radium from 'radium'
 import ColorScheme from '../../global/services/colorScheme'
 import Format from '../../global/services/format'
 
+import DeltaBar from '../../global/components/DeltaBar'
 import Button from '../../global/components/Button'
 
 @Radium
@@ -19,7 +20,7 @@ class RatedAspects extends React.Component {
         {
           aspects.map((a, i) => (
             <div
-              key={a.text}
+              key={i}
               style={[styles.aspect]}
               onClick={() => editRating(a.index)}
             >
@@ -30,20 +31,11 @@ class RatedAspects extends React.Component {
                 <div style={[styles.rating]}>
                   {Number(a.rating)}
                 </div>
-                <svg width="100%" viewBox="0 0 100 1">
-                  <rect
-                    width={100}
-                    height={3}
-                    fill="#eee"
-                  >
-                  </rect>
-                  <rect
-                    width={a.rating}
-                    height={3}
-                    fill={ColorScheme.index(a.index)}
-                  >
-                  </rect>
-                </svg>
+                <DeltaBar
+                  percent={Number(a.rating)}
+                  color={a.color}
+                  delta={0}
+                />
               </div>
               <div style={[styles.button]}>
                 <Button

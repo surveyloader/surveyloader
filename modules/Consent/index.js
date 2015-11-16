@@ -18,7 +18,7 @@ class Consent extends React.Component {
   render () { 
     return (
       <div style={[styles.container]}>
-        <div 
+        <div
           dangerouslySetInnerHTML={{__html: this.props.body}}
         ></div>
         <div>

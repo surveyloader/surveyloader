@@ -8,8 +8,7 @@ from '../../global/services/colorScheme'
 import identify
 from '../../global/services/stringHash'
 
-import Aspect from '../../global/components/Aspect'
-import Button from '../../global/components/Button'
+import Scenario from '../../global/components/Scenario'
 
 @Radium
 class App extends React.Component {
@@ -30,19 +29,19 @@ class App extends React.Component {
 
   static defaultProps = {
     aspect_texts: [
-      '$text_$(aspect_a_0)',
-      '$text_$(aspect_a_1)',
-      '$text_$(aspect_a_2)'
+      'one',
+      'two',
+      'three'
     ],
     aspect_ratings: [
-      '$rating_$(aspect_a_0)',
-      '$rating_$(aspect_a_1)',
-      '$rating_$(aspect_a_2)'
+      51,
+      52,
+      53
     ],
     aspect_colors: [
-      '$color_$(aspect_a_0)',
-      '$color_$(aspect_a_1)',
-      '$color_$(aspect_a_2)'
+      '#f77',
+      '#7f7',
+      '#77f'
     ],
     aspect_pairs: [
       [0,1],
@@ -166,8 +165,9 @@ class App extends React.Component {
   }
 
   deltaText (delta) {
-    const { floor, log2, abs } = Math
-    let degree = this.props.texts_deg_pref[floor(log2(abs(delta)))] || ''
+    const { floor, log, LN2, abs } = Math
+    const log2 = log(abs(delta)) / LN2
+    const degree = this.props.texts_deg_pref[floor(log2)] || ''
     return `${degree} ${this.state.increases_decreases}`
   }
 
@@ -187,10 +187,10 @@ class App extends React.Component {
       tradeoff
     } = this.state
 
-    const [i=0,j=0] = aspect_pairs[0]
+    const [i,j] = aspect_pairs[0]
 
     return (
-      <div style={[styles.main]}>
+      <div>
         <div style={[styles.instructions]}>
           <b>{text_instruct_title}</b>
           <div>{text_instruct_body}</div>
@@ -203,52 +203,50 @@ class App extends React.Component {
           (interpolated) => (
             <div 
               style={{
-                ...styles.container, 
+                ...styles.row,
                 opacity: animating ? 0 : `${interpolated.val}`,
                 marginLeft: animating ? 0 : (1 - interpolated.val) * -200,
                 marginRight: animating ? 0 : (1 - interpolated.val) * 200
               }}>
-              <div style={[styles.half]}>
-                <Aspect
-                  modStyle={{flex: 1}}
-                  text={aspect_texts[i]}
-                  rating={aspect_ratings[i]}
-                  color={aspect_colors[i]}
-                  delta={tradeoff[0]}
-                  deltaText={::this.deltaText(tradeoff[0])}
-                />
-                <Aspect
-                  modStyle={{flex: 1}}
-                  text={aspect_texts[j]}
-                  rating={aspect_ratings[j]}
-                  color={aspect_colors[j]}
-                  delta={0}
-                />
-                <Button
-                  modStyle={{marginTop: 15}}
-                  text={text_prefer_option}
-                  handler={() => ::this.choose(-1)} 
+              <div style={[styles.padding(1, 0.5, 0, 0), { flex: 1 }]}>
+                <Scenario
+                  aspects={[
+                    {
+                      text: aspect_texts[i],
+                      rating: aspect_ratings[i],
+                      color: aspect_colors[i],
+                      change: tradeoff[0],
+                      deltaText: this.deltaText.bind(this)(tradeoff[0])
+                    }, {
+                      text: aspect_texts[j],
+                      rating: aspect_ratings[j],
+                      color: aspect_colors[j],
+                      change: 0,
+                      deltaText: null
+                    }
+                  ]}
+                  preferText={text_prefer_option}
+                  handler={() => ::this.choose(0)}
                 />
               </div>
-              <div style={[styles.half]}>
-                <Aspect
-                  modStyle={{flex: 1}}
-                  text={aspect_texts[i]}
-                  rating={aspect_ratings[i]}
-                  color={aspect_colors[i]}
-                  delta={0}
-                />
-                <Aspect
-                  modStyle={{flex: 1}}
-                  text={aspect_texts[j]}
-                  rating={aspect_ratings[j]}
-                  color={aspect_colors[j]}
-                  delta={tradeoff[1]}
-                  deltaText={::this.deltaText(tradeoff[1])}
-                />
-                <Button
-                  modStyle={{marginTop: 15}}
-                  text={text_prefer_option}
+              <div style={[styles.padding(1, 0, 0, 0.5), { flex: 1 }]}>
+                <Scenario
+                  aspects={[
+                    {
+                      text: aspect_texts[i],
+                      rating: aspect_ratings[i],
+                      color: aspect_colors[i],
+                      change: 0,
+                      deltaText: null
+                    }, {
+                      text: aspect_texts[j],
+                      rating: aspect_ratings[j],
+                      color: aspect_colors[j],
+                      change: tradeoff[1],
+                      deltaText: this.deltaText.bind(this)(tradeoff[1])
+                    }
+                  ]}
+                  preferText={text_prefer_option}
                   handler={() => ::this.choose(1)}
                 />
               </div>
@@ -261,51 +259,12 @@ class App extends React.Component {
   }
 }
 
+import gstyles from '../../global/styles'
 const styles = {
-  main: {
-    paddingTop: 15,
-    paddingRight: 15,
-    paddingBottom: 15,
-    paddingLeft: 15,
-    borderRadius: 15,
-    boxSizing: 'border-box'
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'row'
-  },
-  half: {
-    flex: 1,
-    boxSizing: 'border-box',
-    marginTop: 5,
-    marginRight: 5,
-    marginBottom: 5,
-    marginLeft: 5,
-    paddingTop: 15,
-    paddingRight: 15,
-    paddingBottom: 15,
-    paddingLeft: 15,
-    borderRadius: 15,
-    boxShadow: '2px 2px 4px #ddd',
-    backgroundColor: '#fff',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around'
-  },
+  ...gstyles,
   instructions: {
-    boxSizing: 'border-box',
-    width: '100%',
-    paddingTop: 30,
-    paddingRight: 30,
-    paddingBottom: 30,
-    paddingLeft: 30,
-    marginTop: 30,
-    marginRight: 0,
-    marginBottom: 30,
-    marginLeft: 0,
-    borderRadius: 15,
-    boxShadow: '2px 2px 4px #ddd',
-    background: '#fff'
+    ...gstyles.panel,
+    ...gstyles.padding(2)
   }
 }
 

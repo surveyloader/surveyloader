@@ -4,4 +4,4 @@ let server = express()
 server.use('/', express.static(__dirname))
 
 let port = process.env.PORT || 3000
-server.listen(port)
+server.listen(port, '0.0.0.0')

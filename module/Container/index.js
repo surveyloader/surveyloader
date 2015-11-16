@@ -66,6 +66,8 @@ class Container extends React.Component {
       store
     }
 
+    console.log('container', module)
+
     return (
       <div style={[styles.main]}>
         <select

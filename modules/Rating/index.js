@@ -21,10 +21,15 @@ class Index extends React.Component {
     text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
     rating_tip: 'Move the slider to set your rating',
     rating_confirm: 'Confirm Rating',
-    aspects: [
-      '$text_$(aspect_a_0)',
-      '$text_$(aspect_a_1)',
-      '$text_$(aspect_a_2)'
+    aspect_texts: [
+      'one',
+      'two',
+      'three'
+    ],
+    aspect_colors: [
+      '#f77',
+      '#7f7',
+      '#77f'
     ]
   }
 
@@ -46,10 +51,11 @@ class Index extends React.Component {
   componentDidMount () {
     store.dispatch({
       type: 'SET_ASPECTS', 
-      aspects: this.props.aspects
+      aspects: this.props.aspect_texts
         .map((a, i) => {
           return {
             text: a,
+            color: this.props.aspect_colors[i],
             index: i
           }
         })

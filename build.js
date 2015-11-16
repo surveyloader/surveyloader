@@ -58,7 +58,7 @@ let exp = modules
 
 fs.writeFile(`${__dirname}/modules/index.js`, `${imp}\n${exp}`)
 
-pack('./loader')
+pack('./run')
 pack('./configurator')
 pack('./simulator')
 pack('./data')

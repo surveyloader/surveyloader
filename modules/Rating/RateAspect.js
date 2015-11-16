@@ -33,7 +33,7 @@ class RateAspect extends React.Component {
             }
           </div>
           <Slider
-            color={ColorScheme.index(aspect.index)}
+            color={aspect.color}
             percent={aspect.rating}
             handleChange={handleRating} 
           />
@@ -49,12 +49,15 @@ class RateAspect extends React.Component {
           </div>
           || aspect.index === 0 &&
           <svg
-            width="100%"
+            style={{
+              width: '100%',
+              height: '4rem'
+            }}
             viewBox="0 0 100 10"
           >
             <path
               stroke="#559"
-              strokeWidth="0.25px"
+              strokeWidth="0.25"
               fill="#fff"
               d="
                 M 50,0
@@ -69,8 +72,8 @@ class RateAspect extends React.Component {
             <text
               x="70"
               y="10"
-              dy="-2px"
-              fontSize="3px"
+              dy="-2"
+              fontSize="3"
               fill="#559"
               textAnchor="middle"
             >
@@ -83,24 +86,24 @@ class RateAspect extends React.Component {
   }
 }
 
+import gstyles from '../../global/styles'
 const styles = {
+  ...gstyles,
   container: {
-    padding: 30,
-    boxSizing: 'border-box',
-    borderRadius: 15,
-    boxShadow: '2px 2px 4px #ddd',
+    ...gstyles.panel,
+    ...gstyles.padding(2),
     backgroundColor: '#fff',
     userSelect: 'none',
     overflow: 'auto',
     zoom: 1
   },
   heading: {
-    marginBottom: 15,
+    marginBottom: '1rem',
     overflow: 'auto',
     zoom: 1
   },
   button: {
-    marginTop: 30,
+    marginTop: '2rem',
     float: 'right'
   }
 }

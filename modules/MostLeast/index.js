@@ -6,7 +6,6 @@ import Button from '../../global/components/Button'
 import identify
 from '../../global/services/stringHash'
 import ColorScheme from '../../global/services/colorScheme'
-import panel from '../../global/styles/panel'
 
 @Radium
 class MostLeast extends React.Component {
@@ -43,6 +42,10 @@ class MostLeast extends React.Component {
     this.state = { most: false }
   }
 
+  componentWillMount () {
+    console.log('mount')
+  }
+
   choose (aspect) {
     const { candidate, aspects } = this.props
     if (this.state.most) {
@@ -60,7 +63,7 @@ class MostLeast extends React.Component {
     const { most, selected } = this.state
     return (
       <div>
-        <div style={[panel]}>
+        <div style={[styles.panel]}>
           <p>
             <span>{this.props.instructions_text}&nbsp;</span>
             <em>{candidate}</em>
@@ -108,6 +111,7 @@ class MostLeast extends React.Component {
 }
 
 const styles = {
+  ...require('../../global/styles'),
   item: {
     padding: 5,
     cursor: 'pointer'

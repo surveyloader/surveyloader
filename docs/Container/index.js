@@ -18,7 +18,7 @@ class Container extends React.Component {
         <h2 style={{color: '#ccc'}}>
           Survey Loader Documentation
         </h2>
-        <Doc path="loader" />
+        <Doc path="run" />
         <Doc path="configurator" />
         <Doc path="simulator" />
         <Doc path="data" />

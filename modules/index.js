@@ -2,6 +2,8 @@ import Bucket from './Bucket'
 import Coin from './Coin'
 import Consent from './Consent'
 import Example from './Example'
+import Headers from './Headers'
+import Mirror from './Mirror'
 import MostLeast from './MostLeast'
 import Pairwise from './Pairwise'
 import PairwiseRandom from './PairwiseRandom'
@@ -13,6 +15,8 @@ export { Bucket }
 export { Coin }
 export { Consent }
 export { Example }
+export { Headers }
+export { Mirror }
 export { MostLeast }
 export { Pairwise }
 export { PairwiseRandom }

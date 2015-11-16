@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import ReactDOMServer from 'react-dom/server'
 import _ from 'lodash'
 
 import load from '../../global/services/lazy'
@@ -19,10 +18,10 @@ class Loader extends React.Component {
 
   loadComponent (params, table) {
     if (params.type) {
-      let component = load(params.type)
+      const component = load(params.type)
       component.defaultProps = component.defaultProps ? component.defaultProps : {}
       
-      let paramValues = _(params)
+      const paramValues = _(params)
         .map((v, p) => {
           return Array.isArray(v) ?
             [p, v.map(subv => echo(subv, table))] :
@@ -32,7 +31,6 @@ class Loader extends React.Component {
         .value()
 
       component.defaultProps = { ...component.defaultProps, ...paramValues }
-      console.log(component.defaultProps, params)
       this.setState({ component })
     }
   }
@@ -51,24 +49,17 @@ class Loader extends React.Component {
 
   render () {
     const Component = this.state.component
-    if (Component) {
-      try {
-        ReactDOMServer.renderToString(<Component
-          {...this.props}
-          push={(response) => this.setState({ response })}
-        />)
-      } 
-      catch (e) {
-        console.log(e)
-        return <span>{e.toString()}</span>
-      }
-      return this.state.response ?
-        <pre>{JSON.stringify(this.state.response, null, 2)}</pre> :
-        Component ?
+    const { response } = this.state
+
+    if (Component && !response) {
+      return (
         <Component
           {...this.props}
           push={(response) => this.setState({ response })}
-        /> : false
+        />
+      )
+    } else if (response) {
+      return <pre>{JSON.stringify(this.state.response, null, 2)}</pre>
     } else {
       return <span>...</span>
     }

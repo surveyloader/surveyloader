@@ -23,7 +23,8 @@ class HoverValue extends React.Component {
     const { table, v, set, hover, brush, connectDropTarget } = this.props
     return connectDropTarget(
       <div style={[styles.hover]}>
-        <textarea
+        <input
+          type="text"
           defaultValue={v}
           onChange={(e) => set(e.target.value)}
           onBrush={brush}
@@ -162,6 +163,7 @@ class LoadParams extends React.Component {
       let component = load(module.type)
       component.defaultProps = component.defaultProps ? component.defaultProps : {}
       
+      console.log('default', component, component.defaultProps)
       let isArray = _(component.propTypes)
         .map((f, p, ps) => [p, !f({ [p]: [] }, p)])
         .object()
@@ -181,6 +183,8 @@ class LoadParams extends React.Component {
         })
         .object()
         .value()
+
+      console.log('load', params)
         
       this.setState({ isArray })
       props.setParams(params)
