@@ -11,6 +11,7 @@ import store from '../store'
 import Preview from '../../configurator/Preview'
 import Parameters from '../../configurator/Parameters'
 import Doc from '../../docs/Doc'
+import Screenshots from '../Screenshots'
 
 import modulesList from '../../modules/list.json'
 
@@ -107,7 +108,10 @@ class Container extends React.Component {
           <Doc path={`modules/${module.type}`} />
         </div>
         <Preview {...previewProps} />
-        <Parameters {...paramProps} />
+        <div style={[styles.row]}>
+          <Parameters {...paramProps} />
+          <Screenshots moduleType={module.type} />
+        </div>
       </div>
     )
 

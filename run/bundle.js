@@ -41989,7 +41989,12 @@
 	  _createClass(_Index, null, [{
 	    key: 'propTypes',
 	    value: {
-	      aspects: _react.PropTypes.array
+	      aspect_texts: _react.PropTypes.array,
+	      aspect_colors: _react.PropTypes.array,
+	      instructions: _react.PropTypes.string,
+	      text: _react.PropTypes.string,
+	      rating_tip: _react.PropTypes.string,
+	      rating_confirm: _react.PropTypes.string
 	    },
 	    enumerable: true
 	  }, {

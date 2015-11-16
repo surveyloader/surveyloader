@@ -13,7 +13,12 @@ import Rated from './RatedAspects'
 @Radium
 class Index extends React.Component {
   static propTypes = { 
-    aspects: PropTypes.array
+    aspect_texts: PropTypes.array,
+    aspect_colors: PropTypes.array,
+    instructions: PropTypes.string,
+    text: PropTypes.string,
+    rating_tip: PropTypes.string,
+    rating_confirm: PropTypes.string
   }
 
   static defaultProps = {

@@ -1,33 +1,28 @@
 import http from 'superagent'
+import modulesList from '../modules/list.json'
 import credentials from './credentials'
+import browsers from './browsers'
 
 const { user, pass } = credentials.browserstack
 
-const browsers = [
-  {
-    browser: 'chrome'
-  },{
-    browser: 'firefox'
-  },{
-    browser: 'ie'
-  },{
-    browser: 'safari'
-  },,{
-    browser: 'opera'
-  },{
-    browser: 'Mobile Safari'
-  },{
-    browser: 'Android Browser'
-  },
-]
+function generateScreenshots (moduleType) {
+  http
+    .post('https://www.browserstack.com/screenshots')
+    .auth(user, pass)
+    .send({
+      url: `http://surveyloader.org/module/?type=${moduleType}&full_preview=1`,
+      wait_time: 10,
+      browsers,
+      callback_url: `https://surveyloader.firebaseio.com/screenshots/${moduleType}.json`
+    })
+    .end((err, res) => {
+      if (err) {
+        console.error(moduleType, err)
+      } else {
+        console.log(moduleType, res.body.job_id)
+      }
+    })
+}
 
-http
-  .post('https://www.browserstack.com/screenshots')
-  .auth(user, pass)
-  .send({
-    url: 'http://surveyloader.org/module/?type=Headers',
-    wait_time: 5
-  })
-  .end((err, res) => {
-    console.log(res)
-  })
+modulesList
+  .map(m => generateScreenshots(m))
