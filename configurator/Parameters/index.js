@@ -12,14 +12,18 @@ export default class Params extends React.Component {
       initTable,
       accTable,
       module,
+      hidden,
       selected,
       store
     } = this.props
 
-    console.log('param', module)
+    const style = { 
+      flex: 2,
+      display: hidden ? 'none' : 'auto'
+    }
 
     return (
-      <div style={[styles.col, { flex: 2 }]}>
+      <div style={[styles.col, style]}>
       {
         module &&
         <div>

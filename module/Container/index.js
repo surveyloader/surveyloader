@@ -31,6 +31,13 @@ class Container extends React.Component {
       .object()
       .value()
 
+    if (params.full_preview) {
+      store.dispatch({
+        type: 'FULL_SCREEN',
+        enabled: true
+      })
+    }
+
     if (params.type) {
       store.dispatch({
         type: 'CHANGE_MODULE_TYPE',
@@ -45,15 +52,20 @@ class Container extends React.Component {
   }
 
   componentWillUpdate (props, state) {
-    const { module } = state
+    const { module, fullscreen } = state
+    const search = fullscreen ?
+      `?type=${module.type}&full_preview=1` :
+      `?type=${module.type}`
+
     if (module.type) {
-      history.pushState(null, null, `?type=${module.type}`)
+      history.pushState(null, null, search)
     }
   }
 
   render () {
     const {
-      module
+      module,
+      fullscreen
     } = this.state
 
     const previewProps = {
@@ -66,9 +78,7 @@ class Container extends React.Component {
       store
     }
 
-    console.log('container', module)
-
-    return (
+    const embedded = (
       <div style={[styles.main]}>
         <select
           defaultValue={module.type}
@@ -100,6 +110,17 @@ class Container extends React.Component {
         <Parameters {...paramProps} />
       </div>
     )
+
+    const full = (
+      <div>
+        <Preview {...previewProps} fullscreen={true} />
+        <Parameters {...paramProps} hidden={true} />
+      </div>
+    )
+
+    return fullscreen ?
+      full :
+      embedded
   }
 }
 

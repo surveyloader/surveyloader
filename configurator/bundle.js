@@ -32164,8 +32164,9 @@
 	    var _props = this.props;
 	    var module = _props.module;
 	    var table = _props.table;
+	    var fullscreen = _props.fullscreen;
 
-	    return _react2['default'].createElement(
+	    var embedded = _react2['default'].createElement(
 	      'div',
 	      { style: { width: '100%' } },
 	      _react2['default'].createElement(
@@ -32191,6 +32192,30 @@
 	        )
 	      )
 	    );
+
+	    var full = _react2['default'].createElement(
+	      'div',
+	      { style: [_styles2['default'].main] },
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [_styles2['default'].container] },
+	        module ? _react2['default'].createElement(_Loader2['default'], {
+	          params: module,
+	          table: table,
+	          push: function (table) {}
+	        }) : _react2['default'].createElement(
+	          'div',
+	          { style: [_styles2['default'].col, { justifyContent: 'center', textAlign: 'center' }] },
+	          _react2['default'].createElement(
+	            'div',
+	            { style: [{ flex: 1 }] },
+	            '* module not found *'
+	          )
+	        )
+	      )
+	    );
+
+	    return fullscreen ? full : embedded;
 	  };
 
 	  Preview = _radium2['default'](Preview) || Preview;
@@ -32217,6 +32242,33 @@
 	var _styles2 = _interopRequireDefault(_styles);
 
 	exports['default'] = _extends({}, _styles2['default'], {
+	  main: {
+	    position: 'absolute',
+	    width: '100%',
+	    minWidth: 640,
+	    minHeight: '100%',
+	    left: 0,
+	    top: 0,
+	    backgroundColor: '#ddf',
+	    fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif',
+	    fontSize: '1.5em',
+	    color: '#333',
+	    boxSizing: 'border-box'
+	  },
+	  container: {
+	    position: 'relative',
+	    width: '100%',
+	    marginTop: '2rem',
+	    marginRight: 'auto',
+	    marginBottom: 0,
+	    marginLeft: 'auto',
+	    '@media (min-width:1000px)': {
+	      width: 1000
+	    },
+	    '@media (max-width:600px)': {
+	      width: 600
+	    }
+	  },
 	  preview: {
 	    boxSizing: 'border-box',
 	    minWidth: '100%',
@@ -52578,14 +52630,18 @@
 	    var initTable = _props.initTable;
 	    var accTable = _props.accTable;
 	    var module = _props.module;
+	    var hidden = _props.hidden;
 	    var selected = _props.selected;
 	    var store = _props.store;
 
-	    console.log('param', module);
+	    var style = {
+	      flex: 2,
+	      display: hidden ? 'none' : 'auto'
+	    };
 
 	    return _react2['default'].createElement(
 	      'div',
-	      { style: [_styles2['default'].col, { flex: 2 }] },
+	      { style: [_styles2['default'].col, style] },
 	      module && _react2['default'].createElement(
 	        'div',
 	        null,

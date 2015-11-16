@@ -21,6 +21,12 @@ export default createStore(function (state, action) {
         }
       }
 
+    case 'FULL_SCREEN':
+      return {
+        ...state,
+        fullscreen: action.enabled
+      }
+
     default:
       return {
         ...state,

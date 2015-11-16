@@ -19921,7 +19921,7 @@
 	  center: {
 	    position: 'relative',
 	    width: '100%',
-	    marginTop: 0,
+	    marginTop: '2rem',
 	    marginRight: 'auto',
 	    marginBottom: 0,
 	    marginLeft: 'auto',

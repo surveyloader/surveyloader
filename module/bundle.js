@@ -19702,6 +19702,8 @@
 
 	exports.__esModule = true;
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -19776,6 +19778,13 @@
 	      return item.split('=');
 	    }).object().value();
 
+	    if (params.full_preview) {
+	      _store2['default'].dispatch({
+	        type: 'FULL_SCREEN',
+	        enabled: true
+	      });
+	    }
+
 	    if (params.type) {
 	      _store2['default'].dispatch({
 	        type: 'CHANGE_MODULE_TYPE',
@@ -19791,14 +19800,19 @@
 
 	  _Container.prototype.componentWillUpdate = function componentWillUpdate(props, state) {
 	    var module = state.module;
+	    var fullscreen = state.fullscreen;
+
+	    var search = fullscreen ? '?type=' + module.type + '&full_preview=1' : '?type=' + module.type;
 
 	    if (module.type) {
-	      history.pushState(null, null, '?type=' + module.type);
+	      history.pushState(null, null, search);
 	    }
 	  };
 
 	  _Container.prototype.render = function render() {
-	    var module = this.state.module;
+	    var _state = this.state;
+	    var module = _state.module;
+	    var fullscreen = _state.fullscreen;
 
 	    var previewProps = {
 	      module: module,
@@ -19810,9 +19824,7 @@
 	      store: _store2['default']
 	    };
 
-	    console.log('container', module);
-
-	    return _react2['default'].createElement(
+	    var embedded = _react2['default'].createElement(
 	      'div',
 	      { style: [_styles2['default'].main] },
 	      _react2['default'].createElement(
@@ -19850,6 +19862,15 @@
 	      _react2['default'].createElement(_configuratorPreview2['default'], previewProps),
 	      _react2['default'].createElement(_configuratorParameters2['default'], paramProps)
 	    );
+
+	    var full = _react2['default'].createElement(
+	      'div',
+	      null,
+	      _react2['default'].createElement(_configuratorPreview2['default'], _extends({}, previewProps, { fullscreen: true })),
+	      _react2['default'].createElement(_configuratorParameters2['default'], _extends({}, paramProps, { hidden: true }))
+	    );
+
+	    return fullscreen ? full : embedded;
 	  };
 
 	  Container = _radium2['default'](Container) || Container;
@@ -43209,6 +43230,11 @@
 	        module: _extends({}, state.module, action.params)
 	      });
 
+	    case 'FULL_SCREEN':
+	      return _extends({}, state, {
+	        fullscreen: action.enabled
+	      });
+
 	    default:
 	      return _extends({}, state, {
 	        module: {}
@@ -43753,8 +43779,9 @@
 	    var _props = this.props;
 	    var module = _props.module;
 	    var table = _props.table;
+	    var fullscreen = _props.fullscreen;
 
-	    return _react2['default'].createElement(
+	    var embedded = _react2['default'].createElement(
 	      'div',
 	      { style: { width: '100%' } },
 	      _react2['default'].createElement(
@@ -43780,6 +43807,30 @@
 	        )
 	      )
 	    );
+
+	    var full = _react2['default'].createElement(
+	      'div',
+	      { style: [_styles2['default'].main] },
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [_styles2['default'].container] },
+	        module ? _react2['default'].createElement(_Loader2['default'], {
+	          params: module,
+	          table: table,
+	          push: function (table) {}
+	        }) : _react2['default'].createElement(
+	          'div',
+	          { style: [_styles2['default'].col, { justifyContent: 'center', textAlign: 'center' }] },
+	          _react2['default'].createElement(
+	            'div',
+	            { style: [{ flex: 1 }] },
+	            '* module not found *'
+	          )
+	        )
+	      )
+	    );
+
+	    return fullscreen ? full : embedded;
 	  };
 
 	  Preview = _radium2['default'](Preview) || Preview;
@@ -43806,6 +43857,33 @@
 	var _styles2 = _interopRequireDefault(_styles);
 
 	exports['default'] = _extends({}, _styles2['default'], {
+	  main: {
+	    position: 'absolute',
+	    width: '100%',
+	    minWidth: 640,
+	    minHeight: '100%',
+	    left: 0,
+	    top: 0,
+	    backgroundColor: '#ddf',
+	    fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif',
+	    fontSize: '1.5em',
+	    color: '#333',
+	    boxSizing: 'border-box'
+	  },
+	  container: {
+	    position: 'relative',
+	    width: '100%',
+	    marginTop: '2rem',
+	    marginRight: 'auto',
+	    marginBottom: 0,
+	    marginLeft: 'auto',
+	    '@media (min-width:1000px)': {
+	      width: 1000
+	    },
+	    '@media (max-width:600px)': {
+	      width: 600
+	    }
+	  },
 	  preview: {
 	    boxSizing: 'border-box',
 	    minWidth: '100%',
@@ -51153,14 +51231,18 @@
 	    var initTable = _props.initTable;
 	    var accTable = _props.accTable;
 	    var module = _props.module;
+	    var hidden = _props.hidden;
 	    var selected = _props.selected;
 	    var store = _props.store;
 
-	    console.log('param', module);
+	    var style = {
+	      flex: 2,
+	      display: hidden ? 'none' : 'auto'
+	    };
 
 	    return _react2['default'].createElement(
 	      'div',
-	      { style: [_styles2['default'].col, { flex: 2 }] },
+	      { style: [_styles2['default'].col, style] },
 	      module && _react2['default'].createElement(
 	        'div',
 	        null,
