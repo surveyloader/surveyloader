@@ -19756,7 +19756,7 @@
 
 	var _Screenshots2 = _interopRequireDefault(_Screenshots);
 
-	var _modulesListJson = __webpack_require__(473);
+	var _modulesListJson = __webpack_require__(474);
 
 	var _modulesListJson2 = _interopRequireDefault(_modulesListJson);
 
@@ -62511,7 +62511,7 @@
 
 	var _styles2 = _interopRequireDefault(_styles);
 
-	var _globalComponentsLightbox = __webpack_require__(474);
+	var _globalComponentsLightbox = __webpack_require__(473);
 
 	var _globalComponentsLightbox2 = _interopRequireDefault(_globalComponentsLightbox);
 
@@ -62676,26 +62676,6 @@
 
 /***/ },
 /* 473 */
-/***/ function(module, exports) {
-
-	module.exports = [
-		"Bucket",
-		"Coin",
-		"Consent",
-		"Example",
-		"Headers",
-		"Mirror",
-		"MostLeast",
-		"Pairwise",
-		"PairwiseRandom",
-		"Rating",
-		"Sample",
-		"Store",
-		"Triple"
-	]
-
-/***/ },
-/* 474 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -62770,6 +62750,26 @@
 	  }
 	};
 	module.exports = exports['default'];
+
+/***/ },
+/* 474 */
+/***/ function(module, exports) {
+
+	module.exports = [
+		"Bucket",
+		"Coin",
+		"Consent",
+		"Example",
+		"Headers",
+		"Mirror",
+		"MostLeast",
+		"Pairwise",
+		"PairwiseRandom",
+		"Rating",
+		"Sample",
+		"Store",
+		"Triple"
+	]
 
 /***/ }
 /******/ ]);
