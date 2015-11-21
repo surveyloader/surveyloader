@@ -16,8 +16,8 @@ export default {
   panel: {
     boxSizing: 'border-box',
     flex: 1,
-    borderRadius: '1rem',
-    boxShadow: '0.2rem 0.2rem 0.4rem #ddd',
+    borderRadius: '0.5rem',
+    boxShadow: '0.2rem 0.2rem 1rem rgba(0, 0, 0, 0.1)',
     background: '#fff'
   },
   padding: (t, r, b, l) => {
@@ -31,9 +31,9 @@ export default {
   margin: (t, r, b, l) => {
     return {
       marginTop: `${t}rem`,
-      marginRight: `${r || t}rem`,
-      marginBottom: `${b || t}rem`,
-      marginLeft: `${l || t}rem`
+      marginRight: `${isNaN(r) && t || r}rem`,
+      marginBottom: `${isNaN(b) && t || b}rem`,
+      marginLeft: `${isNaN(l) && t || l}rem`
     }
   }
 }

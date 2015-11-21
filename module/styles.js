@@ -38,7 +38,7 @@ export default {
   },
   preview: {
     boxSizing: 'border-box',
-    minWidth: '100%',
+    maxWidth: 800,
     height: 600,
     marginTop: 0,
     marginRight: 'auto',
@@ -46,7 +46,7 @@ export default {
     marginLeft: 'auto',
     overflowY: 'scroll',
     fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif',
-    fontSize: '1.25em',
+    fontSize: '1em',
     padding: 30,
     backgroundColor: '#ddf',
     border: '1em solid #000'

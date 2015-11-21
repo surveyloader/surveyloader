@@ -19685,7 +19685,7 @@
 
 	var _globalServicesSimulateOver2 = _interopRequireDefault(_globalServicesSimulateOver);
 
-	var _globalServicesStringHash = __webpack_require__(218);
+	var _globalServicesStringHash = __webpack_require__(220);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
@@ -37041,7 +37041,7 @@
 
 	var _lazy2 = _interopRequireDefault(_lazy);
 
-	var _echo = __webpack_require__(267);
+	var _echo = __webpack_require__(270);
 
 	var _echo2 = _interopRequireDefault(_echo);
 
@@ -37114,53 +37114,53 @@
 
 	var _Bucket2 = _interopRequireDefault(_Bucket);
 
-	var _Coin = __webpack_require__(226);
+	var _Coin = __webpack_require__(228);
 
 	var _Coin2 = _interopRequireDefault(_Coin);
 
-	var _Consent = __webpack_require__(227);
+	var _Consent = __webpack_require__(229);
 
 	var _Consent2 = _interopRequireDefault(_Consent);
 
-	var _Example = __webpack_require__(229);
+	var _Example = __webpack_require__(232);
 
 	var _Example2 = _interopRequireDefault(_Example);
 
-	var _Headers = __webpack_require__(231);
+	var _Headers = __webpack_require__(234);
 
 	var _Headers2 = _interopRequireDefault(_Headers);
 
-	var _Mirror = __webpack_require__(232);
+	var _Mirror = __webpack_require__(235);
 
 	var _Mirror2 = _interopRequireDefault(_Mirror);
 
-	var _MostLeast = __webpack_require__(233);
+	var _MostLeast = __webpack_require__(236);
 
 	var _MostLeast2 = _interopRequireDefault(_MostLeast);
 
-	var _Pairwise = __webpack_require__(235);
+	var _QuestionForm = __webpack_require__(237);
 
-	var _Pairwise2 = _interopRequireDefault(_Pairwise);
+	var _QuestionForm2 = _interopRequireDefault(_QuestionForm);
 
-	var _PairwiseRandom = __webpack_require__(255);
-
-	var _PairwiseRandom2 = _interopRequireDefault(_PairwiseRandom);
-
-	var _Rating = __webpack_require__(256);
+	var _Rating = __webpack_require__(239);
 
 	var _Rating2 = _interopRequireDefault(_Rating);
 
-	var _Sample = __webpack_require__(263);
+	var _Sample = __webpack_require__(248);
 
 	var _Sample2 = _interopRequireDefault(_Sample);
 
-	var _Store = __webpack_require__(264);
+	var _Store = __webpack_require__(249);
 
 	var _Store2 = _interopRequireDefault(_Store);
 
-	var _Triple = __webpack_require__(265);
+	var _Triple = __webpack_require__(250);
 
 	var _Triple2 = _interopRequireDefault(_Triple);
+
+	var _URLParams = __webpack_require__(269);
+
+	var _URLParams2 = _interopRequireDefault(_URLParams);
 
 	exports.Bucket = _Bucket2['default'];
 	exports.Coin = _Coin2['default'];
@@ -37169,12 +37169,12 @@
 	exports.Headers = _Headers2['default'];
 	exports.Mirror = _Mirror2['default'];
 	exports.MostLeast = _MostLeast2['default'];
-	exports.Pairwise = _Pairwise2['default'];
-	exports.PairwiseRandom = _PairwiseRandom2['default'];
+	exports.QuestionForm = _QuestionForm2['default'];
 	exports.Rating = _Rating2['default'];
 	exports.Sample = _Sample2['default'];
 	exports.Store = _Store2['default'];
 	exports.Triple = _Triple2['default'];
+	exports.URLParams = _URLParams2['default'];
 
 /***/ },
 /* 217 */
@@ -37196,11 +37196,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _globalServicesStringHash = __webpack_require__(218);
+	var _globalTypes = __webpack_require__(218);
+
+	var _globalServicesStringHash = __webpack_require__(220);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _globalServicesColorScheme = __webpack_require__(220);
+	var _globalServicesColorScheme = __webpack_require__(222);
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
@@ -37250,8 +37252,8 @@
 	  _createClass(Bucket, null, [{
 	    key: 'propTypes',
 	    value: {
-	      aspects: _react.PropTypes.array,
-	      bucket: _react.PropTypes.string
+	      aspects: _globalTypes.declare(_globalTypes.type.array),
+	      bucket: _globalTypes.declare(_globalTypes.type.string)
 	    },
 	    enumerable: true
 	  }, {
@@ -37279,7 +37281,128 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _hashids = __webpack_require__(219);
+	var _statics = __webpack_require__(219);
+
+	var _statics2 = _interopRequireDefault(_statics);
+
+	var _lodash = __webpack_require__(212);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var declare = function declare(t) {
+	  return function (props, propName, componentName) {
+	    if (!props) {
+	      return t;
+	    } else if (!t.validate(props[propName])) {
+	      return new Error(propName + ' of ' + componentName + ' does not validate.');
+	    }
+	  };
+	};
+
+	exports['default'] = {
+	  declare: declare,
+	  type: _statics2['default']
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 219 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _lodash = __webpack_require__(212);
+
+	exports['default'] = {
+	  string: {
+	    validate: function validate(v) {
+	      return typeof v === 'string';
+	    },
+	    schema: ['string', false]
+	  },
+
+	  number: {
+	    validate: function validate(v) {
+	      return typeof v === 'number';
+	    },
+	    schema: ['number', false]
+	  },
+
+	  boolean: {
+	    validate: function validate(v) {
+	      return typeof v === 'boolean';
+	    },
+	    schema: ['boolean', false]
+	  },
+
+	  'function': {
+	    validate: function validate(v) {
+	      return typeof v === 'function';
+	    },
+	    schema: ['function', false]
+	  },
+
+	  object: {
+	    validate: function validate(v) {
+	      return typeof v === 'object';
+	    },
+	    schema: ['object', false]
+	  },
+
+	  Object: function Object(types) {
+	    return {
+	      validate: function validate(v) {
+	        return typeof v === 'object' && _lodash.every(_lodash.map(v, function (e, k) {
+	          return types[k].validate(e);
+	        }));
+	      },
+	      schema: ['object', types]
+	    };
+	  },
+
+	  array: {
+	    validate: function validate(v) {
+	      return Array.isArray(v);
+	    },
+	    schema: ['array', false]
+	  },
+
+	  Array: (function (_Array) {
+	    function Array(_x) {
+	      return _Array.apply(this, arguments);
+	    }
+
+	    Array.toString = function () {
+	      return _Array.toString();
+	    };
+
+	    return Array;
+	  })(function (type) {
+	    return {
+	      validate: function validate(v) {
+	        return Array.isArray(v) && _lodash.every(v, function (e) {
+	          return type.validate(e);
+	        });
+	      },
+	      schema: ['array', type]
+	    };
+	  })
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 220 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _hashids = __webpack_require__(221);
 
 	var _hashids2 = _interopRequireDefault(_hashids);
 
@@ -37297,7 +37420,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 219 */
+/* 221 */
 /***/ function(module, exports) {
 
 	/*
@@ -37646,7 +37769,7 @@
 
 
 /***/ },
-/* 220 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37655,7 +37778,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _color = __webpack_require__(221);
+	var _color = __webpack_require__(223);
 
 	var _color2 = _interopRequireDefault(_color);
 
@@ -37667,12 +37790,12 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 221 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var convert = __webpack_require__(222),
-	    string = __webpack_require__(224);
+	var convert = __webpack_require__(224),
+	    string = __webpack_require__(226);
 
 	var Color = function(obj) {
 	  if (obj instanceof Color) return obj;
@@ -38105,10 +38228,10 @@
 
 
 /***/ },
-/* 222 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var conversions = __webpack_require__(223);
+	var conversions = __webpack_require__(225);
 
 	var convert = function() {
 	   return new Converter();
@@ -38202,7 +38325,7 @@
 	module.exports = convert;
 
 /***/ },
-/* 223 */
+/* 225 */
 /***/ function(module, exports) {
 
 	/* MIT license */
@@ -38906,11 +39029,11 @@
 
 
 /***/ },
-/* 224 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var colorNames = __webpack_require__(225);
+	var colorNames = __webpack_require__(227);
 
 	module.exports = {
 	   getRgba: getRgba,
@@ -39133,7 +39256,7 @@
 
 
 /***/ },
-/* 225 */
+/* 227 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -39880,7 +40003,7 @@
 	}
 
 /***/ },
-/* 226 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39929,7 +40052,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 227 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39952,7 +40075,9 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _globalComponentsButton = __webpack_require__(228);
+	var _globalTypes = __webpack_require__(218);
+
+	var _globalComponentsButton = __webpack_require__(230);
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
 
@@ -40006,7 +40131,7 @@
 	            modStyle: { float: 'right', marginTop: '1rem' },
 	            text: this.props['continue'],
 	            handler: function () {
-	              return _this.props.push();
+	              return _this.props.push({});
 	            }
 	          })
 	        )
@@ -40017,9 +40142,9 @@
 	  _createClass(_Consent, null, [{
 	    key: 'propTypes',
 	    value: {
-	      body: _react.PropTypes.string.isRequired,
-	      agree: _react.PropTypes.string.isRequired,
-	      'continue': _react.PropTypes.string.isRequired
+	      body: _globalTypes.declare(_globalTypes.type.string),
+	      agree: _globalTypes.declare(_globalTypes.type.string),
+	      'continue': _globalTypes.declare(_globalTypes.type.string)
 	    },
 	    enumerable: true
 	  }]);
@@ -40051,7 +40176,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 228 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40076,6 +40201,10 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
+	var _styles = __webpack_require__(231);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
 	var Button = (function (_React$Component) {
 	  function Button() {
 	    _classCallCheck(this, _Button);
@@ -40090,29 +40219,38 @@
 	  _Button.prototype.render = function render() {
 	    var _props = this.props;
 	    var text = _props.text;
+	    var align = _props.align;
 	    var handler = _props.handler;
 	    var color = _props.color;
 	    var background = _props.background;
+	    var hoverFontColor = _props.hoverFontColor;
+	    var hoverBackColor = _props.hoverBackColor;
 	    var border = _props.border;
-	    var hover = _props.hover;
-	    var modStyle = _props.modStyle;
+
+	    var buttonStyle = [_extends({}, styles.button, {
+	      color: color,
+	      backgroundColor: background,
+	      border: '1px solid' + border,
+	      borderRadius: '0.25rem',
+	      ':hover': {
+	        color: hoverFontColor,
+	        backgroundColor: hoverBackColor
+	      }
+	    })];
 
 	    return _react2['default'].createElement(
 	      'div',
-	      {
-	        style: [_extends({}, styles.button, {
-	          color: color,
-	          backgroundColor: background,
-	          boxShadow: '0 0 0 1px ' + border,
-	          borderRadius: 5,
-	          ':hover': {
-	            color: '#fff',
-	            backgroundColor: '#557'
-	          }
-	        }, modStyle)],
-	        onClick: handler
-	      },
-	      text
+	      { style: [styles.row, {
+	          justifyContent: align
+	        }] },
+	      _react2['default'].createElement(
+	        'button',
+	        {
+	          style: [buttonStyle],
+	          onClick: handler
+	        },
+	        text
+	      )
 	    );
 	  };
 
@@ -40122,10 +40260,9 @@
 	      color: '#557',
 	      background: '#fff',
 	      border: '#557',
-	      hover: {
-	        color: '#fff',
-	        backgroundColor: '#557'
-	      }
+	      hoverFontColor: '#fff',
+	      hoverBackColor: '#557',
+	      align: 'flex-end'
 	    },
 	    enumerable: true
 	  }]);
@@ -40134,27 +40271,66 @@
 	  return Button;
 	})(_react2['default'].Component);
 
-	var styles = {
-	  button: {
-	    boxSizing: 'border-box',
-	    paddingTop: 15,
-	    paddingRight: 15,
-	    paddingBottom: 15,
-	    paddingLeft: 15,
-	    marginTop: 5,
-	    marginRight: 0,
-	    marginBottom: 5,
-	    marginLeft: 0,
-	    cursor: 'pointer',
-	    textAlign: 'center'
-	  }
-	};
+	var styles = _extends({}, _styles2['default'], {
+	  button: _extends({}, _styles2['default'].padding(0.5, 2, 0.5, 2), {
+	    fontSize: '1.25rem',
+	    cursor: 'pointer'
+	  })
+	});
 
 	exports['default'] = Button;
 	module.exports = exports['default'];
 
 /***/ },
-/* 229 */
+/* 231 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = {
+	  column: {
+	    boxSizing: 'border-box',
+	    display: 'flex',
+	    flex: 1,
+	    flexDirection: 'column',
+	    justifyContent: 'space-between'
+	  },
+	  row: {
+	    boxSizing: 'border-box',
+	    display: 'flex',
+	    flex: 1,
+	    flexDirection: 'row',
+	    justifyContent: 'space-between'
+	  },
+	  panel: {
+	    boxSizing: 'border-box',
+	    flex: 1,
+	    borderRadius: '0.5rem',
+	    boxShadow: '0.2rem 0.2rem 1rem rgba(0, 0, 0, 0.1)',
+	    background: '#fff'
+	  },
+	  padding: function padding(t, r, b, l) {
+	    return {
+	      paddingTop: t + 'rem',
+	      paddingRight: (isNaN(r) && t || r) + 'rem',
+	      paddingBottom: (isNaN(b) && t || b) + 'rem',
+	      paddingLeft: (isNaN(l) && t || l) + 'rem'
+	    };
+	  },
+	  margin: function margin(t, r, b, l) {
+	    return {
+	      marginTop: t + 'rem',
+	      marginRight: (isNaN(r) && t || r) + 'rem',
+	      marginBottom: (isNaN(b) && t || b) + 'rem',
+	      marginLeft: (isNaN(l) && t || l) + 'rem'
+	    };
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40173,11 +40349,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _globalServicesClean = __webpack_require__(230);
+	var _globalTypes = __webpack_require__(218);
+
+	var _globalServicesClean = __webpack_require__(233);
 
 	var _globalServicesClean2 = _interopRequireDefault(_globalServicesClean);
 
-	var _globalComponentsButton = __webpack_require__(228);
+	var _globalComponentsButton = __webpack_require__(230);
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
 
@@ -40242,9 +40420,9 @@
 	  _createClass(Example, null, [{
 	    key: 'propTypes',
 	    value: {
-	      question_text: _react.PropTypes.string,
-	      answer_yes: _react.PropTypes.string,
-	      answer_no: _react.PropTypes.string
+	      question_text: _globalTypes.declare(_globalTypes.type.string),
+	      answer_yes: _globalTypes.declare(_globalTypes.type.string),
+	      answer_no: _globalTypes.declare(_globalTypes.type.string)
 	    },
 	    enumerable: true
 	  }, {
@@ -40264,7 +40442,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 230 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40295,7 +40473,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 231 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40359,7 +40537,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 232 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -40419,7 +40597,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 233 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40444,15 +40622,17 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _globalComponentsButton = __webpack_require__(228);
+	var _globalTypes = __webpack_require__(218);
+
+	var _globalComponentsButton = __webpack_require__(230);
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
 
-	var _globalServicesStringHash = __webpack_require__(218);
+	var _globalServicesStringHash = __webpack_require__(220);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _globalServicesColorScheme = __webpack_require__(220);
+	var _globalServicesColorScheme = __webpack_require__(222);
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
@@ -40574,13 +40754,13 @@
 	  _createClass(_MostLeast, null, [{
 	    key: 'propTypes',
 	    value: {
-	      candidate: _react.PropTypes.string.isRequired,
-	      aspects: _react.PropTypes.array.isRequired,
-	      instructions_title: _react.PropTypes.string,
-	      instructions_text: _react.PropTypes.string,
-	      most_text: _react.PropTypes.string,
-	      least_text: _react.PropTypes.string,
-	      confirm_text: _react.PropTypes.string
+	      candidate: _globalTypes.declare(_globalTypes.type.string),
+	      aspects: _globalTypes.declare(_globalTypes.type.array),
+	      instructions_title: _globalTypes.declare(_globalTypes.type.string),
+	      instructions_text: _globalTypes.declare(_globalTypes.type.string),
+	      most_text: _globalTypes.declare(_globalTypes.type.string),
+	      least_text: _globalTypes.declare(_globalTypes.type.string),
+	      confirm_text: _globalTypes.declare(_globalTypes.type.string)
 	    },
 	    enumerable: true
 	  }, {
@@ -40601,7 +40781,7 @@
 	  return MostLeast;
 	})(_react2['default'].Component);
 
-	var styles = _extends({}, __webpack_require__(234), {
+	var styles = _extends({}, __webpack_require__(231), {
 	  item: {
 	    padding: 5,
 	    cursor: 'pointer'
@@ -40616,55 +40796,1369 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 234 */
+/* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _globalTypes = __webpack_require__(218);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _globalComponentsQuestion = __webpack_require__(238);
+
+	var _globalComponentsQuestion2 = _interopRequireDefault(_globalComponentsQuestion);
+
+	var _globalComponentsButton = __webpack_require__(230);
+
+	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+
+	var _globalStyles = __webpack_require__(231);
+
+	var _globalStyles2 = _interopRequireDefault(_globalStyles);
+
+	var QuestionForm = (function (_React$Component) {
+	  function QuestionForm(props) {
+	    _classCallCheck(this, _QuestionForm);
+
+	    _React$Component.call(this, props);
+	  }
+
+	  _inherits(QuestionForm, _React$Component);
+
+	  var _QuestionForm = QuestionForm;
+
+	  _QuestionForm.prototype.render = function render() {
+	    var _props = this.props;
+	    var questions = _props.questions;
+	    var instructions = _props.instructions;
+	    var submit = _props.submit;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      null,
+	      instructions && _react2['default'].createElement(
+	        'div',
+	        { style: [styles.panel, styles.padding(1)] },
+	        instructions
+	      ),
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [styles.panel, styles.padding(1), styles.margin(1, 0, 0, 0)] },
+	        _react2['default'].createElement(
+	          'div',
+	          null,
+	          !!questions.length && questions.map(function (q, i) {
+	            return _react2['default'].createElement(_globalComponentsQuestion2['default'], _extends({}, q, {
+	              key: i
+	            }));
+	          }),
+	          _react2['default'].createElement(
+	            'div',
+	            { style: [styles.padding(1, 0, 0, 0)] },
+	            _react2['default'].createElement(_globalComponentsButton2['default'], {
+	              float: 'right',
+	              text: submit
+	            })
+	          )
+	        )
+	      )
+	    );
+	  };
+
+	  _createClass(_QuestionForm, null, [{
+	    key: 'propTypes',
+	    value: {
+	      questions: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.Object({
+	        type: _globalTypes.type.string,
+	        caption: _globalTypes.type.string
+	      }))),
+	      instructions: _globalTypes.declare(_globalTypes.type.string),
+	      submit: _globalTypes.declare(_globalTypes.type.string)
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      questions: [{
+	        type: 'TextField',
+	        caption: 'Name:'
+	      }],
+	      instructions: 'Please answer the following:',
+	      submit: 'Submit'
+	    },
+	    enumerable: true
+	  }]);
+
+	  QuestionForm = _radium2['default'](QuestionForm) || QuestionForm;
+	  return QuestionForm;
+	})(_react2['default'].Component);
+
+	exports['default'] = QuestionForm;
+
+	var styles = _extends({}, _globalStyles2['default']);
+	module.exports = exports['default'];
+
+/***/ },
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _styles = __webpack_require__(231);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	var styles = _extends({}, _styles2['default'], {
+	  row: _extends({}, _styles2['default'].row, _styles2['default'].padding(1), {
+	    justifyContent: 'center'
+	  }),
+	  item: _extends({
+	    flex: 1,
+	    fontWeight: 'bold',
+	    textAlign: 'right'
+	  }, _styles2['default'].padding(0, 1))
+	});
+
+	exports['default'] = _radium2['default'](function (_ref) {
+	  var type = _ref.type;
+	  var caption = _ref.caption;
+	  var options = _ref.options;
+	  var handler = _ref.handler;
+
+	  switch (type) {
+	    case 'TextField':
+	      return _react2['default'].createElement(
+	        'div',
+	        { style: [styles.row] },
+	        _react2['default'].createElement(
+	          'span',
+	          { style: [styles.item] },
+	          caption
+	        ),
+	        _react2['default'].createElement('input', {
+	          type: 'text',
+	          style: { flex: 2 },
+	          onChange: function (v) {
+	            return handler(v);
+	          }
+	        })
+	      );
+
+	    default:
+	      return _react2['default'].createElement('div', null);
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _lodash = __webpack_require__(212);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _globalTypes = __webpack_require__(218);
+
+	var _globalServicesStringHash = __webpack_require__(220);
+
+	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
+
+	var _store = __webpack_require__(240);
+
+	var _store2 = _interopRequireDefault(_store);
+
+	var _RateAspect = __webpack_require__(241);
+
+	var _RateAspect2 = _interopRequireDefault(_RateAspect);
+
+	var _RatedAspects = __webpack_require__(246);
+
+	var _RatedAspects2 = _interopRequireDefault(_RatedAspects);
+
+	var Index = (function (_React$Component) {
+	  function Index(props) {
+	    var _this = this;
+
+	    _classCallCheck(this, _Index);
+
+	    _React$Component.call(this, props);
+	    this.state = _store2['default'].getState();
+	    _store2['default'].subscribe(function () {
+	      _this.setState(_store2['default'].getState());
+	    });
+	  }
+
+	  _inherits(Index, _React$Component);
+
+	  var _Index = Index;
+
+	  _Index.simulate = function simulate(props) {
+	    return _lodash2['default'](props.aspects).map(function (a) {
+	      return ['rating_' + _globalServicesStringHash2['default'](a), _lodash2['default'].sample(_lodash2['default'].range(0, 101))];
+	    }).object().value();
+	  };
+
+	  _Index.prototype.componentDidMount = function componentDidMount() {
+	    var _this2 = this;
+
+	    _store2['default'].dispatch({
+	      type: 'SET_ASPECTS',
+	      aspects: this.props.aspect_texts.map(function (a, i) {
+	        return {
+	          text: a,
+	          color: _this2.props.aspect_colors[i],
+	          index: i
+	        };
+	      })
+	    });
+	  };
+
+	  _Index.prototype.componentDidUpdate = function componentDidUpdate() {
+	    if (this.state.index < 0) {
+	      this.props.push(_lodash2['default'](this.state.aspects).map(function (a) {
+	        return ['rating_' + _globalServicesStringHash2['default'](a.text), a.rating];
+	      }).object().value());
+	    }
+	  };
+
+	  _Index.prototype.render = function render() {
+	    var _state = this.state;
+	    var aspects = _state.aspects;
+	    var rated = _state.rated;
+	    var index = _state.index;
+	    var _props = this.props;
+	    var rating_tip = _props.rating_tip;
+	    var rating_confirm = _props.rating_confirm;
+	    var instructions = _props.instructions;
+	    var text = _props.text;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      { style: [styles.container] },
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [styles.instructions] },
+	        _react2['default'].createElement(
+	          'b',
+	          null,
+	          instructions
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          null,
+	          text
+	        )
+	      ),
+	      index > -1 && _react2['default'].createElement(_RateAspect2['default'], {
+	        aspect: aspects[index],
+	        handleRating: function (p) {
+	          return _store2['default'].dispatch({
+	            type: 'CHANGE_RATING',
+	            rating: p
+	          });
+	        },
+	        handleConfirm: function (a) {
+	          return _store2['default'].dispatch({
+	            type: 'CONFIRM_RATING',
+	            aspect: a
+	          });
+	        },
+	        rateText: rating_tip,
+	        confirmText: rating_confirm
+	      }),
+	      rated.length && rated.reduce(function (a, b) {
+	        return a || b;
+	      }) && _react2['default'].createElement(_RatedAspects2['default'], {
+	        aspects: aspects.filter(function (a, i) {
+	          return rated[i];
+	        }),
+	        editRating: function (i) {
+	          return _store2['default'].dispatch({
+	            type: 'EDIT_RATING',
+	            index: i
+	          });
+	        },
+	        editText: 'Edit'
+	      })
+	    );
+	  };
+
+	  _createClass(_Index, null, [{
+	    key: 'propTypes',
+	    value: {
+	      aspect_texts: _globalTypes.declare(_globalTypes.type.array),
+	      aspect_colors: _globalTypes.declare(_globalTypes.type.array),
+	      instructions: _globalTypes.declare(_globalTypes.type.string),
+	      text: _globalTypes.declare(_globalTypes.type.string),
+	      rating_tip: _globalTypes.declare(_globalTypes.type.string),
+	      rating_confirm: _globalTypes.declare(_globalTypes.type.string)
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      instructions: 'Instructions',
+	      text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
+	      rating_tip: 'Move the slider to set your rating',
+	      rating_confirm: 'Confirm Rating',
+	      aspect_texts: ['one', 'two', 'three'],
+	      aspect_colors: ['#f77', '#7f7', '#77f']
+	    },
+	    enumerable: true
+	  }]);
+
+	  Index = _radium2['default'](Index) || Index;
+	  return Index;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  container: {
+	    marginTop: 30,
+	    userSelect: 'none'
+	  },
+	  instructions: {
+	    boxSizing: 'border-box',
+	    width: '100%',
+	    padding: 30,
+	    margin: '30px 0',
+	    borderRadius: 15,
+	    boxShadow: '2px 2px 4px #ddd',
+	    background: '#fff'
+	  }
+	};
+
+	exports['default'] = Index;
+	module.exports = exports['default'];
+
+	// index === -1 after all aspects rated
+
+	// if any aspects are rated
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _redux = __webpack_require__(161);
+
+	exports['default'] = _redux.createStore(function (state, action) {
+	  switch (action.type) {
+
+	    case 'SET_ASPECTS':
+	      return _extends({}, state, {
+	        aspects: action.aspects,
+	        rated: action.aspects.map(function () {
+	          return false;
+	        })
+	      });
+
+	    case 'CHANGE_RATING':
+	      state.aspects[state.index].rating = Number(action.rating);
+	      return state;
+
+	    case 'CONFIRM_RATING':
+	      state.rated[state.index] = true;
+	      if (!state.rated.reduce(function (a, b) {
+	        return a && b;
+	      }, true)) {
+	        return _extends({}, state, {
+	          index: state.aspects.filter(function (a, i) {
+	            return !state.rated[i];
+	          })[0].index
+	        });
+	      } else {
+	        return _extends({}, state, {
+	          index: -1
+	        });
+	      }
+
+	    case 'EDIT_RATING':
+	      state.rated[action.index] = false;
+	      return _extends({}, state, {
+	        index: action.index
+	      });
+
+	    default:
+	      return {
+	        aspects: [{
+	          text: null,
+	          rating: null,
+	          index: 0
+	        }],
+	        rated: [],
+	        index: 0
+	      };
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _globalServicesColorScheme = __webpack_require__(222);
+
+	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
+
+	var _globalServicesFormat = __webpack_require__(242);
+
+	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
+
+	var _globalComponentsSlider = __webpack_require__(243);
+
+	var _globalComponentsSlider2 = _interopRequireDefault(_globalComponentsSlider);
+
+	var _globalComponentsButton = __webpack_require__(230);
+
+	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+
+	var _globalStyles = __webpack_require__(231);
+
+	var _globalStyles2 = _interopRequireDefault(_globalStyles);
+
+	var RateAspect = (function (_React$Component) {
+	  function RateAspect() {
+	    _classCallCheck(this, _RateAspect);
+
+	    _React$Component.apply(this, arguments);
+	  }
+
+	  _inherits(RateAspect, _React$Component);
+
+	  var _RateAspect = RateAspect;
+
+	  _RateAspect.prototype.render = function render() {
+	    var _props = this.props;
+	    var aspect = _props.aspect;
+	    var handleRating = _props.handleRating;
+	    var handleConfirm = _props.handleConfirm;
+	    var rateText = _props.rateText;
+	    var confirmText = _props.confirmText;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      { style: [styles.container] },
+	      _react2['default'].createElement(
+	        'div',
+	        { style: [styles.aspect] },
+	        _react2['default'].createElement(
+	          'div',
+	          { style: [styles.heading] },
+	          _react2['default'].createElement(
+	            'em',
+	            { style: { float: 'left' } },
+	            _globalServicesFormat2['default'].capitalize(aspect.text)
+	          ),
+	          !isNaN(aspect.rating) && _react2['default'].createElement(
+	            'span',
+	            { style: { float: 'right', fontWeight: 'bold' } },
+	            Number(aspect.rating)
+	          )
+	        ),
+	        _react2['default'].createElement(_globalComponentsSlider2['default'], {
+	          color: aspect.color,
+	          percent: aspect.rating,
+	          handleChange: handleRating
+	        })
+	      ),
+	      !isNaN(aspect.rating) && _react2['default'].createElement(
+	        'div',
+	        { style: [styles.button] },
+	        _react2['default'].createElement(_globalComponentsButton2['default'], {
+	          text: confirmText,
+	          handler: function () {
+	            return handleConfirm(aspect);
+	          }
+	        })
+	      ) || aspect.index === 0 && _react2['default'].createElement(
+	        'svg',
+	        {
+	          style: {
+	            width: '100%',
+	            height: '4rem'
+	          },
+	          viewBox: '0 0 100 10'
+	        },
+	        _react2['default'].createElement('path', {
+	          stroke: '#559',
+	          strokeWidth: '0.25',
+	          fill: '#fff',
+	          d: ' M 50,0 l -1,1 l 1, -1 l 1, 1 l -1, -1 c 0,10 15,-5 19,5 '
+	        }),
+	        _react2['default'].createElement(
+	          'text',
+	          {
+	            x: '70',
+	            y: '10',
+	            dy: '-2',
+	            fontSize: '3',
+	            fill: '#559',
+	            textAnchor: 'middle'
+	          },
+	          rateText
+	        )
+	      )
+	    );
+	  };
+
+	  RateAspect = _radium2['default'](RateAspect) || RateAspect;
+	  return RateAspect;
+	})(_react2['default'].Component);
+
+	var styles = _extends({}, _globalStyles2['default'], {
+	  container: _extends({}, _globalStyles2['default'].panel, _globalStyles2['default'].padding(2), {
+	    backgroundColor: '#fff',
+	    userSelect: 'none',
+	    overflow: 'auto',
+	    zoom: 1
+	  }),
+	  heading: {
+	    marginBottom: '1rem',
+	    overflow: 'auto',
+	    zoom: 1
+	  },
+	  button: {
+	    marginTop: '2rem',
+	    float: 'right'
+	  }
+	});
+
+	exports['default'] = RateAspect;
+	module.exports = exports['default'];
+
+/***/ },
+/* 242 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
 	exports['default'] = {
-	  column: {
-	    boxSizing: 'border-box',
-	    display: 'flex',
-	    flex: 1,
-	    flexDirection: 'column',
-	    justifyContent: 'space-between'
-	  },
-	  row: {
-	    boxSizing: 'border-box',
-	    display: 'flex',
-	    flex: 1,
-	    flexDirection: 'row',
-	    justifyContent: 'space-between'
-	  },
-	  panel: {
-	    boxSizing: 'border-box',
-	    flex: 1,
-	    borderRadius: '1rem',
-	    boxShadow: '0.2rem 0.2rem 0.4rem #ddd',
-	    background: '#fff'
-	  },
-	  padding: function padding(t, r, b, l) {
-	    return {
-	      paddingTop: t + 'rem',
-	      paddingRight: (isNaN(r) && t || r) + 'rem',
-	      paddingBottom: (isNaN(b) && t || b) + 'rem',
-	      paddingLeft: (isNaN(l) && t || l) + 'rem'
-	    };
-	  },
-	  margin: function margin(t, r, b, l) {
-	    return {
-	      marginTop: t + 'rem',
-	      marginRight: (r || t) + 'rem',
-	      marginBottom: (b || t) + 'rem',
-	      marginLeft: (l || t) + 'rem'
-	    };
+	  capitalize: function capitalize(str) {
+	    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 	  }
 	};
 	module.exports = exports['default'];
 
 /***/ },
-/* 235 */
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _imagesSmileySvg = __webpack_require__(244);
+
+	var _imagesSmileySvg2 = _interopRequireDefault(_imagesSmileySvg);
+
+	var _imagesFrownySvg = __webpack_require__(245);
+
+	var _imagesFrownySvg2 = _interopRequireDefault(_imagesFrownySvg);
+
+	var Handle = (function (_React$Component) {
+	  function Handle() {
+	    _classCallCheck(this, _Handle);
+
+	    _React$Component.apply(this, arguments);
+	  }
+
+	  _inherits(Handle, _React$Component);
+
+	  var _Handle = Handle;
+
+	  _Handle.prototype.render = function render() {
+	    var _props = this.props;
+	    var width = _props.width;
+	    var height = _props.height;
+	    var position = _props.position;
+
+	    return _react2['default'].createElement('path', {
+	      style: [styles.handle],
+	      strokeWidth: '0.25',
+	      stroke: '#000',
+	      strokeOpacity: '0.5',
+	      fill: '#fff',
+	      fillOpacity: '0.9',
+	      d: 'M ' + (position - width / 2) + ',0 \n          l ' + width + ',0 l 0,' + height / 2 + ' \n          l -' + width / 2 + ',' + height / 2 + ' \n          l -' + width / 2 + ',-' + height / 2 + ' \n          Z'
+	    });
+	  };
+
+	  _createClass(_Handle, null, [{
+	    key: 'propTypes',
+	    value: {
+	      size: _react.PropTypes.number,
+	      position: _react.PropTypes.number
+	    },
+	    enumerable: true
+	  }]);
+
+	  Handle = _radium2['default'](Handle) || Handle;
+	  return Handle;
+	})(_react2['default'].Component);
+
+	var Slider = (function (_React$Component2) {
+	  function Slider(props) {
+	    _classCallCheck(this, _Slider);
+
+	    _React$Component2.call(this, props);
+	    this.state = {
+	      percent: props.percent,
+	      movable: false
+	    };
+	    this.mouseUp = this.handleMouseUp.bind(this);
+	    this.mouseMove = this.handleMouseMove.bind(this);
+	    this.move.bind(this);
+	    window.addEventListener('mouseup', this.mouseUp);
+	    window.addEventListener('mousemove', this.mouseMove);
+	  }
+
+	  _inherits(Slider, _React$Component2);
+
+	  var _Slider = Slider;
+
+	  _Slider.prototype.move = function move(percent) {
+	    this.props.handleChange(Math.max(0, Math.min(100, Math.floor(percent))));
+	  };
+
+	  _Slider.prototype.handleMouseDown = function handleMouseDown(event) {
+	    this.setState({ movable: true });
+	    var clientX = event.clientX;
+
+	    var _bar$getBoundingClientRect = this._bar.getBoundingClientRect();
+
+	    var left = _bar$getBoundingClientRect.left;
+	    var width = _bar$getBoundingClientRect.width;
+
+	    this.move(100 * (clientX - left) / width);
+	  };
+
+	  _Slider.prototype.handleMouseUp = function handleMouseUp(event) {
+	    this.setState({ movable: false });
+	  };
+
+	  _Slider.prototype.handleMouseMove = function handleMouseMove(event) {
+	    var clientX = event.clientX;
+
+	    var _bar$getBoundingClientRect2 = this._bar.getBoundingClientRect();
+
+	    var left = _bar$getBoundingClientRect2.left;
+	    var width = _bar$getBoundingClientRect2.width;
+
+	    if (this.state.movable) this.move(100 * (clientX - left) / width);
+	  };
+
+	  _Slider.prototype.componentWillUnmount = function componentWillUnmount() {
+	    window.removeEventListener('mouseup', this.mouseUp);
+	    window.removeEventListener('mousemove', this.mouseMove);
+	  };
+
+	  _Slider.prototype.render = function render() {
+	    var _this = this;
+
+	    var _props2 = this.props;
+	    var percent = _props2.percent;
+	    var delta = _props2.delta;
+	    var height = _props2.height;
+	    var color = _props2.color;
+	    var modStyle = _props2.modStyle;
+
+	    return _react2['default'].createElement(
+	      'svg',
+	      {
+	        viewBox: '0 0 110 10',
+	        style: [styles.svg, modStyle],
+	        onMouseDown: this.handleMouseDown.bind(this)
+	      },
+	      _react2['default'].createElement('g', {
+	        style: { opacity: (100 - percent) / 100 },
+	        dangerouslySetInnerHTML: {
+	          __html: '<image x="0" y="0" width="5" height="5" xlink:href="' + _imagesFrownySvg2['default'] + '"></image>'
+	        } }),
+	      _react2['default'].createElement('g', {
+	        style: { opacity: percent / 100 },
+	        dangerouslySetInnerHTML: {
+	          __html: '<image x="105" y="0" width="5" height="5" xlink:href="' + _imagesSmileySvg2['default'] + '"></image>'
+	        } }),
+	      _react2['default'].createElement(
+	        'g',
+	        { transform: 'translate(5,0)' },
+	        _react2['default'].createElement('rect', {
+	          y: 0,
+	          width: 100,
+	          height: 5,
+	          fill: '#eee',
+	          stroke: '#fff',
+	          strokeWidth: '0.25',
+	          ref: function (c) {
+	            return _this._bar = c;
+	          }
+	        }),
+	        _react2['default'].createElement('rect', {
+	          y: 0,
+	          width: percent,
+	          height: 5,
+	          fill: color,
+	          stroke: '#fff',
+	          strokeWidth: '0.25'
+	        }),
+	        [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(function (num) {
+	          return _react2['default'].createElement(
+	            'text',
+	            {
+	              key: num,
+	              x: Number(num),
+	              y: 8,
+	              style: [styles.text]
+	            },
+	            Number(num)
+	          );
+	        }),
+	        _react2['default'].createElement(Handle, { width: 5, height: 5, position: percent })
+	      )
+	    );
+	  };
+
+	  _createClass(_Slider, null, [{
+	    key: 'defaultProps',
+	    value: {
+	      percent: 50,
+	      height: '3rem',
+	      color: '#f44'
+	    },
+	    enumerable: true
+	  }]);
+
+	  Slider = _radium2['default'](Slider) || Slider;
+	  return Slider;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  svg: {
+	    width: '100%',
+	    height: 'auto',
+	    cursor: 'pointer'
+	  },
+	  handle: {
+	    cursor: 'pointer'
+	  },
+	  text: {
+	    fontSize: '.15rem',
+	    textAnchor: 'middle',
+	    userSelect: 'none'
+	  }
+	};
+
+	exports['default'] = Slider;
+	module.exports = exports['default'];
+
+/***/ },
+/* 244 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OCwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OCA3LjYxMiwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOS40NTcsMTkuMjAzMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDU5LDAuMTM1IC0xLjQ5OSwzLjI5NyAtNC40NTcsMy4yOTcgLTIuOTU3LDAgLTQuMzk3LC0zLjE2MiAtNC40NTcsLTMuMjk3IC0wLjA5MiwtMC4yMDcgLTAuMDMyLC0wLjQ0OSAwLjE0NCwtMC41OTEgMC4xNzUsLTAuMTQyIDAuNDI2LC0wLjE0NyAwLjYxMSwtMC4wMTQgMC4wMTIsMC4wMDkgMS4yNjIsMC45MDIgMy43MDIsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMyLC0wLjQ1MiAwLjA5MywtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE3LjQ1NywxOS4yMDMxKSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4wNiwwLjEzNSAtMS40OTksMy4yOTcgLTQuNDU3LDMuMjk3IC0yLjk1NywwIC00LjM5NywtMy4xNjIgLTQuNDU3LC0zLjI5NyAtMC4wOTIsLTAuMjA3IC0wLjAzMiwtMC40NDkgMC4xNDQsLTAuNTkxIDAuMTc2LC0wLjE0MiAwLjQyNywtMC4xNDcgMC42MSwtMC4wMTQgMC4wMTMsMC4wMDkgMS4yNjIsMC45MDIgMy43MDMsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMzLC0wLjQ1MiAwLjA5MiwtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5LDE1KSIgaWQ9ImczMiI+PHBhdGggaWQ9InBhdGgzNCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMy42MjMsMCAtNi4wMjcsMC40MjIgLTksMSAtMC42NzksMC4xMzEgLTIsMCAtMiwtMiAwLC00IDQuNTk1LC05IDExLC05IDYuNDA0LDAgMTEsNSAxMSw5IEMgMTEsMSA5LjY3OSwxLjEzMiA5LDEgNi4wMjcsMC40MjIgMy42MjMsMCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAsMTQpIiBpZD0iZzM2Ij48cGF0aCBpZD0icGF0aDM4IiBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIDAsMCAzLC0xIDksLTEgNiwwIDksMSA5LDEgMCwwIC0yLC00IC05LC00IC03LDAgLTksNCAtOSw0Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPgo="
+
+/***/ },
+/* 245 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OSwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OSA3LjYxMSwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg5IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC40ODU0LDguMTIxMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDEyLDAuMDQ0IC0xLjE0Niw0LjM3OSAtNS40ODUsNC4zNzkgLTQuMzQxLDAgLTUuNDc1LC00LjMzNSAtNS40ODUsLTQuMzc5IC0wLjA1MywtMC4yMTMgMC4wNDMsLTAuNDMxIDAuMjMxLC0wLjU0NCAwLjE4OCwtMC4xMTIgMC40MzMsLTAuMDg2IDAuNTk2LDAuMDYgMC4wMSwwLjAwNyAxLjAxNCwwLjg2MyA0LjY1OCwwLjg2MyAzLjU4OSwwIDQuNjE3LC0wLjgzIDQuNjU2LC0wLjg2MyAwLjA5NSwtMC4wOSAwLjIxOSwtMC4xMzcgMC4zNDQsLTAuMTM3IDAuMDg0LDAgMC4xNjksMC4wMjEgMC4yNDYsMC4wNjQgQyAtMC4wNDMsLTAuNDQ1IDAuMDU1LC0wLjIxOCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYuNzgwMywyMS4zNTk0KSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4zNDEsMC4wOTMgLTAuNjkyLDAuMTQgLTEuMDQzLDAuMTQgLTIuMzQ1LDAgLTQuMDUzLC0yLjA2IC00LjEyNSwtMi4xNDcgLTAuMTQzLC0wLjE3NiAtMC4xNDgsLTAuNDI2IC0wLjAxNywtMC42MDkgMC4xMzQsLTAuMTg0IDAuMzc0LC0wLjI1MyAwLjU4NiwtMC4xNzQgMC4wMDUsMC4wMDIgMC41NzMsMC4yMTUgMS41NjUsMC4yMTUgMC43MTQsMCAxLjQ2OCwtMC4xMDggMi4yNDQsLTAuMzIgMi4zNDIsLTAuNjM3IDMuMzEzLC0xLjgxOCAzLjMzNCwtMS44NDMgMC4wOTgsLTAuMTI0IDAuMjQzLC0wLjE5MiAwLjM5NCwtMC4xOTIgMC4wNjYsMCAwLjEzMywwLjAxNCAwLjE5NywwLjA0MSAwLjIwOSwwLjA5IDAuMzMxLDAuMzEgMC4yOTcsMC41MzQgQyAzLjQwOSwtNC4yMDggMi44NTQsLTAuNzc4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMi4yMjYxLDIxLjQ4NzgpIiBpZD0iZzMyIj48cGF0aCBpZD0icGF0aDM0IiBzdHlsZT0iZmlsbDojNjY0NTAwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIC0wLjMxNywwIC0wLjYzNiwtMC4wMzkgLTAuOTQ3LC0wLjExNiAtMi44NywtMC43MDcgLTMuNTEzLC00LjEyMSAtMy41MzksLTQuMjY2IC0wLjA0LC0wLjIyMyAwLjA3NiwtMC40NDQgMC4yODEsLTAuNTQgMC4wNjgsLTAuMDMyIDAuMTQsLTAuMDQ3IDAuMjExLC0wLjA0NyAwLjE0NSwwIDAuMjg3LDAuMDYzIDAuMzg1LDAuMTc5IDAuMDEsMC4wMTIgMS4wMSwxLjE3OCAzLjM3OSwxLjc2MSAwLjcxNSwwLjE3NiAxLjQxMywwLjI2NSAyLjA3MywwLjI2NSAxLjEwNCwwIDEuNzMyLC0wLjI1MyAxLjczNSwtMC4yNTQgMC4wNjcsLTAuMDI4IDAuMTMxLC0wLjA0IDAuMjA3LC0wLjA0IDAuMjcyLC0wLjAxMiAwLjUwOSwwLjIyMSAwLjUwOSwwLjUgMCwwLjE2NSAtMC4wOCwwLjMxMSAtMC4yMDMsMC40MDIgQyAzLjcyNCwtMS43MjEgMi4xMzgsMCAwLDAiLz48L2c+PC9nPjwvZz48L2c+PC9zdmc+Cg=="
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _globalServicesColorScheme = __webpack_require__(222);
+
+	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
+
+	var _globalServicesFormat = __webpack_require__(242);
+
+	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
+
+	var _globalComponentsDeltaBar = __webpack_require__(247);
+
+	var _globalComponentsDeltaBar2 = _interopRequireDefault(_globalComponentsDeltaBar);
+
+	var _globalComponentsButton = __webpack_require__(230);
+
+	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+
+	var RatedAspects = (function (_React$Component) {
+	  function RatedAspects() {
+	    _classCallCheck(this, _RatedAspects);
+
+	    _React$Component.call(this);
+	  }
+
+	  _inherits(RatedAspects, _React$Component);
+
+	  var _RatedAspects = RatedAspects;
+
+	  _RatedAspects.prototype.render = function render() {
+	    var _props = this.props;
+	    var aspects = _props.aspects;
+	    var editRating = _props.editRating;
+	    var editText = _props.editText;
+
+	    return _react2['default'].createElement(
+	      'div',
+	      { style: [styles.container] },
+	      aspects.map(function (a, i) {
+	        return _react2['default'].createElement(
+	          'div',
+	          {
+	            key: i,
+	            style: [styles.aspect],
+	            onClick: function () {
+	              return editRating(a.index);
+	            }
+	          },
+	          _react2['default'].createElement(
+	            'div',
+	            { style: [styles.info] },
+	            _react2['default'].createElement(
+	              'div',
+	              { style: [styles.heading] },
+	              _globalServicesFormat2['default'].capitalize(a.text)
+	            ),
+	            _react2['default'].createElement(
+	              'div',
+	              { style: [styles.rating] },
+	              Number(a.rating)
+	            ),
+	            _react2['default'].createElement(_globalComponentsDeltaBar2['default'], {
+	              percent: Number(a.rating),
+	              color: a.color,
+	              delta: 0
+	            })
+	          ),
+	          _react2['default'].createElement(
+	            'div',
+	            { style: [styles.button] },
+	            _react2['default'].createElement(_globalComponentsButton2['default'], {
+	              text: editText,
+	              modStyle: { fontSize: '0.75em' }
+	            })
+	          )
+	        );
+	      })
+	    );
+	  };
+
+	  RatedAspects = _radium2['default'](RatedAspects) || RatedAspects;
+	  return RatedAspects;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  container: {
+	    backgroundColor: '#fff',
+	    padding: 30,
+	    boxSizing: 'border-box',
+	    borderRadius: 15,
+	    boxShadow: '2px 2px 4px #ddd',
+	    width: '100%',
+	    marginTop: 30,
+	    overflow: 'auto',
+	    zoom: 1
+	  },
+	  aspect: {
+	    marginTop: 15,
+	    cursor: 'pointer',
+	    opacity: 0.6,
+	    display: 'flex',
+	    ':hover': {
+	      opacity: 1
+	    }
+	  },
+	  info: {
+	    flex: 8
+	  },
+	  heading: {
+	    float: 'left'
+	  },
+	  rating: {
+	    float: 'right'
+	  },
+	  button: {
+	    display: 'inline-block',
+	    flex: 1,
+	    marginLeft: 30
+	  }
+	};
+
+	exports['default'] = RatedAspects;
+	module.exports = exports['default'];
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _color = __webpack_require__(223);
+
+	var _color2 = _interopRequireDefault(_color);
+
+	var Color = function Color(c) {
+	  try {
+	    _color2['default'](c);
+	  } catch (e) {
+	    console.log(e);
+	    return _color2['default']('#fff');
+	  }
+	  return _color2['default'](c);
+	};
+
+	var DeltaBar = (function (_React$Component) {
+	  function DeltaBar() {
+	    _classCallCheck(this, _DeltaBar);
+
+	    _React$Component.apply(this, arguments);
+	  }
+
+	  _inherits(DeltaBar, _React$Component);
+
+	  var _DeltaBar = DeltaBar;
+
+	  _DeltaBar.prototype.render = function render() {
+	    var _props = this.props;
+	    var percent = _props.percent;
+	    var delta = _props.delta;
+	    var height = _props.height;
+	    var color = _props.color;
+	    var modStyle = _props.modStyle;
+
+	    return _react2['default'].createElement(
+	      'svg',
+	      {
+	        viewBox: '0 0 100 1',
+	        preserveAspectRatio: 'none',
+	        style: [styles.svg, {
+	          height: Number(height + 1) + 'rem'
+	        }, modStyle]
+	      },
+	      _react2['default'].createElement('rect', {
+	        x: 0,
+	        y: 0.42,
+	        width: 100,
+	        height: 0.58,
+	        fill: '#eee'
+	      }),
+	      _react2['default'].createElement('rect', {
+	        x: 0,
+	        y: 0.42,
+	        width: percent,
+	        height: 0.58,
+	        fill: color
+	      }),
+	      delta > 0 && _react2['default'].createElement(
+	        'g',
+	        null,
+	        _react2['default'].createElement('rect', {
+	          x: percent,
+	          y: 0.42,
+	          width: delta,
+	          height: 0.58,
+	          fill: Color(color).darken(0.42).rgbString()
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + percent + ',0.1\n                l ' + (delta - 2) + ',0\n                l 0,0.2\n                l ' + (2 - delta) + ',0\n                Z\n              '
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + (percent + delta - 2) + ',0\n                l 2,0.2\n                l -2,0.2\n                Z\n              '
+	        })
+	      ),
+	      delta < 0 && _react2['default'].createElement(
+	        'g',
+	        null,
+	        _react2['default'].createElement('rect', {
+	          x: percent + delta,
+	          y: 0.42,
+	          width: -delta,
+	          height: 0.58,
+	          fill: Color(color).lighten(0.1).rgbString()
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + percent + ',0.1\n                l ' + (delta + 2) + ',0\n                l 0,0.2\n                l ' + (-2 - delta) + ',0\n                Z\n              '
+	        }),
+	        _react2['default'].createElement('path', {
+	          fill: '#000',
+	          d: '\n                M ' + (percent + delta + 2) + ',0\n                l -2,0.2\n                l 2,0.2\n                Z\n              '
+	        })
+	      ),
+	      _react2['default'].createElement('rect', {
+	        x: percent + delta - 0.5,
+	        y: 0.42,
+	        width: 0.5,
+	        height: 0.58,
+	        fill: '#000'
+	      })
+	    );
+	  };
+
+	  _createClass(_DeltaBar, null, [{
+	    key: 'defaultProps',
+	    value: {
+	      percent: 42,
+	      delta: 10,
+	      height: 1,
+	      color: '#f44'
+	    },
+	    enumerable: true
+	  }]);
+
+	  DeltaBar = _radium2['default'](DeltaBar) || DeltaBar;
+	  return DeltaBar;
+	})(_react2['default'].Component);
+
+	var styles = {
+	  svg: {
+	    width: '100%',
+	    paddingTop: 0,
+	    paddingRight: 0,
+	    paddingBottom: 0,
+	    paddingLeft: 0,
+	    marginTop: 0,
+	    marginRight: 0,
+	    marginBottom: 0,
+	    marginLeft: 0
+	  }
+	};
+
+	exports['default'] = DeltaBar;
+	module.exports = exports['default'];
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _globalTypes = __webpack_require__(218);
+
+	var _globalServicesStringHash = __webpack_require__(220);
+
+	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
+
+	var _globalServicesColorScheme = __webpack_require__(222);
+
+	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
+
+	function choose(n, aspects, bucket) {
+	  var colors = [];
+	  var samples = _(aspects).sample(n || aspects.length).map(function (p, i) {
+	    colors.push(['color_' + _globalServicesStringHash2['default'](p), _globalServicesColorScheme2['default'].index(i)]);
+	    return ['sample_' + bucket + '_' + i, p];
+	  }).value();
+
+	  return _.object(samples.concat(colors));
+	}
+
+	var Sample = (function (_React$Component) {
+	  function Sample(props) {
+	    _classCallCheck(this, Sample);
+
+	    _React$Component.call(this, props);
+	  }
+
+	  _inherits(Sample, _React$Component);
+
+	  Sample.simulate = function simulate(props) {
+	    var simulate = props.simulate;
+	    var n = props.n;
+	    var aspects = props.aspects;
+	    var bucket = props.bucket;
+
+	    return choose(n, aspects, bucket);
+	  };
+
+	  Sample.prototype.componentWillMount = function componentWillMount() {
+	    var _props = this.props;
+	    var push = _props.push;
+	    var n = _props.n;
+	    var aspects = _props.aspects;
+	    var bucket = _props.bucket;
+
+	    push(choose(n, aspects, bucket));
+	  };
+
+	  Sample.prototype.render = function render() {
+	    return _react2['default'].createElement('div', null);
+	  };
+
+	  _createClass(Sample, null, [{
+	    key: 'propTypes',
+	    value: {
+	      aspects: _globalTypes.declare(_globalTypes.type.array),
+	      bucket: _globalTypes.declare(_globalTypes.type.string),
+	      n: _globalTypes.declare(_globalTypes.type.number)
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      aspects: ['one', 'two'],
+	      bucket: 'a',
+	      n: 1
+	    },
+	    enumerable: true
+	  }]);
+
+	  return Sample;
+	})(_react2['default'].Component);
+
+	exports['default'] = Sample;
+	module.exports = exports['default'];
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _globalTypes = __webpack_require__(218);
+
+	var _lodash = __webpack_require__(212);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _superagent = __webpack_require__(207);
+
+	var _superagent2 = _interopRequireDefault(_superagent);
+
+	var Store = (function (_React$Component) {
+	  function Store(props) {
+	    _classCallCheck(this, Store);
+
+	    _React$Component.call(this, props);
+	  }
+
+	  _inherits(Store, _React$Component);
+
+	  Store.simulate = function simulate(props) {
+	    return null;
+	  };
+
+	  Store.prototype.componentWillMount = function componentWillMount() {
+	    var _props = this.props;
+	    var table = _props.table;
+	    var surveyName = _props.surveyName;
+	    var surveyVersion = _props.surveyVersion;
+
+	    _superagent2['default'].post('https://surveyloader.firebaseio.com/responseData/' + surveyName + '/' + surveyVersion + '.json').send(_extends({}, table, {
+	      received: {
+	        '.sv': 'timestamp'
+	      }
+	    })).set('Accept', 'application/json').end(function (err, res) {
+	      console.log(err, res);
+	    });
+	  };
+
+	  Store.prototype.render = function render() {
+	    return _react2['default'].createElement(
+	      'div',
+	      null,
+	      _react2['default'].createElement(
+	        'h1',
+	        null,
+	        this.props.thanks
+	      )
+	    );
+	  };
+
+	  _createClass(Store, null, [{
+	    key: 'propTypes',
+	    value: {
+	      blacklist: _globalTypes.declare(_globalTypes.type.array),
+	      surveyName: _globalTypes.declare(_globalTypes.type.string),
+	      surveyVersion: _globalTypes.declare(_globalTypes.type.string),
+	      thanks: _globalTypes.declare(_globalTypes.type.string)
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      blacklist: [],
+	      surveyName: '$surveyName',
+	      surveyVersion: '$surveyVersion',
+	      thanks: 'Thank you!'
+	    },
+	    enumerable: true
+	  }]);
+
+	  return Store;
+	})(_react2['default'].Component);
+
+	exports['default'] = Store;
+	module.exports = exports['default'];
+
+/***/ },
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40693,30 +42187,31 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _reactMotion = __webpack_require__(236);
+	var _reactMotion = __webpack_require__(251);
 
-	var _globalServicesColorScheme = __webpack_require__(220);
+	var _globalTypes = __webpack_require__(218);
+
+	var _globalServicesColorScheme = __webpack_require__(222);
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	var _globalServicesStringHash = __webpack_require__(218);
+	var _globalServicesStringHash = __webpack_require__(220);
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _globalComponentsAspect = __webpack_require__(252);
+	var _globalComponentsScenario = __webpack_require__(267);
 
-	var _globalComponentsAspect2 = _interopRequireDefault(_globalComponentsAspect);
+	var _globalComponentsScenario2 = _interopRequireDefault(_globalComponentsScenario);
 
-	var _globalComponentsButton = __webpack_require__(228);
+	var _globalStyles = __webpack_require__(231);
 
-	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+	var _globalStyles2 = _interopRequireDefault(_globalStyles);
 
 	var App = (function (_React$Component) {
 	  function App(props) {
 	    _classCallCheck(this, _App);
 
 	    _React$Component.call(this, props);
-	    this.state = { choice: 0 };
 	  }
 
 	  _inherits(App, _React$Component);
@@ -40724,128 +42219,185 @@
 	  var _App = App;
 
 	  _App.simulate = function simulate(props) {
-	    var _ref;
+	    var aspect_texts = props.aspect_texts;
+	    var aspect_pairs = props.aspect_pairs;
+	    var tradeoff_range = props.tradeoff_range;
 
-	    return (_ref = {}, _ref['pairwise_' + _globalServicesStringHash2['default'](props.aspects[0]) + '_' + _globalServicesStringHash2['default'](props.aspects[1])] = _lodash2['default'].sample(_lodash2['default'].range(7, 15)), _ref);
+	    return _lodash2['default'](aspect_pairs).map(function (_ref) {
+	      var i = _ref[0];
+	      var j = _ref[1];
+	      return ['triple_' + _globalServicesStringHash2['default'](aspect_texts[i]) + '_' + _globalServicesStringHash2['default'](aspect_texts[j]), _lodash2['default'].sample(tradeoff_range) * _lodash2['default'].sample([1, -1])];
+	    }).object().value();
+	  };
+
+	  _App.prototype.componentWillMount = function componentWillMount() {
+	    var _props = this.props;
+	    var aspect_pairs = _props.aspect_pairs;
+	    var tradeoff_sign = _props.tradeoff_sign;
+	    var tradeoff_range = _props.tradeoff_range;
+	    var text_decreases = _props.text_decreases;
+	    var text_increases = _props.text_increases;
+
+	    var signed_tradeoffs = tradeoff_sign < 0 ? tradeoff_range.map(function (t) {
+	      return -t;
+	    }) : tradeoff_range;
+
+	    var increases_decreases = tradeoff_sign < 0 ? text_decreases : text_increases;
+
+	    this.setState({
+	      tradeoff: [_lodash2['default'].sample(signed_tradeoffs), _lodash2['default'].sample(signed_tradeoffs)],
+	      prefs: {},
+	      aspect_pairs: aspect_pairs,
+	      signed_tradeoffs: signed_tradeoffs,
+	      increases_decreases: increases_decreases
+	    });
 	  };
 
 	  _App.prototype.choose = function choose(option) {
-	    var _this = this;
+	    var _extends2,
+	        _this = this;
 
-	    var _props = this.props;
-	    var push = _props.push;
-	    var pairwise_tradeoffs = _props.pairwise_tradeoffs;
-	    var aspects = _props.aspects;
+	    var _state = this.state;
+	    var signed_tradeoffs = _state.signed_tradeoffs;
+	    var tradeoff = _state.tradeoff;
+	    var aspect_pairs = _state.aspect_pairs;
+	    var prefs = _state.prefs;
+	    var _aspect_pairs$0 = aspect_pairs[0];
+	    var i = _aspect_pairs$0[0];
+	    var j = _aspect_pairs$0[1];
 
-	    var choice = this.state.choice * 2 + option;
-	    this.setState({ choice: choice, animating: true });
-	    setTimeout(function () {
-	      return _this.setState({ animating: false });
-	    }, 300);
-	    if (choice + 1 > pairwise_tradeoffs.length) {
-	      var _push;
+	    var state = {
+	      aspect_pairs: aspect_pairs.slice(1),
+	      tradeoff: [_lodash2['default'].sample(signed_tradeoffs), _lodash2['default'].sample(signed_tradeoffs)],
+	      prefs: _extends({}, prefs, (_extends2 = {}, _extends2[String(i) + String(j)] = tradeoff[1] / tradeoff[0] * option, _extends2))
+	    };
 
-	      push((_push = {}, _push['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1])] = choice, _push));
+	    var _props2 = this.props;
+	    var aspect_texts = _props2.aspect_texts;
+	    var push = _props2.push;
+
+	    if (!state.aspect_pairs.length) {
+	      push(_lodash2['default'](this.props.aspect_pairs).map(function (_ref2) {
+	        var i = _ref2[0];
+	        var j = _ref2[1];
+	        return ['triple_' + _globalServicesStringHash2['default'](aspect_texts[i]) + '_' + _globalServicesStringHash2['default'](aspect_texts[j]), state.prefs[String(i) + String(j)]];
+	      }).object().value());
+	    } else {
+	      this.setState(state);
+	      setTimeout(function () {
+	        return _this.setState({ animating: false });
+	      }, 300);
 	    }
+
+	    this.setState({
+	      animating: true
+	    });
+	  };
+
+	  _App.prototype.deltaText = function deltaText(delta) {
+	    var floor = Math.floor;
+	    var log = Math.log;
+	    var LN2 = Math.LN2;
+	    var abs = Math.abs;
+
+	    var log2 = log(abs(delta)) / LN2;
+	    var degree = this.props.texts_deg_pref[floor(log2)] || '';
+	    return degree + ' ' + this.state.increases_decreases;
 	  };
 
 	  _App.prototype.render = function render() {
 	    var _this2 = this;
 
-	    var _props2 = this.props;
-	    var pairwise_tradeoffs = _props2.pairwise_tradeoffs;
-	    var pairwise_like = _props2.pairwise_like;
-	    var pairwise_dislike = _props2.pairwise_dislike;
-	    var instructions = _props2.instructions;
-	    var text = _props2.text;
-	    var textual = _props2.textual;
-	    var aspects = _props2.aspects;
-	    var table = _props2.table;
-	    var _state = this.state;
-	    var choice = _state.choice;
-	    var animating = _state.animating;
+	    var _props3 = this.props;
+	    var text_instruct_title = _props3.text_instruct_title;
+	    var text_instruct_body = _props3.text_instruct_body;
+	    var text_prefer_option = _props3.text_prefer_option;
+	    var aspect_texts = _props3.aspect_texts;
+	    var aspect_ratings = _props3.aspect_ratings;
+	    var aspect_colors = _props3.aspect_colors;
+	    var _state2 = this.state;
+	    var aspect_pairs = _state2.aspect_pairs;
+	    var animating = _state2.animating;
+	    var tradeoff = _state2.tradeoff;
+	    var _aspect_pairs$02 = aspect_pairs[0];
+	    var i = _aspect_pairs$02[0];
+	    var j = _aspect_pairs$02[1];
 
 	    return _react2['default'].createElement(
 	      'div',
-	      { style: [styles.main] },
+	      null,
 	      _react2['default'].createElement(
 	        'div',
 	        { style: [styles.instructions] },
 	        _react2['default'].createElement(
 	          'b',
 	          null,
-	          instructions
+	          text_instruct_title
 	        ),
 	        _react2['default'].createElement(
 	          'div',
 	          null,
-	          text
+	          text_instruct_body
 	        )
 	      ),
 	      _react2['default'].createElement(
 	        _reactMotion.Motion,
 	        {
 	          defaultStyle: { val: 0 },
-	          style: { val: _reactMotion.spring(1) }
+	          style: { val: _reactMotion.spring(1, _reactMotion.presets.nowobble) }
 	        },
 	        function (interpolated) {
 	          return _react2['default'].createElement(
 	            'div',
 	            {
-	              style: _extends({}, styles.container, {
+	              style: _extends({}, styles.row, {
 	                opacity: animating ? 0 : '' + interpolated.val,
 	                marginLeft: animating ? 0 : (1 - interpolated.val) * -200,
 	                marginRight: animating ? 0 : (1 - interpolated.val) * 200
 	              }) },
 	            _react2['default'].createElement(
 	              'div',
-	              { style: [styles.half] },
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[0],
-	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
-	                delta: pairwise_tradeoffs[choice][0],
-	                deltaText: textual[pairwise_tradeoffs[choice][0]]
-	              }),
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[1],
-	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
-	                delta: 0
-	              }),
-	              _react2['default'].createElement(_globalComponentsButton2['default'], {
-	                modStyle: { marginTop: 15 },
-	                text: pairwise_dislike,
+	              { style: [styles.padding(1, 0.5, 0, 0), { flex: 1 }] },
+	              _react2['default'].createElement(_globalComponentsScenario2['default'], {
+	                aspects: [{
+	                  text: aspect_texts[i],
+	                  rating: aspect_ratings[i],
+	                  color: aspect_colors[i],
+	                  change: tradeoff[0],
+	                  deltaText: _this2.deltaText.bind(_this2)(tradeoff[0])
+	                }, {
+	                  text: aspect_texts[j],
+	                  rating: aspect_ratings[j],
+	                  color: aspect_colors[j],
+	                  change: 0,
+	                  deltaText: null
+	                }],
+	                preferText: text_prefer_option,
 	                handler: function () {
-	                  return _this2.choose.bind(_this2)(1);
+	                  return _this2.choose.call(_this2, 0);
 	                }
 	              })
 	            ),
 	            _react2['default'].createElement(
 	              'div',
-	              { style: [styles.half] },
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[0],
-	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
-	                delta: 0
-	              }),
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[1],
-	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
-	                delta: pairwise_tradeoffs[choice][1],
-	                deltaText: textual[pairwise_tradeoffs[choice][1]]
-	              }),
-	              _react2['default'].createElement(_globalComponentsButton2['default'], {
-	                modStyle: { marginTop: 15 },
-	                text: pairwise_like,
+	              { style: [styles.padding(1, 0, 0, 0.5), { flex: 1 }] },
+	              _react2['default'].createElement(_globalComponentsScenario2['default'], {
+	                aspects: [{
+	                  text: aspect_texts[i],
+	                  rating: aspect_ratings[i],
+	                  color: aspect_colors[i],
+	                  change: 0,
+	                  deltaText: null
+	                }, {
+	                  text: aspect_texts[j],
+	                  rating: aspect_ratings[j],
+	                  color: aspect_colors[j],
+	                  change: tradeoff[1],
+	                  deltaText: _this2.deltaText.bind(_this2)(tradeoff[1])
+	                }],
+	                preferText: text_prefer_option,
 	                handler: function () {
-	                  return _this2.choose.bind(_this2)(2);
+	                  return _this2.choose.call(_this2, 1);
 	                }
 	              })
 	            )
@@ -40858,27 +42410,35 @@
 	  _createClass(_App, null, [{
 	    key: 'propTypes',
 	    value: {
-	      pairwise_like: _react.PropTypes.string,
-	      pairwise_dislike: _react.PropTypes.string,
-	      pairwise_tradeoffs: _react.PropTypes.array,
-	      aspects: _react.PropTypes.array
+	      aspect_texts: _globalTypes.declare(_globalTypes.type.array),
+	      aspect_ratings: _globalTypes.declare(_globalTypes.type.array),
+	      aspect_colors: _globalTypes.declare(_globalTypes.type.array),
+	      aspect_pairs: _globalTypes.declare(_globalTypes.type.array),
+	      tradeoff_range: _globalTypes.declare(_globalTypes.type.array),
+	      tradeoff_sign: _globalTypes.declare(_globalTypes.type.number),
+	      texts_deg_pref: _globalTypes.declare(_globalTypes.type.array),
+	      text_increases: _globalTypes.declare(_globalTypes.type.string),
+	      text_decreases: _globalTypes.declare(_globalTypes.type.string),
+	      text_prefer_option: _globalTypes.declare(_globalTypes.type.string),
+	      text_instruct_title: _globalTypes.declare(_globalTypes.type.string),
+	      text_instruct_body: _globalTypes.declare(_globalTypes.type.string)
 	    },
 	    enumerable: true
 	  }, {
 	    key: 'defaultProps',
 	    value: {
-	      instructions: 'Instructions',
-	      text: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.',
-	      pairwise_like: 'I prefer this option',
-	      pairwise_dislike: 'I prefer this option',
-	      pairwise_tradeoffs: [[4, 4], [1, 4], [4, 1], [1, 8], [2, 4], [4, 1], [8, 1]],
-	      textual: {
-	        1: 'slightly improves',
-	        2: 'improves',
-	        4: 'strongly improves',
-	        8: 'greatly improves'
-	      },
-	      aspects: ['one', 'two']
+	      aspect_texts: ['one', 'two', 'three'],
+	      aspect_ratings: [51, 52, 53],
+	      aspect_colors: ['#f77', '#7f7', '#77f'],
+	      aspect_pairs: [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]],
+	      tradeoff_range: _lodash2['default'].range(1, 9),
+	      tradeoff_sign: '$coin',
+	      texts_deg_pref: ['slightly', 'moderately', 'strongly', 'greatly'],
+	      text_increases: 'increases',
+	      text_decreases: 'decreases',
+	      text_prefer_option: 'I prefer this option',
+	      text_instruct_title: 'Instructions',
+	      text_instruct_body: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.'
 	    },
 	    enumerable: true
 	  }]);
@@ -40887,43 +42447,15 @@
 	  return App;
 	})(_react2['default'].Component);
 
-	var styles = {
-	  main: {
-	    padding: 15,
-	    boxSizing: 'border-box'
-	  },
-	  container: {
-	    display: 'flex',
-	    flexDirection: 'row'
-	  },
-	  half: {
-	    flex: 1,
-	    boxSizing: 'border-box',
-	    margin: 5,
-	    padding: 15,
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    backgroundColor: '#fff',
-	    display: 'flex',
-	    flexDirection: 'column',
-	    justifyContent: 'space-around'
-	  },
-	  instructions: {
-	    boxSizing: 'border-box',
-	    width: '100%',
-	    padding: 30,
-	    margin: '30px 0',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    background: '#fff'
-	  }
-	};
+	var styles = _extends({}, _globalStyles2['default'], {
+	  instructions: _extends({}, _globalStyles2['default'].panel, _globalStyles2['default'].padding(2))
+	});
 
 	exports['default'] = App;
 	module.exports = exports['default'];
 
 /***/ },
-/* 236 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40936,11 +42468,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _components2 = __webpack_require__(237);
+	var _components2 = __webpack_require__(252);
 
 	var _components3 = _interopRequireDefault(_components2);
 
-	var _reorderKeys = __webpack_require__(249);
+	var _reorderKeys = __webpack_require__(264);
 
 	var _reorderKeys2 = _interopRequireDefault(_reorderKeys);
 
@@ -40957,13 +42489,13 @@
 	exports.StaggeredMotion = StaggeredMotion;
 	exports.TransitionMotion = TransitionMotion;
 
-	var _spring2 = __webpack_require__(250);
+	var _spring2 = __webpack_require__(265);
 
 	var _spring3 = _interopRequireDefault(_spring2);
 
 	exports.spring = _spring3['default'];
 
-	var _presets2 = __webpack_require__(251);
+	var _presets2 = __webpack_require__(266);
 
 	var _presets3 = _interopRequireDefault(_presets2);
 
@@ -40974,7 +42506,7 @@
 	exports.utils = utils;
 
 /***/ },
-/* 237 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40987,33 +42519,33 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _noVelocity = __webpack_require__(239);
+	var _noVelocity = __webpack_require__(254);
 
 	var _noVelocity2 = _interopRequireDefault(_noVelocity);
 
-	var _hasReachedStyle = __webpack_require__(240);
+	var _hasReachedStyle = __webpack_require__(255);
 
 	var _hasReachedStyle2 = _interopRequireDefault(_hasReachedStyle);
 
-	var _mergeDiff = __webpack_require__(241);
+	var _mergeDiff = __webpack_require__(256);
 
 	var _mergeDiff2 = _interopRequireDefault(_mergeDiff);
 
-	var _animationLoop = __webpack_require__(242);
+	var _animationLoop = __webpack_require__(257);
 
 	var _animationLoop2 = _interopRequireDefault(_animationLoop);
 
-	var _zero = __webpack_require__(238);
+	var _zero = __webpack_require__(253);
 
 	var _zero2 = _interopRequireDefault(_zero);
 
-	var _updateTree = __webpack_require__(245);
+	var _updateTree = __webpack_require__(260);
 
-	var _deprecatedSprings2 = __webpack_require__(247);
+	var _deprecatedSprings2 = __webpack_require__(262);
 
 	var _deprecatedSprings3 = _interopRequireDefault(_deprecatedSprings2);
 
-	var _stripStyle = __webpack_require__(248);
+	var _stripStyle = __webpack_require__(263);
 
 	var _stripStyle2 = _interopRequireDefault(_stripStyle);
 
@@ -41433,7 +42965,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 238 */
+/* 253 */
 /***/ function(module, exports) {
 
 	// used by the tree-walking updates and springs. Avoids some allocations
@@ -41449,7 +42981,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 239 */
+/* 254 */
 /***/ function(module, exports) {
 
 	// currentStyle keeps the info about whether a prop is configured as a spring
@@ -41474,7 +43006,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 240 */
+/* 255 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -41507,7 +43039,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 241 */
+/* 256 */
 /***/ function(module, exports) {
 
 	// this function is allocation-less thanks to babel, which transforms the tail
@@ -41621,7 +43153,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 242 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41631,11 +43163,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _performanceNow = __webpack_require__(243);
+	var _performanceNow = __webpack_require__(258);
 
 	var _performanceNow2 = _interopRequireDefault(_performanceNow);
 
-	var _raf = __webpack_require__(244);
+	var _raf = __webpack_require__(259);
 
 	var _raf2 = _interopRequireDefault(_raf);
 
@@ -41770,7 +43302,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 243 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Generated by CoffeeScript 1.7.1
@@ -41809,10 +43341,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 244 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var now = __webpack_require__(243)
+	var now = __webpack_require__(258)
 	  , global = typeof window === 'undefined' ? {} : window
 	  , vendors = ['moz', 'webkit']
 	  , suffix = 'AnimationFrame'
@@ -41883,7 +43415,7 @@
 
 
 /***/ },
-/* 245 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41895,7 +43427,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _stepper = __webpack_require__(246);
+	var _stepper = __webpack_require__(261);
 
 	var _stepper2 = _interopRequireDefault(_stepper);
 
@@ -41980,7 +43512,7 @@
 	}
 
 /***/ },
-/* 246 */
+/* 261 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -42017,7 +43549,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 247 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -42071,7 +43603,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 248 */
+/* 263 */
 /***/ function(module, exports) {
 
 	// turn {x: {val: 1, config: [1, 2]}, y: 2} into {x: 1, y: 2}
@@ -42094,7 +43626,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 249 */
+/* 264 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -42116,7 +43648,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 250 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42126,7 +43658,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _presets = __webpack_require__(251);
+	var _presets = __webpack_require__(266);
 
 	var _presets2 = _interopRequireDefault(_presets);
 
@@ -42141,7 +43673,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 251 */
+/* 266 */
 /***/ function(module, exports) {
 
 	// [stiffness, damping]
@@ -42157,7 +43689,64 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 252 */
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _radium = __webpack_require__(171);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
+	var _Aspect = __webpack_require__(268);
+
+	var _Aspect2 = _interopRequireDefault(_Aspect);
+
+	var _Button = __webpack_require__(230);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _globalStyles = __webpack_require__(231);
+
+	var _globalStyles2 = _interopRequireDefault(_globalStyles);
+
+	exports['default'] = _radium2['default'](function (props) {
+	  return _react2['default'].createElement(
+	    'div',
+	    { style: [styles.panel, styles.padding(1)] },
+	    props.aspects.map(function (a) {
+	      return _react2['default'].createElement(_Aspect2['default'], {
+	        modStyle: { flex: 1 },
+	        text: a.text,
+	        rating: a.rating,
+	        color: a.color,
+	        delta: a.change,
+	        deltaText: a.deltaText
+	      });
+	    }),
+	    _react2['default'].createElement(_Button2['default'], {
+	      modStyle: { marginTop: '1rem' },
+	      text: props.preferText,
+	      handler: props.handler
+	    })
+	  );
+	});
+
+	var styles = _extends({}, _globalStyles2['default']);
+	module.exports = exports['default'];
+
+/***/ },
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42180,11 +43769,11 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _DeltaBar = __webpack_require__(253);
+	var _DeltaBar = __webpack_require__(247);
 
 	var _DeltaBar2 = _interopRequireDefault(_DeltaBar);
 
-	var _servicesFormat = __webpack_require__(254);
+	var _servicesFormat = __webpack_require__(242);
 
 	var _servicesFormat2 = _interopRequireDefault(_servicesFormat);
 
@@ -42272,7 +43861,7 @@
 	    marginBottom: 15
 	  },
 	  text: {
-	    fontSize: '1em',
+	    fontSize: '1.25rem',
 	    fontStyle: 'italic'
 	  },
 	  rating: {
@@ -42299,14 +43888,12 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 253 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -42318,1840 +43905,41 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _color = __webpack_require__(221);
-
-	var _color2 = _interopRequireDefault(_color);
-
-	var Color = function Color(c) {
-	  try {
-	    _color2['default'](c);
-	  } catch (e) {
-	    console.log(e);
-	    return _color2['default']('#fff');
-	  }
-	  return _color2['default'](c);
-	};
-
-	var DeltaBar = (function (_React$Component) {
-	  function DeltaBar() {
-	    _classCallCheck(this, _DeltaBar);
+	var URLParams = (function (_React$Component) {
+	  function URLParams() {
+	    _classCallCheck(this, URLParams);
 
 	    _React$Component.apply(this, arguments);
 	  }
 
-	  _inherits(DeltaBar, _React$Component);
-
-	  var _DeltaBar = DeltaBar;
-
-	  _DeltaBar.prototype.render = function render() {
-	    var _props = this.props;
-	    var percent = _props.percent;
-	    var delta = _props.delta;
-	    var height = _props.height;
-	    var color = _props.color;
-	    var modStyle = _props.modStyle;
-
-	    return _react2['default'].createElement(
-	      'svg',
-	      {
-	        viewBox: '0 0 100 1',
-	        preserveAspectRatio: 'none',
-	        style: [styles.svg, {
-	          height: Number(height + 1) + 'rem'
-	        }, modStyle]
-	      },
-	      _react2['default'].createElement('rect', {
-	        x: 0,
-	        y: 0.42,
-	        width: 100,
-	        height: 0.58,
-	        fill: '#eee'
-	      }),
-	      _react2['default'].createElement('rect', {
-	        x: 0,
-	        y: 0.42,
-	        width: percent,
-	        height: 0.58,
-	        fill: color
-	      }),
-	      delta > 0 && _react2['default'].createElement(
-	        'g',
-	        null,
-	        _react2['default'].createElement('rect', {
-	          x: percent,
-	          y: 0.42,
-	          width: delta,
-	          height: 0.58,
-	          fill: Color(color).darken(0.42).rgbString()
-	        }),
-	        _react2['default'].createElement('path', {
-	          fill: '#000',
-	          d: '\n                M ' + percent + ',0.1\n                l ' + (delta - 2) + ',0\n                l 0,0.2\n                l ' + (2 - delta) + ',0\n                Z\n              '
-	        }),
-	        _react2['default'].createElement('path', {
-	          fill: '#000',
-	          d: '\n                M ' + (percent + delta - 2) + ',0\n                l 2,0.2\n                l -2,0.2\n                Z\n              '
-	        })
-	      ),
-	      delta < 0 && _react2['default'].createElement(
-	        'g',
-	        null,
-	        _react2['default'].createElement('rect', {
-	          x: percent + delta,
-	          y: 0.42,
-	          width: -delta,
-	          height: 0.58,
-	          fill: Color(color).lighten(0.1).rgbString()
-	        }),
-	        _react2['default'].createElement('path', {
-	          fill: '#000',
-	          d: '\n                M ' + percent + ',0.1\n                l ' + (delta + 2) + ',0\n                l 0,0.2\n                l ' + (-2 - delta) + ',0\n                Z\n              '
-	        }),
-	        _react2['default'].createElement('path', {
-	          fill: '#000',
-	          d: '\n                M ' + (percent + delta + 2) + ',0\n                l -2,0.2\n                l 2,0.2\n                Z\n              '
-	        })
-	      ),
-	      _react2['default'].createElement('rect', {
-	        x: percent + delta - 0.5,
-	        y: 0.42,
-	        width: 0.5,
-	        height: 0.58,
-	        fill: '#000'
-	      })
-	    );
-	  };
-
-	  _createClass(_DeltaBar, null, [{
-	    key: 'defaultProps',
-	    value: {
-	      percent: 42,
-	      delta: 10,
-	      height: 1,
-	      color: '#f44'
-	    },
-	    enumerable: true
-	  }]);
-
-	  DeltaBar = _radium2['default'](DeltaBar) || DeltaBar;
-	  return DeltaBar;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  svg: {
-	    width: '100%',
-	    paddingTop: 0,
-	    paddingRight: 0,
-	    paddingBottom: 0,
-	    paddingLeft: 0,
-	    marginTop: 0,
-	    marginRight: 0,
-	    marginBottom: 0,
-	    marginLeft: 0
-	  }
-	};
-
-	exports['default'] = DeltaBar;
-	module.exports = exports['default'];
-
-/***/ },
-/* 254 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = {
-	  capitalize: function capitalize(str) {
-	    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 255 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _lodash = __webpack_require__(212);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _reactMotion = __webpack_require__(236);
-
-	var _globalServicesColorScheme = __webpack_require__(220);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	var _globalServicesStringHash = __webpack_require__(218);
-
-	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
-
-	var _globalComponentsAspect = __webpack_require__(252);
-
-	var _globalComponentsAspect2 = _interopRequireDefault(_globalComponentsAspect);
-
-	var _globalComponentsButton = __webpack_require__(228);
-
-	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
-
-	var App = (function (_React$Component) {
-	  function App(props) {
-	    _classCallCheck(this, _App);
-
-	    _React$Component.call(this, props);
-	  }
-
-	  _inherits(App, _React$Component);
-
-	  var _App = App;
-
-	  _App.simulate = function simulate(props) {
-	    var _ref;
-
-	    var aspects = props.aspects;
-
-	    return (_ref = {}, _ref['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_lower'] = 0.5, _ref['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_upper'] = 2, _ref);
-	  };
-
-	  _App.prototype.componentWillMount = function componentWillMount() {
-	    var tradeoff_range = this.props.tradeoff_sign < 0 ? this.props.tradeoff_range.map(function (t) {
-	      return -t;
-	    }) : this.props.tradeoff_range;
-
-	    var increases_decreases = this.props.tradeoff_sign < 0 ? 'decreases' : 'increases';
-
-	    this.setState({
-	      tradeoff: [_lodash2['default'].sample(tradeoff_range), _lodash2['default'].sample(tradeoff_range)],
-	      upper: Infinity,
-	      lower: 0,
-	      choices: 0,
-	      tradeoff_range: tradeoff_range,
-	      increases_decreases: increases_decreases
-	    });
-	  };
-
-	  _App.prototype.pushIfDone = function pushIfDone() {
-	    var _props = this.props;
-	    var aspects = _props.aspects;
-	    var n = _props.n;
-	    var push = _props.push;
-	    var _state = this.state;
-	    var lower = _state.lower;
-	    var upper = _state.upper;
-	    var choices = _state.choices;
-
-	    if (choices + 1 > n) {
-	      var _push;
-
-	      push((_push = {}, _push['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_lower'] = lower, _push['pairwise_' + _globalServicesStringHash2['default'](aspects[0]) + '_' + _globalServicesStringHash2['default'](aspects[1]) + '_upper'] = upper, _push));
-	    }
-	  };
-
-	  _App.prototype.choose = function choose(option) {
-	    var _this = this;
-
-	    var _state2 = this.state;
-	    var tradeoff_range = _state2.tradeoff_range;
-	    var tradeoff = _state2.tradeoff;
-	    var lower = _state2.lower;
-	    var upper = _state2.upper;
-	    var choices = _state2.choices;
-
-	    var pushIfDone = function pushIfDone() {
-	      return _this.pushIfDone.bind(_this)();
-	    };
-	    console.log('choices' + choices);
-	    var mrs = tradeoff[1] / tradeoff[0];
-	    if (option === 1 && mrs < upper) {
-	      this.setState({ upper: mrs, choices: choices + 1 }, pushIfDone);
-	    } else if (option === 2 && mrs > lower) {
-	      this.setState({ lower: mrs, choices: choices + 1 }, pushIfDone);
-	    } else {
-	      this.setState({ choices: choices + 1 }, pushIfDone);
-	    }
-
-	    this.setState({
-	      animating: true,
-	      tradeoff: [_lodash2['default'].sample(tradeoff_range), _lodash2['default'].sample(tradeoff_range)]
-	    });
-	    setTimeout(function () {
-	      return _this.setState({ animating: false });
-	    }, 300);
-	  };
-
-	  _App.prototype.deltaText = function deltaText(delta) {
-	    var floor = Math.floor;
-	    var log2 = Math.log2;
-	    var abs = Math.abs;
-
-	    var degree = this.props.log_degree[floor(log2(abs(delta)))] || '';
-	    return degree + ' ' + this.state.increases_decreases;
-	  };
-
-	  _App.prototype.render = function render() {
-	    var _this2 = this;
-
-	    var _props2 = this.props;
-	    var aspects = _props2.aspects;
-	    var like = _props2.like;
-	    var dislike = _props2.dislike;
-	    var instructions = _props2.instructions;
-	    var text = _props2.text;
-	    var log_degree = _props2.log_degree;
-	    var increases_decreases = _props2.increases_decreases;
-	    var aspects = _props2.aspects;
-	    var table = _props2.table;
-	    var _state3 = this.state;
-	    var animating = _state3.animating;
-	    var tradeoff = _state3.tradeoff;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      { style: [styles.main] },
-	      _react2['default'].createElement(
-	        'div',
-	        { style: [styles.instructions] },
-	        _react2['default'].createElement(
-	          'b',
-	          null,
-	          instructions
-	        ),
-	        _react2['default'].createElement(
-	          'div',
-	          null,
-	          text
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        _reactMotion.Motion,
-	        {
-	          defaultStyle: { val: 0 },
-	          style: { val: _reactMotion.spring(1, _reactMotion.presets.nowobble) }
-	        },
-	        function (interpolated) {
-	          return _react2['default'].createElement(
-	            'div',
-	            {
-	              style: _extends({}, styles.container, {
-	                opacity: animating ? 0 : '' + interpolated.val,
-	                marginLeft: animating ? 0 : (1 - interpolated.val) * -200,
-	                marginRight: animating ? 0 : (1 - interpolated.val) * 200
-	              }) },
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.half] },
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[0],
-	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
-	                delta: tradeoff[0],
-	                deltaText: _this2.deltaText.call(_this2, tradeoff[0])
-	              }),
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[1],
-	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
-	                delta: 0
-	              }),
-	              _react2['default'].createElement(_globalComponentsButton2['default'], {
-	                modStyle: { marginTop: 15 },
-	                text: dislike,
-	                handler: function () {
-	                  return _this2.choose.call(_this2, 1);
-	                }
-	              })
-	            ),
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.half] },
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[0],
-	                rating: table[_globalServicesStringHash2['default'](aspects[0]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[0]) + '_color'],
-	                delta: 0
-	              }),
-	              _react2['default'].createElement(_globalComponentsAspect2['default'], {
-	                modStyle: { flex: 1 },
-	                text: aspects[1],
-	                rating: table[_globalServicesStringHash2['default'](aspects[1]) + '_rating'],
-	                color: table[_globalServicesStringHash2['default'](aspects[1]) + '_color'],
-	                delta: tradeoff[1],
-	                deltaText: _this2.deltaText.call(_this2, tradeoff[1])
-	              }),
-	              _react2['default'].createElement(_globalComponentsButton2['default'], {
-	                modStyle: { marginTop: 15 },
-	                text: like,
-	                handler: function () {
-	                  return _this2.choose.call(_this2, 2);
-	                }
-	              })
-	            )
-	          );
-	        }
-	      )
-	    );
-	  };
-
-	  _createClass(_App, null, [{
-	    key: 'propTypes',
-	    value: {
-	      like: _react.PropTypes.string,
-	      dislike: _react.PropTypes.string,
-	      tradeoff_range: _react.PropTypes.array,
-	      tradeoff_sign: _react.PropTypes.number,
-	      log_degree: _react.PropTypes.array,
-	      n: _react.PropTypes.number,
-	      aspects: _react.PropTypes.array
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      instructions: 'Instructions',
-	      text: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.',
-	      like: 'I prefer this option',
-	      dislike: 'I prefer this option',
-	      tradeoff_range: _lodash2['default'].range(1, 9),
-	      tradeoff_sign: '$coin',
-	      log_degree: ['slightly', 'moderately', 'strongly', 'greatly'],
-	      n: 3,
-	      aspects: ['one', 'two']
-	    },
-	    enumerable: true
-	  }]);
-
-	  App = _radium2['default'](App) || App;
-	  return App;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  main: {
-	    paddingTop: 15,
-	    paddingRight: 15,
-	    paddingBottom: 15,
-	    paddingLeft: 15,
-	    borderRadius: 15,
-	    boxSizing: 'border-box'
-	  },
-	  container: {
-	    display: 'flex',
-	    flexDirection: 'row'
-	  },
-	  half: {
-	    flex: 1,
-	    boxSizing: 'border-box',
-	    marginTop: 5,
-	    marginRight: 5,
-	    marginBottom: 5,
-	    marginLeft: 5,
-	    paddingTop: 15,
-	    paddingRight: 15,
-	    paddingBottom: 15,
-	    paddingLeft: 15,
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    backgroundColor: '#fff',
-	    display: 'flex',
-	    flexDirection: 'column',
-	    justifyContent: 'space-around'
-	  },
-	  instructions: {
-	    boxSizing: 'border-box',
-	    width: '100%',
-	    paddingTop: 30,
-	    paddingRight: 30,
-	    paddingBottom: 30,
-	    paddingLeft: 30,
-	    marginTop: 30,
-	    marginRight: 0,
-	    marginBottom: 30,
-	    marginLeft: 0,
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    background: '#fff'
-	  }
-	};
-
-	exports['default'] = App;
-	module.exports = exports['default'];
-
-/***/ },
-/* 256 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _lodash = __webpack_require__(212);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _globalServicesStringHash = __webpack_require__(218);
-
-	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
-
-	var _store = __webpack_require__(257);
-
-	var _store2 = _interopRequireDefault(_store);
-
-	var _RateAspect = __webpack_require__(258);
-
-	var _RateAspect2 = _interopRequireDefault(_RateAspect);
-
-	var _RatedAspects = __webpack_require__(262);
-
-	var _RatedAspects2 = _interopRequireDefault(_RatedAspects);
-
-	var Index = (function (_React$Component) {
-	  function Index(props) {
-	    var _this = this;
-
-	    _classCallCheck(this, _Index);
-
-	    _React$Component.call(this, props);
-	    this.state = _store2['default'].getState();
-	    _store2['default'].subscribe(function () {
-	      _this.setState(_store2['default'].getState());
-	    });
-	  }
-
-	  _inherits(Index, _React$Component);
-
-	  var _Index = Index;
-
-	  _Index.simulate = function simulate(props) {
-	    return _lodash2['default'](props.aspects).map(function (a) {
-	      return ['rating_' + _globalServicesStringHash2['default'](a), _lodash2['default'].sample(_lodash2['default'].range(0, 101))];
+	  _inherits(URLParams, _React$Component);
+
+	  URLParams.simulate = function simulate(props) {
+	    var params = _(location.search.slice(1).split('&')).map(function (item) {
+	      return item.split('=');
 	    }).object().value();
+	    props.push(params);
 	  };
 
-	  _Index.prototype.componentDidMount = function componentDidMount() {
-	    var _this2 = this;
-
-	    _store2['default'].dispatch({
-	      type: 'SET_ASPECTS',
-	      aspects: this.props.aspect_texts.map(function (a, i) {
-	        return {
-	          text: a,
-	          color: _this2.props.aspect_colors[i],
-	          index: i
-	        };
-	      })
-	    });
+	  URLParams.prototype.componentWillMount = function componentWillMount() {
+	    var params = _(location.search.slice(1).split('&')).map(function (item) {
+	      return item.split('=');
+	    }).object().value();
+	    this.props.push(params);
 	  };
 
-	  _Index.prototype.componentDidUpdate = function componentDidUpdate() {
-	    if (this.state.index < 0) {
-	      this.props.push(_lodash2['default'](this.state.aspects).map(function (a) {
-	        return ['rating_' + _globalServicesStringHash2['default'](a.text), a.rating];
-	      }).object().value());
-	    }
-	  };
-
-	  _Index.prototype.render = function render() {
-	    var _state = this.state;
-	    var aspects = _state.aspects;
-	    var rated = _state.rated;
-	    var index = _state.index;
-	    var _props = this.props;
-	    var rating_tip = _props.rating_tip;
-	    var rating_confirm = _props.rating_confirm;
-	    var instructions = _props.instructions;
-	    var text = _props.text;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      { style: [styles.container] },
-	      _react2['default'].createElement(
-	        'div',
-	        { style: [styles.instructions] },
-	        _react2['default'].createElement(
-	          'b',
-	          null,
-	          instructions
-	        ),
-	        _react2['default'].createElement(
-	          'div',
-	          null,
-	          text
-	        )
-	      ),
-	      index > -1 && _react2['default'].createElement(_RateAspect2['default'], {
-	        aspect: aspects[index],
-	        handleRating: function (p) {
-	          return _store2['default'].dispatch({
-	            type: 'CHANGE_RATING',
-	            rating: p
-	          });
-	        },
-	        handleConfirm: function (a) {
-	          return _store2['default'].dispatch({
-	            type: 'CONFIRM_RATING',
-	            aspect: a
-	          });
-	        },
-	        rateText: rating_tip,
-	        confirmText: rating_confirm
-	      }),
-	      rated.length && rated.reduce(function (a, b) {
-	        return a || b;
-	      }) && _react2['default'].createElement(_RatedAspects2['default'], {
-	        aspects: aspects.filter(function (a, i) {
-	          return rated[i];
-	        }),
-	        editRating: function (i) {
-	          return _store2['default'].dispatch({
-	            type: 'EDIT_RATING',
-	            index: i
-	          });
-	        },
-	        editText: 'Edit'
-	      })
-	    );
-	  };
-
-	  _createClass(_Index, null, [{
-	    key: 'propTypes',
-	    value: {
-	      aspect_texts: _react.PropTypes.array,
-	      aspect_colors: _react.PropTypes.array,
-	      instructions: _react.PropTypes.string,
-	      text: _react.PropTypes.string,
-	      rating_tip: _react.PropTypes.string,
-	      rating_confirm: _react.PropTypes.string
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      instructions: 'Instructions',
-	      text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
-	      rating_tip: 'Move the slider to set your rating',
-	      rating_confirm: 'Confirm Rating',
-	      aspect_texts: ['one', 'two', 'three'],
-	      aspect_colors: ['#f77', '#7f7', '#77f']
-	    },
-	    enumerable: true
-	  }]);
-
-	  Index = _radium2['default'](Index) || Index;
-	  return Index;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  container: {
-	    marginTop: 30,
-	    userSelect: 'none'
-	  },
-	  instructions: {
-	    boxSizing: 'border-box',
-	    width: '100%',
-	    padding: 30,
-	    margin: '30px 0',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    background: '#fff'
-	  }
-	};
-
-	exports['default'] = Index;
-	module.exports = exports['default'];
-
-	// index === -1 after all aspects rated
-
-	// if any aspects are rated
-
-/***/ },
-/* 257 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _redux = __webpack_require__(161);
-
-	exports['default'] = _redux.createStore(function (state, action) {
-	  switch (action.type) {
-
-	    case 'SET_ASPECTS':
-	      return _extends({}, state, {
-	        aspects: action.aspects,
-	        rated: action.aspects.map(function () {
-	          return false;
-	        })
-	      });
-
-	    case 'CHANGE_RATING':
-	      state.aspects[state.index].rating = Number(action.rating);
-	      return state;
-
-	    case 'CONFIRM_RATING':
-	      state.rated[state.index] = true;
-	      if (!state.rated.reduce(function (a, b) {
-	        return a && b;
-	      }, true)) {
-	        return _extends({}, state, {
-	          index: state.aspects.filter(function (a, i) {
-	            return !state.rated[i];
-	          })[0].index
-	        });
-	      } else {
-	        return _extends({}, state, {
-	          index: -1
-	        });
-	      }
-
-	    case 'EDIT_RATING':
-	      state.rated[action.index] = false;
-	      return _extends({}, state, {
-	        index: action.index
-	      });
-
-	    default:
-	      return {
-	        aspects: [{
-	          text: null,
-	          rating: null,
-	          index: 0
-	        }],
-	        rated: [],
-	        index: 0
-	      };
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 258 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _globalServicesColorScheme = __webpack_require__(220);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	var _globalServicesFormat = __webpack_require__(254);
-
-	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
-
-	var _globalComponentsSlider = __webpack_require__(259);
-
-	var _globalComponentsSlider2 = _interopRequireDefault(_globalComponentsSlider);
-
-	var _globalComponentsButton = __webpack_require__(228);
-
-	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
-
-	var _globalStyles = __webpack_require__(234);
-
-	var _globalStyles2 = _interopRequireDefault(_globalStyles);
-
-	var RateAspect = (function (_React$Component) {
-	  function RateAspect() {
-	    _classCallCheck(this, _RateAspect);
-
-	    _React$Component.apply(this, arguments);
-	  }
-
-	  _inherits(RateAspect, _React$Component);
-
-	  var _RateAspect = RateAspect;
-
-	  _RateAspect.prototype.render = function render() {
-	    var _props = this.props;
-	    var aspect = _props.aspect;
-	    var handleRating = _props.handleRating;
-	    var handleConfirm = _props.handleConfirm;
-	    var rateText = _props.rateText;
-	    var confirmText = _props.confirmText;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      { style: [styles.container] },
-	      _react2['default'].createElement(
-	        'div',
-	        { style: [styles.aspect] },
-	        _react2['default'].createElement(
-	          'div',
-	          { style: [styles.heading] },
-	          _react2['default'].createElement(
-	            'em',
-	            { style: { float: 'left' } },
-	            _globalServicesFormat2['default'].capitalize(aspect.text)
-	          ),
-	          !isNaN(aspect.rating) && _react2['default'].createElement(
-	            'span',
-	            { style: { float: 'right', fontWeight: 'bold' } },
-	            Number(aspect.rating)
-	          )
-	        ),
-	        _react2['default'].createElement(_globalComponentsSlider2['default'], {
-	          color: aspect.color,
-	          percent: aspect.rating,
-	          handleChange: handleRating
-	        })
-	      ),
-	      !isNaN(aspect.rating) && _react2['default'].createElement(
-	        'div',
-	        { style: [styles.button] },
-	        _react2['default'].createElement(_globalComponentsButton2['default'], {
-	          text: confirmText,
-	          handler: function () {
-	            return handleConfirm(aspect);
-	          }
-	        })
-	      ) || aspect.index === 0 && _react2['default'].createElement(
-	        'svg',
-	        {
-	          style: {
-	            width: '100%',
-	            height: '4rem'
-	          },
-	          viewBox: '0 0 100 10'
-	        },
-	        _react2['default'].createElement('path', {
-	          stroke: '#559',
-	          strokeWidth: '0.25',
-	          fill: '#fff',
-	          d: ' M 50,0 l -1,1 l 1, -1 l 1, 1 l -1, -1 c 0,10 15,-5 19,5 '
-	        }),
-	        _react2['default'].createElement(
-	          'text',
-	          {
-	            x: '70',
-	            y: '10',
-	            dy: '-2',
-	            fontSize: '3',
-	            fill: '#559',
-	            textAnchor: 'middle'
-	          },
-	          rateText
-	        )
-	      )
-	    );
-	  };
-
-	  RateAspect = _radium2['default'](RateAspect) || RateAspect;
-	  return RateAspect;
-	})(_react2['default'].Component);
-
-	var styles = _extends({}, _globalStyles2['default'], {
-	  container: _extends({}, _globalStyles2['default'].panel, _globalStyles2['default'].padding(2), {
-	    backgroundColor: '#fff',
-	    userSelect: 'none',
-	    overflow: 'auto',
-	    zoom: 1
-	  }),
-	  heading: {
-	    marginBottom: '1rem',
-	    overflow: 'auto',
-	    zoom: 1
-	  },
-	  button: {
-	    marginTop: '2rem',
-	    float: 'right'
-	  }
-	});
-
-	exports['default'] = RateAspect;
-	module.exports = exports['default'];
-
-/***/ },
-/* 259 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _imagesSmileySvg = __webpack_require__(260);
-
-	var _imagesSmileySvg2 = _interopRequireDefault(_imagesSmileySvg);
-
-	var _imagesFrownySvg = __webpack_require__(261);
-
-	var _imagesFrownySvg2 = _interopRequireDefault(_imagesFrownySvg);
-
-	var Handle = (function (_React$Component) {
-	  function Handle() {
-	    _classCallCheck(this, _Handle);
-
-	    _React$Component.apply(this, arguments);
-	  }
-
-	  _inherits(Handle, _React$Component);
-
-	  var _Handle = Handle;
-
-	  _Handle.prototype.render = function render() {
-	    var _props = this.props;
-	    var width = _props.width;
-	    var height = _props.height;
-	    var position = _props.position;
-
-	    return _react2['default'].createElement('path', {
-	      style: [styles.handle],
-	      strokeWidth: '0.25',
-	      stroke: '#000',
-	      strokeOpacity: '0.5',
-	      fill: '#fff',
-	      fillOpacity: '0.9',
-	      d: 'M ' + (position - width / 2) + ',0 \n          l ' + width + ',0 l 0,' + height / 2 + ' \n          l -' + width / 2 + ',' + height / 2 + ' \n          l -' + width / 2 + ',-' + height / 2 + ' \n          Z'
-	    });
-	  };
-
-	  _createClass(_Handle, null, [{
-	    key: 'propTypes',
-	    value: {
-	      size: _react.PropTypes.number,
-	      position: _react.PropTypes.number
-	    },
-	    enumerable: true
-	  }]);
-
-	  Handle = _radium2['default'](Handle) || Handle;
-	  return Handle;
-	})(_react2['default'].Component);
-
-	var Slider = (function (_React$Component2) {
-	  function Slider(props) {
-	    _classCallCheck(this, _Slider);
-
-	    _React$Component2.call(this, props);
-	    this.state = {
-	      percent: props.percent,
-	      movable: false
-	    };
-	    this.mouseUp = this.handleMouseUp.bind(this);
-	    this.mouseMove = this.handleMouseMove.bind(this);
-	    this.move.bind(this);
-	    window.addEventListener('mouseup', this.mouseUp);
-	    window.addEventListener('mousemove', this.mouseMove);
-	  }
-
-	  _inherits(Slider, _React$Component2);
-
-	  var _Slider = Slider;
-
-	  _Slider.prototype.move = function move(percent) {
-	    this.props.handleChange(Math.max(0, Math.min(100, Math.floor(percent))));
-	  };
-
-	  _Slider.prototype.handleMouseDown = function handleMouseDown(event) {
-	    this.setState({ movable: true });
-	    var clientX = event.clientX;
-
-	    var _bar$getBoundingClientRect = this._bar.getBoundingClientRect();
-
-	    var left = _bar$getBoundingClientRect.left;
-	    var width = _bar$getBoundingClientRect.width;
-
-	    this.move(100 * (clientX - left) / width);
-	  };
-
-	  _Slider.prototype.handleMouseUp = function handleMouseUp(event) {
-	    this.setState({ movable: false });
-	  };
-
-	  _Slider.prototype.handleMouseMove = function handleMouseMove(event) {
-	    var clientX = event.clientX;
-
-	    var _bar$getBoundingClientRect2 = this._bar.getBoundingClientRect();
-
-	    var left = _bar$getBoundingClientRect2.left;
-	    var width = _bar$getBoundingClientRect2.width;
-
-	    if (this.state.movable) this.move(100 * (clientX - left) / width);
-	  };
-
-	  _Slider.prototype.componentWillUnmount = function componentWillUnmount() {
-	    window.removeEventListener('mouseup', this.mouseUp);
-	    window.removeEventListener('mousemove', this.mouseMove);
-	  };
-
-	  _Slider.prototype.render = function render() {
-	    var _this = this;
-
-	    var _props2 = this.props;
-	    var percent = _props2.percent;
-	    var delta = _props2.delta;
-	    var height = _props2.height;
-	    var color = _props2.color;
-	    var modStyle = _props2.modStyle;
-
-	    return _react2['default'].createElement(
-	      'svg',
-	      {
-	        viewBox: '0 0 110 10',
-	        style: [styles.svg, modStyle],
-	        onMouseDown: this.handleMouseDown.bind(this)
-	      },
-	      _react2['default'].createElement('g', {
-	        style: { opacity: (100 - percent) / 100 },
-	        dangerouslySetInnerHTML: {
-	          __html: '<image x="0" y="0" width="5" height="5" xlink:href="' + _imagesFrownySvg2['default'] + '"></image>'
-	        } }),
-	      _react2['default'].createElement('g', {
-	        style: { opacity: percent / 100 },
-	        dangerouslySetInnerHTML: {
-	          __html: '<image x="105" y="0" width="5" height="5" xlink:href="' + _imagesSmileySvg2['default'] + '"></image>'
-	        } }),
-	      _react2['default'].createElement(
-	        'g',
-	        { transform: 'translate(5,0)' },
-	        _react2['default'].createElement('rect', {
-	          y: 0,
-	          width: 100,
-	          height: 5,
-	          fill: '#eee',
-	          stroke: '#fff',
-	          strokeWidth: '0.25',
-	          ref: function (c) {
-	            return _this._bar = c;
-	          }
-	        }),
-	        _react2['default'].createElement('rect', {
-	          y: 0,
-	          width: percent,
-	          height: 5,
-	          fill: color,
-	          stroke: '#fff',
-	          strokeWidth: '0.25'
-	        }),
-	        [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(function (num) {
-	          return _react2['default'].createElement(
-	            'text',
-	            {
-	              key: num,
-	              x: Number(num),
-	              y: 8,
-	              style: [styles.text]
-	            },
-	            Number(num)
-	          );
-	        }),
-	        _react2['default'].createElement(Handle, { width: 5, height: 5, position: percent })
-	      )
-	    );
-	  };
-
-	  _createClass(_Slider, null, [{
-	    key: 'defaultProps',
-	    value: {
-	      percent: 50,
-	      height: '3rem',
-	      color: '#f44'
-	    },
-	    enumerable: true
-	  }]);
-
-	  Slider = _radium2['default'](Slider) || Slider;
-	  return Slider;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  svg: {
-	    width: '100%',
-	    height: 'auto',
-	    cursor: 'pointer'
-	  },
-	  handle: {
-	    cursor: 'pointer'
-	  },
-	  text: {
-	    fontSize: '.15rem',
-	    textAnchor: 'middle',
-	    userSelect: 'none'
-	  }
-	};
-
-	exports['default'] = Slider;
-	module.exports = exports['default'];
-
-/***/ },
-/* 260 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OCwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OCA3LjYxMiwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOS40NTcsMTkuMjAzMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDU5LDAuMTM1IC0xLjQ5OSwzLjI5NyAtNC40NTcsMy4yOTcgLTIuOTU3LDAgLTQuMzk3LC0zLjE2MiAtNC40NTcsLTMuMjk3IC0wLjA5MiwtMC4yMDcgLTAuMDMyLC0wLjQ0OSAwLjE0NCwtMC41OTEgMC4xNzUsLTAuMTQyIDAuNDI2LC0wLjE0NyAwLjYxMSwtMC4wMTQgMC4wMTIsMC4wMDkgMS4yNjIsMC45MDIgMy43MDIsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMyLC0wLjQ1MiAwLjA5MywtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE3LjQ1NywxOS4yMDMxKSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4wNiwwLjEzNSAtMS40OTksMy4yOTcgLTQuNDU3LDMuMjk3IC0yLjk1NywwIC00LjM5NywtMy4xNjIgLTQuNDU3LC0zLjI5NyAtMC4wOTIsLTAuMjA3IC0wLjAzMiwtMC40NDkgMC4xNDQsLTAuNTkxIDAuMTc2LC0wLjE0MiAwLjQyNywtMC4xNDcgMC42MSwtMC4wMTQgMC4wMTMsMC4wMDkgMS4yNjIsMC45MDIgMy43MDMsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMzLC0wLjQ1MiAwLjA5MiwtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5LDE1KSIgaWQ9ImczMiI+PHBhdGggaWQ9InBhdGgzNCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMy42MjMsMCAtNi4wMjcsMC40MjIgLTksMSAtMC42NzksMC4xMzEgLTIsMCAtMiwtMiAwLC00IDQuNTk1LC05IDExLC05IDYuNDA0LDAgMTEsNSAxMSw5IEMgMTEsMSA5LjY3OSwxLjEzMiA5LDEgNi4wMjcsMC40MjIgMy42MjMsMCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAsMTQpIiBpZD0iZzM2Ij48cGF0aCBpZD0icGF0aDM4IiBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIDAsMCAzLC0xIDksLTEgNiwwIDksMSA5LDEgMCwwIC0yLC00IC05LC00IC03LDAgLTksNCAtOSw0Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPgo="
-
-/***/ },
-/* 261 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OSwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OSA3LjYxMSwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg5IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC40ODU0LDguMTIxMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDEyLDAuMDQ0IC0xLjE0Niw0LjM3OSAtNS40ODUsNC4zNzkgLTQuMzQxLDAgLTUuNDc1LC00LjMzNSAtNS40ODUsLTQuMzc5IC0wLjA1MywtMC4yMTMgMC4wNDMsLTAuNDMxIDAuMjMxLC0wLjU0NCAwLjE4OCwtMC4xMTIgMC40MzMsLTAuMDg2IDAuNTk2LDAuMDYgMC4wMSwwLjAwNyAxLjAxNCwwLjg2MyA0LjY1OCwwLjg2MyAzLjU4OSwwIDQuNjE3LC0wLjgzIDQuNjU2LC0wLjg2MyAwLjA5NSwtMC4wOSAwLjIxOSwtMC4xMzcgMC4zNDQsLTAuMTM3IDAuMDg0LDAgMC4xNjksMC4wMjEgMC4yNDYsMC4wNjQgQyAtMC4wNDMsLTAuNDQ1IDAuMDU1LC0wLjIxOCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYuNzgwMywyMS4zNTk0KSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4zNDEsMC4wOTMgLTAuNjkyLDAuMTQgLTEuMDQzLDAuMTQgLTIuMzQ1LDAgLTQuMDUzLC0yLjA2IC00LjEyNSwtMi4xNDcgLTAuMTQzLC0wLjE3NiAtMC4xNDgsLTAuNDI2IC0wLjAxNywtMC42MDkgMC4xMzQsLTAuMTg0IDAuMzc0LC0wLjI1MyAwLjU4NiwtMC4xNzQgMC4wMDUsMC4wMDIgMC41NzMsMC4yMTUgMS41NjUsMC4yMTUgMC43MTQsMCAxLjQ2OCwtMC4xMDggMi4yNDQsLTAuMzIgMi4zNDIsLTAuNjM3IDMuMzEzLC0xLjgxOCAzLjMzNCwtMS44NDMgMC4wOTgsLTAuMTI0IDAuMjQzLC0wLjE5MiAwLjM5NCwtMC4xOTIgMC4wNjYsMCAwLjEzMywwLjAxNCAwLjE5NywwLjA0MSAwLjIwOSwwLjA5IDAuMzMxLDAuMzEgMC4yOTcsMC41MzQgQyAzLjQwOSwtNC4yMDggMi44NTQsLTAuNzc4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMi4yMjYxLDIxLjQ4NzgpIiBpZD0iZzMyIj48cGF0aCBpZD0icGF0aDM0IiBzdHlsZT0iZmlsbDojNjY0NTAwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIC0wLjMxNywwIC0wLjYzNiwtMC4wMzkgLTAuOTQ3LC0wLjExNiAtMi44NywtMC43MDcgLTMuNTEzLC00LjEyMSAtMy41MzksLTQuMjY2IC0wLjA0LC0wLjIyMyAwLjA3NiwtMC40NDQgMC4yODEsLTAuNTQgMC4wNjgsLTAuMDMyIDAuMTQsLTAuMDQ3IDAuMjExLC0wLjA0NyAwLjE0NSwwIDAuMjg3LDAuMDYzIDAuMzg1LDAuMTc5IDAuMDEsMC4wMTIgMS4wMSwxLjE3OCAzLjM3OSwxLjc2MSAwLjcxNSwwLjE3NiAxLjQxMywwLjI2NSAyLjA3MywwLjI2NSAxLjEwNCwwIDEuNzMyLC0wLjI1MyAxLjczNSwtMC4yNTQgMC4wNjcsLTAuMDI4IDAuMTMxLC0wLjA0IDAuMjA3LC0wLjA0IDAuMjcyLC0wLjAxMiAwLjUwOSwwLjIyMSAwLjUwOSwwLjUgMCwwLjE2NSAtMC4wOCwwLjMxMSAtMC4yMDMsMC40MDIgQyAzLjcyNCwtMS43MjEgMi4xMzgsMCAwLDAiLz48L2c+PC9nPjwvZz48L2c+PC9zdmc+Cg=="
-
-/***/ },
-/* 262 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _globalServicesColorScheme = __webpack_require__(220);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	var _globalServicesFormat = __webpack_require__(254);
-
-	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
-
-	var _globalComponentsDeltaBar = __webpack_require__(253);
-
-	var _globalComponentsDeltaBar2 = _interopRequireDefault(_globalComponentsDeltaBar);
-
-	var _globalComponentsButton = __webpack_require__(228);
-
-	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
-
-	var RatedAspects = (function (_React$Component) {
-	  function RatedAspects() {
-	    _classCallCheck(this, _RatedAspects);
-
-	    _React$Component.call(this);
-	  }
-
-	  _inherits(RatedAspects, _React$Component);
-
-	  var _RatedAspects = RatedAspects;
-
-	  _RatedAspects.prototype.render = function render() {
-	    var _props = this.props;
-	    var aspects = _props.aspects;
-	    var editRating = _props.editRating;
-	    var editText = _props.editText;
-
-	    return _react2['default'].createElement(
-	      'div',
-	      { style: [styles.container] },
-	      aspects.map(function (a, i) {
-	        return _react2['default'].createElement(
-	          'div',
-	          {
-	            key: i,
-	            style: [styles.aspect],
-	            onClick: function () {
-	              return editRating(a.index);
-	            }
-	          },
-	          _react2['default'].createElement(
-	            'div',
-	            { style: [styles.info] },
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.heading] },
-	              _globalServicesFormat2['default'].capitalize(a.text)
-	            ),
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.rating] },
-	              Number(a.rating)
-	            ),
-	            _react2['default'].createElement(_globalComponentsDeltaBar2['default'], {
-	              percent: Number(a.rating),
-	              color: a.color,
-	              delta: 0
-	            })
-	          ),
-	          _react2['default'].createElement(
-	            'div',
-	            { style: [styles.button] },
-	            _react2['default'].createElement(_globalComponentsButton2['default'], {
-	              text: editText,
-	              modStyle: { fontSize: '0.75em' }
-	            })
-	          )
-	        );
-	      })
-	    );
-	  };
-
-	  RatedAspects = _radium2['default'](RatedAspects) || RatedAspects;
-	  return RatedAspects;
-	})(_react2['default'].Component);
-
-	var styles = {
-	  container: {
-	    backgroundColor: '#fff',
-	    padding: 30,
-	    boxSizing: 'border-box',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    width: '100%',
-	    marginTop: 30,
-	    overflow: 'auto',
-	    zoom: 1
-	  },
-	  aspect: {
-	    marginTop: 15,
-	    cursor: 'pointer',
-	    opacity: 0.6,
-	    display: 'flex',
-	    ':hover': {
-	      opacity: 1
-	    }
-	  },
-	  info: {
-	    flex: 8
-	  },
-	  heading: {
-	    float: 'left'
-	  },
-	  rating: {
-	    float: 'right'
-	  },
-	  button: {
-	    display: 'inline-block',
-	    flex: 1,
-	    marginLeft: 30
-	  }
-	};
-
-	exports['default'] = RatedAspects;
-	module.exports = exports['default'];
-
-/***/ },
-/* 263 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _globalServicesStringHash = __webpack_require__(218);
-
-	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
-
-	var _globalServicesColorScheme = __webpack_require__(220);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	function choose(n, aspects, bucket) {
-	  var colors = [];
-	  var samples = _(aspects).sample(n || aspects.length).map(function (p, i) {
-	    colors.push(['color_' + _globalServicesStringHash2['default'](p), _globalServicesColorScheme2['default'].index(i)]);
-	    return ['sample_' + bucket + '_' + i, p];
-	  }).value();
-
-	  return _.object(samples.concat(colors));
-	}
-
-	var Sample = (function (_React$Component) {
-	  function Sample(props) {
-	    _classCallCheck(this, Sample);
-
-	    _React$Component.call(this, props);
-	  }
-
-	  _inherits(Sample, _React$Component);
-
-	  Sample.simulate = function simulate(props) {
-	    var simulate = props.simulate;
-	    var n = props.n;
-	    var aspects = props.aspects;
-	    var bucket = props.bucket;
-
-	    return choose(n, aspects, bucket);
-	  };
-
-	  Sample.prototype.componentWillMount = function componentWillMount() {
-	    var _props = this.props;
-	    var push = _props.push;
-	    var n = _props.n;
-	    var aspects = _props.aspects;
-	    var bucket = _props.bucket;
-
-	    push(choose(n, aspects, bucket));
-	  };
-
-	  Sample.prototype.render = function render() {
+	  URLParams.prototype.render = function render() {
 	    return _react2['default'].createElement('div', null);
 	  };
 
-	  _createClass(Sample, null, [{
-	    key: 'propTypes',
-	    value: {
-	      aspects: _react.PropTypes.array,
-	      bucket: _react.PropTypes.string,
-	      n: _react.PropTypes.number
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      aspects: ['one', 'two'],
-	      bucket: 'a',
-	      n: 1
-	    },
-	    enumerable: true
-	  }]);
-
-	  return Sample;
+	  return URLParams;
 	})(_react2['default'].Component);
 
-	exports['default'] = Sample;
+	exports['default'] = URLParams;
 	module.exports = exports['default'];
 
 /***/ },
-/* 264 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _lodash = __webpack_require__(212);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _superagent = __webpack_require__(207);
-
-	var _superagent2 = _interopRequireDefault(_superagent);
-
-	var Store = (function (_React$Component) {
-	  function Store(props) {
-	    _classCallCheck(this, Store);
-
-	    _React$Component.call(this, props);
-	  }
-
-	  _inherits(Store, _React$Component);
-
-	  Store.simulate = function simulate(props) {
-	    return null;
-	  };
-
-	  Store.prototype.componentWillMount = function componentWillMount() {
-	    var _props = this.props;
-	    var table = _props.table;
-	    var surveyName = _props.surveyName;
-	    var surveyVersion = _props.surveyVersion;
-
-	    _superagent2['default'].post('https://surveyloader.firebaseio.com/responseData/' + surveyName + '/' + surveyVersion + '.json').send(_extends({}, table, {
-	      received: {
-	        '.sv': 'timestamp'
-	      }
-	    })).set('Accept', 'application/json').end(function (err, res) {
-	      console.log(err, res);
-	    });
-	  };
-
-	  Store.prototype.render = function render() {
-	    return _react2['default'].createElement(
-	      'div',
-	      null,
-	      _react2['default'].createElement(
-	        'h1',
-	        null,
-	        this.props.thanks
-	      )
-	    );
-	  };
-
-	  _createClass(Store, null, [{
-	    key: 'propTypes',
-	    value: {
-	      blacklist: _react.PropTypes.array,
-	      surveyName: _react.PropTypes.string,
-	      surveyVersion: _react.PropTypes.string,
-	      thanks: _react.PropTypes.string
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      blacklist: [],
-	      surveyName: '$surveyName',
-	      surveyVersion: '$surveyVersion',
-	      thanks: 'Thank you!'
-	    },
-	    enumerable: true
-	  }]);
-
-	  return Store;
-	})(_react2['default'].Component);
-
-	exports['default'] = Store;
-	module.exports = exports['default'];
-
-/***/ },
-/* 265 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _lodash = __webpack_require__(212);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _reactMotion = __webpack_require__(236);
-
-	var _globalServicesColorScheme = __webpack_require__(220);
-
-	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
-
-	var _globalServicesStringHash = __webpack_require__(218);
-
-	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
-
-	var _globalComponentsScenario = __webpack_require__(266);
-
-	var _globalComponentsScenario2 = _interopRequireDefault(_globalComponentsScenario);
-
-	var _globalStyles = __webpack_require__(234);
-
-	var _globalStyles2 = _interopRequireDefault(_globalStyles);
-
-	var App = (function (_React$Component) {
-	  function App(props) {
-	    _classCallCheck(this, _App);
-
-	    _React$Component.call(this, props);
-	  }
-
-	  _inherits(App, _React$Component);
-
-	  var _App = App;
-
-	  _App.simulate = function simulate(props) {
-	    var aspect_texts = props.aspect_texts;
-	    var aspect_pairs = props.aspect_pairs;
-	    var tradeoff_range = props.tradeoff_range;
-
-	    return _lodash2['default'](aspect_pairs).map(function (_ref) {
-	      var i = _ref[0];
-	      var j = _ref[1];
-	      return ['triple_' + _globalServicesStringHash2['default'](aspect_texts[i]) + '_' + _globalServicesStringHash2['default'](aspect_texts[j]), _lodash2['default'].sample(tradeoff_range) * _lodash2['default'].sample([1, -1])];
-	    }).object().value();
-	  };
-
-	  _App.prototype.componentWillMount = function componentWillMount() {
-	    var _props = this.props;
-	    var aspect_pairs = _props.aspect_pairs;
-	    var tradeoff_sign = _props.tradeoff_sign;
-	    var tradeoff_range = _props.tradeoff_range;
-	    var text_decreases = _props.text_decreases;
-	    var text_increases = _props.text_increases;
-
-	    var signed_tradeoffs = tradeoff_sign < 0 ? tradeoff_range.map(function (t) {
-	      return -t;
-	    }) : tradeoff_range;
-
-	    var increases_decreases = tradeoff_sign < 0 ? text_decreases : text_increases;
-
-	    this.setState({
-	      tradeoff: [_lodash2['default'].sample(signed_tradeoffs), _lodash2['default'].sample(signed_tradeoffs)],
-	      prefs: {},
-	      aspect_pairs: aspect_pairs,
-	      signed_tradeoffs: signed_tradeoffs,
-	      increases_decreases: increases_decreases
-	    });
-	  };
-
-	  _App.prototype.choose = function choose(option) {
-	    var _extends2,
-	        _this = this;
-
-	    var _state = this.state;
-	    var signed_tradeoffs = _state.signed_tradeoffs;
-	    var tradeoff = _state.tradeoff;
-	    var aspect_pairs = _state.aspect_pairs;
-	    var prefs = _state.prefs;
-	    var _aspect_pairs$0 = aspect_pairs[0];
-	    var i = _aspect_pairs$0[0];
-	    var j = _aspect_pairs$0[1];
-
-	    var state = {
-	      aspect_pairs: aspect_pairs.slice(1),
-	      tradeoff: [_lodash2['default'].sample(signed_tradeoffs), _lodash2['default'].sample(signed_tradeoffs)],
-	      prefs: _extends({}, prefs, (_extends2 = {}, _extends2[String(i) + String(j)] = tradeoff[1] / tradeoff[0] * option, _extends2))
-	    };
-
-	    var _props2 = this.props;
-	    var aspect_texts = _props2.aspect_texts;
-	    var push = _props2.push;
-
-	    if (!state.aspect_pairs.length) {
-	      push(_lodash2['default'](this.props.aspect_pairs).map(function (_ref2) {
-	        var i = _ref2[0];
-	        var j = _ref2[1];
-	        return ['triple_' + _globalServicesStringHash2['default'](aspect_texts[i]) + '_' + _globalServicesStringHash2['default'](aspect_texts[j]), state.prefs[String(i) + String(j)]];
-	      }).object().value());
-	    } else {
-	      this.setState(state);
-	      setTimeout(function () {
-	        return _this.setState({ animating: false });
-	      }, 300);
-	    }
-
-	    this.setState({
-	      animating: true
-	    });
-	  };
-
-	  _App.prototype.deltaText = function deltaText(delta) {
-	    var floor = Math.floor;
-	    var log = Math.log;
-	    var LN2 = Math.LN2;
-	    var abs = Math.abs;
-
-	    var log2 = log(abs(delta)) / LN2;
-	    var degree = this.props.texts_deg_pref[floor(log2)] || '';
-	    return degree + ' ' + this.state.increases_decreases;
-	  };
-
-	  _App.prototype.render = function render() {
-	    var _this2 = this;
-
-	    var _props3 = this.props;
-	    var text_instruct_title = _props3.text_instruct_title;
-	    var text_instruct_body = _props3.text_instruct_body;
-	    var text_prefer_option = _props3.text_prefer_option;
-	    var aspect_texts = _props3.aspect_texts;
-	    var aspect_ratings = _props3.aspect_ratings;
-	    var aspect_colors = _props3.aspect_colors;
-	    var _state2 = this.state;
-	    var aspect_pairs = _state2.aspect_pairs;
-	    var animating = _state2.animating;
-	    var tradeoff = _state2.tradeoff;
-	    var _aspect_pairs$02 = aspect_pairs[0];
-	    var i = _aspect_pairs$02[0];
-	    var j = _aspect_pairs$02[1];
-
-	    return _react2['default'].createElement(
-	      'div',
-	      null,
-	      _react2['default'].createElement(
-	        'div',
-	        { style: [styles.instructions] },
-	        _react2['default'].createElement(
-	          'b',
-	          null,
-	          text_instruct_title
-	        ),
-	        _react2['default'].createElement(
-	          'div',
-	          null,
-	          text_instruct_body
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        _reactMotion.Motion,
-	        {
-	          defaultStyle: { val: 0 },
-	          style: { val: _reactMotion.spring(1, _reactMotion.presets.nowobble) }
-	        },
-	        function (interpolated) {
-	          return _react2['default'].createElement(
-	            'div',
-	            {
-	              style: _extends({}, styles.row, {
-	                opacity: animating ? 0 : '' + interpolated.val,
-	                marginLeft: animating ? 0 : (1 - interpolated.val) * -200,
-	                marginRight: animating ? 0 : (1 - interpolated.val) * 200
-	              }) },
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.padding(1, 0.5, 0, 0), { flex: 1 }] },
-	              _react2['default'].createElement(_globalComponentsScenario2['default'], {
-	                aspects: [{
-	                  text: aspect_texts[i],
-	                  rating: aspect_ratings[i],
-	                  color: aspect_colors[i],
-	                  change: tradeoff[0],
-	                  deltaText: _this2.deltaText.bind(_this2)(tradeoff[0])
-	                }, {
-	                  text: aspect_texts[j],
-	                  rating: aspect_ratings[j],
-	                  color: aspect_colors[j],
-	                  change: 0,
-	                  deltaText: null
-	                }],
-	                preferText: text_prefer_option,
-	                handler: function () {
-	                  return _this2.choose.call(_this2, 0);
-	                }
-	              })
-	            ),
-	            _react2['default'].createElement(
-	              'div',
-	              { style: [styles.padding(1, 0, 0, 0.5), { flex: 1 }] },
-	              _react2['default'].createElement(_globalComponentsScenario2['default'], {
-	                aspects: [{
-	                  text: aspect_texts[i],
-	                  rating: aspect_ratings[i],
-	                  color: aspect_colors[i],
-	                  change: 0,
-	                  deltaText: null
-	                }, {
-	                  text: aspect_texts[j],
-	                  rating: aspect_ratings[j],
-	                  color: aspect_colors[j],
-	                  change: tradeoff[1],
-	                  deltaText: _this2.deltaText.bind(_this2)(tradeoff[1])
-	                }],
-	                preferText: text_prefer_option,
-	                handler: function () {
-	                  return _this2.choose.call(_this2, 1);
-	                }
-	              })
-	            )
-	          );
-	        }
-	      )
-	    );
-	  };
-
-	  _createClass(_App, null, [{
-	    key: 'propTypes',
-	    value: {
-	      aspect_texts: _react.PropTypes.array,
-	      aspect_ratings: _react.PropTypes.array,
-	      aspect_colors: _react.PropTypes.array,
-	      aspect_pairs: _react.PropTypes.array,
-	      tradeoff_range: _react.PropTypes.array,
-	      tradeoff_sign: _react.PropTypes.number,
-	      texts_deg_pref: _react.PropTypes.array,
-	      text_increases: _react.PropTypes.string,
-	      text_decreases: _react.PropTypes.string,
-	      text_prefer_option: _react.PropTypes.string,
-	      text_instruct_title: _react.PropTypes.string,
-	      text_instruct_body: _react.PropTypes.string
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      aspect_texts: ['one', 'two', 'three'],
-	      aspect_ratings: [51, 52, 53],
-	      aspect_colors: ['#f77', '#7f7', '#77f'],
-	      aspect_pairs: [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]],
-	      tradeoff_range: _lodash2['default'].range(1, 9),
-	      tradeoff_sign: '$coin',
-	      texts_deg_pref: ['slightly', 'moderately', 'strongly', 'greatly'],
-	      text_increases: 'increases',
-	      text_decreases: 'decreases',
-	      text_prefer_option: 'I prefer this option',
-	      text_instruct_title: 'Instructions',
-	      text_instruct_body: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.'
-	    },
-	    enumerable: true
-	  }]);
-
-	  App = _radium2['default'](App) || App;
-	  return App;
-	})(_react2['default'].Component);
-
-	var styles = _extends({}, _globalStyles2['default'], {
-	  instructions: _extends({}, _globalStyles2['default'].panel, _globalStyles2['default'].padding(2))
-	});
-
-	exports['default'] = App;
-	module.exports = exports['default'];
-
-/***/ },
-/* 266 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(171);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _Aspect = __webpack_require__(252);
-
-	var _Aspect2 = _interopRequireDefault(_Aspect);
-
-	var _Button = __webpack_require__(228);
-
-	var _Button2 = _interopRequireDefault(_Button);
-
-	var _globalStyles = __webpack_require__(234);
-
-	var _globalStyles2 = _interopRequireDefault(_globalStyles);
-
-	exports['default'] = _radium2['default'](function (props) {
-	  return _react2['default'].createElement(
-	    'div',
-	    { style: [styles.panel, styles.padding(1)] },
-	    props.aspects.map(function (a) {
-	      return _react2['default'].createElement(_Aspect2['default'], {
-	        modStyle: { flex: 1 },
-	        text: a.text,
-	        rating: a.rating,
-	        color: a.color,
-	        delta: a.change,
-	        deltaText: a.deltaText
-	      });
-	    }),
-	    _react2['default'].createElement(_Button2['default'], {
-	      modStyle: { marginTop: '1rem' },
-	      text: props.preferText,
-	      handler: props.handler
-	    })
-	  );
-	});
-
-	var styles = _extends({}, _globalStyles2['default']);
-	module.exports = exports['default'];
-
-/***/ },
-/* 267 */
+/* 270 */
 /***/ function(module, exports) {
 
 	'use strict';

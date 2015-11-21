@@ -27,6 +27,13 @@ class Container extends React.Component {
         <h2>
           Module types
         </h2>
+        <p>
+          See&nbsp;
+          <a href="/module/">
+            surveyloader.org/module
+          </a>
+          &nbsp;for interactive testing and screenshots across browser environments.
+        </p>
         <select onChange={e => {
           this.setState({ selected: e.target.value })
         }}>

@@ -7,6 +7,7 @@ import echo from '../../global/services/echo'
 class Loader extends React.Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
+    table: PropTypes.array.isRequired,
     push: PropTypes.func.isRequired
   }
 
@@ -17,9 +18,9 @@ class Loader extends React.Component {
   }
 
   loadComponent (params, table) {
+    console.log('load', params)
     if (params.type) {
       const component = load(params.type)
-      console.log('types', component.propTypes)
       component.defaultProps = component.defaultProps ? component.defaultProps : {}
       
       const paramValues = _(params)

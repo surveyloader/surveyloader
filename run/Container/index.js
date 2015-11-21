@@ -178,7 +178,7 @@ const styles = {
     top: 0,
     backgroundColor: '#ddf',
     fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif',
-    fontSize: '1.5em',
+    fontSize: '1.25rem',
     color: '#333',
     boxSizing: 'border-box'
   },
@@ -215,12 +215,8 @@ const styles = {
     marginRight: 'auto',
     marginBottom: 0,
     marginLeft: 'auto',
-    '@media (min-width:1000px)': {
-      width: 1000
-    },
-    '@media (max-width:600px)': {
-      width: 600
-    }
+    minWidth: 600,
+    maxWidth: 960
   }
 }
 

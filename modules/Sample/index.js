@@ -1,7 +1,6 @@
-import React, { PropTypes } from 'react'
-
-import identify
-from '../../global/services/stringHash'
+import React from 'react'
+import { declare, type } from '../../global/types'
+import identify from '../../global/services/stringHash'
 import ColorScheme from '../../global/services/colorScheme'
 
 function choose (n, aspects, bucket) {
@@ -25,9 +24,9 @@ function choose (n, aspects, bucket) {
 
 class Sample extends React.Component {
   static propTypes = {
-    aspects: PropTypes.array,
-    bucket: PropTypes.string,
-    n: PropTypes.number
+    aspects: declare(type.array),
+    bucket: declare(type.string),
+    n: declare(type.number)
   }
 
   static defaultProps = {

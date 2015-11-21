@@ -7,58 +7,60 @@ class Button extends React.Component {
     color: '#557',
     background: '#fff',
     border: '#557',
-    hover: {
-      color: '#fff',
-      backgroundColor: '#557'
-    }
+    hoverFontColor: '#fff',
+    hoverBackColor: '#557',
+    align: 'flex-end'
 }
 
   render () {
     const {
       text,
+      align,
       handler,
       color,
       background,
-      border,
-      hover,
-      modStyle 
+      hoverFontColor,
+      hoverBackColor,
+      border
     } = this.props
 
+    const buttonStyle = [{
+      ...styles.button,
+      color,
+      backgroundColor: background,
+      border: '1px solid' + border,
+      borderRadius: '0.25rem',
+      ':hover': {
+        color: hoverFontColor,
+        backgroundColor: hoverBackColor
+      }
+    }]
+
     return (
-      <div 
-        style={[{
-            ...styles.button,
-            color,
-            backgroundColor: background,
-            boxShadow: '0 0 0 1px ' + border,
-            borderRadius: 5,
-            ':hover': {
-              color: '#fff',
-              backgroundColor: '#557'
-            },
-            ...modStyle
-          }]} 
-        onClick={handler}
-      >
-        {text}
+      <div style={[
+        styles.row,
+        {
+          justifyContent: align
+        }
+      ]}>
+        <button
+          style={[buttonStyle]}
+          onClick={handler}
+        >
+          {text}
+        </button>
       </div>
     )
   }
 }
 
+import gstyles from '../styles'
 const styles = {
+  ...gstyles,
   button: {
-    boxSizing: 'border-box',
-    paddingTop: 15,
-    paddingRight: 15,
-    paddingBottom: 15,
-    paddingLeft: 15,
-    marginTop: 5,
-    marginRight: 0,
-    marginBottom: 5,
-    marginLeft: 0,
-    cursor: 'pointer',
-    textAlign: 'center'
+    ...gstyles.padding(0.5, 2, 0.5, 2),
+    fontSize: '1.25rem',
+    cursor: 'pointer'
   }
 }
 

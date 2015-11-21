@@ -1,22 +1,20 @@
 import React, { PropTypes } from 'react'
 import Radium from 'radium'
-
+import { declare, type } from '../../global/types'
 import Button from '../../global/components/Button'
-
-import identify
-from '../../global/services/stringHash'
+import identify from '../../global/services/stringHash'
 import ColorScheme from '../../global/services/colorScheme'
 
 @Radium
 class MostLeast extends React.Component {
   static propTypes = {
-    candidate: PropTypes.string.isRequired,
-    aspects: PropTypes.array.isRequired,
-    instructions_title: PropTypes.string,
-    instructions_text: PropTypes.string,
-    most_text: PropTypes.string,
-    least_text: PropTypes.string,
-    confirm_text: PropTypes.string
+    candidate: declare(type.string),
+    aspects: declare(type.array),
+    instructions_title:declare(type.string),
+    instructions_text:declare(type.string),
+    most_text:declare(type.string),
+    least_text:declare(type.string),
+    confirm_text:declare(type.string)
   }
 
   static defaultProps = {

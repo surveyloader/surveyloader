@@ -1,4 +1,6 @@
+import styles from '../global/styles'
 export default {
+  ...styles,
   main: {
     marginTop: 0,
     marginRight: 'auto',
@@ -22,18 +24,5 @@ export default {
     paddingTop: '0.5rem',
     paddingRight: '0.5rem',
     paddingBottom: '0.5rem'
-  },
-  col: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
-    margin: '0 0.5rem',
-    padding: '0 0.5rem'
-  },
-  row: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
-    margin: '0.5rem 0'
   }
 }

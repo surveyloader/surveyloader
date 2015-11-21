@@ -8,7 +8,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import styles from './styles'
 import store from '../store'
 
-import Preview from '../../configurator/Preview'
+import Preview from '../Preview'
 import Parameters from '../../configurator/Parameters'
 import Doc from '../../docs/Doc'
 import Screenshots from '../Screenshots'
@@ -53,36 +53,36 @@ class Container extends React.Component {
   }
 
   componentWillUpdate (props, state) {
-    const { module, fullscreen } = state
+    const { params, fullscreen } = state
     const search = fullscreen ?
-      `?type=${module.type}&full_preview=1` :
-      `?type=${module.type}`
+      `?type=${params.type}&full_preview=1` :
+      `?type=${params.type}`
 
-    if (module.type) {
+    if (params.type) {
       history.pushState(null, null, search)
     }
   }
 
   render () {
     const {
-      module,
+      params,
       fullscreen
     } = this.state
 
     const previewProps = {
-      module,
+      params,
       table: []
     }
 
     const paramProps = {
-      module,
+      params,
       store
     }
 
     const embedded = (
       <div style={[styles.main]}>
         <select
-          defaultValue={module.type}
+          defaultValue={params.type}
           onChange={e => {
             store.dispatch({
               type: 'CHANGE_MODULE_TYPE',
@@ -105,12 +105,12 @@ class Container extends React.Component {
           <div style={[styles.heading, { paddingBottom: 0 }]}>
             Documentation
           </div>
-          <Doc path={`modules/${module.type}`} />
+          <Doc path={`modules/${params.type}`} />
         </div>
         <Preview {...previewProps} />
         <div style={[styles.row]}>
           <Parameters {...paramProps} />
-          <Screenshots moduleType={module.type} />
+          <Screenshots moduleType={params.type} />
         </div>
       </div>
     )

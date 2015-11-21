@@ -2,12 +2,12 @@ import { createStore } from 'redux'
 import update from 'react/lib/update'
 
 export default createStore(function (state, action) {
-  console.log(state, action)
+  console.log(action.type, action)
   switch (action.type) {
     case 'CHANGE_MODULE_TYPE':
       return {
         ...state,
-        module: {
+        params: {
           type: action.into
         }
       }
@@ -15,8 +15,8 @@ export default createStore(function (state, action) {
     case 'CHANGE_MODULE_PARAMS':
       return {
         ...state,
-        module: {
-          ...state.module,
+        params: {
+          ...state.params,
           ...action.params
         }
       }
@@ -30,7 +30,7 @@ export default createStore(function (state, action) {
     default:
       return {
         ...state,
-        module: {}
+        params: {}
       }
   }
 })

@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-
+import React from 'react'
+import { declare, type } from '../../global/types'
 import identify
 from '../../global/services/stringHash'
 import ColorScheme from '../../global/services/colorScheme'
@@ -18,8 +18,8 @@ function create (aspects, bucket) {
 
 class Bucket extends React.Component {
   static propTypes = {
-    aspects: PropTypes.array,
-    bucket: PropTypes.string
+    aspects: declare(type.array),
+    bucket: declare(type.string)
   }
 
   static defaultProps = {

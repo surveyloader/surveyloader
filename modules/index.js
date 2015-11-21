@@ -5,12 +5,12 @@ import Example from './Example'
 import Headers from './Headers'
 import Mirror from './Mirror'
 import MostLeast from './MostLeast'
-import Pairwise from './Pairwise'
-import PairwiseRandom from './PairwiseRandom'
+import QuestionForm from './QuestionForm'
 import Rating from './Rating'
 import Sample from './Sample'
 import Store from './Store'
 import Triple from './Triple'
+import URLParams from './URLParams'
 export { Bucket }
 export { Coin }
 export { Consent }
@@ -18,9 +18,9 @@ export { Example }
 export { Headers }
 export { Mirror }
 export { MostLeast }
-export { Pairwise }
-export { PairwiseRandom }
+export { QuestionForm }
 export { Rating }
 export { Sample }
 export { Store }
 export { Triple }
+export { URLParams }

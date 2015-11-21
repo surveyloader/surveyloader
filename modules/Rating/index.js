@@ -1,24 +1,21 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import _ from 'lodash'
-
-import identify
-from '../../global/services/stringHash'
-
+import { declare, type } from '../../global/types'
+import identify from '../../global/services/stringHash'
 import store from './store'
-
 import Rate from './RateAspect'
 import Rated from './RatedAspects'
 
 @Radium
 class Index extends React.Component {
   static propTypes = { 
-    aspect_texts: PropTypes.array,
-    aspect_colors: PropTypes.array,
-    instructions: PropTypes.string,
-    text: PropTypes.string,
-    rating_tip: PropTypes.string,
-    rating_confirm: PropTypes.string
+    aspect_texts: declare(type.array),
+    aspect_colors: declare(type.array),
+    instructions: declare(type.string),
+    text: declare(type.string),
+    rating_tip: declare(type.string),
+    rating_confirm: declare(type.string)
   }
 
   static defaultProps = {

@@ -42,7 +42,7 @@ class Container extends React.Component {
 
   render () {
     const { state } = this
-    const module = state.queue[state.selected]
+    const params = state.queue[state.selected]
 
     return DOM.div({
       style: [styles.main],
@@ -56,7 +56,7 @@ class Container extends React.Component {
           }
         }),
         $(Preview)({
-          module,
+          params,
           table: { ...state.initTable, ...state.accTable }
         }),
         DOM.div({
@@ -66,7 +66,7 @@ class Container extends React.Component {
             $(Queue)({ ...state, store }),
             $(Parameters)({
               ...state,
-              module,
+              params,
               store
             })
           ]

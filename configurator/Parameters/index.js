@@ -1,17 +1,51 @@
 import React from 'react'
 import Radium from 'radium'
 import styles from './styles'
-
-import CrudParams from './CrudParams'
+import CRUD from './CRUD'
 import Excel from './Excel'
+import load from '../../global/services/lazy'
+import extractSchema from '../../global/services/extractSchema'
 
 @Radium
 export default class Params extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+
+  componentWillMount () {
+    this.setDefaultProps.bind(this)(this.props)
+  }
+
+  componentWillReceiveProps (props) {
+    if (props.params.type !== this.props.params.type) {
+      this.setDefaultProps.bind(this)(props)
+    }
+  }
+
+  setDefaultProps (props) {
+    const { params, store } = props
+    const { defaultProps } = load(params.type)
+    
+    store.dispatch({
+      type: 'CHANGE_MODULE_PARAMS',
+      params: {
+        ...params,
+        ...defaultProps
+      }
+    })
+
+    this.setState({
+      schema: extractSchema(params)
+    })
+  }
+
   render () {
+    const { schema } = this.state
     const {
       initTable,
       accTable,
-      module,
+      params,
       hidden,
       selected,
       store
@@ -25,13 +59,14 @@ export default class Params extends React.Component {
     return (
       <div style={[styles.col, style]}>
       {
-        module &&
+        params &&
         <div>
-          <div style={[styles.heading]}>Module {selected} (type: {module.type}) parameters</div>
-          <CrudParams
-            module={module}
+          <div style={[styles.heading]}>Module {selected} (type: {params.type}) parameters</div>
+          <CRUD
+            params={params}
+            schema={schema}
             table={{ ...initTable, ...accTable}}
-            col={this.state.col}
+            excelCol={this.state.excelCol}
             setParams={(params) => {
               store.dispatch({
                 type: 'CHANGE_MODULE_PARAMS',
@@ -40,7 +75,7 @@ export default class Params extends React.Component {
             }}
           />
           <Excel
-            setCol={col => this.setState({ col })}
+            setCol={excelCol => this.setState({ excelCol })}
           />
         </div>
       }

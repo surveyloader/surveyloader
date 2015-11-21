@@ -2,7 +2,7 @@ import React from 'react'
 import Radium from 'radium'
 import styles from './styles'
 
-import Loader from './Loader'
+import Loader from '../Loader'
 
 @Radium
 export default class Preview extends React.Component {

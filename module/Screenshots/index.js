@@ -25,7 +25,7 @@ export default class Screenshots extends React.Component {
       .get(`https://surveyloader.firebaseio.com/screenshots/${moduleType}.json`)
       .end((err, res) => {
         const raw = res.body
-        const key0 = Object.keys(raw)[0]
+        const key0 = Object.keys(raw).reverse()[0]
         if (!err) this.setState({
           data: raw[key0]
         })

@@ -1,30 +1,27 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import _ from 'lodash'
 import { Motion, spring, presets } from 'react-motion'
-
-import colorScheme
-from '../../global/services/colorScheme'
-import identify
-from '../../global/services/stringHash'
-
+import { declare, type } from '../../global/types'
+import colorScheme from '../../global/services/colorScheme'
+import identify from '../../global/services/stringHash'
 import Scenario from '../../global/components/Scenario'
 
 @Radium
 class App extends React.Component {
   static propTypes = {
-    aspect_texts: PropTypes.array,
-    aspect_ratings: PropTypes.array,
-    aspect_colors: PropTypes.array,
-    aspect_pairs: PropTypes.array,
-    tradeoff_range: PropTypes.array,
-    tradeoff_sign: PropTypes.number,
-    texts_deg_pref: PropTypes.array,
-    text_increases: PropTypes.string,
-    text_decreases: PropTypes.string,
-    text_prefer_option: PropTypes.string,
-    text_instruct_title: PropTypes.string,
-    text_instruct_body: PropTypes.string
+    aspect_texts: declare(type.array),
+    aspect_ratings: declare(type.array),
+    aspect_colors: declare(type.array),
+    aspect_pairs: declare(type.array),
+    tradeoff_range: declare(type.array),
+    tradeoff_sign: declare(type.number),
+    texts_deg_pref: declare(type.array),
+    text_increases: declare(type.string),
+    text_decreases: declare(type.string),
+    text_prefer_option: declare(type.string),
+    text_instruct_title: declare(type.string),
+    text_instruct_body: declare(type.string)
   }
 
   static defaultProps = {

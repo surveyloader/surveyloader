@@ -34181,6 +34181,17 @@
 	        'Module types'
 	      ),
 	      _react2['default'].createElement(
+	        'p',
+	        null,
+	        'See ',
+	        _react2['default'].createElement(
+	          'a',
+	          { href: '/module/' },
+	          'surveyloader.org/module'
+	        ),
+	        ' for interactive testing and screenshots across browser environments.'
+	      ),
+	      _react2['default'].createElement(
 	        'select',
 	        { onChange: function (e) {
 	            _this.setState({ selected: e.target.value });
@@ -34238,12 +34249,12 @@
 		"Headers",
 		"Mirror",
 		"MostLeast",
-		"Pairwise",
-		"PairwiseRandom",
+		"QuestionForm",
 		"Rating",
 		"Sample",
 		"Store",
-		"Triple"
+		"Triple",
+		"URLParams"
 	]
 
 /***/ }

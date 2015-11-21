@@ -1,14 +1,14 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Radium from 'radium'
-
+import { declare, type } from '../../global/types'
 import Button from '../../global/components/Button'
 
 @Radium
 class Consent extends React.Component {
   static propTypes = {
-    body: PropTypes.string.isRequired,
-    agree: PropTypes.string.isRequired,
-    continue: PropTypes.string.isRequired
+    body: declare(type.string),
+    agree: declare(type.string),
+    continue: declare(type.string)
   }
 
   static simulate (props) {
@@ -36,7 +36,7 @@ class Consent extends React.Component {
             <Button
               modStyle={{float:'right', marginTop: '1rem'}}
               text={this.props.continue}
-              handler={() => this.props.push()}
+              handler={() => this.props.push({})}
             />
           }
           </div>

@@ -1,16 +1,15 @@
 import React, {
-  Component,
-  PropTypes
+  Component
 } from 'react'
-
+import { declare, type } from '../../global/types'
 import $ from '../../global/services/clean'
 import Button from '../../global/components/Button'
 
 class Example extends Component {
   static propTypes = {
-    question_text: PropTypes.string,
-    answer_yes: PropTypes.string,
-    answer_no: PropTypes.string
+    question_text: declare(type.string),
+    answer_yes: declare(type.string),
+    answer_no: declare(type.string)
   }
 
   static defaultProps = {
