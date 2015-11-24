@@ -1,4 +1,4 @@
-import { every, map } from 'lodash'
+import { every, map, omit } from 'lodash'
 
 export default {
   string: {
@@ -44,6 +44,13 @@ export default {
       validate: (v) => Array.isArray(v) &&
         every(v, e => type.validate(e)),
       schema: ['array', type]
+    }
+  },
+
+  Enumerate: (types) => {
+    return {
+      validate: (v) => types[v.type].validate(omit(v, 'type')),
+      schema: ['enum', types]
     }
   }
 }

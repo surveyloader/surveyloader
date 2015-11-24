@@ -40,7 +40,7 @@ class ArrayParam extends React.Component {
               </div>
             ))
           }
-          <div style={[styles.row, { background: '#bfb' }]}>
+          <div style={[styles.row, { background: 'rgba(200, 255, 200, 0.5)' }]}>
             <Parameterize
               {...this.props}
               schema={elementSchema}
@@ -49,7 +49,7 @@ class ArrayParam extends React.Component {
               set={val => this.setState({ pendingElement: val })}
             />
           </div>
-          <div style={[styles.row, { background: '#bfb' }]}>
+          <div style={[styles.row, { background: 'rgba(200, 255, 200, 0.5)' }]}>
           {
             this.state.pendingElement &&
             <button
@@ -60,14 +60,14 @@ class ArrayParam extends React.Component {
             >Add to array</button>
           }
           </div>
-          <div style={[styles.row, { background: '#bfb' }]}>
+          <div style={[styles.row, { background: 'rgba(127, 255, 127, 0.8)' }]}>
           {
             excelCol &&
             <input
               type="button"
               value="Add selected Excel column"
               onClick={() => {
-                set(p, value.concat(col))
+                set(value.concat(excelCol))
               }}
             />
           }

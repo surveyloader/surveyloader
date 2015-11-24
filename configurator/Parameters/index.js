@@ -1,5 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
+import _ from 'lodash'
 import styles from './styles'
 import CRUD from './CRUD'
 import Excel from './Excel'
@@ -14,12 +15,20 @@ export default class Params extends React.Component {
   }
 
   componentWillMount () {
-    this.setDefaultProps.bind(this)(this.props)
+    if (this.props.params) {
+      this.setDefaultProps.bind(this)(this.props)
+    }
   }
 
   componentWillReceiveProps (props) {
-    if (props.params.type !== this.props.params.type) {
+    if (props.params && !this.props.params) {
       this.setDefaultProps.bind(this)(props)
+    } else if (this.props.params) {
+      const keys = _.keys(props.params)
+      const oldKeys = _.keys(this.props.params)
+      if (_.difference(keys, oldKeys).length) {
+        this.setDefaultProps.bind(this)(props)
+      }
     }
   }
 

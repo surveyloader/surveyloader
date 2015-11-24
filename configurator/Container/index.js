@@ -9,7 +9,7 @@ import store from '../store'
 
 import Crud from '../Crud'
 import Json from '../Json'
-import Preview from '../Preview'
+import Preview from '../../module/Preview'
 import Table from '../Table'
 import Queue from '../Queue'
 import Parameters from '../Parameters'

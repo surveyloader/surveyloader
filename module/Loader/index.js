@@ -7,7 +7,7 @@ import echo from '../../global/services/echo'
 class Loader extends React.Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
-    table: PropTypes.array.isRequired,
+    table: PropTypes.object.isRequired,
     push: PropTypes.func.isRequired
   }
 

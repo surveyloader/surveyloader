@@ -2,6 +2,7 @@ import React from 'react'
 import ArrayParam from './ArrayParam'
 import ObjectParam from './ObjectParam'
 import LeafParam from './LeafParam'
+import EnumParam from './EnumParam'
 
 
 export default (props) => {
@@ -36,6 +37,9 @@ export default (props) => {
           value={props.value || {}}
         />
       )
+
+    case 'enum':
+      return <EnumParam {...props} types={subtype} />
 
     default:
       return <span>Error?</span>

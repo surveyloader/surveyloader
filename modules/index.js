@@ -2,10 +2,10 @@ import Bucket from './Bucket'
 import Coin from './Coin'
 import Consent from './Consent'
 import Example from './Example'
+import Form from './Form'
 import Headers from './Headers'
 import Mirror from './Mirror'
 import MostLeast from './MostLeast'
-import QuestionForm from './QuestionForm'
 import Rating from './Rating'
 import Sample from './Sample'
 import Store from './Store'
@@ -15,10 +15,10 @@ export { Bucket }
 export { Coin }
 export { Consent }
 export { Example }
+export { Form }
 export { Headers }
 export { Mirror }
 export { MostLeast }
-export { QuestionForm }
 export { Rating }
 export { Sample }
 export { Store }
