@@ -15,23 +15,30 @@ const Color = (c) => {
 @Radium
 class DeltaBar extends React.Component {
   static defaultProps = {
-    percent: 42,
+    position: 42,
     delta: 10,
     height: 1,
-    color: '#f44'
+    color: '#f44',
+    min: -100,
+    max: 100
   }
 
   render () {
     const {
-      percent,
+      position,
+      min,
+      max,
       delta,
       height,
       color,
       modStyle 
     } = this.props
+
+    const range = max - min
+
     return (
       <svg
-        viewBox={`0 0 100 1`}
+        viewBox={`0 0 ${range} 1`}
         preserveAspectRatio="none"
         style={[
           styles.svg,
@@ -44,7 +51,7 @@ class DeltaBar extends React.Component {
         <rect
           x={0}
           y={0.42}
-          width={100}
+          width={range}
           height={0.58}
           fill="#eee"
         >
@@ -52,7 +59,7 @@ class DeltaBar extends React.Component {
         <rect
           x={0}
           y={0.42}
-          width={percent}
+          width={Math.abs(min - position)}
           height={0.58}
           fill={color}
         >
@@ -61,7 +68,7 @@ class DeltaBar extends React.Component {
           delta > 0 &&
           <g>
             <rect
-              x={percent}
+              x={Math.abs(min - position)}
               y={0.42}
               width={delta}
               height={0.58}
@@ -70,7 +77,7 @@ class DeltaBar extends React.Component {
             <path
               fill={'#000'}
               d={`
-                M ${percent},0.1
+                M ${Math.abs(min - position)},0.1
                 l ${delta - 2},0
                 l 0,0.2
                 l ${2 - delta},0
@@ -80,7 +87,7 @@ class DeltaBar extends React.Component {
             <path
               fill={'#000'}
               d={`
-                M ${percent + delta - 2},0
+                M ${Math.abs(min - position) + delta - 2},0
                 l 2,0.2
                 l -2,0.2
                 Z
@@ -92,7 +99,7 @@ class DeltaBar extends React.Component {
           delta < 0 &&
           <g>
             <rect
-              x={percent + delta}
+              x={Math.abs(min - position) + delta}
               y={0.42}
               width={-delta}
               height={0.58}
@@ -101,7 +108,7 @@ class DeltaBar extends React.Component {
             <path
               fill={'#000'}
               d={`
-                M ${percent},0.1
+                M ${Math.abs(min - position)},0.1
                 l ${delta + 2},0
                 l 0,0.2
                 l ${-2 - delta},0
@@ -111,7 +118,7 @@ class DeltaBar extends React.Component {
             <path
               fill={'#000'}
               d={`
-                M ${percent + delta + 2},0
+                M ${Math.abs(min - position) + delta + 2},0
                 l -2,0.2
                 l 2,0.2
                 Z
@@ -120,7 +127,7 @@ class DeltaBar extends React.Component {
           </g>
         }
         <rect
-          x={percent + delta - 0.5}
+          x={Math.abs(min - position) + delta - 0.5}
           y={0.42}
           width={0.5}
           height={0.58}

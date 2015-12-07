@@ -26,7 +26,8 @@ export default class Params extends React.Component {
     } else if (this.props.params) {
       const keys = _.keys(props.params)
       const oldKeys = _.keys(this.props.params)
-      if (_.difference(keys, oldKeys).length) {
+      console.log(_.difference(oldKeys, keys), keys, oldKeys)
+      if (_.difference(oldKeys, keys).length) {
         this.setDefaultProps.bind(this)(props)
       }
     }

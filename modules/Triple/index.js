@@ -10,11 +10,17 @@ import Scenario from '../../global/components/Scenario'
 @Radium
 class App extends React.Component {
   static propTypes = {
-    aspect_texts: declare(type.array),
-    aspect_ratings: declare(type.array),
-    aspect_colors: declare(type.array),
+    aspects: declare(
+      type.Array(
+        type.Object({
+          text: type.string,
+          rating: type.number,
+          color: type.string
+        })
+      )
+    ),
     aspect_pairs: declare(type.array),
-    tradeoff_range: declare(type.array),
+    tradeoff_range: declare(type.Array(type.number)),
     tradeoff_sign: declare(type.number),
     texts_deg_pref: declare(type.array),
     text_increases: declare(type.string),
@@ -25,20 +31,20 @@ class App extends React.Component {
   }
 
   static defaultProps = {
-    aspect_texts: [
-      'one',
-      'two',
-      'three'
-    ],
-    aspect_ratings: [
-      51,
-      52,
-      53
-    ],
-    aspect_colors: [
-      '#f77',
-      '#7f7',
-      '#77f'
+    aspects: [
+      {
+        text: 'one',
+        rating: 51,
+        color: '#f77'
+      },{
+        text: 'two',
+        rating: 52,
+        color: '#7f7'
+      },{
+        text: 'three',
+        rating: 53,
+        color: '#77f'
+      }
     ],
     aspect_pairs: [
       [0,1],
@@ -65,14 +71,14 @@ class App extends React.Component {
 
   static simulate (props) {
     const {
-      aspect_texts,
+      aspects,
       aspect_pairs,
       tradeoff_range
     } = props
 
     return _(aspect_pairs)
       .map(([i,j]) => [
-        `triple_${identify(aspect_texts[i])}_${identify(aspect_texts[j])}`,
+        `triple_${identify(aspects[i].text)}_${identify(aspects[j].text)}`,
         _.sample(tradeoff_range) * _.sample([1,-1])
       ])
       .object()
@@ -137,15 +143,15 @@ class App extends React.Component {
     }
 
     const {
-      aspect_texts,
+      aspects,
       push
     } = this.props
 
-    if (!state.aspect_pairs.length) {
+    if (!state.aspect_pairs.length > 0) {
       push(
         _(this.props.aspect_pairs)
           .map(([i,j]) => [
-            `triple_${identify(aspect_texts[i])}_${identify(aspect_texts[j])}`,
+            `triple_${identify(aspects[i].text)}_${identify(aspects[j].text)}`,
             state.prefs[String(i) + String(j)]
           ])
           .object()
@@ -173,9 +179,7 @@ class App extends React.Component {
       text_instruct_title,
       text_instruct_body,
       text_prefer_option,
-      aspect_texts,
-      aspect_ratings,
-      aspect_colors
+      aspects
     } = this.props
 
     const {
@@ -209,15 +213,15 @@ class App extends React.Component {
                 <Scenario
                   aspects={[
                     {
-                      text: aspect_texts[i],
-                      rating: aspect_ratings[i],
-                      color: aspect_colors[i],
+                      text: aspects[i].text,
+                      rating: aspects[i].rating,
+                      color: aspects[i].color,
                       change: tradeoff[0],
                       deltaText: this.deltaText.bind(this)(tradeoff[0])
                     }, {
-                      text: aspect_texts[j],
-                      rating: aspect_ratings[j],
-                      color: aspect_colors[j],
+                      text: aspects[j].text,
+                      rating: aspects[j].rating,
+                      color: aspects[j].color,
                       change: 0,
                       deltaText: null
                     }
@@ -230,15 +234,15 @@ class App extends React.Component {
                 <Scenario
                   aspects={[
                     {
-                      text: aspect_texts[i],
-                      rating: aspect_ratings[i],
-                      color: aspect_colors[i],
+                      text: aspects[i].text,
+                      rating: aspects[i].rating,
+                      color: aspects[i].color,
                       change: 0,
                       deltaText: null
                     }, {
-                      text: aspect_texts[j],
-                      rating: aspect_ratings[j],
-                      color: aspect_colors[j],
+                      text: aspects[j].text,
+                      rating: aspects[j].rating,
+                      color: aspects[j].color,
                       change: tradeoff[1],
                       deltaText: this.deltaText.bind(this)(tradeoff[1])
                     }

@@ -25,7 +25,9 @@ class Aspect extends React.Component {
     return (
       <div style={[styles.main, modStyle]}>
         <DeltaBar
-          percent={rating}
+          position={rating}
+          min={-100}
+          max={100}
           color={color} 
           delta={delta}
         />

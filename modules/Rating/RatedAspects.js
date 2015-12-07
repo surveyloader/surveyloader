@@ -32,7 +32,9 @@ class RatedAspects extends React.Component {
                   {Number(a.rating)}
                 </div>
                 <DeltaBar
-                  percent={Number(a.rating)}
+                  position={Number(a.rating)}
+                  min={-100}
+                  max={100}
                   color={a.color}
                   delta={0}
                 />
@@ -73,7 +75,8 @@ const styles = {
     }
   },
   info: {
-    flex: 8
+    flex: 8,
+    marginRight: '1rem'
   },
   heading: {
     float: 'left'

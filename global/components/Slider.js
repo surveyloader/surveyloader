@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import _ from 'lodash'
 import Radium from 'radium'
 
 import smiley from '../images/smiley.svg'
@@ -36,15 +37,17 @@ class Handle extends React.Component {
 @Radium
 class Slider extends React.Component {
   static defaultProps = {
-    percent: 50,
-    height: '3rem',
-    color: '#f44'
+    position: 0,
+    height: '4rem',
+    color: '#f44',
+    min: -100,
+    max: 100
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      percent: props.percent,
+      position: props.position,
       movable: false
     }
     this.mouseUp = this.handleMouseUp.bind(this)
@@ -54,15 +57,17 @@ class Slider extends React.Component {
     window.addEventListener('mousemove', this.mouseMove)
   }
 
-  move (percent) {
-    this.props.handleChange(Math.max(0, Math.min(100, Math.floor(percent))))
+  move (position) {
+    const { handleChange, min, max } = this.props
+    handleChange(Math.max(min, Math.min(max, Math.floor(position))))
   }
 
   handleMouseDown (event) {
+    const { min, max } = this.props
     this.setState({ movable: true })
     let { clientX } = event
     let { left, width } = this._bar.getBoundingClientRect()
-    this.move(100 * (clientX - left) / width)
+    this.move(((max - min) * (clientX - left) / width) + min)
   }
 
   handleMouseUp (event) {
@@ -70,9 +75,10 @@ class Slider extends React.Component {
   }
 
   handleMouseMove (event) {
+    const { min, max } = this.props
     let { clientX } = event
     let { left, width } = this._bar.getBoundingClientRect()
-    if (this.state.movable) this.move(100 * (clientX - left) / width)
+    if (this.state.movable) this.move(((max - min) * (clientX - left) / width) + min)
   }
 
   componentWillUnmount () {
@@ -81,31 +87,37 @@ class Slider extends React.Component {
   }
 
   render () {
-    const { percent, delta, height, color, modStyle } = this.props
+    const {
+      position,
+      delta,
+      height,
+      color,
+      modStyle,
+      min,
+      max
+    } = this.props
+
+    const range = max - min
+
     return (
       <svg
-        viewBox={'0 0 110 10'}
+        viewBox={`0 0 ${range + 10} 28`}
         style={[styles.svg, modStyle]}
         onMouseDown={this.handleMouseDown.bind(this)}
       >
-        <g 
-          style={{ opacity: (100 - percent) / 100 }}
-          dangerouslySetInnerHTML={{ 
-            __html: '<image x="0" y="0" width="5" height="5" xlink:href="' + frowny + '"></image>' 
-        }}>
-        </g>
-        <g
-          style={{ opacity: percent / 100 }}
-          dangerouslySetInnerHTML={{ 
-            __html: '<image x="105" y="0" width="5" height="5" xlink:href="' + smiley + '"></image>'
-        }}>
-        </g>
-        <g transform="translate(5,0)">
+        <defs>
+          <linearGradient id="gradient">
+            <stop offset={'0%'} stopColor={'#eee'} />
+            <stop offset={'50%'} stopColor={'#eee'} />
+            <stop offset={'100%'} stopColor={'#eee'} />
+          </linearGradient>
+        </defs>
+        <g transform="translate(5,10)">
           <rect 
             y={0}
-            width={100}
-            height={5}
-            fill="#eee"
+            width={range}
+            height={8}
+            fill="url(#gradient)"
             stroke="#fff"
             strokeWidth="0.25"
             ref={(c) => this._bar = c}
@@ -113,23 +125,60 @@ class Slider extends React.Component {
           </rect>
           <rect 
             y={0}
-            width={percent}
-            height={5}
+            width={Math.abs(min - position)}
+            height={8}
             fill={color}
             stroke="#fff"
             strokeWidth="0.25"
           >
           </rect>
           {
-            [0,10,20,30,40,50,60,70,80,90,100]
-              .map((num) => <text
-                key={num}
-                x={Number(num)}
-                y={8}
-                style={[styles.text]}
-              >{Number(num)}</text>)
+            _.range(min, max + 1)
+              .filter((n) => n % 10 === 0)
+              .map((n) => (
+                <g key={n}>
+                  <rect
+                    x={Math.abs(min - n)}
+                    y={9}
+                    width={0.2}
+                    height={1}
+                    style={[styles.tick]}
+                  ></rect>
+                  <text
+                    x={Math.abs(min - n)}
+                    y={14}
+                    style={[styles.text]}
+                  >{Number(n)}</text>
+                </g>
+              ))
           }
-          <Handle width={5} height={5} position={percent} />
+        </g>
+        <rect
+          x={5}
+          y={0}
+          width={0.25}
+          height={20}
+          style={[styles.tick]}
+        ></rect>
+        <rect
+          x={range + 5}
+          y={0}
+          width={0.25}
+          height={20}
+          style={[styles.tick]}
+        ></rect>
+        <text
+          x={6}
+          y={5}
+          style={[styles.labelLeft]}
+        >worst possible</text>
+        <text
+          x={range + 4.25}
+          y={5}
+          style={[styles.labelRight]}
+        >best possible</text>
+        <g transform="translate(5,10)">
+          <Handle width={8} height={8} position={Math.abs(min - position)} />
         </g>
       </svg>
     )
@@ -145,9 +194,24 @@ const styles = {
   handle: {
     cursor: 'pointer'
   },
+  tick: {
+    fill: '#000' 
+  },
   text: {
-    fontSize: '.15rem',
+    fontSize: '.25rem',
     textAnchor: 'middle',
+    userSelect: 'none'
+  },
+  labelLeft: {
+    fontSize: '.3rem',
+    fontWeight: 'bold',
+    textAnchor: 'start',
+    userSelect: 'none'
+  },
+  labelRight: {
+    fontSize: '.3rem',
+    fontWeight: 'bold',
+    textAnchor: 'end',
     userSelect: 'none'
   }
 }

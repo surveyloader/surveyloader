@@ -34,7 +34,7 @@ class RateAspect extends React.Component {
           </div>
           <Slider
             color={aspect.color}
-            percent={aspect.rating}
+            position={aspect.rating}
             handleChange={handleRating} 
           />
         </div>

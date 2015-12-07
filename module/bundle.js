@@ -48229,7 +48229,7 @@
 	    key: 'defaultProps',
 	    value: {
 	      instructions: 'Instructions',
-	      text: 'Please imagine a scale from 0 to 100 where 0 represents worst possible situation and 100 the best possible situation. On this scale how would you rate the following aspects of your life?',
+	      text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings, where 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
 	      rating_tip: 'Move the slider to set your rating',
 	      rating_confirm: 'Confirm Rating',
 	      aspect_texts: ['one', 'two', 'three'],
@@ -48413,7 +48413,7 @@
 	        ),
 	        _react2['default'].createElement(_globalComponentsSlider2['default'], {
 	          color: aspect.color,
-	          percent: aspect.rating,
+	          position: aspect.rating,
 	          handleChange: handleRating
 	        })
 	      ),
@@ -48516,6 +48516,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _lodash = __webpack_require__(194);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
 	var _radium = __webpack_require__(160);
 
 	var _radium2 = _interopRequireDefault(_radium);
@@ -48575,7 +48579,7 @@
 
 	    _React$Component2.call(this, props);
 	    this.state = {
-	      percent: props.percent,
+	      position: props.position,
 	      movable: false
 	    };
 	    this.mouseUp = this.handleMouseUp.bind(this);
@@ -48589,11 +48593,20 @@
 
 	  var _Slider = Slider;
 
-	  _Slider.prototype.move = function move(percent) {
-	    this.props.handleChange(Math.max(0, Math.min(100, Math.floor(percent))));
+	  _Slider.prototype.move = function move(position) {
+	    var _props2 = this.props;
+	    var handleChange = _props2.handleChange;
+	    var min = _props2.min;
+	    var max = _props2.max;
+
+	    handleChange(Math.max(min, Math.min(max, Math.floor(position))));
 	  };
 
 	  _Slider.prototype.handleMouseDown = function handleMouseDown(event) {
+	    var _props3 = this.props;
+	    var min = _props3.min;
+	    var max = _props3.max;
+
 	    this.setState({ movable: true });
 	    var clientX = event.clientX;
 
@@ -48602,7 +48615,7 @@
 	    var left = _bar$getBoundingClientRect.left;
 	    var width = _bar$getBoundingClientRect.width;
 
-	    this.move(100 * (clientX - left) / width);
+	    this.move((max - min) * (clientX - left) / width + min);
 	  };
 
 	  _Slider.prototype.handleMouseUp = function handleMouseUp(event) {
@@ -48610,6 +48623,9 @@
 	  };
 
 	  _Slider.prototype.handleMouseMove = function handleMouseMove(event) {
+	    var _props4 = this.props;
+	    var min = _props4.min;
+	    var max = _props4.max;
 	    var clientX = event.clientX;
 
 	    var _bar$getBoundingClientRect2 = this._bar.getBoundingClientRect();
@@ -48617,7 +48633,7 @@
 	    var left = _bar$getBoundingClientRect2.left;
 	    var width = _bar$getBoundingClientRect2.width;
 
-	    if (this.state.movable) this.move(100 * (clientX - left) / width);
+	    if (this.state.movable) this.move((max - min) * (clientX - left) / width + min);
 	  };
 
 	  _Slider.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -48628,38 +48644,43 @@
 	  _Slider.prototype.render = function render() {
 	    var _this = this;
 
-	    var _props2 = this.props;
-	    var percent = _props2.percent;
-	    var delta = _props2.delta;
-	    var height = _props2.height;
-	    var color = _props2.color;
-	    var modStyle = _props2.modStyle;
+	    var _props5 = this.props;
+	    var position = _props5.position;
+	    var delta = _props5.delta;
+	    var height = _props5.height;
+	    var color = _props5.color;
+	    var modStyle = _props5.modStyle;
+	    var min = _props5.min;
+	    var max = _props5.max;
+
+	    var range = max - min;
 
 	    return _react2['default'].createElement(
 	      'svg',
 	      {
-	        viewBox: '0 0 110 10',
+	        viewBox: '0 0 ' + (range + 10) + ' 28',
 	        style: [styles.svg, modStyle],
 	        onMouseDown: this.handleMouseDown.bind(this)
 	      },
-	      _react2['default'].createElement('g', {
-	        style: { opacity: (100 - percent) / 100 },
-	        dangerouslySetInnerHTML: {
-	          __html: '<image x="0" y="0" width="5" height="5" xlink:href="' + _imagesFrownySvg2['default'] + '"></image>'
-	        } }),
-	      _react2['default'].createElement('g', {
-	        style: { opacity: percent / 100 },
-	        dangerouslySetInnerHTML: {
-	          __html: '<image x="105" y="0" width="5" height="5" xlink:href="' + _imagesSmileySvg2['default'] + '"></image>'
-	        } }),
+	      _react2['default'].createElement(
+	        'defs',
+	        null,
+	        _react2['default'].createElement(
+	          'linearGradient',
+	          { id: 'gradient' },
+	          _react2['default'].createElement('stop', { offset: '0%', stopColor: '#eee' }),
+	          _react2['default'].createElement('stop', { offset: '50%', stopColor: '#eee' }),
+	          _react2['default'].createElement('stop', { offset: '100%', stopColor: '#eee' })
+	        )
+	      ),
 	      _react2['default'].createElement(
 	        'g',
-	        { transform: 'translate(5,0)' },
+	        { transform: 'translate(5,10)' },
 	        _react2['default'].createElement('rect', {
 	          y: 0,
-	          width: 100,
-	          height: 5,
-	          fill: '#eee',
+	          width: range,
+	          height: 8,
+	          fill: 'url(#gradient)',
 	          stroke: '#fff',
 	          strokeWidth: '0.25',
 	          ref: function (c) {
@@ -48668,25 +48689,73 @@
 	        }),
 	        _react2['default'].createElement('rect', {
 	          y: 0,
-	          width: percent,
-	          height: 5,
+	          width: Math.abs(min - position),
+	          height: 8,
 	          fill: color,
 	          stroke: '#fff',
 	          strokeWidth: '0.25'
 	        }),
-	        [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(function (num) {
+	        _lodash2['default'].range(min, max + 1).filter(function (n) {
+	          return n % 10 === 0;
+	        }).map(function (n) {
 	          return _react2['default'].createElement(
-	            'text',
-	            {
-	              key: num,
-	              x: Number(num),
-	              y: 8,
-	              style: [styles.text]
-	            },
-	            Number(num)
+	            'g',
+	            { key: n },
+	            _react2['default'].createElement('rect', {
+	              x: Math.abs(min - n),
+	              y: 9,
+	              width: 0.2,
+	              height: 1,
+	              style: [styles.tick]
+	            }),
+	            _react2['default'].createElement(
+	              'text',
+	              {
+	                x: Math.abs(min - n),
+	                y: 14,
+	                style: [styles.text]
+	              },
+	              Number(n)
+	            )
 	          );
-	        }),
-	        _react2['default'].createElement(Handle, { width: 5, height: 5, position: percent })
+	        })
+	      ),
+	      _react2['default'].createElement('rect', {
+	        x: 5,
+	        y: 0,
+	        width: 0.25,
+	        height: 20,
+	        style: [styles.tick]
+	      }),
+	      _react2['default'].createElement('rect', {
+	        x: range + 5,
+	        y: 0,
+	        width: 0.25,
+	        height: 20,
+	        style: [styles.tick]
+	      }),
+	      _react2['default'].createElement(
+	        'text',
+	        {
+	          x: 6,
+	          y: 5,
+	          style: [styles.labelLeft]
+	        },
+	        'worst possible'
+	      ),
+	      _react2['default'].createElement(
+	        'text',
+	        {
+	          x: range + 4.25,
+	          y: 5,
+	          style: [styles.labelRight]
+	        },
+	        'best possible'
+	      ),
+	      _react2['default'].createElement(
+	        'g',
+	        { transform: 'translate(5,10)' },
+	        _react2['default'].createElement(Handle, { width: 8, height: 8, position: Math.abs(min - position) })
 	      )
 	    );
 	  };
@@ -48694,9 +48763,11 @@
 	  _createClass(_Slider, null, [{
 	    key: 'defaultProps',
 	    value: {
-	      percent: 50,
-	      height: '3rem',
-	      color: '#f44'
+	      position: 0,
+	      height: '4rem',
+	      color: '#f44',
+	      min: -100,
+	      max: 100
 	    },
 	    enumerable: true
 	  }]);
@@ -48714,9 +48785,24 @@
 	  handle: {
 	    cursor: 'pointer'
 	  },
+	  tick: {
+	    fill: '#000'
+	  },
 	  text: {
-	    fontSize: '.15rem',
+	    fontSize: '.25rem',
 	    textAnchor: 'middle',
+	    userSelect: 'none'
+	  },
+	  labelLeft: {
+	    fontSize: '.3rem',
+	    fontWeight: 'bold',
+	    textAnchor: 'start',
+	    userSelect: 'none'
+	  },
+	  labelRight: {
+	    fontSize: '.3rem',
+	    fontWeight: 'bold',
+	    textAnchor: 'end',
 	    userSelect: 'none'
 	  }
 	};
@@ -48818,7 +48904,9 @@
 	              Number(a.rating)
 	            ),
 	            _react2['default'].createElement(_globalComponentsDeltaBar2['default'], {
-	              percent: Number(a.rating),
+	              position: Number(a.rating),
+	              min: -100,
+	              max: 100,
 	              color: a.color,
 	              delta: 0
 	            })
@@ -48862,7 +48950,8 @@
 	    }
 	  },
 	  info: {
-	    flex: 8
+	    flex: 8,
+	    marginRight: '1rem'
 	  },
 	  heading: {
 	    float: 'left'
@@ -48931,16 +49020,20 @@
 
 	  _DeltaBar.prototype.render = function render() {
 	    var _props = this.props;
-	    var percent = _props.percent;
+	    var position = _props.position;
+	    var min = _props.min;
+	    var max = _props.max;
 	    var delta = _props.delta;
 	    var height = _props.height;
 	    var color = _props.color;
 	    var modStyle = _props.modStyle;
 
+	    var range = max - min;
+
 	    return _react2['default'].createElement(
 	      'svg',
 	      {
-	        viewBox: '0 0 100 1',
+	        viewBox: '0 0 ' + range + ' 1',
 	        preserveAspectRatio: 'none',
 	        style: [styles.svg, {
 	          height: Number(height + 1) + 'rem'
@@ -48949,14 +49042,14 @@
 	      _react2['default'].createElement('rect', {
 	        x: 0,
 	        y: 0.42,
-	        width: 100,
+	        width: range,
 	        height: 0.58,
 	        fill: '#eee'
 	      }),
 	      _react2['default'].createElement('rect', {
 	        x: 0,
 	        y: 0.42,
-	        width: percent,
+	        width: Math.abs(min - position),
 	        height: 0.58,
 	        fill: color
 	      }),
@@ -48964,7 +49057,7 @@
 	        'g',
 	        null,
 	        _react2['default'].createElement('rect', {
-	          x: percent,
+	          x: Math.abs(min - position),
 	          y: 0.42,
 	          width: delta,
 	          height: 0.58,
@@ -48972,18 +49065,18 @@
 	        }),
 	        _react2['default'].createElement('path', {
 	          fill: '#000',
-	          d: '\n                M ' + percent + ',0.1\n                l ' + (delta - 2) + ',0\n                l 0,0.2\n                l ' + (2 - delta) + ',0\n                Z\n              '
+	          d: '\n                M ' + Math.abs(min - position) + ',0.1\n                l ' + (delta - 2) + ',0\n                l 0,0.2\n                l ' + (2 - delta) + ',0\n                Z\n              '
 	        }),
 	        _react2['default'].createElement('path', {
 	          fill: '#000',
-	          d: '\n                M ' + (percent + delta - 2) + ',0\n                l 2,0.2\n                l -2,0.2\n                Z\n              '
+	          d: '\n                M ' + (Math.abs(min - position) + delta - 2) + ',0\n                l 2,0.2\n                l -2,0.2\n                Z\n              '
 	        })
 	      ),
 	      delta < 0 && _react2['default'].createElement(
 	        'g',
 	        null,
 	        _react2['default'].createElement('rect', {
-	          x: percent + delta,
+	          x: Math.abs(min - position) + delta,
 	          y: 0.42,
 	          width: -delta,
 	          height: 0.58,
@@ -48991,15 +49084,15 @@
 	        }),
 	        _react2['default'].createElement('path', {
 	          fill: '#000',
-	          d: '\n                M ' + percent + ',0.1\n                l ' + (delta + 2) + ',0\n                l 0,0.2\n                l ' + (-2 - delta) + ',0\n                Z\n              '
+	          d: '\n                M ' + Math.abs(min - position) + ',0.1\n                l ' + (delta + 2) + ',0\n                l 0,0.2\n                l ' + (-2 - delta) + ',0\n                Z\n              '
 	        }),
 	        _react2['default'].createElement('path', {
 	          fill: '#000',
-	          d: '\n                M ' + (percent + delta + 2) + ',0\n                l -2,0.2\n                l 2,0.2\n                Z\n              '
+	          d: '\n                M ' + (Math.abs(min - position) + delta + 2) + ',0\n                l -2,0.2\n                l 2,0.2\n                Z\n              '
 	        })
 	      ),
 	      _react2['default'].createElement('rect', {
-	        x: percent + delta - 0.5,
+	        x: Math.abs(min - position) + delta - 0.5,
 	        y: 0.42,
 	        width: 0.5,
 	        height: 0.58,
@@ -49011,10 +49104,12 @@
 	  _createClass(_DeltaBar, null, [{
 	    key: 'defaultProps',
 	    value: {
-	      percent: 42,
+	      position: 42,
 	      delta: 10,
 	      height: 1,
-	      color: '#f44'
+	      color: '#f44',
+	      min: -100,
+	      max: 100
 	    },
 	    enumerable: true
 	  }]);
@@ -49296,14 +49391,14 @@
 	  var _App = App;
 
 	  _App.simulate = function simulate(props) {
-	    var aspect_texts = props.aspect_texts;
+	    var aspects = props.aspects;
 	    var aspect_pairs = props.aspect_pairs;
 	    var tradeoff_range = props.tradeoff_range;
 
 	    return _lodash2['default'](aspect_pairs).map(function (_ref) {
 	      var i = _ref[0];
 	      var j = _ref[1];
-	      return ['triple_' + _globalServicesStringHash2['default'](aspect_texts[i]) + '_' + _globalServicesStringHash2['default'](aspect_texts[j]), _lodash2['default'].sample(tradeoff_range) * _lodash2['default'].sample([1, -1])];
+	      return ['triple_' + _globalServicesStringHash2['default'](aspects[i].text) + '_' + _globalServicesStringHash2['default'](aspects[j].text), _lodash2['default'].sample(tradeoff_range) * _lodash2['default'].sample([1, -1])];
 	    }).object().value();
 	  };
 
@@ -49350,14 +49445,14 @@
 	    };
 
 	    var _props2 = this.props;
-	    var aspect_texts = _props2.aspect_texts;
+	    var aspects = _props2.aspects;
 	    var push = _props2.push;
 
-	    if (!state.aspect_pairs.length) {
+	    if (!state.aspect_pairs.length > 0) {
 	      push(_lodash2['default'](this.props.aspect_pairs).map(function (_ref2) {
 	        var i = _ref2[0];
 	        var j = _ref2[1];
-	        return ['triple_' + _globalServicesStringHash2['default'](aspect_texts[i]) + '_' + _globalServicesStringHash2['default'](aspect_texts[j]), state.prefs[String(i) + String(j)]];
+	        return ['triple_' + _globalServicesStringHash2['default'](aspects[i].text) + '_' + _globalServicesStringHash2['default'](aspects[j].text), state.prefs[String(i) + String(j)]];
 	      }).object().value());
 	    } else {
 	      this.setState(state);
@@ -49389,9 +49484,7 @@
 	    var text_instruct_title = _props3.text_instruct_title;
 	    var text_instruct_body = _props3.text_instruct_body;
 	    var text_prefer_option = _props3.text_prefer_option;
-	    var aspect_texts = _props3.aspect_texts;
-	    var aspect_ratings = _props3.aspect_ratings;
-	    var aspect_colors = _props3.aspect_colors;
+	    var aspects = _props3.aspects;
 	    var _state2 = this.state;
 	    var aspect_pairs = _state2.aspect_pairs;
 	    var animating = _state2.animating;
@@ -49437,15 +49530,15 @@
 	              { style: [styles.padding(1, 0.5, 0, 0), { flex: 1 }] },
 	              _react2['default'].createElement(_globalComponentsScenario2['default'], {
 	                aspects: [{
-	                  text: aspect_texts[i],
-	                  rating: aspect_ratings[i],
-	                  color: aspect_colors[i],
+	                  text: aspects[i].text,
+	                  rating: aspects[i].rating,
+	                  color: aspects[i].color,
 	                  change: tradeoff[0],
 	                  deltaText: _this2.deltaText.bind(_this2)(tradeoff[0])
 	                }, {
-	                  text: aspect_texts[j],
-	                  rating: aspect_ratings[j],
-	                  color: aspect_colors[j],
+	                  text: aspects[j].text,
+	                  rating: aspects[j].rating,
+	                  color: aspects[j].color,
 	                  change: 0,
 	                  deltaText: null
 	                }],
@@ -49460,15 +49553,15 @@
 	              { style: [styles.padding(1, 0, 0, 0.5), { flex: 1 }] },
 	              _react2['default'].createElement(_globalComponentsScenario2['default'], {
 	                aspects: [{
-	                  text: aspect_texts[i],
-	                  rating: aspect_ratings[i],
-	                  color: aspect_colors[i],
+	                  text: aspects[i].text,
+	                  rating: aspects[i].rating,
+	                  color: aspects[i].color,
 	                  change: 0,
 	                  deltaText: null
 	                }, {
-	                  text: aspect_texts[j],
-	                  rating: aspect_ratings[j],
-	                  color: aspect_colors[j],
+	                  text: aspects[j].text,
+	                  rating: aspects[j].rating,
+	                  color: aspects[j].color,
 	                  change: tradeoff[1],
 	                  deltaText: _this2.deltaText.bind(_this2)(tradeoff[1])
 	                }],
@@ -49487,11 +49580,13 @@
 	  _createClass(_App, null, [{
 	    key: 'propTypes',
 	    value: {
-	      aspect_texts: _globalTypes.declare(_globalTypes.type.array),
-	      aspect_ratings: _globalTypes.declare(_globalTypes.type.array),
-	      aspect_colors: _globalTypes.declare(_globalTypes.type.array),
+	      aspects: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.Object({
+	        text: _globalTypes.type.string,
+	        rating: _globalTypes.type.number,
+	        color: _globalTypes.type.string
+	      }))),
 	      aspect_pairs: _globalTypes.declare(_globalTypes.type.array),
-	      tradeoff_range: _globalTypes.declare(_globalTypes.type.array),
+	      tradeoff_range: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.number)),
 	      tradeoff_sign: _globalTypes.declare(_globalTypes.type.number),
 	      texts_deg_pref: _globalTypes.declare(_globalTypes.type.array),
 	      text_increases: _globalTypes.declare(_globalTypes.type.string),
@@ -49504,9 +49599,19 @@
 	  }, {
 	    key: 'defaultProps',
 	    value: {
-	      aspect_texts: ['one', 'two', 'three'],
-	      aspect_ratings: [51, 52, 53],
-	      aspect_colors: ['#f77', '#7f7', '#77f'],
+	      aspects: [{
+	        text: 'one',
+	        rating: 51,
+	        color: '#f77'
+	      }, {
+	        text: 'two',
+	        rating: 52,
+	        color: '#7f7'
+	      }, {
+	        text: 'three',
+	        rating: 53,
+	        color: '#77f'
+	      }],
 	      aspect_pairs: [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]],
 	      tradeoff_range: _lodash2['default'].range(1, 9),
 	      tradeoff_sign: '$coin',
@@ -50878,7 +50983,9 @@
 	      'div',
 	      { style: [styles.main, modStyle] },
 	      _react2['default'].createElement(_DeltaBar2['default'], {
-	        percent: rating,
+	        position: rating,
+	        min: -100,
+	        max: 100,
 	        color: color,
 	        delta: delta
 	      }),
@@ -51083,11 +51190,11 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _styles = __webpack_require__(402);
+	var _styles = __webpack_require__(405);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
-	var _CRUD = __webpack_require__(404);
+	var _CRUD = __webpack_require__(402);
 
 	var _CRUD2 = _interopRequireDefault(_CRUD);
 
@@ -51127,7 +51234,8 @@
 	    } else if (this.props.params) {
 	      var keys = _lodash2['default'].keys(props.params);
 	      var oldKeys = _lodash2['default'].keys(this.props.params);
-	      if (_lodash2['default'].difference(keys, oldKeys).length) {
+	      console.log(_lodash2['default'].difference(oldKeys, keys), keys, oldKeys);
+	      if (_lodash2['default'].difference(oldKeys, keys).length) {
 	        this.setDefaultProps.bind(this)(props);
 	      }
 	    }
@@ -51223,83 +51331,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _styles = __webpack_require__(403);
-
-	var _styles2 = _interopRequireDefault(_styles);
-
-	exports['default'] = _extends({}, _styles2['default'], {
-	  row: _extends({}, _styles2['default'].row, {
-	    justifyContent: 'center',
-	    paddingTop: '0.25rem',
-	    paddingBottom: '0.25rem'
-	  }),
-	  col: _extends({}, _styles2['default'].col, {
-	    paddingLeft: '0.25rem',
-	    paddingRight: '0.25rem'
-	  }),
-	  label: {
-	    textAlign: 'right'
-	  },
-	  hover: {}
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 403 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _globalStyles = __webpack_require__(361);
-
-	var _globalStyles2 = _interopRequireDefault(_globalStyles);
-
-	exports['default'] = _extends({}, _globalStyles2['default'], {
-	  main: {
-	    marginTop: 0,
-	    marginRight: 'auto',
-	    marginBottom: 0,
-	    marginLeft: 'auto',
-	    width: '100%',
-	    minWidth: 640,
-	    maxWidth: 1200,
-	    minHeight: '100%',
-	    left: 0,
-	    top: 0,
-	    backgroundColor: '#fff',
-	    fontFamily: 'Courier',
-	    fontSize: '1em',
-	    color: '#333',
-	    boxSizing: 'border-box'
-	  },
-	  heading: {
-	    fontWeight: 'bold',
-	    fontSize: '1.125em',
-	    paddingTop: '0.5rem',
-	    paddingRight: '0.5rem',
-	    paddingBottom: '0.5rem'
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 404 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
@@ -51324,7 +51355,7 @@
 
 	var _globalServicesEcho2 = _interopRequireDefault(_globalServicesEcho);
 
-	var _Parameterize = __webpack_require__(405);
+	var _Parameterize = __webpack_require__(403);
 
 	var _Parameterize2 = _interopRequireDefault(_Parameterize);
 
@@ -51434,7 +51465,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 405 */
+/* 403 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51449,7 +51480,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ArrayParam = __webpack_require__(406);
+	var _ArrayParam = __webpack_require__(404);
 
 	var _ArrayParam2 = _interopRequireDefault(_ArrayParam);
 
@@ -51510,7 +51541,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 406 */
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51533,11 +51564,11 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _Parameterize = __webpack_require__(405);
+	var _Parameterize = __webpack_require__(403);
 
 	var _Parameterize2 = _interopRequireDefault(_Parameterize);
 
-	var _styles = __webpack_require__(402);
+	var _styles = __webpack_require__(405);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -51655,6 +51686,83 @@
 	module.exports = exports['default'];
 
 /***/ },
+/* 405 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _styles = __webpack_require__(406);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	exports['default'] = _extends({}, _styles2['default'], {
+	  row: _extends({}, _styles2['default'].row, {
+	    justifyContent: 'center',
+	    paddingTop: '0.25rem',
+	    paddingBottom: '0.25rem'
+	  }),
+	  col: _extends({}, _styles2['default'].col, {
+	    paddingLeft: '0.25rem',
+	    paddingRight: '0.25rem'
+	  }),
+	  label: {
+	    textAlign: 'right'
+	  },
+	  hover: {}
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 406 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _globalStyles = __webpack_require__(361);
+
+	var _globalStyles2 = _interopRequireDefault(_globalStyles);
+
+	exports['default'] = _extends({}, _globalStyles2['default'], {
+	  main: {
+	    marginTop: 0,
+	    marginRight: 'auto',
+	    marginBottom: 0,
+	    marginLeft: 'auto',
+	    width: '100%',
+	    minWidth: 640,
+	    maxWidth: 1200,
+	    minHeight: '100%',
+	    left: 0,
+	    top: 0,
+	    backgroundColor: '#fff',
+	    fontFamily: 'Courier',
+	    fontSize: '1em',
+	    color: '#333',
+	    boxSizing: 'border-box'
+	  },
+	  heading: {
+	    fontWeight: 'bold',
+	    fontSize: '1.125em',
+	    paddingTop: '0.5rem',
+	    paddingRight: '0.5rem',
+	    paddingBottom: '0.5rem'
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
 /* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -51678,13 +51786,13 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _Parameterize = __webpack_require__(405);
+	var _Parameterize = __webpack_require__(403);
 
 	var _Parameterize2 = _interopRequireDefault(_Parameterize);
 
 	var _lodash = __webpack_require__(194);
 
-	var _styles = __webpack_require__(402);
+	var _styles = __webpack_require__(405);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -51794,7 +51902,7 @@
 
 	var _globalServicesEcho2 = _interopRequireDefault(_globalServicesEcho);
 
-	var _styles = __webpack_require__(402);
+	var _styles = __webpack_require__(405);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -51939,11 +52047,11 @@
 
 	var _lodash = __webpack_require__(194);
 
-	var _styles = __webpack_require__(402);
+	var _styles = __webpack_require__(405);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
-	var _Parameterize = __webpack_require__(405);
+	var _Parameterize = __webpack_require__(403);
 
 	var _Parameterize2 = _interopRequireDefault(_Parameterize);
 
@@ -52022,7 +52130,7 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _styles = __webpack_require__(402);
+	var _styles = __webpack_require__(405);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
