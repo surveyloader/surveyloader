@@ -15,7 +15,7 @@ export default class Preview extends React.Component {
 
     const embedded = (
       <div style={{ width: '100%' }}>
-        <div style={[styles.heading]}>Module preview</div>
+        <div style={[styles.heading]}>Dynamic preview</div>
         <div style={[styles.preview]}>
         {
           params ?

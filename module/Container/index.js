@@ -27,22 +27,22 @@ class Container extends React.Component {
   }
 
   componentWillMount () {
-    const params = _(location.search.slice(1).split('&'))
-      .map((item) => item.split('='))
-      .object()
-      .value()
-
-    if (params.full_preview) {
+    const [, fullscreen, params] = location.search
+      .match(/(\?fullscreen\/|\?)(.+)/)
+      || [null, null, null]
+    
+    
+    if (fullscreen === '?fullscreen/') {
       store.dispatch({
         type: 'FULL_SCREEN',
         enabled: true
       })
     }
 
-    if (params.type) {
+    if (params) {
       store.dispatch({
-        type: 'CHANGE_MODULE_TYPE',
-        into: params.type
+        type: 'CHANGE_MODULE_PARAMS',
+        params: JSON.parse(decodeURIComponent(params))
       })
     } else {
       store.dispatch({
@@ -55,8 +55,8 @@ class Container extends React.Component {
   componentWillUpdate (props, state) {
     const { params, fullscreen } = state
     const search = fullscreen ?
-      `?type=${params.type}&full_preview=1` :
-      `?type=${params.type}`
+      `?fullscreen/${encodeURIComponent(JSON.stringify(params))}` :
+      `?${encodeURIComponent(JSON.stringify(params))}`
 
     if (params.type) {
       history.pushState(null, null, search)

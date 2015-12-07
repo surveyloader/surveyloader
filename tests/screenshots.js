@@ -10,7 +10,7 @@ function generateScreenshots (moduleType) {
     .post('https://www.browserstack.com/screenshots')
     .auth(user, pass)
     .send({
-      url: `http://surveyloader.org/module/?type=${moduleType}&full_preview=1`,
+      url: `http://surveyloader.org/module/?fullscreen/${encodeURIComponent(JSON.stringify({ type: moduleType })))}`,
       wait_time: 10,
       browsers,
       callback_url: `https://surveyloader.firebaseio.com/screenshots/${moduleType}.json`

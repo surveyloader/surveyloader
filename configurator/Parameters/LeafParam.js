@@ -30,8 +30,7 @@ class HoverableInput extends React.Component {
 
     return connectDropTarget(
       <div style={[styles.hover]}>
-        <input
-          type="text"
+        <textarea
           value={value}
           onChange={(e) => set(e.target.value)}
           onBrush={brush}

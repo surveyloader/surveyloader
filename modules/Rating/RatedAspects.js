@@ -53,15 +53,14 @@ class RatedAspects extends React.Component {
   }
 }
 
+import gstyles from '../../global/styles'
 const styles = {
+  ...gstyles,
   container: {
-    backgroundColor: '#fff',
-    padding: 30,
-    boxSizing: 'border-box',
-    borderRadius: 15,
-    boxShadow: '2px 2px 4px #ddd',
+    ...gstyles.panel,
+    ...gstyles.padding(1),
     width: '100%',
-    marginTop: 30,
+    marginTop: '2rem',
     overflow: 'auto',
     zoom: 1
   },

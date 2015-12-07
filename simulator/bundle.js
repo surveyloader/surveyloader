@@ -41113,6 +41113,8 @@
 
 	exports.__esModule = true;
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -41150,6 +41152,10 @@
 	var _RatedAspects = __webpack_require__(246);
 
 	var _RatedAspects2 = _interopRequireDefault(_RatedAspects);
+
+	var _globalStyles = __webpack_require__(231);
+
+	var _globalStyles2 = _interopRequireDefault(_globalStyles);
 
 	var Index = (function (_React$Component) {
 	  function Index(props) {
@@ -41274,7 +41280,7 @@
 	    key: 'defaultProps',
 	    value: {
 	      instructions: 'Instructions',
-	      text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings, where 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
+	      text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings. In other words, 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
 	      rating_tip: 'Move the slider to set your rating',
 	      rating_confirm: 'Confirm Rating',
 	      aspect_texts: ['one', 'two', 'three'],
@@ -41287,21 +41293,15 @@
 	  return Index;
 	})(_react2['default'].Component);
 
-	var styles = {
+	var styles = _extends({}, _globalStyles2['default'], {
+	  instructions: _extends({}, _globalStyles2['default'].panel, _globalStyles2['default'].padding(2), {
+	    marginBottom: '2rem'
+	  }),
 	  container: {
 	    marginTop: 30,
 	    userSelect: 'none'
-	  },
-	  instructions: {
-	    boxSizing: 'border-box',
-	    width: '100%',
-	    padding: 30,
-	    margin: '30px 0',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    background: '#fff'
 	  }
-	};
+	});
 
 	exports['default'] = Index;
 	module.exports = exports['default'];
@@ -41875,6 +41875,8 @@
 
 	exports.__esModule = true;
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -41904,6 +41906,10 @@
 	var _globalComponentsButton = __webpack_require__(230);
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+
+	var _globalStyles = __webpack_require__(231);
+
+	var _globalStyles2 = _interopRequireDefault(_globalStyles);
 
 	var RatedAspects = (function (_React$Component) {
 	  function RatedAspects() {
@@ -41973,18 +41979,13 @@
 	  return RatedAspects;
 	})(_react2['default'].Component);
 
-	var styles = {
-	  container: {
-	    backgroundColor: '#fff',
-	    padding: 30,
-	    boxSizing: 'border-box',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
+	var styles = _extends({}, _globalStyles2['default'], {
+	  container: _extends({}, _globalStyles2['default'].panel, _globalStyles2['default'].padding(1), {
 	    width: '100%',
-	    marginTop: 30,
+	    marginTop: '2rem',
 	    overflow: 'auto',
 	    zoom: 1
-	  },
+	  }),
 	  aspect: {
 	    marginTop: 15,
 	    cursor: 'pointer',
@@ -42009,7 +42010,7 @@
 	    flex: 1,
 	    marginLeft: 30
 	  }
-	};
+	});
 
 	exports['default'] = RatedAspects;
 	module.exports = exports['default'];

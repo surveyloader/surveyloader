@@ -19778,21 +19778,22 @@
 	  var _Container = Container;
 
 	  _Container.prototype.componentWillMount = function componentWillMount() {
-	    var params = _lodash2['default'](location.search.slice(1).split('&')).map(function (item) {
-	      return item.split('=');
-	    }).object().value();
+	    var _ref = location.search.match(/(\?fullscreen\/|\?)(.+)/) || [null, null, null];
 
-	    if (params.full_preview) {
+	    var fullscreen = _ref[1];
+	    var params = _ref[2];
+
+	    if (fullscreen === '?fullscreen/') {
 	      _store2['default'].dispatch({
 	        type: 'FULL_SCREEN',
 	        enabled: true
 	      });
 	    }
 
-	    if (params.type) {
+	    if (params) {
 	      _store2['default'].dispatch({
-	        type: 'CHANGE_MODULE_TYPE',
-	        into: params.type
+	        type: 'CHANGE_MODULE_PARAMS',
+	        params: JSON.parse(decodeURIComponent(params))
 	      });
 	    } else {
 	      _store2['default'].dispatch({
@@ -19806,7 +19807,7 @@
 	    var params = state.params;
 	    var fullscreen = state.fullscreen;
 
-	    var search = fullscreen ? '?type=' + params.type + '&full_preview=1' : '?type=' + params.type;
+	    var search = fullscreen ? '?fullscreen/' + encodeURIComponent(JSON.stringify(params)) : '?' + encodeURIComponent(JSON.stringify(params));
 
 	    if (params.type) {
 	      history.pushState(null, null, search);
@@ -43202,6 +43203,12 @@
 	    padding: 30,
 	    backgroundColor: '#ddf',
 	    border: '1em solid #000'
+	  },
+	  newWindow: {
+	    paddingRight: '1rem',
+	    backgroundPosition: 'center right',
+	    backgroundRepeat: 'no-repeat',
+	    backgroundImage: 'linear-gradient(transparent,transparent),url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E)'
 	  }
 	};
 	module.exports = exports['default'];
@@ -43796,7 +43803,16 @@
 	      _react2['default'].createElement(
 	        'div',
 	        { style: [_styles2['default'].heading] },
-	        'Module preview'
+	        _react2['default'].createElement(
+	          'span',
+	          null,
+	          'Dynamic preview'
+	        ),
+	        _react2['default'].createElement(
+	          'a',
+	          { style: [_styles2['default'].newWindow, { float: 'right' }], href: '?fullscreen/' + encodeURIComponent(JSON.stringify(params)), target: '_blank' },
+	          'fullscreen view URL'
+	        )
 	      ),
 	      _react2['default'].createElement(
 	        'div',
@@ -48068,6 +48084,8 @@
 
 	exports.__esModule = true;
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -48105,6 +48123,10 @@
 	var _RatedAspects = __webpack_require__(376);
 
 	var _RatedAspects2 = _interopRequireDefault(_RatedAspects);
+
+	var _globalStyles = __webpack_require__(361);
+
+	var _globalStyles2 = _interopRequireDefault(_globalStyles);
 
 	var Index = (function (_React$Component) {
 	  function Index(props) {
@@ -48229,7 +48251,7 @@
 	    key: 'defaultProps',
 	    value: {
 	      instructions: 'Instructions',
-	      text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings, where 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
+	      text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings. In other words, 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
 	      rating_tip: 'Move the slider to set your rating',
 	      rating_confirm: 'Confirm Rating',
 	      aspect_texts: ['one', 'two', 'three'],
@@ -48242,21 +48264,15 @@
 	  return Index;
 	})(_react2['default'].Component);
 
-	var styles = {
+	var styles = _extends({}, _globalStyles2['default'], {
+	  instructions: _extends({}, _globalStyles2['default'].panel, _globalStyles2['default'].padding(2), {
+	    marginBottom: '2rem'
+	  }),
 	  container: {
 	    marginTop: 30,
 	    userSelect: 'none'
-	  },
-	  instructions: {
-	    boxSizing: 'border-box',
-	    width: '100%',
-	    padding: 30,
-	    margin: '30px 0',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
-	    background: '#fff'
 	  }
-	};
+	});
 
 	exports['default'] = Index;
 	module.exports = exports['default'];
@@ -48830,6 +48846,8 @@
 
 	exports.__esModule = true;
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -48859,6 +48877,10 @@
 	var _globalComponentsButton = __webpack_require__(360);
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
+
+	var _globalStyles = __webpack_require__(361);
+
+	var _globalStyles2 = _interopRequireDefault(_globalStyles);
 
 	var RatedAspects = (function (_React$Component) {
 	  function RatedAspects() {
@@ -48928,18 +48950,13 @@
 	  return RatedAspects;
 	})(_react2['default'].Component);
 
-	var styles = {
-	  container: {
-	    backgroundColor: '#fff',
-	    padding: 30,
-	    boxSizing: 'border-box',
-	    borderRadius: 15,
-	    boxShadow: '2px 2px 4px #ddd',
+	var styles = _extends({}, _globalStyles2['default'], {
+	  container: _extends({}, _globalStyles2['default'].panel, _globalStyles2['default'].padding(1), {
 	    width: '100%',
-	    marginTop: 30,
+	    marginTop: '2rem',
 	    overflow: 'auto',
 	    zoom: 1
-	  },
+	  }),
 	  aspect: {
 	    marginTop: 15,
 	    cursor: 'pointer',
@@ -48964,7 +48981,7 @@
 	    flex: 1,
 	    marginLeft: 30
 	  }
-	};
+	});
 
 	exports['default'] = RatedAspects;
 	module.exports = exports['default'];
@@ -51936,8 +51953,7 @@
 	    return connectDropTarget(_react2['default'].createElement(
 	      'div',
 	      { style: [_styles2['default'].hover] },
-	      _react2['default'].createElement('input', {
-	        type: 'text',
+	      _react2['default'].createElement('textarea', {
 	        value: value,
 	        onChange: function (e) {
 	          return set(e.target.value);

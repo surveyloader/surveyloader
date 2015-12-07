@@ -20,7 +20,7 @@ class Index extends React.Component {
 
   static defaultProps = {
     instructions: 'Instructions',
-    text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings, where 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
+    text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings. In other words, 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
     rating_tip: 'Move the slider to set your rating',
     rating_confirm: 'Confirm Rating',
     aspect_texts: [
@@ -133,19 +133,17 @@ class Index extends React.Component {
   }
 }
 
+import gstyles from '../../global/styles'
 const styles = {
+  ...gstyles,
+  instructions: {
+    ...gstyles.panel,
+    ...gstyles.padding(2),
+    marginBottom: '2rem'
+  },
   container: {
     marginTop: 30,
     userSelect: 'none'
-  },
-  instructions: {
-    boxSizing: 'border-box',
-    width: '100%',
-    padding: 30,
-    margin: '30px 0',
-    borderRadius: 15,
-    boxShadow: '2px 2px 4px #ddd',
-    background: '#fff'
   }
 }
 
