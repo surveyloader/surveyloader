@@ -15,16 +15,19 @@ class RateAspect extends React.Component {
       handleRating,
       handleConfirm,
       rateText,
-      confirmText
+      confirmText,
+      lowPoint,
+      midPoint,
+      highPoint
     } = this.props
 
     return (
       <div style={[styles.container]}>
         <div style={[styles.aspect]}>
           <div style={[styles.heading]}>
-            <em style={{float:'left'}}>
+            <strong style={{float:'left'}}>
               {Format.capitalize(aspect.text)}
-            </em>
+            </strong>
             {
               !isNaN(aspect.rating) &&
               <span style={{ float:'right', fontWeight: 'bold' }}>
@@ -35,7 +38,10 @@ class RateAspect extends React.Component {
           <Slider
             color={aspect.color}
             position={aspect.rating}
-            handleChange={handleRating} 
+            handleChange={handleRating}
+            lowPoint={lowPoint}
+            midPoint={midPoint}
+            highPoint={highPoint}
           />
         </div>
         {

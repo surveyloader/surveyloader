@@ -41566,6 +41566,9 @@
 	    var rating_confirm = _props.rating_confirm;
 	    var instructions = _props.instructions;
 	    var text = _props.text;
+	    var low_point = _props.low_point;
+	    var mid_point = _props.mid_point;
+	    var high_point = _props.high_point;
 
 	    return _react2['default'].createElement(
 	      'div',
@@ -41599,7 +41602,10 @@
 	          });
 	        },
 	        rateText: rating_tip,
-	        confirmText: rating_confirm
+	        confirmText: rating_confirm,
+	        lowPoint: low_point,
+	        midPoint: mid_point,
+	        highPoint: high_point
 	      }),
 	      rated.length && rated.reduce(function (a, b) {
 	        return a || b;
@@ -41626,7 +41632,10 @@
 	      instructions: _globalTypes.declare(_globalTypes.type.string),
 	      text: _globalTypes.declare(_globalTypes.type.string),
 	      rating_tip: _globalTypes.declare(_globalTypes.type.string),
-	      rating_confirm: _globalTypes.declare(_globalTypes.type.string)
+	      rating_confirm: _globalTypes.declare(_globalTypes.type.string),
+	      low_point: _globalTypes.declare(_globalTypes.type.string),
+	      mid_point: _globalTypes.declare(_globalTypes.type.string),
+	      high_point: _globalTypes.declare(_globalTypes.type.string)
 	    },
 	    enumerable: true
 	  }, {
@@ -41636,6 +41645,9 @@
 	      text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings. In other words, 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
 	      rating_tip: 'Move the slider to set your rating',
 	      rating_confirm: 'Confirm Rating',
+	      low_point: 'the least you can possibly imagine',
+	      mid_point: 'middling or neutral',
+	      high_point: ' the most you can possibly imagine',
 	      aspect_texts: ['one', 'two', 'three'],
 	      aspect_colors: ['#f77', '#7f7', '#77f']
 	    },
@@ -41788,6 +41800,9 @@
 	    var handleConfirm = _props.handleConfirm;
 	    var rateText = _props.rateText;
 	    var confirmText = _props.confirmText;
+	    var lowPoint = _props.lowPoint;
+	    var midPoint = _props.midPoint;
+	    var highPoint = _props.highPoint;
 
 	    return _react2['default'].createElement(
 	      'div',
@@ -41799,7 +41814,7 @@
 	          'div',
 	          { style: [styles.heading] },
 	          _react2['default'].createElement(
-	            'em',
+	            'strong',
 	            { style: { float: 'left' } },
 	            _globalServicesFormat2['default'].capitalize(aspect.text)
 	          ),
@@ -41812,7 +41827,10 @@
 	        _react2['default'].createElement(_globalComponentsSlider2['default'], {
 	          color: aspect.color,
 	          position: aspect.rating,
-	          handleChange: handleRating
+	          handleChange: handleRating,
+	          lowPoint: lowPoint,
+	          midPoint: midPoint,
+	          highPoint: highPoint
 	        })
 	      ),
 	      !isNaN(aspect.rating) && _react2['default'].createElement(
@@ -42050,13 +42068,18 @@
 	    var modStyle = _props5.modStyle;
 	    var min = _props5.min;
 	    var max = _props5.max;
+	    var lowPoint = _props5.lowPoint;
+	    var midPoint = _props5.midPoint;
+	    var highPoint = _props5.highPoint;
 
 	    var range = max - min;
+
+	    var sideOffset = 5;
 
 	    return _react2['default'].createElement(
 	      'svg',
 	      {
-	        viewBox: '0 0 ' + (range + 10) + ' 28',
+	        viewBox: '0 0 ' + (range + sideOffset * 2) + ' 28',
 	        style: [styles.svg, modStyle],
 	        onMouseDown: this.handleMouseDown.bind(this)
 	      },
@@ -42073,7 +42096,7 @@
 	      ),
 	      _react2['default'].createElement(
 	        'g',
-	        { transform: 'translate(5,10)' },
+	        { transform: 'translate(' + sideOffset + ',10)' },
 	        _react2['default'].createElement('rect', {
 	          y: 0,
 	          width: range,
@@ -42119,40 +42142,70 @@
 	        })
 	      ),
 	      _react2['default'].createElement('rect', {
-	        x: 5,
-	        y: 0,
+	        x: sideOffset,
+	        y: 6,
 	        width: 0.25,
-	        height: 20,
+	        height: 13,
 	        style: [styles.tick]
 	      }),
 	      _react2['default'].createElement('rect', {
-	        x: range + 5,
-	        y: 0,
+	        x: sideOffset,
+	        y: 6,
+	        width: 13,
+	        height: 0.25,
+	        style: [styles.tick]
+	      }),
+	      _react2['default'].createElement('rect', {
+	        x: range + sideOffset - 13,
+	        y: 6,
+	        width: 13,
+	        height: 0.25,
+	        style: [styles.tick]
+	      }),
+	      _react2['default'].createElement('rect', {
+	        x: range + sideOffset,
+	        y: 6,
 	        width: 0.25,
-	        height: 20,
+	        height: 13,
+	        style: [styles.tick]
+	      }),
+	      _react2['default'].createElement('rect', {
+	        x: range / 2 + sideOffset,
+	        y: 6,
+	        width: 0.25,
+	        height: 13,
 	        style: [styles.tick]
 	      }),
 	      _react2['default'].createElement(
 	        'text',
 	        {
-	          x: 6,
+	          x: sideOffset + 1,
 	          y: 5,
 	          style: [styles.labelLeft]
 	        },
-	        'worst possible'
+	        lowPoint
 	      ),
 	      _react2['default'].createElement(
 	        'text',
 	        {
-	          x: range + 4.25,
+	          x: range / 2 + sideOffset,
+	          y: 5,
+	          style: [styles.labelMiddle]
+	        },
+	        midPoint
+	      ),
+	      _react2['default'].createElement(
+	        'text',
+	        {
+	          x: range + sideOffset - 1,
 	          y: 5,
 	          style: [styles.labelRight]
 	        },
-	        'best possible'
+	        highPoint
 	      ),
 	      _react2['default'].createElement(
 	        'g',
-	        { transform: 'translate(5,10)' },
+	        { transform: 'translate(' + sideOffset + ',10)' },
 	        _react2['default'].createElement(Handle, { width: 8, height: 8, position: Math.abs(min - position) })
 	      )
 	    );
@@ -42165,7 +42218,10 @@
 	      height: '4rem',
 	      color: '#f44',
 	      min: -100,
-	      max: 100
+	      max: 100,
+	      lowPoint: 'worst possible',
+	      midPoint: '',
+	      highPoint: 'best possible'
 	    },
 	    enumerable: true
 	  }]);
@@ -42192,14 +42248,20 @@
 	    userSelect: 'none'
 	  },
 	  labelLeft: {
-	    fontSize: '.3rem',
-	    fontWeight: 'bold',
+	    fontSize: '.25rem',
+	    fontStyle: 'italic',
 	    textAnchor: 'start',
 	    userSelect: 'none'
 	  },
+	  labelMiddle: {
+	    fontSize: '.25rem',
+	    fontStyle: 'italic',
+	    textAnchor: 'middle',
+	    userSelect: 'none'
+	  },
 	  labelRight: {
-	    fontSize: '.3rem',
-	    fontWeight: 'bold',
+	    fontSize: '.25rem',
+	    fontStyle: 'italic',
 	    textAnchor: 'end',
 	    userSelect: 'none'
 	  }

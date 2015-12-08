@@ -41,7 +41,10 @@ class Slider extends React.Component {
     height: '4rem',
     color: '#f44',
     min: -100,
-    max: 100
+    max: 100,
+    lowPoint: 'worst possible',
+    midPoint: '',
+    highPoint: 'best possible'
   }
 
   constructor (props) {
@@ -94,14 +97,19 @@ class Slider extends React.Component {
       color,
       modStyle,
       min,
-      max
+      max,
+      lowPoint,
+      midPoint,
+      highPoint
     } = this.props
 
     const range = max - min
 
+    const sideOffset = 5
+
     return (
       <svg
-        viewBox={`0 0 ${range + 10} 28`}
+        viewBox={`0 0 ${range + sideOffset * 2} 28`}
         style={[styles.svg, modStyle]}
         onMouseDown={this.handleMouseDown.bind(this)}
       >
@@ -112,7 +120,7 @@ class Slider extends React.Component {
             <stop offset={'100%'} stopColor={'#eee'} />
           </linearGradient>
         </defs>
-        <g transform="translate(5,10)">
+        <g transform={`translate(${sideOffset},10)`}>
           <rect 
             y={0}
             width={range}
@@ -154,30 +162,56 @@ class Slider extends React.Component {
           }
         </g>
         <rect
-          x={5}
-          y={0}
+          x={sideOffset}
+          y={6}
           width={0.25}
-          height={20}
+          height={13}
           style={[styles.tick]}
         ></rect>
         <rect
-          x={range + 5}
-          y={0}
+          x={sideOffset}
+          y={6}
+          width={13}
+          height={0.25}
+          style={[styles.tick]}
+        ></rect>
+        <rect
+          x={range + sideOffset - 13}
+          y={6}
+          width={13}
+          height={0.25}
+          style={[styles.tick]}
+        ></rect>
+        <rect
+          x={range + sideOffset}
+          y={6}
           width={0.25}
-          height={20}
+          height={13}
+          style={[styles.tick]}
+        ></rect>
+        <rect
+          x={(range / 2) + sideOffset}
+          y={6}
+          width={0.25}
+          height={13}
           style={[styles.tick]}
         ></rect>
         <text
-          x={6}
+          x={sideOffset + 1}
           y={5}
           style={[styles.labelLeft]}
-        >worst possible</text>
+        >{lowPoint}</text>
         <text
-          x={range + 4.25}
+          x={(range / 2) + sideOffset}
+          y={5}
+          style={[styles.labelMiddle]}
+        >{midPoint}</text>
+        <text
+          x={range + sideOffset - 1}
           y={5}
           style={[styles.labelRight]}
-        >best possible</text>
-        <g transform="translate(5,10)">
+        >{highPoint}</text>
+        <g transform={`translate(${sideOffset},10)`}>
           <Handle width={8} height={8} position={Math.abs(min - position)} />
         </g>
       </svg>
@@ -203,14 +237,20 @@ const styles = {
     userSelect: 'none'
   },
   labelLeft: {
-    fontSize: '.3rem',
-    fontWeight: 'bold',
+    fontSize: '.25rem',
+    fontStyle: 'italic', 
     textAnchor: 'start',
     userSelect: 'none'
   },
+  labelMiddle: {
+    fontSize: '.25rem',
+    fontStyle: 'italic', 
+    textAnchor: 'middle',
+    userSelect: 'none'
+  },
   labelRight: {
-    fontSize: '.3rem',
-    fontWeight: 'bold',
+    fontSize: '.25rem',
+    fontStyle: 'italic', 
     textAnchor: 'end',
     userSelect: 'none'
   }

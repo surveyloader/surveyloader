@@ -15,7 +15,10 @@ class Index extends React.Component {
     instructions: declare(type.string),
     text: declare(type.string),
     rating_tip: declare(type.string),
-    rating_confirm: declare(type.string)
+    rating_confirm: declare(type.string),
+    low_point: declare(type.string),
+    mid_point: declare(type.string),
+    high_point: declare(type.string)
   }
 
   static defaultProps = {
@@ -23,6 +26,9 @@ class Index extends React.Component {
     text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings. In other words, 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
     rating_tip: 'Move the slider to set your rating',
     rating_confirm: 'Confirm Rating',
+    low_point: 'the least you can possibly imagine',
+    mid_point: 'middling or neutral',
+    high_point: ' the most you can possibly imagine',
     aspect_texts: [
       'one',
       'two',
@@ -81,7 +87,10 @@ class Index extends React.Component {
       rating_tip,
       rating_confirm,
       instructions,
-      text
+      text,
+      low_point,
+      mid_point,
+      high_point
     } = this.props
     return (
       <div style={[styles.container]}>
@@ -108,6 +117,9 @@ class Index extends React.Component {
             }
             rateText={rating_tip}
             confirmText={rating_confirm}
+            lowPoint={low_point}
+            midPoint={mid_point}
+            highPoint={high_point}
           />
         }
         {
