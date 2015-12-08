@@ -23,7 +23,7 @@ class Index extends React.Component {
 
   static defaultProps = {
     instructions: 'Instructions',
-    text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings. In other words, 100 is the best situation you could possibly imagine and -100 is the worst situation you could possibly imagine. On this scale how would you rate the following aspects of your life?',
+    text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings. In other words, 100 is the most can possibly imagine and -100 is the least you can possibly imagine. On this scale how would you rate the following aspects of your life?',
     rating_tip: 'Move the slider to set your rating',
     rating_confirm: 'Confirm Rating',
     low_point: 'the least you can possibly imagine',
