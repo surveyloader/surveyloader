@@ -3,7 +3,7 @@ import http from 'superagent'
 
 class Headers extends React.Component {
   static simulate (props) {
-    props.push({
+    return {
       "Accept": "*/*",
       "Accept-Encoding": "gzip, deflate, sdch",
       "Accept-Language": "en-US,en;q=1",
@@ -13,7 +13,7 @@ class Headers extends React.Component {
       "Pragma": "no-cache",
       "Referer": "module/?type=Headers",
       "User-Agent": "spoof"
-    })
+    }
   }
 
   componentWillMount () {

@@ -1,5 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
+
 import colorLib from 'color'
 
 const Color = (c) => {
@@ -12,15 +13,105 @@ const Color = (c) => {
   return colorLib(c)
 }
 
+const RightDiff = ({ min, position, delta, height, top, color, step }) => {
+  const dynamicDelta = step * delta
+  return (
+    <g>
+      <defs>
+        <clipPath id="diffBox">
+            <rect
+              x={Math.abs(min - position)}
+              y={0}
+              width={dynamicDelta}
+              height={top}
+            ></rect>
+        </clipPath>
+      </defs>
+      <rect
+        x={Math.abs(min - position)}
+        y={top}
+        width={dynamicDelta}
+        height={height}
+        fill={Color(color).darken(.5).rgbString()}
+        stroke="#fff"
+        strokeWidth="0.25"
+      ></rect>
+      <rect
+        fill={'#000'}
+        x={Math.abs(min - position)}
+        y={5}
+        width={Math.max(0, dynamicDelta - 4)}
+        height={2}
+      ></rect>
+      <path
+        clipPath={'url(#diffBox)'}
+        fill={'#000'}
+        d={`
+          M ${Math.abs(min - position) + dynamicDelta - 4},4
+          l 4,2
+          l -4,2
+          Z
+        `}
+      ></path>
+    </g>
+  )
+}
+
+const LeftDiff = ({ min, position, delta, height, top, color, step }) => {
+  const dynamicDelta = step * -delta
+  return (
+    <g>
+      <defs>
+        <clipPath id="diffBox">
+            <rect
+              x={Math.abs(min - position) + delta}
+              y={0}
+              width={dynamicDelta}
+              height={top}
+            ></rect>
+        </clipPath>
+      </defs>
+      <rect
+        x={Math.abs(min - position) - dynamicDelta}
+        y={top}
+        width={dynamicDelta}
+        height={height}
+        fill={Color(color).lighten(.15).rgbString()}
+        stroke="#fff"
+        strokeWidth="0.25"
+      ></rect>
+      <rect
+        fill={'#000'}
+        x={Math.abs(min - position) + delta + 4}
+        y={5}
+        width={Math.max(0, dynamicDelta - 4)}
+        height={2}
+      ></rect>
+      <path
+        clipPath={'url(#diffBox)'}
+        fill={'#000'}
+        d={`
+          M ${Math.abs(min - position) + 4 - dynamicDelta},4
+          l -4,2
+          l 4,2
+          Z
+        `}
+      ></path>
+    </g>
+  )
+}
+
 @Radium
 class DeltaBar extends React.Component {
   static defaultProps = {
     position: 42,
     delta: 10,
-    height: 1,
+    height: 8,
+    top: 10,
     color: '#f44',
-    min: -100,
-    max: 100
+    min: 0,
+    max: 100,
+    step: 1
   }
 
   render () {
@@ -30,110 +121,95 @@ class DeltaBar extends React.Component {
       max,
       delta,
       height,
+      top,
       color,
+      step,
       modStyle 
     } = this.props
 
     const range = max - min
+    const sideOffset = 5
 
     return (
       <svg
-        viewBox={`0 0 ${range} 1`}
-        preserveAspectRatio="none"
-        style={[
-          styles.svg,
-          { 
-            height: `${Number(height + 1)}rem` 
-          },
-          modStyle
-        ]}
+        viewBox={`0 0 ${range + sideOffset * 2} 36`}
+        style={[styles.svg]}
       >
-        <rect
-          x={0}
-          y={0.42}
-          width={range}
-          height={0.58}
-          fill="#eee"
+        <rect 
+          y={0}
+          width={range + sideOffset * 2}
+          height={36}
+          fill="#fff"
         >
         </rect>
-        <rect
-          x={0}
-          y={0.42}
-          width={Math.abs(min - position)}
-          height={0.58}
-          fill={color}
-        >
-        </rect>
+        <g transform={`translate(${sideOffset},${top})`}>
+          <rect 
+            y={0}
+            width={range}
+            height={height}
+            fill="#eee"
+            stroke="#fff"
+            strokeWidth="0.25"
+          >
+          </rect>
+          <rect 
+            y={0}
+            width={Math.abs(min - position)}
+            height={height}
+            fill={color}
+            stroke="#fff"
+            strokeWidth="0.25"
+          >
+          </rect>
+          {
+            _.range(min, max + 1)
+              .filter((n) => n % 10 === 0)
+              .map((n) => (
+                <g key={n}>
+                  <rect
+                    x={Math.abs(min - n)}
+                    y={9}
+                    width={0.2}
+                    height={1}
+                    style={[styles.tick]}
+                  ></rect>
+                  <text
+                    x={Math.abs(min - n)}
+                    y={14}
+                    style={[styles.text]}
+                  >{Number(n)}</text>
+                </g>
+              ))
+          }
+        </g>
+        <g transform={`translate(${sideOffset},0)`}>
         {
-          delta > 0 &&
-          <g>
-            <rect
-              x={Math.abs(min - position)}
-              y={0.42}
-              width={delta}
-              height={0.58}
-              fill={Color(color).darken(0.42).rgbString()}
-            ></rect>
-            <path
-              fill={'#000'}
-              d={`
-                M ${Math.abs(min - position)},0.1
-                l ${delta - 2},0
-                l 0,0.2
-                l ${2 - delta},0
-                Z
-              `}
-            ></path>
-            <path
-              fill={'#000'}
-              d={`
-                M ${Math.abs(min - position) + delta - 2},0
-                l 2,0.2
-                l -2,0.2
-                Z
-              `}
-            ></path>
-          </g>
+          delta > 0 && (
+            <RightDiff { ...{
+              min,
+              position,
+              delta,
+              height,
+              top,
+              color,
+              step
+            }} />
+          )
         }
         {
-          delta < 0 &&
-          <g>
-            <rect
-              x={Math.abs(min - position) + delta}
-              y={0.42}
-              width={-delta}
-              height={0.58}
-              fill={Color(color).lighten(0.1).rgbString()}
-            ></rect>
-            <path
-              fill={'#000'}
-              d={`
-                M ${Math.abs(min - position)},0.1
-                l ${delta + 2},0
-                l 0,0.2
-                l ${-2 - delta},0
-                Z
-              `}
-            ></path>
-            <path
-              fill={'#000'}
-              d={`
-                M ${Math.abs(min - position) + delta + 2},0
-                l -2,0.2
-                l 2,0.2
-                Z
-              `}
-            ></path>
-          </g>
+          delta < 0 && (
+            <LeftDiff { ...{
+              min,
+              position,
+              delta,
+              height,
+              top,
+              color,
+              step
+            }} />
+          )
         }
-        <rect
-          x={Math.abs(min - position) + delta - 0.5}
-          y={0.42}
-          width={0.5}
-          height={0.58}
-          fill={'#000'}
-        >
-        </rect>
+        </g>
       </svg>
     )
   }
@@ -142,14 +218,15 @@ class DeltaBar extends React.Component {
 const styles = {
   svg: {
     width: '100%',
-    paddingTop: 0,
-    paddingRight: 0,
-    paddingBottom: 0,
-    paddingLeft: 0,
-    marginTop: 0,
-    marginRight: 0,
-    marginBottom: 0,
-    marginLeft: 0
+    height: 'auto'
+  },
+  tick: {
+    fill: '#000' 
+  },
+  text: {
+    fontSize: '.25rem',
+    textAnchor: 'middle',
+    userSelect: 'none'
   }
 }
 

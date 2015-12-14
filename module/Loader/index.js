@@ -17,22 +17,19 @@ class Loader extends React.Component {
     this.loadComponent = this.loadComponent.bind(this)
   }
 
+  assignProps (params, table) {
+    return _(params)
+      .map((v, k) => [k, echo(v, table)])
+      .object()
+      .value()
+  }
+
   loadComponent (params, table) {
-    console.log('load', params)
     if (params.type) {
       const component = load(params.type)
       component.defaultProps = component.defaultProps ? component.defaultProps : {}
-      
-      const paramValues = _(params)
-        .map((v, p) => {
-          return Array.isArray(v) ?
-            [p, v.map(subv => echo(subv, table))] :
-            [p, echo(v, table)]
-        })
-        .object()
-        .value()
-
-      component.defaultProps = { ...component.defaultProps, ...paramValues }
+      component.defaultProps = _
+        .assign(component.defaultProps, this.assignProps(params, table))
       this.setState({ component })
     }
   }

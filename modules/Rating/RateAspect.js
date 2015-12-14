@@ -16,8 +16,9 @@ class RateAspect extends React.Component {
       handleConfirm,
       rateText,
       confirmText,
+      minPoint,
+      maxPoint,
       lowPoint,
-      midPoint,
       highPoint
     } = this.props
 
@@ -39,8 +40,9 @@ class RateAspect extends React.Component {
             color={aspect.color}
             position={aspect.rating}
             handleChange={handleRating}
+            minPoint={minPoint}
+            maxPoint={maxPoint}
             lowPoint={lowPoint}
-            midPoint={midPoint}
             highPoint={highPoint}
           />
         </div>

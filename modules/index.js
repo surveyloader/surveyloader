@@ -6,6 +6,7 @@ import Form from './Form'
 import Headers from './Headers'
 import Mirror from './Mirror'
 import MostLeast from './MostLeast'
+import Preamble from './Preamble'
 import Rating from './Rating'
 import Sample from './Sample'
 import Store from './Store'
@@ -19,6 +20,7 @@ export { Form }
 export { Headers }
 export { Mirror }
 export { MostLeast }
+export { Preamble }
 export { Rating }
 export { Sample }
 export { Store }

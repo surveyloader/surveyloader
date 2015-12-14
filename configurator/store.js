@@ -2,6 +2,7 @@ import { createStore } from 'redux'
 import update from 'react/lib/update'
 
 export default createStore(function (state, action) {
+  console.log(action.type, state)
   switch (action.type) {
     case 'AUTHORIZE':
       return {
@@ -93,13 +94,13 @@ export default createStore(function (state, action) {
 
       var item = items.filter((o) => o.id === action.id)[0]
       var itemIndex = items.indexOf(item)
-      return update(state, {
-        queue: {
-          $splice: [
-            [itemIndex, 1]
-          ]
-        }
-      })
+      var selected = Math.max(itemIndex - 1, 0)
+      console.log(itemIndex, selected)
+      return {
+        ...state,
+        selected: 0,
+        queue: items.filter((o) => o.id !== action.id)
+      }
 
     case 'SELECT_QUEUE_MODULE':
       var items = state.queue

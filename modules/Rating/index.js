@@ -16,19 +16,21 @@ class Index extends React.Component {
     text: declare(type.string),
     rating_tip: declare(type.string),
     rating_confirm: declare(type.string),
+    min_point: declare(type.string),
+    max_point: declare(type.string),
     low_point: declare(type.string),
-    mid_point: declare(type.string),
     high_point: declare(type.string)
   }
 
   static defaultProps = {
     instructions: 'Instructions',
-    text: 'Please imagine a scale from -100 to 100 where -100 and 100 are truly extreme ratings. In other words, 100 is the most can possibly imagine and -100 is the least you can possibly imagine. On this scale how would you rate the following aspects of your life?',
+    text: 'Please imagine a scale from 0 to 100 where 0 is the least you could possibly imagine and 100 is the most you could possibly imagine. Notice that above 75 or below 25 are beyond extreme. On this scale how would you rate the following aspects of your life?',
     rating_tip: 'Move the slider to set your rating',
     rating_confirm: 'Confirm Rating',
-    low_point: 'the least you can possibly imagine',
-    mid_point: 'middling or neutral',
-    high_point: ' the most you can possibly imagine',
+    low_point: 'extremely low',
+    high_point: ' extremely high',
+    min_point: 'the least you could possibly imagine',
+    max_point: ' the most you could possibly imagine',
     aspect_texts: [
       'one',
       'two',
@@ -42,7 +44,7 @@ class Index extends React.Component {
   }
 
   static simulate (props) {
-    return _(props.aspects)
+    return _(props.aspect_texts)
       .map((a) => [`rating_${identify(a)}`, _.sample(_.range(0,101))])
       .object()
       .value()
@@ -88,8 +90,9 @@ class Index extends React.Component {
       rating_confirm,
       instructions,
       text,
+      min_point,
+      max_point,
       low_point,
-      mid_point,
       high_point
     } = this.props
     return (
@@ -117,8 +120,9 @@ class Index extends React.Component {
             }
             rateText={rating_tip}
             confirmText={rating_confirm}
+            minPoint={min_point}
+            maxPoint={max_point}
             lowPoint={low_point}
-            midPoint={mid_point}
             highPoint={high_point}
           />
         }

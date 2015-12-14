@@ -31,6 +31,8 @@ export default class Queue extends React.Component {
       store
     } = this.props
 
+    console.log('Q', queue, selected)
+
     return (
       <div style={[styles.col]}>
         <div>

@@ -33,15 +33,17 @@ class Item extends React.Component {
     const backgroundColor = highlight ? '#77f' : null
 
     return connectDragSource(connectDropTarget(
-      <li
-        style={[styles.item, { opacity, backgroundColor }]}
-        onClick={() => {
-          if (!isDragging) select(id)
-        }}
-      >
-        <span>{i}. {text}</span>
+      <li>
+        <div
+          style={[styles.item, { opacity, backgroundColor }]}
+          onClick={() => {
+            if (!isDragging) select(id)
+          }}
+        >
+          <span>{i}. {text}</span>
+        </div>
         <button
-          onClick={remove}
+          onClick={() => remove(id)}
           style={{float:'right'}}
         >x</button>
       </li>

@@ -1,6 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
-import DeltaBar from './DeltaBar'
+import ZoomBar from './ZoomBar'
 import Format from '../services/format'
 
 @Radium
@@ -24,16 +24,9 @@ class Aspect extends React.Component {
     } = this.props
     return (
       <div style={[styles.main, modStyle]}>
-        <DeltaBar
-          position={rating}
-          min={-100}
-          max={100}
-          color={color} 
-          delta={delta}
-        />
         <div style={[styles.blurb]}>
           <span style={[styles.rating]}>
-            {rating + delta}
+            {Number(rating) + Number(delta)}
           </span>
           <p style={[styles.text]}>
             {Format.capitalize(text)}
@@ -52,6 +45,11 @@ class Aspect extends React.Component {
             }
           </p>
         </div>
+        <ZoomBar
+          position={rating}
+          color={color} 
+          delta={delta}
+        />
       </div>
     )
   }
@@ -59,8 +57,7 @@ class Aspect extends React.Component {
 
 const styles = {
   main: {
-    boxSizing: 'border-box',
-    padding: '15px 0'
+    boxSizing: 'border-box'
   },
   blurb: {
     marginBottom: 15

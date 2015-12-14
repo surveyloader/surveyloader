@@ -42,6 +42,7 @@ class Container extends React.Component {
 
   render () {
     const { state } = this
+    console.log(state.selected)
     const params = state.queue[state.selected]
 
     return DOM.div({

@@ -37,14 +37,16 @@ class Handle extends React.Component {
 @Radium
 class Slider extends React.Component {
   static defaultProps = {
-    position: 0,
-    height: '4rem',
+    position: 50,
+    height: 6,
+    top: 10,
     color: '#f44',
-    min: -100,
+    min: 0,
     max: 100,
-    lowPoint: 'worst possible',
-    midPoint: '',
-    highPoint: 'best possible'
+    minPoint: 'worst possible',
+    maxPoint: 'best possible',
+    lowPoint: 'extremely low',
+    highPoint: 'extremely high'
   }
 
   constructor (props) {
@@ -94,12 +96,14 @@ class Slider extends React.Component {
       position,
       delta,
       height,
+      top,
       color,
       modStyle,
       min,
       max,
+      minPoint,
+      maxPoint,
       lowPoint,
-      midPoint,
       highPoint
     } = this.props
 
@@ -113,19 +117,12 @@ class Slider extends React.Component {
         style={[styles.svg, modStyle]}
         onMouseDown={this.handleMouseDown.bind(this)}
       >
-        <defs>
-          <linearGradient id="gradient">
-            <stop offset={'0%'} stopColor={'#eee'} />
-            <stop offset={'50%'} stopColor={'#eee'} />
-            <stop offset={'100%'} stopColor={'#eee'} />
-          </linearGradient>
-        </defs>
-        <g transform={`translate(${sideOffset},10)`}>
+        <g transform={`translate(${sideOffset},${top})`}>
           <rect 
             y={0}
             width={range}
-            height={8}
-            fill="url(#gradient)"
+            height={height}
+            fill="#eee"
             stroke="#fff"
             strokeWidth="0.25"
             ref={(c) => this._bar = c}
@@ -134,7 +131,7 @@ class Slider extends React.Component {
           <rect 
             y={0}
             width={Math.abs(min - position)}
-            height={8}
+            height={height}
             fill={color}
             stroke="#fff"
             strokeWidth="0.25"
@@ -147,72 +144,88 @@ class Slider extends React.Component {
                 <g key={n}>
                   <rect
                     x={Math.abs(min - n)}
-                    y={9}
-                    width={0.2}
+                    y={height + 1}
+                    width={0.1}
                     height={1}
                     style={[styles.tick]}
                   ></rect>
                   <text
                     x={Math.abs(min - n)}
-                    y={14}
+                    y={height + 5}
                     style={[styles.text]}
                   >{Number(n)}</text>
                 </g>
               ))
           }
         </g>
-        <rect
-          x={sideOffset}
-          y={6}
-          width={0.25}
-          height={13}
-          style={[styles.tick]}
-        ></rect>
-        <rect
-          x={sideOffset}
-          y={6}
-          width={13}
-          height={0.25}
-          style={[styles.tick]}
-        ></rect>
-        <rect
-          x={range + sideOffset - 13}
-          y={6}
-          width={13}
-          height={0.25}
-          style={[styles.tick]}
-        ></rect>
-        <rect
-          x={range + sideOffset}
-          y={6}
-          width={0.25}
-          height={13}
-          style={[styles.tick]}
-        ></rect>
-        <rect
-          x={(range / 2) + sideOffset}
-          y={6}
-          width={0.25}
-          height={13}
-          style={[styles.tick]}
-        ></rect>
-        <text
-          x={sideOffset + 1}
-          y={5}
-          style={[styles.labelLeft]}
-        >{lowPoint}</text>
-        <text
-          x={(range / 2) + sideOffset}
-          y={5}
-          style={[styles.labelMiddle]}
-        >{midPoint}</text>
-        <text
-          x={range + sideOffset - 1}
-          y={5}
-          style={[styles.labelRight]}
-        >{highPoint}</text>
-        <g transform={`translate(${sideOffset},10)`}>
-          <Handle width={8} height={8} position={Math.abs(min - position)} />
+        <g transform={`translate(0,5)`}>
+          <rect
+            x={sideOffset}
+            y={1}
+            width={0.1}
+            height={height + 5}
+            style={[styles.tick]}
+          ></rect>
+          <rect
+            x={sideOffset}
+            y={1}
+            width={13}
+            height={0.1}
+            style={[styles.tick]}
+          ></rect>
+          <rect
+            x={range + sideOffset - 13}
+            y={1}
+            width={13}
+            height={0.1}
+            style={[styles.tick]}
+          ></rect>
+          <rect
+            x={range + sideOffset}
+            y={1}
+            width={0.1}
+            height={height + 5}
+            style={[styles.tick]}
+          ></rect>
+          <text
+            x={sideOffset + 1}
+            y={0}
+            style={[styles.labelLeft]}
+          >{minPoint}</text>
+          <text
+            x={range + sideOffset - 1}
+            y={0}
+            style={[styles.labelRight]}
+          >{maxPoint}</text>
+        </g>
+        <g transform={`translate(0,${top})`}>
+          <rect
+            x={sideOffset + range * .25}
+            y={0}
+            width={0.1}
+            height={height + 6}
+            style={[styles.tick]}
+          ></rect>
+          <rect
+            x={sideOffset + range * .75}
+            y={0}
+            width={0.1}
+            height={height + 6}
+            style={[styles.tick]}
+          ></rect>
+          <text
+            x={sideOffset + range * .25 + 1}
+            y={height + 9}
+            style={[styles.labelMiddle]}
+          >{lowPoint}</text>
+          <text
+            x={sideOffset + range * .75 - 1}
+            y={height + 9}
+            style={[styles.labelMiddle]}
+          >{highPoint}</text>
+        </g>
+        <g transform={`translate(${sideOffset},${top})`}>
+          <Handle width={height} height={height} position={Math.abs(min - position)} />
         </g>
       </svg>
     )
@@ -229,29 +242,43 @@ const styles = {
     cursor: 'pointer'
   },
   tick: {
-    fill: '#000' 
+    fill: '#333' 
   },
   text: {
-    fontSize: '.25rem',
+    fontSize: '.16rem',
     textAnchor: 'middle',
     userSelect: 'none'
   },
   labelLeft: {
-    fontSize: '.25rem',
+    fontSize: '.16rem',
     fontStyle: 'italic', 
     textAnchor: 'start',
     userSelect: 'none'
   },
   labelMiddle: {
-    fontSize: '.25rem',
+    fontSize: '.16rem',
     fontStyle: 'italic', 
     textAnchor: 'middle',
     userSelect: 'none'
   },
   labelRight: {
-    fontSize: '.25rem',
+    fontSize: '.16rem',
     fontStyle: 'italic', 
     textAnchor: 'end',
+    userSelect: 'none'
+  },
+  labelBottomLeft: {
+    fontSize: '.16rem',
+    fontStyle: 'italic',
+    textAnchor: 'start',
+    dominantBaseline: 'hanging',
+    userSelect: 'none'
+  },
+  labelBottomRight: {
+    fontSize: '.16rem',
+    fontStyle: 'italic', 
+    textAnchor: 'end',
+    dominantBaseline: 'hanging',
     userSelect: 'none'
   }
 }

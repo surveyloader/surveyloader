@@ -1,25 +1,19 @@
 import React from 'react'
+import _ from 'lodash'
 import { declare, type } from '../../global/types'
 import identify from '../../global/services/stringHash'
 import ColorScheme from '../../global/services/colorScheme'
 
 function choose (n, aspects, bucket) {
-  let colors = []
-  let samples = _(aspects)
-    .sample(n || aspects.length)
-    .map((p, i) => {
-      colors.push([
-        `color_${identify(p)}`,
-        ColorScheme.index(i)
+  return _.object(
+      _.sample(aspects, n || 3)
+      .map((p, i) => [
+        [`aspect_${bucket}_${i}`, identify(p)],
+        [`text_${identify(p)}`, p],
+        [`color_${identify(p)}`, ColorScheme.index(i)]
       ])
-      return [
-        `sample_${bucket}_` + i,
-        p
-      ]
-    })
-    .value()
-
-  return _.object(samples.concat(colors))
+      .reduce((a, b) => a.concat(b))
+    )
 }
 
 class Sample extends React.Component {

@@ -31,19 +31,17 @@ export default class Form extends React.Component {
     complete_form: 'Please complete form to proceed!'
   }
 
-  constructor (props) {
-    super(props)
-    this.state = { responses: {} }
-  }
-
-  simulate (props) {
+  static simulate (props) {
     const formId = hash(JSON.stringify(props.fields))
-    const responses = _(props.fields)
+    return _(props.fields)
       .map((f, i) => [`form_${formId}_${i}`, 'simulated'])
       .object()
       .value()
+  }
 
-    props.push(responses)
+  constructor (props) {
+    super(props)
+    this.state = { responses: {} }
   }
 
   handleField (i, value) {

@@ -20,6 +20,10 @@ export default {
     boxShadow: '0.2rem 0.2rem 1rem rgba(0, 0, 0, 0.1)',
     background: '#fff'
   },
+  heading: {
+    fontSize: '1.25rem',
+    fontWeight: 'bold'
+  },
   padding: (t, r, b, l) => {
     return {
       paddingTop: `${t}rem`,
