@@ -11,12 +11,15 @@ function echo (param, table) {
         .object()
         .value()
 
+    case /^\\\$.+/.test(param):
+      return param.substring(1)
+
     case /\$\(.+\)/.test(param):
       const nested = param
         .replace(/\$\((.+)\)/, (m, p1) => echo(`$${p1}`, table))
       return echo(nested, table)
 
-    case /\$.+/.test(param):
+    case /^\$.+/.test(param):
       return echo(table[param.substring(1)], table)
 
     case typeof param === 'undefined':

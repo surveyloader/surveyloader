@@ -37,7 +37,7 @@ class HoverableInput extends React.Component {
           style={{ width: '100%' }}
         />
         {
-          /\$.+/.test(value) &&
+          /^\$.+/.test(value) &&
           <span>-> {echo(value, table)}</span>
         }
       </div>

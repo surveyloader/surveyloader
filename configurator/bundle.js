@@ -51326,7 +51326,7 @@
 	    key: 'defaultProps',
 	    value: {
 	      instructions: 'Instructions',
-	      text: 'Please imagine a scale from 0 to 100 where 0 is the least you could possibly imagine and 100 is the most you could possibly imagine. Notice that above 75 or below 25 are beyond extreme. On this scale how would you rate the following aspects of your life?',
+	      text: 'Consider your life over the last year. On average, how would you rate the following aspects of your life during the last year? Please use a scale from 0 to 100, where 0 is the least amount of the aspect you could possibly imagine in anyone’s life and 100 is the most you could possibly imagine in anyone’s life. Notice that ratings above 75 or below 25 are beyond extreme.',
 	      rating_tip: 'Move the slider to set your rating',
 	      rating_confirm: 'Confirm Rating',
 	      low_point: 'extremely low',
@@ -52756,6 +52756,9 @@
 	          return [k, echo(v, table)];
 	        }).object().value();
 
+	      case /^\\\$.+/.test(param):
+	        return param.substring(1);
+
 	      case /\$\(.+\)/.test(param):
 	        var nested = param.replace(/\$\((.+)\)/, function (m, p1) {
 	          return echo('$' + p1, table);
@@ -52765,7 +52768,7 @@
 	        _again = true;
 	        continue _function;
 
-	      case /\$.+/.test(param):
+	      case /^\$.+/.test(param):
 	        _x = table[param.substring(1)];
 	        _x2 = table;
 	        _again = true;
@@ -54218,7 +54221,7 @@
 	        onBrush: brush,
 	        style: { width: '100%' }
 	      }),
-	      /\$.+/.test(value) && _react2['default'].createElement(
+	      /^\$.+/.test(value) && _react2['default'].createElement(
 	        'span',
 	        null,
 	        '-> ',
