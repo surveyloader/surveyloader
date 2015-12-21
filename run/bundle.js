@@ -19669,11 +19669,11 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _superagent = __webpack_require__(219);
+	var _superagent = __webpack_require__(220);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
-	var _store = __webpack_require__(265);
+	var _store = __webpack_require__(266);
 
 	var _store2 = _interopRequireDefault(_store);
 
@@ -19681,19 +19681,19 @@
 
 	var _globalServicesLazy2 = _interopRequireDefault(_globalServicesLazy);
 
-	var _globalServicesEcho = __webpack_require__(266);
+	var _globalServicesEcho = __webpack_require__(267);
 
 	var _globalServicesEcho2 = _interopRequireDefault(_globalServicesEcho);
 
-	var _Loader = __webpack_require__(267);
+	var _Loader = __webpack_require__(268);
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
-	var _Table = __webpack_require__(268);
+	var _Table = __webpack_require__(269);
 
 	var _Table2 = _interopRequireDefault(_Table);
 
-	var _Queue = __webpack_require__(269);
+	var _Queue = __webpack_require__(270);
 
 	var _Queue2 = _interopRequireDefault(_Queue);
 
@@ -19963,31 +19963,31 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _Bucket = __webpack_require__(211);
+	var _Bernoulli = __webpack_require__(211);
+
+	var _Bernoulli2 = _interopRequireDefault(_Bernoulli);
+
+	var _Bucket = __webpack_require__(213);
 
 	var _Bucket2 = _interopRequireDefault(_Bucket);
 
-	var _Coin = __webpack_require__(212);
-
-	var _Coin2 = _interopRequireDefault(_Coin);
-
-	var _Consent = __webpack_require__(213);
+	var _Consent = __webpack_require__(214);
 
 	var _Consent2 = _interopRequireDefault(_Consent);
 
-	var _Example = __webpack_require__(214);
+	var _Example = __webpack_require__(215);
 
 	var _Example2 = _interopRequireDefault(_Example);
 
-	var _Form = __webpack_require__(216);
+	var _Form = __webpack_require__(217);
 
 	var _Form2 = _interopRequireDefault(_Form);
 
-	var _Headers = __webpack_require__(218);
+	var _Headers = __webpack_require__(219);
 
 	var _Headers2 = _interopRequireDefault(_Headers);
 
-	var _Mirror = __webpack_require__(222);
+	var _Mirror = __webpack_require__(223);
 
 	var _Mirror2 = _interopRequireDefault(_Mirror);
 
@@ -19995,32 +19995,32 @@
 
 	var _MostLeast2 = _interopRequireDefault(_MostLeast);
 
-	var _Preamble = __webpack_require__(223);
+	var _Preamble = __webpack_require__(224);
 
 	var _Preamble2 = _interopRequireDefault(_Preamble);
 
-	var _Rating = __webpack_require__(245);
+	var _Rating = __webpack_require__(246);
 
 	var _Rating2 = _interopRequireDefault(_Rating);
 
-	var _Sample = __webpack_require__(261);
+	var _Sample = __webpack_require__(262);
 
 	var _Sample2 = _interopRequireDefault(_Sample);
 
-	var _Store = __webpack_require__(262);
+	var _Store = __webpack_require__(263);
 
 	var _Store2 = _interopRequireDefault(_Store);
 
-	var _Triple = __webpack_require__(263);
+	var _Triple = __webpack_require__(264);
 
 	var _Triple2 = _interopRequireDefault(_Triple);
 
-	var _URLParams = __webpack_require__(264);
+	var _URLParams = __webpack_require__(265);
 
 	var _URLParams2 = _interopRequireDefault(_URLParams);
 
+	exports.Bernoulli = _Bernoulli2['default'];
 	exports.Bucket = _Bucket2['default'];
-	exports.Coin = _Coin2['default'];
 	exports.Consent = _Consent2['default'];
 	exports.Example = _Example2['default'];
 	exports.Form = _Form2['default'];
@@ -37996,6 +37996,210 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _xorshift = __webpack_require__(212);
+
+	var _xorshift2 = _interopRequireDefault(_xorshift);
+
+	var _globalTypes = __webpack_require__(197);
+
+	var Bernoulli = (function (_React$Component) {
+	  function Bernoulli(props) {
+	    _classCallCheck(this, Bernoulli);
+
+	    _React$Component.call(this, props);
+	  }
+
+	  _inherits(Bernoulli, _React$Component);
+
+	  Bernoulli.simulate = function simulate(_ref2) {
+	    var _ref;
+
+	    var variable = _ref2.variable;
+	    var p = _ref2.p;
+
+	    return (_ref = {}, _ref[variable] = _xorshift2['default'].random() > 1 - p, _ref);
+	  };
+
+	  Bernoulli.prototype.componentWillMount = function componentWillMount() {
+	    var _push;
+
+	    var _props = this.props;
+	    var variable = _props.variable;
+	    var p = _props.p;
+	    var push = _props.push;
+
+	    push((_push = {}, _push[variable] = _xorshift2['default'].random() > 1 - p, _push));
+	  };
+
+	  Bernoulli.prototype.render = function render() {
+	    return _react2['default'].createElement('div', null);
+	  };
+
+	  _createClass(Bernoulli, null, [{
+	    key: 'propTypes',
+	    value: {
+	      variable: _globalTypes.declare(_globalTypes.type.string),
+	      p: _globalTypes.declare(_globalTypes.type.number)
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      variable: 'coin',
+	      p: 0.5
+	    },
+	    enumerable: true
+	  }]);
+
+	  return Bernoulli;
+	})(_react2['default'].Component);
+
+	exports['default'] = Bernoulli;
+	module.exports = exports['default'];
+
+/***/ },
+/* 212 */
+/***/ function(module, exports) {
+
+	
+	/**
+	 * Create a pseudorandom number generator, with a seed.
+	 * @param {array} seed "128-bit" integer, composed of 4x32-bit
+	 * integers in big endian order.
+	 */
+	function XorShift(seed) {
+	  // Note the extension, this === module.exports is required because
+	  // the `constructor` function will be used to generate new instances.
+	  // In that case `this` will point to the default RNG, and `this` will
+	  // be an instance of XorShift.
+	  if (!(this instanceof XorShift) || this === module.exports) {
+	    return new XorShift(seed);
+	  }
+
+	  if (!Array.isArray(seed) || seed.length !== 4) {
+	    throw new TypeError('seed must be an array with 4 numbers');
+	  }
+
+	  // uint64_t s = [seed ...]
+	  this._state0U = seed[0] | 0;
+	  this._state0L = seed[1] | 0;
+	  this._state1U = seed[2] | 0;
+	  this._state1L = seed[3] | 0;
+	}
+
+	/**
+	 * Returns a 64bit random number as a 2x32bit array
+	 * @return {array}
+	 */
+	XorShift.prototype.randomint = function() {
+	  // uint64_t s1 = s[0]
+	  var s1U = this._state0U, s1L = this._state0L;
+	  // uint64_t s0 = s[1]
+	  var s0U = this._state1U, s0L = this._state1L;
+
+	  // s[0] = s0
+	  this._state0U = s0U;
+	  this._state0L = s0L;
+
+	  // - t1 = [0, 0]
+	  var t1U = 0, t1L = 0;
+	  // - t2 = [0, 0]
+	  var t2U = 0, t2L = 0;
+
+	  // s1 ^= s1 << 23;
+	  // :: t1 = s1 << 23
+	  var a1 = 23;
+	  var m1 = 0xFFFFFFFF << (32 - a1);
+	  t1U = (s1U << a1) | ((s1L & m1) >>> (32 - a1));
+	  t1L = s1L << a1;
+	  // :: s1 = s1 ^ t1
+	  s1U = s1U ^ t1U;
+	  s1L = s1L ^ t1L;
+
+	  // t1 = ( s1 ^ s0 ^ ( s1 >> 17 ) ^ ( s0 >> 26 ) )
+	  // :: t1 = s1 ^ s0
+	  t1U = s1U ^ s0U;
+	  t1L = s1L ^ s0L;
+	  // :: t2 = s1 >> 17
+	  var a2 = 17;
+	  var m2 = 0xFFFFFFFF >>> (32 - a2);
+	  t2U = s1U >>> a2;
+	  t2L = (s1L >>> a2) | ((s1U & m2) << (32 - a2));
+	  // :: t1 = t1 ^ t2
+	  t1U = t1U ^ t2U;
+	  t1L = t1L ^ t2L;
+	  // :: t2 = s0 >> 26
+	  var a3 = 26;
+	  var m3 = 0xFFFFFFFF >>> (32 - a3);
+	  t2U = s0U >>> a3;
+	  t2L = (s0L >>> a3) | ((s0U & m3) << (32 - a3));
+	  // :: t1 = t1 ^ t2
+	  t1U = t1U ^ t2U;
+	  t1L = t1L ^ t2L;
+
+	  // s[1] = t1
+	  this._state1U = t1U;
+	  this._state1L = t1L;
+
+	  // return t1 + s0
+	  // :: t2 = t1 + s0
+	  var sumL = (t1L >>> 0) + (s0L >>> 0);
+	  t2U = (t1U + s0U + (sumL / 2 >>> 31)) >>> 0;
+	  t2L = sumL >>> 0;
+
+	  // :: ret t2
+	  return [t2U, t2L];
+	};
+
+	/**
+	 * Returns a random number normalized [0, 1), just like Math.random()
+	 * @return {number}
+	 */
+	XorShift.prototype.random = function() {
+	  var t2 = this.randomint();
+
+	  // :: ret t2 / 2**64
+	  return (t2[0] * 4294967296 + t2[1]) / 18446744073709551616;
+	};
+
+
+	// There is nothing particularly scientific about this seed, it is just
+	// based on the clock.
+	module.exports = new XorShift([
+	  0, Date.now() / 65536,
+	  0, Date.now() % 65536
+	]);
+
+	// Perform 20 iterations in the RNG, this prevens a short seed from generating
+	// pseudo predictable number.
+	(function () {
+	  var rng = module.exports;
+	  for (var i = 0; i < 20; i++) {
+	    rng.randomint();
+	  }
+	})();
+
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _globalTypes = __webpack_require__(197);
 
 	var _globalServicesStringHash = __webpack_require__(203);
@@ -38072,56 +38276,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 212 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var Coin = (function (_React$Component) {
-	  function Coin(props) {
-	    _classCallCheck(this, Coin);
-
-	    _React$Component.call(this, props);
-	  }
-
-	  _inherits(Coin, _React$Component);
-
-	  Coin.simulate = function simulate() {
-	    return {
-	      coin: Math.random() > 0.5 ? -1 : 1
-	    };
-	  };
-
-	  Coin.prototype.componentWillMount = function componentWillMount() {
-	    this.props.push({
-	      coin: Math.random() > 0.5 ? -1 : 1
-	    });
-	  };
-
-	  Coin.prototype.render = function render() {
-	    return _react2['default'].createElement('div', null);
-	  };
-
-	  return Coin;
-	})(_react2['default'].Component);
-
-	exports['default'] = Coin;
-	module.exports = exports['default'];
-
-/***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38245,7 +38400,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38266,7 +38421,7 @@
 
 	var _globalTypes = __webpack_require__(197);
 
-	var _globalServicesClean = __webpack_require__(215);
+	var _globalServicesClean = __webpack_require__(216);
 
 	var _globalServicesClean2 = _interopRequireDefault(_globalServicesClean);
 
@@ -38357,7 +38512,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38388,7 +38543,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38419,7 +38574,7 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _globalComponentsFormField = __webpack_require__(217);
+	var _globalComponentsFormField = __webpack_require__(218);
 
 	var _globalComponentsFormField2 = _interopRequireDefault(_globalComponentsFormField);
 
@@ -38581,7 +38736,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38687,7 +38842,7 @@
 	});
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38704,7 +38859,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _superagent = __webpack_require__(219);
+	var _superagent = __webpack_require__(220);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
@@ -38751,15 +38906,15 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 
-	var Emitter = __webpack_require__(220);
-	var reduce = __webpack_require__(221);
+	var Emitter = __webpack_require__(221);
+	var reduce = __webpack_require__(222);
 
 	/**
 	 * Root reference for iframes.
@@ -39880,7 +40035,7 @@
 
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports) {
 
 	
@@ -40050,7 +40205,7 @@
 
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports) {
 
 	
@@ -40079,7 +40234,7 @@
 	};
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -40139,7 +40294,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40174,7 +40329,7 @@
 
 	var _globalComponentsButton2 = _interopRequireDefault(_globalComponentsButton);
 
-	var _globalComponentsScenario = __webpack_require__(224);
+	var _globalComponentsScenario = __webpack_require__(225);
 
 	var _globalComponentsScenario2 = _interopRequireDefault(_globalComponentsScenario);
 
@@ -40207,23 +40362,14 @@
 
 	  _Preamble.prototype.deltaText = function deltaText(delta) {
 	    var _props = this.props;
-	    var texts_deg_pref = _props.texts_deg_pref;
 	    var text_increases = _props.text_increases;
 	    var text_decreases = _props.text_decreases;
 
-	    var increases_decreases = delta < 0 ? text_decreases : text_increases;
-	    var floor = Math.floor;
-	    var log = Math.log;
-	    var LN2 = Math.LN2;
-	    var abs = Math.abs;
-
-	    var log2 = log(abs(delta)) / LN2;
-	    var degree = texts_deg_pref[floor(log2)] || '';
-	    return degree + ' ' + increases_decreases;
+	    return delta < 0 ? text_decreases : text_increases;
 	  };
 
 	  _Preamble.prototype.choose = function choose(option) {
-	    if (this.state.step > 3) {
+	    if (this.state.step > 2) {
 	      this.setState({ choice: option });
 	    }
 	  };
@@ -40266,6 +40412,8 @@
 	    var button_continue = _props2.button_continue;
 	    var instructions = _props2.instructions;
 	    var aspects = _props2.aspects;
+	    var text_option_one = _props2.text_option_one;
+	    var text_option_two = _props2.text_option_two;
 	    var text_prefer_option = _props2.text_prefer_option;
 	    var tradeoff = _props2.tradeoff;
 	    var text_you_chose = _props2.text_you_chose;
@@ -40304,7 +40452,7 @@
 	            );
 	          })
 	        ),
-	        step < 4 && _react2['default'].createElement(_globalComponentsButton2['default'], {
+	        step < 3 && _react2['default'].createElement(_globalComponentsButton2['default'], {
 	          text: button_skip,
 	          modStyle: { fontSize: '0.75rem' },
 	          handler: function () {
@@ -40320,17 +40468,73 @@
 	          'p',
 	          { key: step, style: [styles.textBody] },
 	          instructions[step],
-	          step === 2 && aspects[0].text + ' ' + this.deltaText.bind(this)(tradeoff[0]) + '.',
-	          step === 3 && aspects[1].text + ' ' + this.deltaText.bind(this)(tradeoff[1]) + '.'
+	          step === 1 && _react2['default'].createElement(
+	            'span',
+	            null,
+	            _react2['default'].createElement(
+	              'strong',
+	              null,
+	              aspects[0].text + ' '
+	            ),
+	            _react2['default'].createElement(
+	              'em',
+	              null,
+	              this.deltaText.bind(this)(tradeoff[0]) + '.'
+	            )
+	          ),
+	          step === 2 && _react2['default'].createElement(
+	            'span',
+	            null,
+	            _react2['default'].createElement(
+	              'strong',
+	              null,
+	              aspects[1].text + ' '
+	            ),
+	            _react2['default'].createElement(
+	              'em',
+	              null,
+	              this.deltaText.bind(this)(tradeoff[1]) + '.'
+	            )
+	          )
 	        ),
 	        choice && _react2['default'].createElement(
 	          'p',
 	          { key: choice, style: [styles.textBody] },
 	          text_you_chose,
-	          choice === 1 && ' ' + aspects[0].text + ' \n              ' + this.deltaText.bind(this)(tradeoff[0]) + ' \n              ' + text_instead + ' \n              ' + aspects[1].text + '\n              ' + this.deltaText.bind(this)(tradeoff[1]) + '.',
-	          choice === 2 && ' ' + aspects[1].text + ' \n              ' + this.deltaText.bind(this)(tradeoff[1]) + ' \n              ' + text_instead + ' \n              ' + aspects[1].text + '\n              ' + this.deltaText.bind(this)(tradeoff[0]) + '.'
+	          choice === 1 && _react2['default'].createElement(
+	            'span',
+	            null,
+	            _react2['default'].createElement(
+	              'strong',
+	              null,
+	              aspects[0].text
+	            ),
+	            this.deltaText.bind(this)(tradeoff[0]) + ' ' + text_instead + ' ',
+	            _react2['default'].createElement(
+	              'strong',
+	              null,
+	              aspects[1].text
+	            ),
+	            this.deltaText.bind(this)(tradeoff[1]) + '.'
+	          ),
+	          choice === 2 && _react2['default'].createElement(
+	            'span',
+	            null,
+	            _react2['default'].createElement(
+	              'strong',
+	              null,
+	              aspects[1].text
+	            ),
+	            this.deltaText.bind(this)(tradeoff[1]) + ' ' + text_instead + ' ',
+	            _react2['default'].createElement(
+	              'strong',
+	              null,
+	              aspects[0].text
+	            ),
+	            this.deltaText.bind(this)(tradeoff[0]) + '.'
+	          )
 	        ),
-	        (choice || step < 4) && _react2['default'].createElement(_globalComponentsButton2['default'], {
+	        (choice || step < 3) && _react2['default'].createElement(_globalComponentsButton2['default'], {
 	          text: button_continue,
 	          color: '#fff',
 	          background: '#779',
@@ -40350,7 +40554,8 @@
 	              flex: 1,
 	              opacity: choice === 2 ? 0.5 : 1
 	            }] },
-	          step > 1 && _react2['default'].createElement(_globalComponentsScenario2['default'], {
+	          step > 0 && _react2['default'].createElement(_globalComponentsScenario2['default'], {
+	            heading: text_option_one,
 	            aspects: [{
 	              text: aspects[0].text,
 	              rating: aspects[0].rating,
@@ -40377,7 +40582,8 @@
 	              flex: 1,
 	              opacity: choice === 1 ? 0.5 : 1
 	            }] },
-	          step > 2 && _react2['default'].createElement(_globalComponentsScenario2['default'], {
+	          step > 1 && _react2['default'].createElement(_globalComponentsScenario2['default'], {
+	            heading: text_option_two,
 	            aspects: [{
 	              text: aspects[0].text,
 	              rating: aspects[0].rating,
@@ -40408,6 +40614,8 @@
 	      button_skip: _globalTypes.declare(_globalTypes.type.string),
 	      button_continue: _globalTypes.declare(_globalTypes.type.string),
 	      instructions: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.string)),
+	      text_option_one: _globalTypes.declare(_globalTypes.type.string),
+	      text_option_two: _globalTypes.declare(_globalTypes.type.string),
 	      text_prefer_option: _globalTypes.declare(_globalTypes.type.string),
 	      aspects: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.Object({
 	        text: _globalTypes.type.string,
@@ -40428,7 +40636,9 @@
 	      instructions_title: 'Instructions',
 	      button_skip: 'Skip',
 	      button_continue: 'Continue',
-	      instructions: ['In the following section you will be asked for your preference between various life scenarios.', 'Suppose some of the aspects of your life you previously rated could be increased or decreased.', 'For instance, imagine in one scenario, your ', 'Imagine in another scenario your ', 'Of these two scenarios, which option would you prefer? (Please choose which option you would prefer with the buttons below).'],
+	      instructions: ['In the following section you will be asked to consider possible changes in your life, or in the lives of people in your nation, during the next year. On each screen, we will ask you to make a choice between two options. If the choice is between two options in your own life, we will refer to the choice as a personal choice. If the choice is between two options in the lives of all people in your nation, we will refer to the choice as a policy choice. In each option, the level of some aspect of your life, or the lives of people in your nation, is either increased or decreased. You should assume that all other aspects of life that are not shown in the two options will not change and will be the same as last year.', 'Here is an example of a personal choice: in Option 1, ', 'In Option 2, ', 'Between these two options, which do you think you would choose? Select “I prefer this option” for the option you would choose.'],
+	      text_option_one: 'Option 1',
+	      text_option_two: 'Option 2',
 	      text_prefer_option: 'I prefer this option',
 	      aspects: [{
 	        text: 'one',
@@ -40440,11 +40650,10 @@
 	        color: '#7f7'
 	      }],
 	      tradeoff: [4, 4],
-	      texts_deg_pref: ['slightly', 'moderately', 'strongly', 'greatly'],
 	      text_increases: 'increases',
 	      text_decreases: 'decreases',
-	      text_you_chose: 'You chose the scenario where your',
-	      text_instead: 'over the scenario where your'
+	      text_you_chose: 'You chose the scenario where ',
+	      text_instead: 'over the scenario where '
 	    },
 	    enumerable: true
 	  }]);
@@ -40476,7 +40685,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40495,7 +40704,7 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _Aspect = __webpack_require__(225);
+	var _Aspect = __webpack_require__(226);
 
 	var _Aspect2 = _interopRequireDefault(_Aspect);
 
@@ -40510,7 +40719,12 @@
 	exports['default'] = _radium2['default'](function (props) {
 	  return _react2['default'].createElement(
 	    'div',
-	    { style: [styles.panel, styles.padding(1)] },
+	    { style: [styles.scenario] },
+	    _react2['default'].createElement(
+	      'div',
+	      { style: [styles.heading, { textAlign: 'center', color: 'rgb(85, 85, 119)' }] },
+	      props.heading
+	    ),
 	    props.aspects.map(function (a) {
 	      return _react2['default'].createElement(_Aspect2['default'], {
 	        modStyle: { flex: 1 },
@@ -40529,11 +40743,15 @@
 	  );
 	});
 
-	var styles = _extends({}, _globalStyles2['default']);
+	var styles = _extends({}, _globalStyles2['default'], {
+	  scenario: _extends({}, _globalStyles2['default'].panel, _globalStyles2['default'].padding(1), {
+	    marginBottom: '1rem'
+	  })
+	});
 	module.exports = exports['default'];
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40556,11 +40774,11 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _ZoomBar = __webpack_require__(226);
+	var _ZoomBar = __webpack_require__(227);
 
 	var _ZoomBar2 = _interopRequireDefault(_ZoomBar);
 
-	var _servicesFormat = __webpack_require__(244);
+	var _servicesFormat = __webpack_require__(245);
 
 	var _servicesFormat2 = _interopRequireDefault(_servicesFormat);
 
@@ -40674,7 +40892,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40697,9 +40915,9 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _reactMotion = __webpack_require__(227);
+	var _reactMotion = __webpack_require__(228);
 
-	var _DeltaBar = __webpack_require__(243);
+	var _DeltaBar = __webpack_require__(244);
 
 	var _DeltaBar2 = _interopRequireDefault(_DeltaBar);
 
@@ -40852,7 +41070,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40865,11 +41083,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _components2 = __webpack_require__(228);
+	var _components2 = __webpack_require__(229);
 
 	var _components3 = _interopRequireDefault(_components2);
 
-	var _reorderKeys = __webpack_require__(240);
+	var _reorderKeys = __webpack_require__(241);
 
 	var _reorderKeys2 = _interopRequireDefault(_reorderKeys);
 
@@ -40886,13 +41104,13 @@
 	exports.StaggeredMotion = StaggeredMotion;
 	exports.TransitionMotion = TransitionMotion;
 
-	var _spring2 = __webpack_require__(241);
+	var _spring2 = __webpack_require__(242);
 
 	var _spring3 = _interopRequireDefault(_spring2);
 
 	exports.spring = _spring3['default'];
 
-	var _presets2 = __webpack_require__(242);
+	var _presets2 = __webpack_require__(243);
 
 	var _presets3 = _interopRequireDefault(_presets2);
 
@@ -40903,7 +41121,7 @@
 	exports.utils = utils;
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40916,33 +41134,33 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _noVelocity = __webpack_require__(230);
+	var _noVelocity = __webpack_require__(231);
 
 	var _noVelocity2 = _interopRequireDefault(_noVelocity);
 
-	var _hasReachedStyle = __webpack_require__(231);
+	var _hasReachedStyle = __webpack_require__(232);
 
 	var _hasReachedStyle2 = _interopRequireDefault(_hasReachedStyle);
 
-	var _mergeDiff = __webpack_require__(232);
+	var _mergeDiff = __webpack_require__(233);
 
 	var _mergeDiff2 = _interopRequireDefault(_mergeDiff);
 
-	var _animationLoop = __webpack_require__(233);
+	var _animationLoop = __webpack_require__(234);
 
 	var _animationLoop2 = _interopRequireDefault(_animationLoop);
 
-	var _zero = __webpack_require__(229);
+	var _zero = __webpack_require__(230);
 
 	var _zero2 = _interopRequireDefault(_zero);
 
-	var _updateTree = __webpack_require__(236);
+	var _updateTree = __webpack_require__(237);
 
-	var _deprecatedSprings2 = __webpack_require__(238);
+	var _deprecatedSprings2 = __webpack_require__(239);
 
 	var _deprecatedSprings3 = _interopRequireDefault(_deprecatedSprings2);
 
-	var _stripStyle = __webpack_require__(239);
+	var _stripStyle = __webpack_require__(240);
 
 	var _stripStyle2 = _interopRequireDefault(_stripStyle);
 
@@ -41362,7 +41580,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports) {
 
 	// used by the tree-walking updates and springs. Avoids some allocations
@@ -41378,7 +41596,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 230 */
+/* 231 */
 /***/ function(module, exports) {
 
 	// currentStyle keeps the info about whether a prop is configured as a spring
@@ -41403,7 +41621,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 231 */
+/* 232 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -41436,7 +41654,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 232 */
+/* 233 */
 /***/ function(module, exports) {
 
 	// this function is allocation-less thanks to babel, which transforms the tail
@@ -41550,7 +41768,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 233 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41560,11 +41778,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _performanceNow = __webpack_require__(234);
+	var _performanceNow = __webpack_require__(235);
 
 	var _performanceNow2 = _interopRequireDefault(_performanceNow);
 
-	var _raf = __webpack_require__(235);
+	var _raf = __webpack_require__(236);
 
 	var _raf2 = _interopRequireDefault(_raf);
 
@@ -41699,7 +41917,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 234 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Generated by CoffeeScript 1.7.1
@@ -41738,10 +41956,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 235 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var now = __webpack_require__(234)
+	var now = __webpack_require__(235)
 	  , global = typeof window === 'undefined' ? {} : window
 	  , vendors = ['moz', 'webkit']
 	  , suffix = 'AnimationFrame'
@@ -41812,7 +42030,7 @@
 
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41824,7 +42042,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _stepper = __webpack_require__(237);
+	var _stepper = __webpack_require__(238);
 
 	var _stepper2 = _interopRequireDefault(_stepper);
 
@@ -41909,7 +42127,7 @@
 	}
 
 /***/ },
-/* 237 */
+/* 238 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -41946,7 +42164,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 238 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -42000,7 +42218,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports) {
 
 	// turn {x: {val: 1, config: [1, 2]}, y: 2} into {x: 1, y: 2}
@@ -42023,7 +42241,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -42045,7 +42263,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42055,7 +42273,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _presets = __webpack_require__(242);
+	var _presets = __webpack_require__(243);
 
 	var _presets2 = _interopRequireDefault(_presets);
 
@@ -42070,7 +42288,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports) {
 
 	// [stiffness, damping]
@@ -42086,7 +42304,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42370,7 +42588,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42384,7 +42602,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42419,15 +42637,15 @@
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _store = __webpack_require__(246);
+	var _store = __webpack_require__(247);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _RateAspect = __webpack_require__(256);
+	var _RateAspect = __webpack_require__(257);
 
 	var _RateAspect2 = _interopRequireDefault(_RateAspect);
 
-	var _RatedAspects = __webpack_require__(260);
+	var _RatedAspects = __webpack_require__(261);
 
 	var _RatedAspects2 = _interopRequireDefault(_RatedAspects);
 
@@ -42605,7 +42823,7 @@
 	// if any aspects are rated
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42614,7 +42832,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _redux = __webpack_require__(247);
+	var _redux = __webpack_require__(248);
 
 	exports['default'] = _redux.createStore(function (state, action) {
 	  switch (action.type) {
@@ -42668,7 +42886,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42677,23 +42895,23 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _createStore = __webpack_require__(248);
+	var _createStore = __webpack_require__(249);
 
 	var _createStore2 = _interopRequireDefault(_createStore);
 
-	var _utilsCombineReducers = __webpack_require__(250);
+	var _utilsCombineReducers = __webpack_require__(251);
 
 	var _utilsCombineReducers2 = _interopRequireDefault(_utilsCombineReducers);
 
-	var _utilsBindActionCreators = __webpack_require__(253);
+	var _utilsBindActionCreators = __webpack_require__(254);
 
 	var _utilsBindActionCreators2 = _interopRequireDefault(_utilsBindActionCreators);
 
-	var _utilsApplyMiddleware = __webpack_require__(254);
+	var _utilsApplyMiddleware = __webpack_require__(255);
 
 	var _utilsApplyMiddleware2 = _interopRequireDefault(_utilsApplyMiddleware);
 
-	var _utilsCompose = __webpack_require__(255);
+	var _utilsCompose = __webpack_require__(256);
 
 	var _utilsCompose2 = _interopRequireDefault(_utilsCompose);
 
@@ -42704,7 +42922,7 @@
 	exports.compose = _utilsCompose2['default'];
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42714,7 +42932,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _utilsIsPlainObject = __webpack_require__(249);
+	var _utilsIsPlainObject = __webpack_require__(250);
 
 	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
 
@@ -42866,7 +43084,7 @@
 	}
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42901,7 +43119,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -42911,17 +43129,17 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _createStore = __webpack_require__(248);
+	var _createStore = __webpack_require__(249);
 
-	var _utilsIsPlainObject = __webpack_require__(249);
+	var _utilsIsPlainObject = __webpack_require__(250);
 
 	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
 
-	var _utilsMapValues = __webpack_require__(251);
+	var _utilsMapValues = __webpack_require__(252);
 
 	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
 
-	var _utilsPick = __webpack_require__(252);
+	var _utilsPick = __webpack_require__(253);
 
 	var _utilsPick2 = _interopRequireDefault(_utilsPick);
 
@@ -43035,7 +43253,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports) {
 
 	/**
@@ -43060,7 +43278,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports) {
 
 	/**
@@ -43087,7 +43305,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43097,7 +43315,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _utilsMapValues = __webpack_require__(251);
+	var _utilsMapValues = __webpack_require__(252);
 
 	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
 
@@ -43147,7 +43365,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43160,7 +43378,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _compose = __webpack_require__(255);
+	var _compose = __webpack_require__(256);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
@@ -43213,7 +43431,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports) {
 
 	/**
@@ -43243,7 +43461,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43270,11 +43488,11 @@
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	var _globalServicesFormat = __webpack_require__(244);
+	var _globalServicesFormat = __webpack_require__(245);
 
 	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
 
-	var _globalComponentsSlider = __webpack_require__(257);
+	var _globalComponentsSlider = __webpack_require__(258);
 
 	var _globalComponentsSlider2 = _interopRequireDefault(_globalComponentsSlider);
 
@@ -43405,7 +43623,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43432,11 +43650,11 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _imagesSmileySvg = __webpack_require__(258);
+	var _imagesSmileySvg = __webpack_require__(259);
 
 	var _imagesSmileySvg2 = _interopRequireDefault(_imagesSmileySvg);
 
-	var _imagesFrownySvg = __webpack_require__(259);
+	var _imagesFrownySvg = __webpack_require__(260);
 
 	var _imagesFrownySvg2 = _interopRequireDefault(_imagesFrownySvg);
 
@@ -43794,19 +44012,19 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 258 */
+/* 259 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OCwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OCA3LjYxMiwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOS40NTcsMTkuMjAzMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDU5LDAuMTM1IC0xLjQ5OSwzLjI5NyAtNC40NTcsMy4yOTcgLTIuOTU3LDAgLTQuMzk3LC0zLjE2MiAtNC40NTcsLTMuMjk3IC0wLjA5MiwtMC4yMDcgLTAuMDMyLC0wLjQ0OSAwLjE0NCwtMC41OTEgMC4xNzUsLTAuMTQyIDAuNDI2LC0wLjE0NyAwLjYxMSwtMC4wMTQgMC4wMTIsMC4wMDkgMS4yNjIsMC45MDIgMy43MDIsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMyLC0wLjQ1MiAwLjA5MywtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE3LjQ1NywxOS4yMDMxKSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4wNiwwLjEzNSAtMS40OTksMy4yOTcgLTQuNDU3LDMuMjk3IC0yLjk1NywwIC00LjM5NywtMy4xNjIgLTQuNDU3LC0zLjI5NyAtMC4wOTIsLTAuMjA3IC0wLjAzMiwtMC40NDkgMC4xNDQsLTAuNTkxIDAuMTc2LC0wLjE0MiAwLjQyNywtMC4xNDcgMC42MSwtMC4wMTQgMC4wMTMsMC4wMDkgMS4yNjIsMC45MDIgMy43MDMsMC45MDIgMi40MjYsMCAzLjY3NCwtMC44ODEgMy43MDIsLTAuOTAxIDAuMDg4LC0wLjA2NiAwLjE5NCwtMC4wOTkgMC4yOTgsLTAuMDk5IDAuMTEsMCAwLjIyMSwwLjAzNyAwLjMxMiwwLjEwOSBDIDAuMDMzLC0wLjQ1MiAwLjA5MiwtMC4yMDggMCwwIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5LDE1KSIgaWQ9ImczMiI+PHBhdGggaWQ9InBhdGgzNCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMy42MjMsMCAtNi4wMjcsMC40MjIgLTksMSAtMC42NzksMC4xMzEgLTIsMCAtMiwtMiAwLC00IDQuNTk1LC05IDExLC05IDYuNDA0LDAgMTEsNSAxMSw5IEMgMTEsMSA5LjY3OSwxLjEzMiA5LDEgNi4wMjcsMC40MjIgMy42MjMsMCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAsMTQpIiBpZD0iZzM2Ij48cGF0aCBpZD0icGF0aDM4IiBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIDAsMCAzLC0xIDksLTEgNiwwIDksMSA5LDEgMCwwIC0yLC00IC05LC00IC03LDAgLTksNCAtOSw0Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPgo="
 
 /***/ },
-/* 259 */
+/* 260 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDcuNSA0Ny41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0Ny41IDQ3LjU7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIGlkPSJzdmcyIj48bWV0YWRhdGEgaWQ9Im1ldGFkYXRhOCI+PHJkZjpSREY+PGNjOldvcmsgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMgaWQ9ImRlZnM2Ij48Y2xpcFBhdGggaWQ9ImNsaXBQYXRoMTYiIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBpZD0icGF0aDE4IiBkPSJNIDAsMzggMzgsMzggMzgsMCAwLDAgMCwzOCBaIi8+PC9jbGlwUGF0aD48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsMCw0Ny41KSIgaWQ9ImcxMCI+PGcgaWQ9ImcxMiI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMTYpIiBpZD0iZzE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNiwxOSkiIGlkPSJnMjAiPjxwYXRoIGlkPSJwYXRoMjIiIHN0eWxlPSJmaWxsOiNmZmNjNGQ7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgMCwtOS4zODkgLTcuNjExLC0xNyAtMTcsLTE3IC05LjM4OSwwIC0xNyw3LjYxMSAtMTcsMTcgMCw5LjM4OSA3LjYxMSwxNyAxNywxNyBDIC03LjYxMSwxNyAwLDkuMzg5IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC40ODU0LDguMTIxMSkiIGlkPSJnMjQiPjxwYXRoIGlkPSJwYXRoMjYiIHN0eWxlPSJmaWxsOiM2NjQ1MDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiIGQ9Im0gMCwwIGMgLTAuMDEyLDAuMDQ0IC0xLjE0Niw0LjM3OSAtNS40ODUsNC4zNzkgLTQuMzQxLDAgLTUuNDc1LC00LjMzNSAtNS40ODUsLTQuMzc5IC0wLjA1MywtMC4yMTMgMC4wNDMsLTAuNDMxIDAuMjMxLC0wLjU0NCAwLjE4OCwtMC4xMTIgMC40MzMsLTAuMDg2IDAuNTk2LDAuMDYgMC4wMSwwLjAwNyAxLjAxNCwwLjg2MyA0LjY1OCwwLjg2MyAzLjU4OSwwIDQuNjE3LC0wLjgzIDQuNjU2LC0wLjg2MyAwLjA5NSwtMC4wOSAwLjIxOSwtMC4xMzcgMC4zNDQsLTAuMTM3IDAuMDg0LDAgMC4xNjksMC4wMjEgMC4yNDYsMC4wNjQgQyAtMC4wNDMsLTAuNDQ1IDAuMDU1LC0wLjIxOCAwLDAiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYuNzgwMywyMS4zNTk0KSIgaWQ9ImcyOCI+PHBhdGggaWQ9InBhdGgzMCIgc3R5bGU9ImZpbGw6IzY2NDUwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIgZD0ibSAwLDAgYyAtMC4zNDEsMC4wOTMgLTAuNjkyLDAuMTQgLTEuMDQzLDAuMTQgLTIuMzQ1LDAgLTQuMDUzLC0yLjA2IC00LjEyNSwtMi4xNDcgLTAuMTQzLC0wLjE3NiAtMC4xNDgsLTAuNDI2IC0wLjAxNywtMC42MDkgMC4xMzQsLTAuMTg0IDAuMzc0LC0wLjI1MyAwLjU4NiwtMC4xNzQgMC4wMDUsMC4wMDIgMC41NzMsMC4yMTUgMS41NjUsMC4yMTUgMC43MTQsMCAxLjQ2OCwtMC4xMDggMi4yNDQsLTAuMzIgMi4zNDIsLTAuNjM3IDMuMzEzLC0xLjgxOCAzLjMzNCwtMS44NDMgMC4wOTgsLTAuMTI0IDAuMjQzLC0wLjE5MiAwLjM5NCwtMC4xOTIgMC4wNjYsMCAwLjEzMywwLjAxNCAwLjE5NywwLjA0MSAwLjIwOSwwLjA5IDAuMzMxLDAuMzEgMC4yOTcsMC41MzQgQyAzLjQwOSwtNC4yMDggMi44NTQsLTAuNzc4IDAsMCIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMi4yMjYxLDIxLjQ4NzgpIiBpZD0iZzMyIj48cGF0aCBpZD0icGF0aDM0IiBzdHlsZT0iZmlsbDojNjY0NTAwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIiBkPSJtIDAsMCBjIC0wLjMxNywwIC0wLjYzNiwtMC4wMzkgLTAuOTQ3LC0wLjExNiAtMi44NywtMC43MDcgLTMuNTEzLC00LjEyMSAtMy41MzksLTQuMjY2IC0wLjA0LC0wLjIyMyAwLjA3NiwtMC40NDQgMC4yODEsLTAuNTQgMC4wNjgsLTAuMDMyIDAuMTQsLTAuMDQ3IDAuMjExLC0wLjA0NyAwLjE0NSwwIDAuMjg3LDAuMDYzIDAuMzg1LDAuMTc5IDAuMDEsMC4wMTIgMS4wMSwxLjE3OCAzLjM3OSwxLjc2MSAwLjcxNSwwLjE3NiAxLjQxMywwLjI2NSAyLjA3MywwLjI2NSAxLjEwNCwwIDEuNzMyLC0wLjI1MyAxLjczNSwtMC4yNTQgMC4wNjcsLTAuMDI4IDAuMTMxLC0wLjA0IDAuMjA3LC0wLjA0IDAuMjcyLC0wLjAxMiAwLjUwOSwwLjIyMSAwLjUwOSwwLjUgMCwwLjE2NSAtMC4wOCwwLjMxMSAtMC4yMDMsMC40MDIgQyAzLjcyNCwtMS43MjEgMi4xMzgsMCAwLDAiLz48L2c+PC9nPjwvZz48L2c+PC9zdmc+Cg=="
 
 /***/ },
-/* 260 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43833,11 +44051,11 @@
 
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
-	var _globalServicesFormat = __webpack_require__(244);
+	var _globalServicesFormat = __webpack_require__(245);
 
 	var _globalServicesFormat2 = _interopRequireDefault(_globalServicesFormat);
 
-	var _globalComponentsDeltaBar = __webpack_require__(243);
+	var _globalComponentsDeltaBar = __webpack_require__(244);
 
 	var _globalComponentsDeltaBar2 = _interopRequireDefault(_globalComponentsDeltaBar);
 
@@ -43954,7 +44172,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44052,7 +44270,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44083,7 +44301,7 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _superagent = __webpack_require__(219);
+	var _superagent = __webpack_require__(220);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
@@ -44185,7 +44403,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 263 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44214,7 +44432,7 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _reactMotion = __webpack_require__(227);
+	var _reactMotion = __webpack_require__(228);
 
 	var _globalTypes = __webpack_require__(197);
 
@@ -44226,7 +44444,7 @@
 
 	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
 
-	var _globalComponentsScenario = __webpack_require__(224);
+	var _globalComponentsScenario = __webpack_require__(225);
 
 	var _globalComponentsScenario2 = _interopRequireDefault(_globalComponentsScenario);
 
@@ -44265,11 +44483,11 @@
 	    var text_decreases = _props.text_decreases;
 	    var text_increases = _props.text_increases;
 
-	    var signed_tradeoffs = tradeoff_sign < 0 ? tradeoff_range.map(function (t) {
+	    var signed_tradeoffs = tradeoff_sign ? tradeoff_range.map(function (t) {
 	      return -t;
 	    }) : tradeoff_range;
 
-	    var increases_decreases = tradeoff_sign < 0 ? text_decreases : text_increases;
+	    var increases_decreases = tradeoff_sign ? text_decreases : text_increases;
 
 	    this.setState({
 	      tradeoff: [_lodash2['default'].sample(signed_tradeoffs), _lodash2['default'].sample(signed_tradeoffs)],
@@ -44322,24 +44540,23 @@
 	  };
 
 	  _App.prototype.deltaText = function deltaText(delta) {
-	    var floor = Math.floor;
-	    var log = Math.log;
-	    var LN2 = Math.LN2;
-	    var abs = Math.abs;
+	    var _props3 = this.props;
+	    var text_increases = _props3.text_increases;
+	    var text_decreases = _props3.text_decreases;
 
-	    var log2 = log(abs(delta)) / LN2;
-	    var degree = this.props.texts_deg_pref[floor(log2)] || '';
-	    return degree + ' ' + this.state.increases_decreases;
+	    return delta < 0 ? text_decreases : text_increases;
 	  };
 
 	  _App.prototype.render = function render() {
 	    var _this2 = this;
 
-	    var _props3 = this.props;
-	    var text_instruct_title = _props3.text_instruct_title;
-	    var text_instruct_body = _props3.text_instruct_body;
-	    var text_prefer_option = _props3.text_prefer_option;
-	    var aspects = _props3.aspects;
+	    var _props4 = this.props;
+	    var text_instruct_title = _props4.text_instruct_title;
+	    var text_instruct_body = _props4.text_instruct_body;
+	    var text_prefer_option = _props4.text_prefer_option;
+	    var text_option_one = _props4.text_option_one;
+	    var text_option_two = _props4.text_option_two;
+	    var aspects = _props4.aspects;
 	    var _state2 = this.state;
 	    var aspect_pairs = _state2.aspect_pairs;
 	    var animating = _state2.animating;
@@ -44384,6 +44601,7 @@
 	              'div',
 	              { style: [styles.padding(1, 0.5, 0, 0), { flex: 1 }] },
 	              _react2['default'].createElement(_globalComponentsScenario2['default'], {
+	                heading: text_option_one,
 	                aspects: [{
 	                  text: aspects[i].text,
 	                  rating: aspects[i].rating,
@@ -44407,6 +44625,7 @@
 	              'div',
 	              { style: [styles.padding(1, 0, 0, 0.5), { flex: 1 }] },
 	              _react2['default'].createElement(_globalComponentsScenario2['default'], {
+	                heading: text_option_two,
 	                aspects: [{
 	                  text: aspects[i].text,
 	                  rating: aspects[i].rating,
@@ -44446,6 +44665,8 @@
 	      texts_deg_pref: _globalTypes.declare(_globalTypes.type.array),
 	      text_increases: _globalTypes.declare(_globalTypes.type.string),
 	      text_decreases: _globalTypes.declare(_globalTypes.type.string),
+	      text_option_one: _globalTypes.declare(_globalTypes.type.string),
+	      text_option_two: _globalTypes.declare(_globalTypes.type.string),
 	      text_prefer_option: _globalTypes.declare(_globalTypes.type.string),
 	      text_instruct_title: _globalTypes.declare(_globalTypes.type.string),
 	      text_instruct_body: _globalTypes.declare(_globalTypes.type.string)
@@ -44473,9 +44694,11 @@
 	      texts_deg_pref: ['slightly', 'moderately', 'strongly', 'greatly'],
 	      text_increases: 'increases',
 	      text_decreases: 'decreases',
+	      text_option_one: 'Option 1',
+	      text_option_two: 'Option 2',
 	      text_prefer_option: 'I prefer this option',
 	      text_instruct_title: 'Instructions',
-	      text_instruct_body: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.'
+	      text_instruct_body: 'Imagine you are facing a personal/policy choice. Each option either increases or decreases the level of one of the aspects of your life/the lives of all people in your nation. You should assume that all other aspects of your life/people’s lives that are not shown in these options will not change and will be the same as last year. Between these two options, which do you think you would choose?'
 	    },
 	    enumerable: true
 	  }]);
@@ -44492,7 +44715,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 264 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44542,7 +44765,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 265 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44551,7 +44774,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _redux = __webpack_require__(247);
+	var _redux = __webpack_require__(248);
 
 	exports['default'] = _redux.createStore(function (state, action) {
 	  switch (action.type) {
@@ -44600,7 +44823,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 266 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44664,7 +44887,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 267 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44691,7 +44914,7 @@
 
 	var _globalServicesLazy2 = _interopRequireDefault(_globalServicesLazy);
 
-	var _globalServicesEcho = __webpack_require__(266);
+	var _globalServicesEcho = __webpack_require__(267);
 
 	var _globalServicesEcho2 = _interopRequireDefault(_globalServicesEcho);
 
@@ -44766,7 +44989,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 268 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44925,7 +45148,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 269 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

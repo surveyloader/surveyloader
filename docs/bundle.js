@@ -34242,8 +34242,8 @@
 /***/ function(module, exports) {
 
 	module.exports = [
+		"Bernoulli",
 		"Bucket",
-		"Coin",
 		"Consent",
 		"Example",
 		"Form",

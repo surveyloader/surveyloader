@@ -17,7 +17,7 @@ export default class Preview extends React.Component {
       <div style={{ width: '100%' }}>
         <div style={[styles.heading]}>
           <span>Dynamic preview</span>
-          <a style={[styles.newWindow, { float: 'right' }]} href={`?fullscreen/${encodeURIComponent(JSON.stringify(params))}`} target="_blank">fullscreen view URL</a>
+          <a style={[styles.newWindow, { float: 'right' }]} href={`/module/?fullscreen/${encodeURIComponent(JSON.stringify(params))}`} target="_blank">fullscreen view URL</a>
         </div>
         <div style={[styles.preview]}>
         {

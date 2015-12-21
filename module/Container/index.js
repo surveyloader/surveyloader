@@ -56,7 +56,7 @@ class Container extends React.Component {
     const { params, fullscreen } = state
     const search = fullscreen ?
       `?fullscreen/${encodeURIComponent(JSON.stringify(params))}` :
-      `?${encodeURIComponent(JSON.stringify(params))}`
+      `?${encodeURIComponent(JSON.stringify({ type: params.type }))}`
 
     if (params.type) {
       history.pushState(null, null, search)

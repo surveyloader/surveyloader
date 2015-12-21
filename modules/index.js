@@ -1,5 +1,5 @@
+import Bernoulli from './Bernoulli'
 import Bucket from './Bucket'
-import Coin from './Coin'
 import Consent from './Consent'
 import Example from './Example'
 import Form from './Form'
@@ -12,8 +12,8 @@ import Sample from './Sample'
 import Store from './Store'
 import Triple from './Triple'
 import URLParams from './URLParams'
+export { Bernoulli }
 export { Bucket }
-export { Coin }
 export { Consent }
 export { Example }
 export { Form }

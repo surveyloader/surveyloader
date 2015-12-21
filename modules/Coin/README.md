@@ -1,1 +1,0 @@
-Immediately pushes `coin` variable onto table with 50/50 `true` or `false` value. Does not render to DOM. Subsequent modules can access `coin` value with `$coin`.

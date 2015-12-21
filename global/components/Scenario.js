@@ -6,7 +6,10 @@ import Button from './Button'
 
 export default Radium((props) => {
   return (
-    <div style={[styles.panel, styles.padding(1)]}>
+    <div style={[styles.scenario]}>
+      <div style={[styles.heading, { textAlign: 'center', color: 'rgb(85, 85, 119)' }]}>
+        {props.heading}
+      </div>
       {
         props.aspects.map((a) => {
           return (
@@ -32,5 +35,10 @@ export default Radium((props) => {
 
 import gstyles from '../../global/styles'
 const styles = {
-  ...gstyles
+  ...gstyles,
+  scenario: {
+    ...gstyles.panel, 
+    ...gstyles.padding(1),
+    marginBottom: '1rem'
+  }
 }

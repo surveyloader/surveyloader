@@ -19,6 +19,8 @@ class Preamble extends React.Component {
     button_skip: declare(type.string),
     button_continue: declare(type.string),
     instructions: declare(type.Array(type.string)),
+    text_option_one: declare(type.string),
+    text_option_two: declare(type.string),
     text_prefer_option: declare(type.string),
     aspects: declare(
       type.Array(
@@ -42,12 +44,13 @@ class Preamble extends React.Component {
     button_skip: 'Skip',
     button_continue: 'Continue',
     instructions: [
-      'In the following section you will be asked for your preference between various life scenarios.',
-      'Suppose some of the aspects of your life you previously rated could be increased or decreased.',
-      'For instance, imagine in one scenario, your ',
-      'Imagine in another scenario your ',
-      'Of these two scenarios, which option would you prefer? (Please choose which option you would prefer with the buttons below).'
+      'In the following section you will be asked to consider possible changes in your life, or in the lives of people in your nation, during the next year. On each screen, we will ask you to make a choice between two options. If the choice is between two options in your own life, we will refer to the choice as a personal choice. If the choice is between two options in the lives of all people in your nation, we will refer to the choice as a policy choice. In each option, the level of some aspect of your life, or the lives of people in your nation, is either increased or decreased. You should assume that all other aspects of life that are not shown in the two options will not change and will be the same as last year.',
+      'Here is an example of a personal choice: in Option 1, ',
+      'In Option 2, ',
+      'Between these two options, which do you think you would choose? Select “I prefer this option” for the option you would choose.'
     ],
+    text_option_one: 'Option 1',
+    text_option_two: 'Option 2',
     text_prefer_option: 'I prefer this option',
     aspects: [
       {
@@ -61,16 +64,10 @@ class Preamble extends React.Component {
       }
     ],
     tradeoff: [4, 4],
-    texts_deg_pref: [
-      'slightly',
-      'moderately',
-      'strongly',
-      'greatly'
-    ],
     text_increases: 'increases',
     text_decreases: 'decreases',
-    text_you_chose: 'You chose the scenario where your',
-    text_instead: 'over the scenario where your'
+    text_you_chose: 'You chose the scenario where ',
+    text_instead: 'over the scenario where '
   }
 
   constructor (props) {
@@ -84,20 +81,15 @@ class Preamble extends React.Component {
 
   deltaText (delta) {
     const {
-      texts_deg_pref,
       text_increases,
       text_decreases
     } = this.props
-    const increases_decreases = delta < 0 ?
+    return delta < 0 ?
       text_decreases : text_increases
-    const { floor, log, LN2, abs } = Math
-    const log2 = log(abs(delta)) / LN2
-    const degree = texts_deg_pref[floor(log2)] || ''
-    return `${degree} ${increases_decreases}`
   }
 
   choose (option) {
-    if (this.state.step > 3) {
+    if (this.state.step > 2) {
       this.setState({ choice: option })
     }
   }
@@ -140,6 +132,8 @@ class Preamble extends React.Component {
       button_continue,
       instructions,
       aspects,
+      text_option_one,
+      text_option_two,
       text_prefer_option,
       tradeoff,
       text_you_chose,
@@ -176,7 +170,7 @@ class Preamble extends React.Component {
           }
           </div>
           {
-            step < 4 &&
+            step < 3 &&
             <Button
               text={button_skip}
               modStyle={{ fontSize: '0.75rem' }}
@@ -191,12 +185,18 @@ class Preamble extends React.Component {
               instructions[step]
             }
             {
-              step === 2 &&
-              `${aspects[0].text} ${this.deltaText.bind(this)(tradeoff[0])}.`
+              step === 1 &&
+              <span>
+                <strong>{`${aspects[0].text} `}</strong>
+                <em>{`${this.deltaText.bind(this)(tradeoff[0])}.`}</em>
+              </span>
             }
             {
-              step === 3 &&
-              `${aspects[1].text} ${this.deltaText.bind(this)(tradeoff[1])}.`
+              step === 2 &&
+              <span>
+                <strong>{`${aspects[1].text} `}</strong>
+                <em>{`${this.deltaText.bind(this)(tradeoff[1])}.`}</em>
+              </span>
             }
             </p>
           }
@@ -208,24 +208,24 @@ class Preamble extends React.Component {
             }
             {
               choice === 1 &&
-              ` ${aspects[0].text} 
-              ${this.deltaText.bind(this)(tradeoff[0])} 
-              ${text_instead} 
-              ${aspects[1].text}
-              ${this.deltaText.bind(this)(tradeoff[1])}.`
+              <span>
+                <strong>{aspects[0].text}</strong>
+                {`${this.deltaText.bind(this)(tradeoff[0])} ${text_instead} `}
+                <strong>{aspects[1].text}</strong>{`${this.deltaText.bind(this)(tradeoff[1])}.`}
+              </span>
             }
             {
               choice === 2 &&
-              ` ${aspects[1].text} 
-              ${this.deltaText.bind(this)(tradeoff[1])} 
-              ${text_instead} 
-              ${aspects[1].text}
-              ${this.deltaText.bind(this)(tradeoff[0])}.`
+              <span>
+                <strong>{aspects[1].text}</strong>
+                {`${this.deltaText.bind(this)(tradeoff[1])} ${text_instead} `}
+                <strong>{aspects[0].text}</strong>{`${this.deltaText.bind(this)(tradeoff[0])}.`}
+              </span>
             }
             </p>
           }
           {
-            (choice || step < 4) &&
+            (choice || step < 3) &&
             <Button
               text={button_continue}
               color={'#fff'}
@@ -245,8 +245,9 @@ class Preamble extends React.Component {
             }
           ]}>
           {
-            step > 1 &&
+            step > 0 &&
             <Scenario
+              heading={text_option_one}
               aspects={[
                 {
                   text: aspects[0].text,
@@ -276,8 +277,9 @@ class Preamble extends React.Component {
               }
           ]}>
           {
-            step > 2 &&
+            step > 1 &&
             <Scenario
+              heading={text_option_two}
               aspects={[
                 {
                   text: aspects[0].text,

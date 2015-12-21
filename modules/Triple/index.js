@@ -25,6 +25,8 @@ class App extends React.Component {
     texts_deg_pref: declare(type.array),
     text_increases: declare(type.string),
     text_decreases: declare(type.string),
+    text_option_one: declare(type.string),
+    text_option_two: declare(type.string),
     text_prefer_option: declare(type.string),
     text_instruct_title: declare(type.string),
     text_instruct_body: declare(type.string)
@@ -64,9 +66,11 @@ class App extends React.Component {
     ],
     text_increases: 'increases',
     text_decreases: 'decreases',
+    text_option_one: 'Option 1',
+    text_option_two: 'Option 2',
     text_prefer_option: 'I prefer this option',
     text_instruct_title: 'Instructions',
-    text_instruct_body: 'Each option either increases or decreases the level of one of the aspects you rated. Please choose which option you would prefer.'
+    text_instruct_body: 'Imagine you are facing a personal/policy choice. Each option either increases or decreases the level of one of the aspects of your life/the lives of all people in your nation. You should assume that all other aspects of your life/people’s lives that are not shown in these options will not change and will be the same as last year. Between these two options, which do you think you would choose?'
   }
 
   static simulate (props) {
@@ -99,12 +103,12 @@ class App extends React.Component {
     } = this.props
 
     let signed_tradeoffs = 
-      tradeoff_sign < 0 ?
+      tradeoff_sign ?
         tradeoff_range.map(t => -t) :
         tradeoff_range
 
     let increases_decreases =
-      tradeoff_sign < 0 ?
+      tradeoff_sign ?
         text_decreases :
         text_increases
 
@@ -168,10 +172,12 @@ class App extends React.Component {
   }
 
   deltaText (delta) {
-    const { floor, log, LN2, abs } = Math
-    const log2 = log(abs(delta)) / LN2
-    const degree = this.props.texts_deg_pref[floor(log2)] || ''
-    return `${degree} ${this.state.increases_decreases}`
+    const {
+      text_increases,
+      text_decreases
+    } = this.props
+    return delta < 0 ?
+      text_decreases : text_increases
   }
 
   render () {
@@ -179,6 +185,8 @@ class App extends React.Component {
       text_instruct_title,
       text_instruct_body,
       text_prefer_option,
+      text_option_one,
+      text_option_two,
       aspects
     } = this.props
 
@@ -211,6 +219,7 @@ class App extends React.Component {
               }}>
               <div style={[styles.padding(1, 0.5, 0, 0), { flex: 1 }]}>
                 <Scenario
+                  heading={text_option_one}
                   aspects={[
                     {
                       text: aspects[i].text,
@@ -232,6 +241,7 @@ class App extends React.Component {
               </div>
               <div style={[styles.padding(1, 0, 0, 0.5), { flex: 1 }]}>
                 <Scenario
+                  heading={text_option_two}
                   aspects={[
                     {
                       text: aspects[i].text,
