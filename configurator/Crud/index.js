@@ -45,7 +45,7 @@ export default class Crud extends React.Component {
     const { auth, initTable, queue } = this.props
     const authors = String(initTable.surveyAuthor).split(',')
     const author = 
-      authors.indexOf(`${auth.github.username}@github`) > 0 ?
+      authors.indexOf(`${auth.github.username}@github`) > -1 ?
       authors.join(',') :
       authors
         .filter(a => a)
@@ -177,9 +177,10 @@ export default class Crud extends React.Component {
           <input
             type="text"
             ref="surveyName"
-            defaultValue={surveyName}
+            key={initTable.surveyName}
+            defaultValue={initTable.surveyName}
           />&nbsp;
-          <span>author:{initTable.author}</span>
+          <span>author:{initTable.surveyAuthor}</span>
           &nbsp;
           {
             auth &&

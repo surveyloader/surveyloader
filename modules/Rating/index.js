@@ -9,9 +9,16 @@ import Rated from './RatedAspects'
 
 @Radium
 class Index extends React.Component {
-  static propTypes = { 
-    aspect_texts: declare(type.array),
-    aspect_colors: declare(type.array),
+  static propTypes = {
+    aspects: declare(
+      type.Array(
+        type.Object({
+          text: type.string,
+          color: type.string,
+          code: type.string
+        })
+      )
+    ),
     instructions: declare(type.string),
     text: declare(type.string),
     rating_tip: declare(type.string),
@@ -31,23 +38,31 @@ class Index extends React.Component {
     high_point: ' extremely high',
     min_point: 'the least you could possibly imagine',
     max_point: ' the most you could possibly imagine',
-    aspect_texts: [
-      'one',
-      'two',
-      'three'
-    ],
-    aspect_colors: [
-      '#f77',
-      '#7f7',
-      '#77f'
-    ]
+    aspects: [{
+      text: 'one',
+      color: '#f77',
+      code: 'a_0'
+    }, {
+      text: 'two',
+      color: '#7f7',
+      code: 'a_1'
+    }, {
+      text: 'three',
+      color: '#77f',
+      code: 'a_2'
+    }]
   }
 
   static simulate (props) {
-    return _(props.aspect_texts)
-      .map((a) => [`rating_${identify(a)}`, _.sample(_.range(0,101))])
-      .object()
-      .value()
+    return props.aspects
+      .map((a) => {
+        return {
+          [`rating_${a.code}`]: _.sample(_.range(0,101)),
+          [`rating_${a.code}_t`]: 0,
+          [`rating_${a.code}_confirmed`]: 0
+        }
+      })
+      .reduce((a, b) => { return { ...a, ...b } }, {})
   }
 
   constructor (props) {
@@ -60,12 +75,11 @@ class Index extends React.Component {
 
   componentDidMount () {
     store.dispatch({
-      type: 'SET_ASPECTS', 
-      aspects: this.props.aspect_texts
+      type: 'SET_ASPECTS',
+      aspects: this.props.aspects
         .map((a, i) => {
           return {
-            text: a,
-            color: this.props.aspect_colors[i],
+            ...a,
             index: i
           }
         })
@@ -74,12 +88,7 @@ class Index extends React.Component {
 
   componentDidUpdate () {
     if (this.state.index < 0) {
-      this.props.push(
-        _(this.state.aspects)
-          .map((a) => [`rating_${identify(a.text)}`, a.rating])
-          .object()
-          .value()
-      )
+      this.props.push(this.state.response)
     }
   }
 

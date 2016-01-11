@@ -34,11 +34,12 @@ export default class Params extends React.Component {
   }
 
   setDefaultProps (props) {
-    const { params, store } = props
+    const { params, store, selected } = props
     const { defaultProps } = load(params.type)
     
     store.dispatch({
       type: 'CHANGE_MODULE_PARAMS',
+      selected,
       params: {
         ...params,
         ...defaultProps
@@ -80,6 +81,7 @@ export default class Params extends React.Component {
             setParams={(params) => {
               store.dispatch({
                 type: 'CHANGE_MODULE_PARAMS',
+                selected, 
                 params
               })
             }}

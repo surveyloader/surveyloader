@@ -17,10 +17,12 @@ function echo (param, table) {
     case /\$\(.+\)/.test(param):
       const nested = param
         .replace(/\$\((.+)\)/, (m, p1) => echo(`$${p1}`, table))
-      return echo(nested, table)
+      return echo(nested, table) === '404' ?
+        `!${param}` : echo(nested, table)
 
     case /^\$.+/.test(param):
-      return echo(table[param.substring(1)], table)
+      return echo(table[param.substring(1)], table) === '404' ?
+        `!${param}` : echo(table[param.substring(1)], table)
 
     case typeof param === 'undefined':
       return '404'

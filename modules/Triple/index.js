@@ -21,7 +21,7 @@ class App extends React.Component {
     ),
     aspect_pairs: declare(type.array),
     tradeoff_range: declare(type.Array(type.number)),
-    tradeoff_sign: declare(type.number),
+    should_decrease: declare(type.boolean),
     texts_deg_pref: declare(type.array),
     text_increases: declare(type.string),
     text_decreases: declare(type.string),
@@ -29,23 +29,24 @@ class App extends React.Component {
     text_option_two: declare(type.string),
     text_prefer_option: declare(type.string),
     text_instruct_title: declare(type.string),
-    text_instruct_body: declare(type.string)
+    text_instruct_body: declare(type.Array(type.string)),
+    text_instruct_conditions: declare(type.Array(type.boolean))
   }
 
   static defaultProps = {
     aspects: [
       {
-        text: 'one',
-        rating: 51,
-        color: '#f77'
-      },{
-        text: 'two',
-        rating: 52,
-        color: '#7f7'
-      },{
-        text: 'three',
-        rating: 53,
-        color: '#77f'
+        text: '$aspect_a_0',
+        rating: '$rating_a_0',
+        color: '$color_a_0'
+      }, {
+        text: '$aspect_a_1',
+        rating: '$rating_a_1',
+        color: '$color_a_1'
+      }, {
+        text: '$aspect_a_2',
+        rating: '$rating_a_2',
+        color: '$color_a_2'
       }
     ],
     aspect_pairs: [
@@ -57,7 +58,7 @@ class App extends React.Component {
       [2,1]
     ],
     tradeoff_range: _.range(1,9),
-    tradeoff_sign: '$coin',
+    should_decrease: false,
     texts_deg_pref: [
       'slightly',
       'moderately',
@@ -70,23 +71,60 @@ class App extends React.Component {
     text_option_two: 'Option 2',
     text_prefer_option: 'I prefer this option',
     text_instruct_title: 'Instructions',
-    text_instruct_body: 'Imagine you are facing a personal/policy choice. Each option either increases or decreases the level of one of the aspects of your life/the lives of all people in your nation. You should assume that all other aspects of your life/people’s lives that are not shown in these options will not change and will be the same as last year. Between these two options, which do you think you would choose?'
+    text_instruct_body: [
+      'Imagine you are facing a policy choice. Each option either increases or decreases the level of one of the aspects of the lives of all people in your nation. You should assume that all other aspects of people’s lives that are not shown in these options will not change and will be the same as last year. Between these two options, which do you think you would choose?',
+      'Imagine you are facing a personal choice. Each option either increases or decreases the level of one of the aspects of your life. You should assume that all other aspects of your life that are not shown in these options will not change and will be the same as last year. Between these two options, which do you think you would choose?'
+    ],
+    text_instruct_conditions: ['$policy_aspects', true]
   }
 
   static simulate (props) {
     const {
       aspects,
       aspect_pairs,
-      tradeoff_range
+      tradeoff_range,
+      index
     } = props
+    let { should_decrease } = props
 
-    return _(aspect_pairs)
-      .map(([i,j]) => [
-        `triple_${identify(aspects[i].text)}_${identify(aspects[j].text)}`,
-        _.sample(tradeoff_range) * _.sample([1,-1])
-      ])
-      .object()
-      .value()
+    const gt92 = _.some(aspects, a => a.rating > 92)
+    const lt8 = _.some(aspects, a => a.rating < 8)
+    if (gt92 && lt8) {
+      return aspect_pairs
+        .map(([i,j]) => {
+          return {
+            [`triple_${index}_${String.fromCharCode(65 + i)}`]: identify(aspects[i].text),
+            [`triple_${index}_${String.fromCharCode(65 + j)}`]: identify(aspects[j].text),
+            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_1`]: 'skip',
+            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_2`]: 'skip',
+            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_t`]: Date.now(),
+            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}`]: 'skip'
+          }
+        })
+        .reduce((a, b) => { return { ...a, ...b }  }, {})
+    } else if (gt92) {
+      should_decrease = true
+    } else if (lt8) {
+      should_decrease = false
+    }
+
+    const signed_tradeoffs =
+      should_decrease ?
+        tradeoff_range.map(t => -t) :
+        tradeoff_range
+
+    return aspect_pairs
+      .map(([i,j]) => {
+        return {
+          [`triple_${index}_${String.fromCharCode(65 + i)}`]: identify(aspects[i].text),
+          [`triple_${index}_${String.fromCharCode(65 + j)}`]: identify(aspects[j].text),
+          [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_1`]: _.sample(signed_tradeoffs),
+          [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_2`]: _.sample(signed_tradeoffs),
+          [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_t`]: Date.now(),
+          [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}`]: Math.random() > 0.5 ? 1 : 2
+        }
+      })
+      .reduce((a, b) => { return { ...a, ...b }  }, {})
   }
 
   constructor (props) {
@@ -95,20 +133,34 @@ class App extends React.Component {
 
   componentWillMount () {
     const {
+      aspects,
       aspect_pairs,
-      tradeoff_sign,
       tradeoff_range,
       text_decreases,
-      text_increases
+      text_increases,
+      push
     } = this.props
 
-    let signed_tradeoffs = 
-      tradeoff_sign ?
+    let { should_decrease } = this.props
+    const gt92 = _.some(aspects, a => a.rating > 92)
+    const lt8 = _.some(aspects, a => a.rating < 8)
+    if (gt92 && lt8) {
+      push({
+        [`skip_${identify(aspects.map(a => a.text).join(''))}`]: Date.now()
+      })
+    } else if (gt92) {
+      should_decrease = true
+    } else if (lt8) {
+      should_decrease = false
+    }
+
+    const signed_tradeoffs =
+      should_decrease ?
         tradeoff_range.map(t => -t) :
         tradeoff_range
 
-    let increases_decreases =
-      tradeoff_sign ?
+    const increases_decreases =
+      should_decrease ?
         text_decreases :
         text_increases
 
@@ -118,6 +170,7 @@ class App extends React.Component {
         _.sample(signed_tradeoffs)
       ],
       prefs: {},
+      response: {},
       aspect_pairs,
       signed_tradeoffs,
       increases_decreases
@@ -129,10 +182,16 @@ class App extends React.Component {
       signed_tradeoffs,
       tradeoff,
       aspect_pairs,
-      prefs
+      response
     } = this.state
 
-    const [i,j] = aspect_pairs[0]
+    const {
+      aspects,
+      push,
+      index
+    } = this.props
+
+    const [i, j] = aspect_pairs[0]
 
     const state = {
       aspect_pairs: aspect_pairs.slice(1),
@@ -140,27 +199,19 @@ class App extends React.Component {
         _.sample(signed_tradeoffs),
         _.sample(signed_tradeoffs)
       ],
-      prefs: {
-        ...prefs,
-        [String(i) + String(j)]: tradeoff[1] / tradeoff[0] * option
+      response: {
+        ...response,
+        [`triple_${index}_${String.fromCharCode(65 + i)}`]: identify(aspects[i].text),
+        [`triple_${index}_${String.fromCharCode(65 + j)}`]: identify(aspects[j].text),
+        [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_1`]: tradeoff[0],
+        [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_2`]: tradeoff[1],
+        [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_t`]: Date.now(),
+        [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}`]: option + 1
       }
     }
 
-    const {
-      aspects,
-      push
-    } = this.props
-
     if (!state.aspect_pairs.length > 0) {
-      push(
-        _(this.props.aspect_pairs)
-          .map(([i,j]) => [
-            `triple_${identify(aspects[i].text)}_${identify(aspects[j].text)}`,
-            state.prefs[String(i) + String(j)]
-          ])
-          .object()
-          .value()
-      )
+      push(state.response)
     } else {
       this.setState(state)
       setTimeout(() => this.setState({ animating: false }), 300)
@@ -183,12 +234,26 @@ class App extends React.Component {
   render () {
     const {
       text_instruct_title,
-      text_instruct_body,
       text_prefer_option,
       text_option_one,
-      text_option_two,
-      aspects
+      text_option_two
     } = this.props
+
+    console.log(this.props.text_instruct_conditions)
+
+    const text_instruct_body = this.props.text_instruct_body
+      .filter((t, i) => this.props.text_instruct_conditions[i])[0]
+
+    const aspects = this.props.aspects
+      .map(a => {
+        return {
+          ...a,
+          rating: typeof a.rating === 'string' && a.rating.charAt(0) === '!' ?
+            Math.round(Math.random() * 100) : a.rating,
+          color: typeof a.color === 'string' &&  a.color.charAt(0) === '!' ?
+            colorScheme.random() : a.color
+        }
+      })
 
     const {
       aspect_pairs,
@@ -196,7 +261,7 @@ class App extends React.Component {
       tradeoff
     } = this.state
 
-    const [i,j] = aspect_pairs[0]
+    const [i, j] = aspect_pairs[0]
 
     return (
       <div>

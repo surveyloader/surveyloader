@@ -2,15 +2,11 @@ import React from 'react'
 import Radium from 'radium'
 import styles from './styles'
 import http from 'superagent'
-
 import store from '../store'
-
 import Crud from '../Crud'
-
 import simulateOver from '../../global/services/simulateOver'
 import identify from '../../global/services/stringHash'
 
-console.log(identify('the health of the ecosystems in the world'))
 
 @Radium
 class Container extends React.Component {
@@ -27,7 +23,7 @@ class Container extends React.Component {
     if (newState.selected !== selected) {
       simulateOver(initTable, queue.slice(0, newState.selected))
         .then(table => {
-          store.dispatch({ 
+          store.dispatch({
             type: 'SET_ACC_TABLE',
             table: _.omit(table, (v, k) => _.has(initTable, k))
           })

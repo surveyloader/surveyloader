@@ -30,6 +30,7 @@ export default class Crud extends React.Component {
   simulate (n, survey) {
     const { table, queue } = survey
 
+    console.log('begin sim')
     let responses = _.range(0, n)
         .map(() => simulateOver(table, queue))
     let keys = responses
@@ -37,6 +38,8 @@ export default class Crud extends React.Component {
       .sort()
     let data = responses
       .map(r => keys.map(k => r[k]))
+
+    console.log('end sim', data)
 
     this.props.store.dispatch({
       type: 'SET_RESPONSES',
@@ -55,8 +58,17 @@ export default class Crud extends React.Component {
       surveyName,
       surveyVersion,
       keys,
-      data
+      data,
+      showTable
     } = this.props
+
+    const headers = keys && keys.join(',') + '\n'
+    const rows = data && data
+      .map(r => r
+        .map(datum => typeof datum === 'string' ? `"${datum}"` : datum)
+        .join(',') + '\n'
+      )
+      .join('')
 
     return (
       <div>
@@ -116,31 +128,52 @@ export default class Crud extends React.Component {
               value="Load"
               onClick={() => ::this.simulate(100, surveys[surveyName][surveyVersion])}
             />
-          </div>
-        </div>
-        <table>
-          <thead>
-            <tr>
             {
               keys &&
-              keys
-                .map((k, i) => <th key={i}>{k}</th>)
+              <a
+                href={`data:text/plain;charset=utf-8,${encodeURIComponent(headers + rows)}`}
+                download={`${surveyName}${surveyVersion}.csv`}
+              >Download CSV</a>
             }
-            </tr>
-          </thead>
-          <tbody>
+          </div>
+        </div>
+        <div style={[styles.row]}>
           {
-            data &&
-            data.map((r, i) => (
-              <tr key={i}>
+            keys &&
+            <span>{data.length} x {keys.length}</span>
+          }
+          <input
+            type="button"
+            value={showTable ? 'Hide table' : 'Show table'}
+            onClick={() => this.setState({ showTable: !showTable })}
+          />
+        </div>
+        {
+          showTable &&
+          <table>
+            <thead>
+              <tr>
               {
-                _.map(r, (v, i) => <td key={i}>{v}</td>)
+                keys &&
+                keys
+                  .map((k, i) => <th key={i}>{k}</th>)
               }
               </tr>
-            ))
-          }
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+            {
+              data &&
+              data.map((r, i) => (
+                <tr key={i}>
+                {
+                  _.map(r, (v, i) => <td key={i}>{v}</td>)
+                }
+                </tr>
+              ))
+            }
+            </tbody>
+          </table>
+        }
       </div>
     )
   }

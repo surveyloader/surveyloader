@@ -10,13 +10,15 @@ export default class Preview extends React.Component {
     const {
       params,
       table,
-      fullscreen
+      fullscreen,
+      reload
     } = this.props
 
     const embedded = (
       <div style={{ width: '100%' }}>
         <div style={[styles.heading]}>
-          <span>Dynamic preview</span>
+          <span>Dynamic preview </span>
+          <button onClick={reload}>&#8635;</button>
           <a style={[styles.newWindow, { float: 'right' }]} href={`/module/?fullscreen/${encodeURIComponent(JSON.stringify(params))}`} target="_blank">fullscreen view URL</a>
         </div>
         <div style={[styles.preview]}>

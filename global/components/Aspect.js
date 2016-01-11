@@ -22,6 +22,7 @@ class Aspect extends React.Component {
       color,
       modStyle
     } = this.props
+
     return (
       <div style={[styles.main, modStyle]}>
         <div style={[styles.blurb]}>

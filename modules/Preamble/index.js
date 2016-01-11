@@ -210,7 +210,7 @@ class Preamble extends React.Component {
               choice === 1 &&
               <span>
                 <strong>{aspects[0].text}</strong>
-                {`${this.deltaText.bind(this)(tradeoff[0])} ${text_instead} `}
+                {` ${this.deltaText.bind(this)(tradeoff[0])} ${text_instead} `}
                 <strong>{aspects[1].text}</strong>{`${this.deltaText.bind(this)(tradeoff[1])}.`}
               </span>
             }
@@ -218,7 +218,7 @@ class Preamble extends React.Component {
               choice === 2 &&
               <span>
                 <strong>{aspects[1].text}</strong>
-                {`${this.deltaText.bind(this)(tradeoff[1])} ${text_instead} `}
+                {` ${this.deltaText.bind(this)(tradeoff[1])} ${text_instead} `}
                 <strong>{aspects[0].text}</strong>{`${this.deltaText.bind(this)(tradeoff[0])}.`}
               </span>
             }

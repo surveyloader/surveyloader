@@ -19921,7 +19921,7 @@
 	    var queue = _props.queue;
 
 	    var authors = String(initTable.surveyAuthor).split(',');
-	    var author = authors.indexOf(auth.github.username + '@github') > 0 ? authors.join(',') : authors.filter(function (a) {
+	    var author = authors.indexOf(auth.github.username + '@github') > -1 ? authors.join(',') : authors.filter(function (a) {
 	      return a;
 	    }).concat(auth.github.username + '@github').join(',');
 
@@ -20078,14 +20078,15 @@
 	        _react2['default'].createElement('input', {
 	          type: 'text',
 	          ref: 'surveyName',
-	          defaultValue: surveyName
+	          key: initTable.surveyName,
+	          defaultValue: initTable.surveyName
 	        }),
 	        ' ',
 	        _react2['default'].createElement(
 	          'span',
 	          null,
 	          'author:',
-	          initTable.author
+	          initTable.surveyAuthor
 	        ),
 	        ' ',
 	        auth && _react2['default'].createElement(
@@ -31434,7 +31435,7 @@
 	var _reactLibUpdate2 = _interopRequireDefault(_reactLibUpdate);
 
 	exports['default'] = _redux.createStore(function (state, action) {
-	  console.log(action.type, state);
+	  console.log(action.type, action, state);
 	  switch (action.type) {
 	    case 'AUTHORIZE':
 	      return _extends({}, state, {
@@ -31542,14 +31543,16 @@
 	    case 'ADD_QUEUE_MODULE':
 	      return _extends({}, state, {
 	        selected: state.queue.length,
-	        params: null,
+	        params: {
+	          type: action.module
+	        },
 	        queue: state.queue.concat({ type: action.module }).map(function (m, i) {
 	          return _extends({}, m, { id: i + 1 });
 	        })
 	      });
 
 	    case 'CHANGE_MODULE_PARAMS':
-	      state.queue[state.selected] = _extends({}, state.queue[state.selected], action.params);
+	      state.queue[action.selected] = _extends({}, state.queue[action.selected], action.params);
 	      return _extends({}, state, {
 	        queue: state.queue
 	      });
@@ -32218,6 +32221,7 @@
 	    var params = _props.params;
 	    var table = _props.table;
 	    var fullscreen = _props.fullscreen;
+	    var reload = _props.reload;
 
 	    var embedded = _react2['default'].createElement(
 	      'div',
@@ -32228,7 +32232,12 @@
 	        _react2['default'].createElement(
 	          'span',
 	          null,
-	          'Dynamic preview'
+	          'Dynamic preview '
+	        ),
+	        _react2['default'].createElement(
+	          'button',
+	          { onClick: reload },
+	          '↻'
 	        ),
 	        _react2['default'].createElement(
 	          'a',
@@ -45843,6 +45852,9 @@
 	exports['default'] = {
 	  index: function index(i) {
 	    return _color2['default']().hsl(i % 6 * 60, 80, 75).rgbString();
+	  },
+	  random: function random() {
+	    return _color2['default']().hsl(Math.round(Math.random() * 6) * 60, 80, 75).rgbString();
 	  }
 	};
 	module.exports = exports['default'];
@@ -49265,7 +49277,7 @@
 	              null,
 	              aspects[0].text
 	            ),
-	            this.deltaText.bind(this)(tradeoff[0]) + ' ' + text_instead + ' ',
+	            ' ' + this.deltaText.bind(this)(tradeoff[0]) + ' ' + text_instead + ' ',
 	            _react2['default'].createElement(
 	              'strong',
 	              null,
@@ -49281,7 +49293,7 @@
 	              null,
 	              aspects[1].text
 	            ),
-	            this.deltaText.bind(this)(tradeoff[1]) + ' ' + text_instead + ' ',
+	            ' ' + this.deltaText.bind(this)(tradeoff[1]) + ' ' + text_instead + ' ',
 	            _react2['default'].createElement(
 	              'strong',
 	              null,
@@ -51427,31 +51439,29 @@
 	  var _Index = Index;
 
 	  _Index.simulate = function simulate(props) {
-	    return _lodash2['default'](props.aspect_texts).map(function (a) {
-	      return ['rating_' + _globalServicesStringHash2['default'](a), _lodash2['default'].sample(_lodash2['default'].range(0, 101))];
-	    }).object().value();
+	    return props.aspects.map(function (a) {
+	      var _ref;
+
+	      return (_ref = {}, _ref['rating_' + a.code] = _lodash2['default'].sample(_lodash2['default'].range(0, 101)), _ref['rating_' + a.code + '_t'] = 0, _ref['rating_' + a.code + '_confirmed'] = 0, _ref);
+	    }).reduce(function (a, b) {
+	      return _extends({}, a, b);
+	    }, {});
 	  };
 
 	  _Index.prototype.componentDidMount = function componentDidMount() {
-	    var _this2 = this;
-
 	    _store2['default'].dispatch({
 	      type: 'SET_ASPECTS',
-	      aspects: this.props.aspect_texts.map(function (a, i) {
-	        return {
-	          text: a,
-	          color: _this2.props.aspect_colors[i],
+	      aspects: this.props.aspects.map(function (a, i) {
+	        return _extends({}, a, {
 	          index: i
-	        };
+	        });
 	      })
 	    });
 	  };
 
 	  _Index.prototype.componentDidUpdate = function componentDidUpdate() {
 	    if (this.state.index < 0) {
-	      this.props.push(_lodash2['default'](this.state.aspects).map(function (a) {
-	        return ['rating_' + _globalServicesStringHash2['default'](a.text), a.rating];
-	      }).object().value());
+	      this.props.push(this.state.response);
 	    }
 	  };
 
@@ -51528,8 +51538,11 @@
 	  _createClass(_Index, null, [{
 	    key: 'propTypes',
 	    value: {
-	      aspect_texts: _globalTypes.declare(_globalTypes.type.array),
-	      aspect_colors: _globalTypes.declare(_globalTypes.type.array),
+	      aspects: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.Object({
+	        text: _globalTypes.type.string,
+	        color: _globalTypes.type.string,
+	        code: _globalTypes.type.string
+	      }))),
 	      instructions: _globalTypes.declare(_globalTypes.type.string),
 	      text: _globalTypes.declare(_globalTypes.type.string),
 	      rating_tip: _globalTypes.declare(_globalTypes.type.string),
@@ -51551,8 +51564,19 @@
 	      high_point: ' extremely high',
 	      min_point: 'the least you could possibly imagine',
 	      max_point: ' the most you could possibly imagine',
-	      aspect_texts: ['one', 'two', 'three'],
-	      aspect_colors: ['#f77', '#7f7', '#77f']
+	      aspects: [{
+	        text: 'one',
+	        color: '#f77',
+	        code: 'a_0'
+	      }, {
+	        text: 'two',
+	        color: '#7f7',
+	        code: 'a_1'
+	      }, {
+	        text: 'three',
+	        color: '#77f',
+	        code: 'a_2'
+	      }]
 	    },
 	    enumerable: true
 	  }]);
@@ -51588,9 +51612,17 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 	var _redux = __webpack_require__(337);
 
+	var _globalServicesStringHash = __webpack_require__(359);
+
+	var _globalServicesStringHash2 = _interopRequireDefault(_globalServicesStringHash);
+
 	exports['default'] = _redux.createStore(function (state, action) {
+	  var _extends2, _extends5;
+
 	  switch (action.type) {
 
 	    case 'SET_ASPECTS':
@@ -51603,20 +51635,28 @@
 
 	    case 'CHANGE_RATING':
 	      state.aspects[state.index].rating = Number(action.rating);
-	      return state;
+	      return _extends({}, state, {
+	        response: _extends({}, state.response, (_extends2 = {}, _extends2['rating_' + state.aspects[state.index].code] = Number(action.rating), _extends2['rating_' + state.aspects[state.index].code + '_t'] = Date.now(), _extends2))
+	      });
 
 	    case 'CONFIRM_RATING':
 	      state.rated[state.index] = true;
 	      if (!state.rated.reduce(function (a, b) {
 	        return a && b;
 	      }, true)) {
+	        var _extends3;
+
 	        return _extends({}, state, {
+	          response: _extends({}, state.response, (_extends3 = {}, _extends3['rating_' + state.aspects[state.index].code + '_confirmed'] = Date.now(), _extends3)),
 	          index: state.aspects.filter(function (a, i) {
 	            return !state.rated[i];
 	          })[0].index
 	        });
 	      } else {
+	        var _extends4;
+
 	        return _extends({}, state, {
+	          response: _extends({}, state.response, (_extends4 = {}, _extends4['rating_' + state.aspects[state.index].code + '_confirmed'] = Date.now(), _extends4)),
 	          index: -1
 	        });
 	      }
@@ -51624,6 +51664,7 @@
 	    case 'EDIT_RATING':
 	      state.rated[action.index] = false;
 	      return _extends({}, state, {
+	        response: _extends({}, state.response, (_extends5 = {}, _extends5['rating_' + state.aspects[state.index].code + '_edit'] = Date.now(), _extends5)),
 	        index: action.index
 	      });
 
@@ -51635,6 +51676,7 @@
 	          index: 0
 	        }],
 	        rated: [],
+	        response: {},
 	        index: 0
 	      };
 	  }
@@ -52387,8 +52429,8 @@
 	var _globalServicesColorScheme2 = _interopRequireDefault(_globalServicesColorScheme);
 
 	function choose(n, aspects, bucket) {
-	  return _lodash2['default'].object(_lodash2['default'].sample(aspects, n || 3).map(function (p, i) {
-	    return [['aspect_' + bucket + '_' + i, _globalServicesStringHash2['default'](p)], ['text_' + _globalServicesStringHash2['default'](p), p], ['color_' + _globalServicesStringHash2['default'](p), _globalServicesColorScheme2['default'].index(i)]];
+	  return aspects.length > 0 && _lodash2['default'].object(_lodash2['default'].sample(aspects, n || 3).map(function (p, i) {
+	    return [['aspect_' + bucket + '_' + i, p], ['color_' + bucket + '_' + i, _globalServicesColorScheme2['default'].index(i)]];
 	  }).reduce(function (a, b) {
 	    return a.concat(b);
 	  }));
@@ -52405,21 +52447,40 @@
 
 	  Sample.simulate = function simulate(props) {
 	    var simulate = props.simulate;
+	    var skip_if_true = props.skip_if_true;
+	    var skip_if_false = props.skip_if_false;
 	    var n = props.n;
 	    var aspects = props.aspects;
 	    var bucket = props.bucket;
 
-	    return choose(n, aspects, bucket);
+	    var skip = skip_if_true.reduce(function (a, b) {
+	      return a || b;
+	    }, false) || skip_if_false.reduce(function (a, b) {
+	      return a || !b;
+	    }, false);
+	    return skip ? {} : choose(n, aspects, bucket);
 	  };
 
 	  Sample.prototype.componentWillMount = function componentWillMount() {
 	    var _props = this.props;
 	    var push = _props.push;
+	    var skip_if_true = _props.skip_if_true;
+	    var skip_if_false = _props.skip_if_false;
 	    var n = _props.n;
 	    var aspects = _props.aspects;
 	    var bucket = _props.bucket;
 
-	    push(choose(n, aspects, bucket));
+	    // dynamic typing is the devil
+	    var skip = skip_if_true.reduce(function (a, b) {
+	      return a || b;
+	    }, false) || skip_if_false.reduce(function (a, b) {
+	      return a || !b;
+	    }, false);
+	    if (skip) {
+	      push();
+	    } else {
+	      push(choose(n, aspects, bucket));
+	    }
 	  };
 
 	  Sample.prototype.render = function render() {
@@ -52429,14 +52490,18 @@
 	  _createClass(Sample, null, [{
 	    key: 'propTypes',
 	    value: {
-	      aspects: _globalTypes.declare(_globalTypes.type.array),
+	      skip_if_true: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.boolean)),
+	      skip_if_false: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.boolean)),
 	      bucket: _globalTypes.declare(_globalTypes.type.string),
-	      n: _globalTypes.declare(_globalTypes.type.number)
+	      n: _globalTypes.declare(_globalTypes.type.number),
+	      aspects: _globalTypes.declare(_globalTypes.type.array)
 	    },
 	    enumerable: true
 	  }, {
 	    key: 'defaultProps',
 	    value: {
+	      skip_if_true: [false],
+	      skip_if_false: [true],
 	      aspects: ['one', 'two'],
 	      bucket: 'a',
 	      n: 1
@@ -52648,31 +52713,86 @@
 	    var aspects = props.aspects;
 	    var aspect_pairs = props.aspect_pairs;
 	    var tradeoff_range = props.tradeoff_range;
+	    var index = props.index;
+	    var should_decrease = props.should_decrease;
 
-	    return _lodash2['default'](aspect_pairs).map(function (_ref) {
-	      var i = _ref[0];
-	      var j = _ref[1];
-	      return ['triple_' + _globalServicesStringHash2['default'](aspects[i].text) + '_' + _globalServicesStringHash2['default'](aspects[j].text), _lodash2['default'].sample(tradeoff_range) * _lodash2['default'].sample([1, -1])];
-	    }).object().value();
+	    var gt92 = _lodash2['default'].some(aspects, function (a) {
+	      return a.rating > 92;
+	    });
+	    var lt8 = _lodash2['default'].some(aspects, function (a) {
+	      return a.rating < 8;
+	    });
+	    if (gt92 && lt8) {
+	      return aspect_pairs.map(function (_ref3) {
+	        var _ref;
+
+	        var i = _ref3[0];
+	        var j = _ref3[1];
+
+	        return (_ref = {}, _ref['triple_' + index + '_' + String.fromCharCode(65 + i)] = _globalServicesStringHash2['default'](aspects[i].text), _ref['triple_' + index + '_' + String.fromCharCode(65 + j)] = _globalServicesStringHash2['default'](aspects[j].text), _ref['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j) + '_1'] = 'skip', _ref['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j) + '_2'] = 'skip', _ref['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j) + '_t'] = Date.now(), _ref['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j)] = 'skip', _ref);
+	      }).reduce(function (a, b) {
+	        return _extends({}, a, b);
+	      }, {});
+	    } else if (gt92) {
+	      should_decrease = true;
+	    } else if (lt8) {
+	      should_decrease = false;
+	    }
+
+	    var signed_tradeoffs = should_decrease ? tradeoff_range.map(function (t) {
+	      return -t;
+	    }) : tradeoff_range;
+
+	    return aspect_pairs.map(function (_ref4) {
+	      var _ref2;
+
+	      var i = _ref4[0];
+	      var j = _ref4[1];
+
+	      return (_ref2 = {}, _ref2['triple_' + index + '_' + String.fromCharCode(65 + i)] = _globalServicesStringHash2['default'](aspects[i].text), _ref2['triple_' + index + '_' + String.fromCharCode(65 + j)] = _globalServicesStringHash2['default'](aspects[j].text), _ref2['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j) + '_1'] = _lodash2['default'].sample(signed_tradeoffs), _ref2['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j) + '_2'] = _lodash2['default'].sample(signed_tradeoffs), _ref2['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j) + '_t'] = Date.now(), _ref2['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j)] = Math.random() > 0.5 ? 1 : 2, _ref2);
+	    }).reduce(function (a, b) {
+	      return _extends({}, a, b);
+	    }, {});
 	  };
 
 	  _App.prototype.componentWillMount = function componentWillMount() {
 	    var _props = this.props;
+	    var aspects = _props.aspects;
 	    var aspect_pairs = _props.aspect_pairs;
-	    var tradeoff_sign = _props.tradeoff_sign;
 	    var tradeoff_range = _props.tradeoff_range;
 	    var text_decreases = _props.text_decreases;
 	    var text_increases = _props.text_increases;
+	    var push = _props.push;
+	    var should_decrease = this.props.should_decrease;
 
-	    var signed_tradeoffs = tradeoff_sign ? tradeoff_range.map(function (t) {
+	    var gt92 = _lodash2['default'].some(aspects, function (a) {
+	      return a.rating > 92;
+	    });
+	    var lt8 = _lodash2['default'].some(aspects, function (a) {
+	      return a.rating < 8;
+	    });
+	    if (gt92 && lt8) {
+	      var _push;
+
+	      push((_push = {}, _push['skip_' + _globalServicesStringHash2['default'](aspects.map(function (a) {
+	        return a.text;
+	      }).join(''))] = Date.now(), _push));
+	    } else if (gt92) {
+	      should_decrease = true;
+	    } else if (lt8) {
+	      should_decrease = false;
+	    }
+
+	    var signed_tradeoffs = should_decrease ? tradeoff_range.map(function (t) {
 	      return -t;
 	    }) : tradeoff_range;
 
-	    var increases_decreases = tradeoff_sign ? text_decreases : text_increases;
+	    var increases_decreases = should_decrease ? text_decreases : text_increases;
 
 	    this.setState({
 	      tradeoff: [_lodash2['default'].sample(signed_tradeoffs), _lodash2['default'].sample(signed_tradeoffs)],
 	      prefs: {},
+	      response: {},
 	      aspect_pairs: aspect_pairs,
 	      signed_tradeoffs: signed_tradeoffs,
 	      increases_decreases: increases_decreases
@@ -52687,7 +52807,11 @@
 	    var signed_tradeoffs = _state.signed_tradeoffs;
 	    var tradeoff = _state.tradeoff;
 	    var aspect_pairs = _state.aspect_pairs;
-	    var prefs = _state.prefs;
+	    var response = _state.response;
+	    var _props2 = this.props;
+	    var aspects = _props2.aspects;
+	    var push = _props2.push;
+	    var index = _props2.index;
 	    var _aspect_pairs$0 = aspect_pairs[0];
 	    var i = _aspect_pairs$0[0];
 	    var j = _aspect_pairs$0[1];
@@ -52695,19 +52819,11 @@
 	    var state = {
 	      aspect_pairs: aspect_pairs.slice(1),
 	      tradeoff: [_lodash2['default'].sample(signed_tradeoffs), _lodash2['default'].sample(signed_tradeoffs)],
-	      prefs: _extends({}, prefs, (_extends2 = {}, _extends2[String(i) + String(j)] = tradeoff[1] / tradeoff[0] * option, _extends2))
+	      response: _extends({}, response, (_extends2 = {}, _extends2['triple_' + index + '_' + String.fromCharCode(65 + i)] = _globalServicesStringHash2['default'](aspects[i].text), _extends2['triple_' + index + '_' + String.fromCharCode(65 + j)] = _globalServicesStringHash2['default'](aspects[j].text), _extends2['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j) + '_1'] = tradeoff[0], _extends2['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j) + '_2'] = tradeoff[1], _extends2['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j) + '_t'] = Date.now(), _extends2['triple_' + index + '_' + String.fromCharCode(65 + i) + '_' + String.fromCharCode(65 + j)] = option + 1, _extends2))
 	    };
 
-	    var _props2 = this.props;
-	    var aspects = _props2.aspects;
-	    var push = _props2.push;
-
 	    if (!state.aspect_pairs.length > 0) {
-	      push(_lodash2['default'](this.props.aspect_pairs).map(function (_ref2) {
-	        var i = _ref2[0];
-	        var j = _ref2[1];
-	        return ['triple_' + _globalServicesStringHash2['default'](aspects[i].text) + '_' + _globalServicesStringHash2['default'](aspects[j].text), state.prefs[String(i) + String(j)]];
-	      }).object().value());
+	      push(state.response);
 	    } else {
 	      this.setState(state);
 	      setTimeout(function () {
@@ -52733,11 +52849,23 @@
 
 	    var _props4 = this.props;
 	    var text_instruct_title = _props4.text_instruct_title;
-	    var text_instruct_body = _props4.text_instruct_body;
 	    var text_prefer_option = _props4.text_prefer_option;
 	    var text_option_one = _props4.text_option_one;
 	    var text_option_two = _props4.text_option_two;
-	    var aspects = _props4.aspects;
+
+	    console.log(this.props.text_instruct_conditions);
+
+	    var text_instruct_body = this.props.text_instruct_body.filter(function (t, i) {
+	      return _this2.props.text_instruct_conditions[i];
+	    })[0];
+
+	    var aspects = this.props.aspects.map(function (a) {
+	      return _extends({}, a, {
+	        rating: typeof a.rating === 'string' && a.rating.charAt(0) === '!' ? Math.round(Math.random() * 100) : a.rating,
+	        color: typeof a.color === 'string' && a.color.charAt(0) === '!' ? _globalServicesColorScheme2['default'].random() : a.color
+	      });
+	    });
+
 	    var _state2 = this.state;
 	    var aspect_pairs = _state2.aspect_pairs;
 	    var animating = _state2.animating;
@@ -52842,7 +52970,7 @@
 	      }))),
 	      aspect_pairs: _globalTypes.declare(_globalTypes.type.array),
 	      tradeoff_range: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.number)),
-	      tradeoff_sign: _globalTypes.declare(_globalTypes.type.number),
+	      should_decrease: _globalTypes.declare(_globalTypes.type.boolean),
 	      texts_deg_pref: _globalTypes.declare(_globalTypes.type.array),
 	      text_increases: _globalTypes.declare(_globalTypes.type.string),
 	      text_decreases: _globalTypes.declare(_globalTypes.type.string),
@@ -52850,28 +52978,29 @@
 	      text_option_two: _globalTypes.declare(_globalTypes.type.string),
 	      text_prefer_option: _globalTypes.declare(_globalTypes.type.string),
 	      text_instruct_title: _globalTypes.declare(_globalTypes.type.string),
-	      text_instruct_body: _globalTypes.declare(_globalTypes.type.string)
+	      text_instruct_body: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.string)),
+	      text_instruct_conditions: _globalTypes.declare(_globalTypes.type.Array(_globalTypes.type.boolean))
 	    },
 	    enumerable: true
 	  }, {
 	    key: 'defaultProps',
 	    value: {
 	      aspects: [{
-	        text: 'one',
-	        rating: 51,
-	        color: '#f77'
+	        text: '$aspect_a_0',
+	        rating: '$rating_a_0',
+	        color: '$color_a_0'
 	      }, {
-	        text: 'two',
-	        rating: 52,
-	        color: '#7f7'
+	        text: '$aspect_a_1',
+	        rating: '$rating_a_1',
+	        color: '$color_a_1'
 	      }, {
-	        text: 'three',
-	        rating: 53,
-	        color: '#77f'
+	        text: '$aspect_a_2',
+	        rating: '$rating_a_2',
+	        color: '$color_a_2'
 	      }],
 	      aspect_pairs: [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]],
 	      tradeoff_range: _lodash2['default'].range(1, 9),
-	      tradeoff_sign: '$coin',
+	      should_decrease: false,
 	      texts_deg_pref: ['slightly', 'moderately', 'strongly', 'greatly'],
 	      text_increases: 'increases',
 	      text_decreases: 'decreases',
@@ -52879,7 +53008,8 @@
 	      text_option_two: 'Option 2',
 	      text_prefer_option: 'I prefer this option',
 	      text_instruct_title: 'Instructions',
-	      text_instruct_body: 'Imagine you are facing a personal/policy choice. Each option either increases or decreases the level of one of the aspects of your life/the lives of all people in your nation. You should assume that all other aspects of your life/people’s lives that are not shown in these options will not change and will be the same as last year. Between these two options, which do you think you would choose?'
+	      text_instruct_body: ['Imagine you are facing a policy choice. Each option either increases or decreases the level of one of the aspects of the lives of all people in your nation. You should assume that all other aspects of people’s lives that are not shown in these options will not change and will be the same as last year. Between these two options, which do you think you would choose?', 'Imagine you are facing a personal choice. Each option either increases or decreases the level of one of the aspects of your life. You should assume that all other aspects of your life that are not shown in these options will not change and will be the same as last year. Between these two options, which do you think you would choose?'],
+	      text_instruct_conditions: ['$policy_aspects', true]
 	    },
 	    enumerable: true
 	  }]);
@@ -52986,16 +53116,24 @@
 	        var nested = param.replace(/\$\((.+)\)/, function (m, p1) {
 	          return echo('$' + p1, table);
 	        });
-	        _x = nested;
-	        _x2 = table;
-	        _again = true;
-	        continue _function;
+	        if (echo(nested, table) === '404') {
+	          return '!' + param;
+	        } else {
+	          _x = nested;
+	          _x2 = table;
+	          _again = true;
+	          continue _function;
+	        }
 
 	      case /^\$.+/.test(param):
-	        _x = table[param.substring(1)];
-	        _x2 = table;
-	        _again = true;
-	        continue _function;
+	        if (echo(table[param.substring(1)], table) === '404') {
+	          return '!' + param;
+	        } else {
+	          _x = table[param.substring(1)];
+	          _x2 = table;
+	          _again = true;
+	          continue _function;
+	        }
 
 	      case typeof param === 'undefined':
 	        return '404';
@@ -53788,6 +53926,7 @@
 	  _Params.prototype.setDefaultProps = function setDefaultProps(props) {
 	    var params = props.params;
 	    var store = props.store;
+	    var selected = props.selected;
 
 	    var _load = _globalServicesLazy2['default'](params.type);
 
@@ -53795,6 +53934,7 @@
 
 	    store.dispatch({
 	      type: 'CHANGE_MODULE_PARAMS',
+	      selected: selected,
 	      params: _extends({}, params, defaultProps)
 	    });
 
@@ -53843,6 +53983,7 @@
 	          setParams: function (params) {
 	            store.dispatch({
 	              type: 'CHANGE_MODULE_PARAMS',
+	              selected: selected,
 	              params: params
 	            });
 	          }
@@ -53870,8 +54011,6 @@
 	'use strict';
 
 	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -53930,10 +54069,10 @@
 	  };
 
 	  _CRUD.prototype.setParam = function setParam(param, value) {
-	    var _extends2;
+	    var _props$setParams;
 
 	    console.log('set', param, value);
-	    this.props.setParams(_extends({}, this.props.params, (_extends2 = {}, _extends2[param] = value, _extends2)));
+	    this.props.setParams((_props$setParams = {}, _props$setParams[param] = value, _props$setParams));
 	  };
 
 	  _CRUD.prototype.render = function render() {
@@ -54136,6 +54275,7 @@
 	    var elementSchema = _props.elementSchema;
 	    var excelCol = _props.excelCol;
 	    var set = _props.set;
+	    var drop = this.state.drop;
 
 	    return _react2['default'].createElement(
 	      'div',
@@ -54159,7 +54299,25 @@
 	      _react2['default'].createElement(
 	        'div',
 	        { style: [_styles2['default'].col] },
-	        !!value.length && value.map(function (v, i) {
+	        _react2['default'].createElement(
+	          'div',
+	          { style: [_styles2['default'].row, { justifyContent: 'space-between' }] },
+	          _react2['default'].createElement('input', {
+	            type: 'button',
+	            value: drop ? '▼' : '▶︎',
+	            onClick: function () {
+	              return _this.setState({ drop: !drop });
+	            }
+	          }),
+	          _react2['default'].createElement('input', {
+	            type: 'button',
+	            value: 'X',
+	            onClick: function () {
+	              return set(null);
+	            }
+	          })
+	        ),
+	        !!value.length && drop && value.map(function (v, i) {
 	          return _react2['default'].createElement(
 	            'div',
 	            { style: [_styles2['default'].row] },
@@ -54833,20 +54991,20 @@
 
 	function assignProps(params, table) {
 	  return _lodash2['default'](params).map(function (v, k) {
-	    return Array.isArray(v) ? [k, v.map(function (subv) {
-	      return _echo2['default'](subv, table);
-	    })] : [k, _echo2['default'](v, table)];
+	    return [k, _echo2['default'](v, table)];
 	  }).object().value();
 	}
 
-	function simulateOver(_x, _x2) {
+	function simulateOver(_x2, _x3) {
+	  var _arguments = arguments;
 	  var _again = true;
 
 	  _function: while (_again) {
-	    var table = _x,
-	        queue = _x2;
-	    component = simulated = undefined;
+	    var table = _x2,
+	        queue = _x3;
+	    index = component = simulated = undefined;
 	    _again = false;
+	    var index = _arguments[2] === undefined ? 0 : _arguments[2];
 
 	    if (!queue.length) {
 	      return table;
@@ -54854,9 +55012,8 @@
 	      var component = _lazy2['default'](queue[0].type);
 	      component.defaultProps = component.defaultProps ? component.defaultProps : {};
 	      component.defaultProps = _lodash2['default'].assign(component.defaultProps, assignProps(queue[0], table));
-	      var simulated = component.simulate(component.defaultProps);
-	      _x = _extends({}, table, simulated);
-	      _x2 = queue.slice(1);
+	      var simulated = component.simulate(_extends({}, component.defaultProps, { index: index }));
+	      _arguments = [_x2 = _extends({}, table, simulated), _x3 = queue.slice(1), index + 1];
 	      _again = true;
 	      continue _function;
 	    }

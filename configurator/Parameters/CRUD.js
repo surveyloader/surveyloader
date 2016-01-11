@@ -28,7 +28,6 @@ class CRUD extends React.Component {
   setParam (param, value) {
     console.log('set', param, value)
     this.props.setParams({
-      ...this.props.params,
       [param]: value
     })
   }

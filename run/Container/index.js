@@ -3,10 +3,8 @@ import _ from 'lodash'
 import Radium from 'radium'
 import http from 'superagent'
 import store from '../store'
-
 import load from '../../global/services/lazy'
 import echo from '../../global/services/echo'
-
 import Loader from '../Loader'
 import Table from '../Table'
 import Queue from '../Queue'
@@ -20,41 +18,42 @@ class Container extends React.Component {
       this.setState(store.getState())
     })
 
-    let params = _(location.search.slice(1).split('&'))
+    const params = _(location.search.slice(1).split('&'))
       .map((item) => item.split('='))
       .object()
       .value()
 
     http
       .get(`https://surveyloader.firebaseio.com/configurations/${params.name}.json`)
+      .query({ shallow: true })
       .end((err, res) => {
-        let surveys = Object
-          .keys(res.body)
-          .map((k) => res.body[k])
+        console.log('shallow', res.body)
+        const versions = Object.keys(res.body).sort().reverse()
 
-        let { queue, table } = surveys.reverse()[0]
-        store.dispatch({
-          type: 'SET',
-          queue,
-          table
-        })
+        http
+          .get(`https://surveyloader.firebaseio.com/configurations/${params.name}/${params.v || versions[0]}.json`)
+          .end((err, res) => {
+            console.log(res.body)
+            const { queue, table } = res.body
+            store.dispatch({
+              type: 'SET',
+              queue,
+              table
+            })
 
-        if (params.index) {
-          store.dispatch({
-            type: 'SIMULATE',
-            simulation: params.index
+            if (params.index) {
+              store.dispatch({
+                type: 'SIMULATE',
+                simulation: params.index
+              })
+            }
           })
-        }
       })
   }
 
   assignProps (params, table) {
     return  _(params)
-      .map((v, k) => {
-        return Array.isArray(v) ?
-          [k, v.map(subv => echo(subv, table))] :
-          [k, echo(v, table)]
-      })
+      .map((v, k) => [k, echo(v, table)])
       .object()
       .value()
   }
@@ -63,10 +62,10 @@ class Container extends React.Component {
     const { simulation, index, queue, table } = nextState
     if (simulation > index) {
       if (queue[index].type) {
-        let component = load(queue[index].type)
+        const component = load(queue[index].type)
         component.defaultProps = component.defaultProps ? component.defaultProps : {}
         component.defaultProps = _
-          .assign(component.defaultProps, this.assignProps(queue[index], table))
+          .assign(this.assignProps(component.defaultProps, table), this.assignProps(queue[index], table))
         store.dispatch({
           type: 'PUSH',
           index: Number(index) + 1,
@@ -87,8 +86,8 @@ class Container extends React.Component {
 
   render () {
     const { queue, table, index } = this.state
-    console.log(queue[index])
-    let urlParams = _(location.search.slice(1).split('&'))
+
+    const urlParams = _(location.search.slice(1).split('&'))
       .map((item) => item.split('='))
       .object()
       .value()
@@ -151,8 +150,8 @@ class Container extends React.Component {
                 params={queue[index]}
                 table={table}
                 index={index}
+                length={queue.length}
                 push={(table) => {
-                  console.log(index)
                   store.dispatch({
                     type: 'PUSH',
                     index: Number(index) + 1,

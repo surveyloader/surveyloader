@@ -107,7 +107,15 @@ class Container extends React.Component {
           </div>
           <Doc path={`modules/${params.type}`} />
         </div>
-        <Preview {...previewProps} />
+        <Preview
+          {...previewProps}
+          reload={() => {
+            store.dispatch({
+              type: 'CHANGE_MODULE_TYPE',
+              into: params.type
+            }) 
+          }}
+        />
         <div style={[styles.row]}>
           <Parameters {...paramProps} />
           <Screenshots moduleType={params.type} />

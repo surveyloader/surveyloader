@@ -33,7 +33,8 @@ export default createStore(function (state, action) {
         ...state,
         table: {
           ...state.table,
-          ...action.table
+          ...action.table,
+          [`module_${action.index - 1}_t`]: Date.now()
         },
         index: action.index
       }

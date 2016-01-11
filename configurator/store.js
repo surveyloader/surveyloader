@@ -2,7 +2,7 @@ import { createStore } from 'redux'
 import update from 'react/lib/update'
 
 export default createStore(function (state, action) {
-  console.log(action.type, state)
+  console.log(action.type, action, state)
   switch (action.type) {
     case 'AUTHORIZE':
       return {
@@ -117,7 +117,9 @@ export default createStore(function (state, action) {
       return {
         ...state,
         selected: state.queue.length,
-        params: null,
+        params: { 
+          type: action.module
+        },
         queue: state.queue.concat({ type: action.module })
           .map((m, i) => { 
             return { ...m, id: i + 1 }
@@ -125,8 +127,8 @@ export default createStore(function (state, action) {
       }
 
     case 'CHANGE_MODULE_PARAMS':
-      state.queue[state.selected] = {
-        ...state.queue[state.selected],
+      state.queue[action.selected] = {
+        ...state.queue[action.selected],
         ...action.params
       }
       return {

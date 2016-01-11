@@ -13,6 +13,7 @@ class ArrayParam extends React.Component {
       excelCol,
       set
     } = this.props
+    const { drop } = this.state
     
     return (
       <div style={[styles.row]}>
@@ -20,8 +21,20 @@ class ArrayParam extends React.Component {
           <span>{name} (<i>array</i>):</span>
         </div>
         <div style={[styles.col]}>
+          <div style={[styles.row, { justifyContent: 'space-between' }]}>
+            <input
+              type="button"
+              value={drop ? '▼' : '▶︎'}
+              onClick={() => this.setState({ drop: !drop }) }
+            />
+            <input
+              type="button"
+              value="X"
+              onClick={() => set(null) }
+            />
+          </div>
           {
-            !!value.length &&
+            (!!value.length && drop) &&
             value.map((v, i) => (
               <div style={[styles.row]}>
                 <Parameterize
