@@ -18,7 +18,7 @@ const RightDiff = ({ min, position, delta, height, top, color, step }) => {
   return (
     <g>
       <defs>
-        <clipPath id="diffBox">
+        <clipPath id={'diff' + String(position)}>
             <rect
               x={Math.abs(min - position)}
               y={0}
@@ -44,7 +44,7 @@ const RightDiff = ({ min, position, delta, height, top, color, step }) => {
         height={2}
       ></rect>
       <path
-        clipPath={'url(#diffBox)'}
+        clipPath={`url(#${'diff' + String(position)})`}
         fill={'#000'}
         d={`
           M ${Math.abs(min - position) + dynamicDelta - 4},4

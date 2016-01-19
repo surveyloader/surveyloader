@@ -31,10 +31,10 @@ class Aspect extends React.Component {
           </span>
           <p style={[styles.text]}>
             {Format.capitalize(text)}
-            {
-              deltaText &&
-              <span>
-                <b>{' ' + deltaText + ' '}</b>
+            <span>
+              <b>{` ${deltaText || '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0'} `}</b>
+              {
+                deltaText &&
                 <span style={[styles.delta]}>
                 {
                   delta > 0 ?
@@ -42,8 +42,8 @@ class Aspect extends React.Component {
                   String(delta)
                 }
                 </span>
-              </span>
-            }
+              }
+            </span>
           </p>
         </div>
         <ZoomBar

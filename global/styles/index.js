@@ -3,6 +3,7 @@ export default {
     boxSizing: 'border-box',
     display: 'flex',
     flex: 1,
+    flexBasis: 'auto',
     flexDirection: 'column',
     justifyContent: 'space-between'
   },
@@ -10,12 +11,14 @@ export default {
     boxSizing: 'border-box',
     display: 'flex',
     flex: 1,
+    flexBasis: 'auto',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   panel: {
     boxSizing: 'border-box',
     flex: 1,
+    flexBasis: 'auto',
     borderRadius: '0.5rem',
     boxShadow: '0.2rem 0.2rem 1rem rgba(0, 0, 0, 0.1)',
     background: '#fff'

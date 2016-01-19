@@ -11,6 +11,7 @@ import Rating from './Rating'
 import Sample from './Sample'
 import Store from './Store'
 import Triple from './Triple'
+import TurkSubmit from './TurkSubmit'
 import URLParams from './URLParams'
 export { Bernoulli }
 export { Bucket }
@@ -25,4 +26,5 @@ export { Rating }
 export { Sample }
 export { Store }
 export { Triple }
+export { TurkSubmit }
 export { URLParams }

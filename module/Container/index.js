@@ -31,7 +31,6 @@ class Container extends React.Component {
       .match(/(\?fullscreen\/|\?)(.+)/)
       || [null, null, null]
     
-    
     if (fullscreen === '?fullscreen/') {
       store.dispatch({
         type: 'FULL_SCREEN',
@@ -66,12 +65,14 @@ class Container extends React.Component {
   render () {
     const {
       params,
+      urlParams,
       fullscreen
     } = this.state
 
     const previewProps = {
       params,
-      table: []
+      urlParams,
+      table: {}
     }
 
     const paramProps = {

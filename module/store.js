@@ -12,6 +12,15 @@ export default createStore(function (state, action) {
         }
       }
 
+    case 'SET_MODULE_PARAMS':
+      return {
+        ...state,
+        params: {
+          ...state.params,
+          ...action.params
+        }
+      }
+
     case 'CHANGE_MODULE_PARAMS':
       return {
         ...state,

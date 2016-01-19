@@ -95,10 +95,10 @@ class App extends React.Component {
           return {
             [`triple_${index}_${String.fromCharCode(65 + i)}`]: identify(aspects[i].text),
             [`triple_${index}_${String.fromCharCode(65 + j)}`]: identify(aspects[j].text),
-            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_1`]: 'skip',
-            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_2`]: 'skip',
+            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_1`]: 0,
+            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_2`]: 0,
             [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_t`]: Date.now(),
-            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}`]: 'skip'
+            [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}`]: 0
           }
         })
         .reduce((a, b) => { return { ...a, ...b }  }, {})
@@ -145,9 +145,20 @@ class App extends React.Component {
     const gt92 = _.some(aspects, a => a.rating > 92)
     const lt8 = _.some(aspects, a => a.rating < 8)
     if (gt92 && lt8) {
-      push({
-        [`skip_${identify(aspects.map(a => a.text).join(''))}`]: Date.now()
-      })
+      push(
+        aspect_pairs
+          .map(([i,j]) => {
+            return {
+              [`triple_${index}_${String.fromCharCode(65 + i)}`]: identify(aspects[i].text),
+              [`triple_${index}_${String.fromCharCode(65 + j)}`]: identify(aspects[j].text),
+              [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_1`]: 0,
+              [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_2`]: 0,
+              [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}_t`]: Date.now(),
+              [`triple_${index}_${String.fromCharCode(65 + i)}_${String.fromCharCode(65 + j)}`]: 0
+            }
+          })
+          .reduce((a, b) => { return { ...a, ...b }  }, {})
+      )
     } else if (gt92) {
       should_decrease = true
     } else if (lt8) {

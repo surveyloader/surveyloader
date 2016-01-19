@@ -60,7 +60,7 @@ class ZoomBar extends React.Component {
               style={{ width: `${100}%` }}
             >
               <defs>
-                <clipPath id="mag">
+                <clipPath id={'mag' + String(position)}>
                   <circle
                     cx={position}
                     cy={top + 0.5 * height}
@@ -82,7 +82,7 @@ class ZoomBar extends React.Component {
               {
                 delta !== 0 &&
                 <g 
-                  clipPath={'url(#mag)'}
+                  clipPath={`url(#${'mag' + String(position)})`}
                   transform={`
                     translate(${dynamic.xOffset},${dynamic.yOffset}),
                     scale(${dynamic.scale})

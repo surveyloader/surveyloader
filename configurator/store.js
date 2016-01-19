@@ -126,6 +126,16 @@ export default createStore(function (state, action) {
           })
       }
 
+    case 'SET_MODULE_PARAMS':
+      state.queue[action.selected] = {
+        ...state.queue[action.selected],
+        ...action.params
+      }
+      return {
+        ...state,
+        queue: state.queue
+      }
+
     case 'CHANGE_MODULE_PARAMS':
       state.queue[action.selected] = {
         ...state.queue[action.selected],

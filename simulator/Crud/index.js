@@ -62,10 +62,17 @@ export default class Crud extends React.Component {
       showTable
     } = this.props
 
-    const headers = keys && keys.join(',') + '\n'
+    const headers = keys && keys
+      .map(key => `"${key}"`)
+      .join(',') + '\n'
+
     const rows = data && data
       .map(r => r
-        .map(datum => typeof datum === 'string' ? `"${datum}"` : datum)
+        .map(datum => {
+          return typeof datum === 'string' ||
+            typeof datum === 'boolean' ?
+            `"${datum}"` : datum
+        })
         .join(',') + '\n'
       )
       .join('')

@@ -9,10 +9,13 @@ export default class Preview extends React.Component {
   render () {
     const {
       params,
+      urlParams,
       table,
       fullscreen,
       reload
     } = this.props
+
+    console.log(urlParams)
 
     const embedded = (
       <div style={{ width: '100%' }}>
